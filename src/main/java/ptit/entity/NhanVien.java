@@ -40,8 +40,6 @@ public class NhanVien {
 	@OneToOne
     @JoinColumn(name = "Username", referencedColumnName = "Username")
     private TaiKhoan tknv;
-	@OneToMany(mappedBy = "nv", fetch = FetchType.EAGER)
-	private Collection<ChuyenXe> xe;
 	@OneToMany(mappedBy = "NV", fetch = FetchType.EAGER)
 	private Collection<PhieuDat> phieu;
 	public String getMaNV() {
@@ -91,12 +89,6 @@ public class NhanVien {
 	}
 	public void setTknv(TaiKhoan tknv) {
 		this.tknv = tknv;
-	}
-	public Collection<ChuyenXe> getXe() {
-		return xe;
-	}
-	public void setXe(Collection<ChuyenXe> xe) {
-		this.xe = xe;
 	}
 	public Collection<PhieuDat> getPhieu() {
 		return phieu;

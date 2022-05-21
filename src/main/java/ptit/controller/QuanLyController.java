@@ -168,13 +168,7 @@ public class QuanLyController {
 				break;
 			}
 		}
-		List<NhanVien> listnv = dsnv();
-		for (int i = 0; i < listnv.size(); i++) {
-			if (listnv.get(i).getMaNV().equals(chuyen.getNv().getMaNV())) {
-				listnv.remove(i);
-				break;
-			}
-		}
+		
 		List<XeKhach> listxk = dsxk();
 		for (int i = 0; i < listxk.size(); i++) {
 			if (listxk.get(i).getBienXe().equals(chuyen.getXekhach().getBienXe())) {
@@ -182,7 +176,6 @@ public class QuanLyController {
 				break;
 			}
 		}
-		model.addAttribute("listnv", listnv);
 		model.addAttribute("listxk", listxk);
 		model.addAttribute("listtx", listtx);
 		model.addAttribute("chuyen", chuyen);
@@ -204,7 +197,6 @@ public class QuanLyController {
 			xe.setTgKh(new Time(d1.getTime()));
 			xe.setTuyen(tuyentheoid(request.getParameter("tuyenxe")));
 			xe.setXekhach(xekhachtheoid(request.getParameter("xekhach")));
-			xe.setNv(nvtheoid(request.getParameter("nhanvien")));
 			xe.setGia(Float.parseFloat(request.getParameter("money")));
 			session.update(xe);
 		} catch (Exception e) {
@@ -233,7 +225,7 @@ public class QuanLyController {
 	}
 
 	@RequestMapping(value = "QL_ChuyenXe/insert", method = RequestMethod.POST)
-	public String ChuyenXeInsertpost(ModelMap model, @ModelAttribute("chuyexe")ChuyenXe chuyen) {
+	public String ChuyenXeInsertpost(ModelMap model, @ModelAttribute("chuyexe")ChuyenXe chuyen,HttpServletRequest request) {
 		Session session = factory.openSession();
 		Transaction transaction = session.beginTransaction();
 		System.out.println("lo123i");
@@ -252,6 +244,9 @@ public class QuanLyController {
 //			xe.setNv(nvtheoid(request.getParameter("nhanvien")));
 //			xe.setGia(Float.parseFloat(request.getParameter("money")));
 			chuyen.setTrangthai(false);
+			String thoigian=request.getParameter("thoigian");
+			System.out.println(thoigian);
+			chuyen.setSochotrong(36);
 			System.out.println(chuyen.getGia());
 			session.save(chuyen);
 			transaction.commit();
