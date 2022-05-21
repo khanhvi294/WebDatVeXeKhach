@@ -33,9 +33,6 @@ public class ChuyenXe {
 	@ManyToOne
 	@JoinColumn(name = "Tuyen")
 	private TuyenXe tuyen;
-	@ManyToOne
-	@JoinColumn(name = "MaNV")
-	private NhanVien nv;
 	@Column(name = "TG_KH")
 	private Time tgKh;
 	@Column(name = "TrangThai")
@@ -64,12 +61,6 @@ public class ChuyenXe {
 	}
 	public void setTuyen(TuyenXe tuyen) {
 		this.tuyen = tuyen;
-	}
-	public NhanVien getNv() {
-		return nv;
-	}
-	public void setNv(NhanVien nv) {
-		this.nv = nv;
 	}
 	public Time getTgKh() {
 		return tgKh;
