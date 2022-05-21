@@ -1,0 +1,144 @@
+ :root{
+     --main-color: #f16541;
+ }
+ body {
+     background-color: #f4f6f6;
+ }
+ @media (min-width: 576px) {
+   .v-modal-container,
+    .v-modal-add {
+        max-width: 660px;
+   }
+   
+}
+.v-table-tr-color{
+    background-color: var(--main-color);
+}
+.v-edit-form{
+    padding: 30px;
+}
+.v-profile-image {
+    border-radius: 50%;
+}
+.v-image2-modal {
+    text-align: center;
+}
+.modal-body {
+    padding: 0rem;
+}
+
+#modal-main {
+    margin-top: 0px;
+    padding: 0px;
+    margin-left: 0px;
+}
+
+.datatable .rounded-pill {
+    font-weight: 500;
+}
+
+.datatable .btn-primary {
+    font-size: 14px;
+    padding: 2px 14px;
+}
+
+.add-new {
+    margin-top: -1px;
+    margin-bottom: 30px;
+    background-color: var(--main-color);
+    color: #000;
+    /* border-color:#f16541; */
+}
+.add-new:hover,
+.btn-main-color:hover
+ {
+    color: #000;
+    background-color:#f78366;
+}
+
+.modal-add {
+    margin: 1rem;
+} 
+.v-bg-tt {
+    color: #000;
+    font-size: small;
+}
+.v-icon-modal:hover,
+.v-icon-close:hover {
+    opacity: 0.5;
+}
+.v-show-tt {
+    padding: 8px 5px;
+}
+.v-modal-header {
+    background-color: var(--main-color);
+    padding: 0.4rem 1rem;
+}
+.v-modal-de {
+    margin-bottom: 0;
+}
+.v-label {
+    color: #000 !important;
+    font-weight: 600 !important;
+}
+.v-icon-close {
+    font-size: 1.6rem;
+}
+.v-modal-title{
+    font-weight:700;
+}
+.btn-main-color{
+    background-color: var(--main-color);
+    color: #000;
+}
+.v-form-control:focus {
+    box-shadow: 0 0 0 0.25rem #f59e88;
+    border: 1px solid var(--main-color);
+}
+  .header-nav .v-drop-profile >li> a:hover{
+   background-color: #e8e9e9 !important;
+}
+.v-margin-row {
+    margin: 18px  calc(.5 * var(--bs-gutter-x));
+   
+}
+
+.nav-tabs-bordered .nav-link.active.v-active {
+    color: var(--main-color);
+    border-bottom: 2px solid var(--main-color);
+}
+.nav-tabs-bordered .v-nav-link:hover {
+    color: var(--main-color);
+}
+.v-check-input:checked {
+    background-color: var(--main-color);
+    border-color: var(--main-color);
+}
+.trangchu-link {
+    background-color: #d6d6d6;
+    padding: 6px 0;
+    text-align: center;
+    color: #000;
+}
+.trangchu-link:hover {
+    background-color: #e8e6e6;
+    color: #565555;
+}
+.card-title {
+    color: var(--main-color);
+}
+.container-ticket {
+    border: solid 1px rgb(110, 110, 110);
+}
+
+.sidebar-nav .nav-link,
+.sidebar-nav .nav-link:hover,
+.sidebar-nav .nav-link:hover i{
+    color: rgb(5, 5, 5) ;
+    background-color:#f39d88;
+}
+
+.sidebar-nav .nav-link i{
+
+    color: #000;
+}

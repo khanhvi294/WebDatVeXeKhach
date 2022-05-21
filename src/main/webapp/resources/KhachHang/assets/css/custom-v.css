@@ -1,0 +1,48 @@
+.wheel-start-form label span:after {
+    display: none;
+}
+
+.wheel-date .bootstrap-select {
+    border-left: none;
+}
+
+.caret {
+    border-top: 5px dashed;
+}
+
+.wheel-start-form .wheel-date:first-child label:after,
+.wheel-start-form .wheel-date:nth-child(2) label:after{
+display: none !important;
+}
+
+@media screen and (max-width: 1201px) {
+
+    .wheel-date span {
+        width: 30%;
+    }
+    .bootstrap-select.btn-group .dropdown-toggle .filter-option {
+        padding-left: 0;
+        max-width: 100%;
+        width: auto;
+    }
+
+    .wheel-date .bootstrap-select {
+        padding-left: 0;
+    }
+}
+
+@media screen and (min-width: 1201px){
+
+.reservation .bootstrap-select.btn-group .dropdown-toggle .caret {
+    right: -9px;
+}
+.reservation .wheel-date .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+    width: 160px;
+}
+
+}
+@media only screen and (max-width: 600px){
+    .wheel-start-form2 .wheel-date {
+    width: 100%;
+}
+}
