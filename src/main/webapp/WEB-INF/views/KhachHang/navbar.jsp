@@ -19,7 +19,7 @@
                                 <div class="top-menu-item">
                                 
                                <c:choose> 
-                                <c:when test="${vaitro!=null}">
+                                <c:when test="${user!=null}">
                                     <div class="dropdown wheel-user-ico">
                                         <button class="btn btn-default dropdown-toggle">
                                       ${user.getHoKH()} ${user.getTenKH() }
@@ -28,12 +28,12 @@
                                         <ul class="dropdown-menu">
                                             <li><a href="thongtincanhan.html">Thông tin cá nhân</a></li>
                                             <li><a href="doimatkhau.html">Đổi mật khẩu</a></li>
-                                            <li><a href="vedat.html">Vé đặt</a></li>
+                                            <li><a href="phieudat.html">Vé đặt</a></li>
                                             <li><a href="dangxuat.html">Đăng xuất</a></li>
                                         </ul>
                                     </div>
                                     </c:when>
-                                    <c:when test="${vaitro == null}">
+                                    <c:when test="${user == null}">
                                     <div class="dropdown wheel-user-ico">
                                         <button class="btn btn-default dropdown-toggle" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                         Đăng nhập

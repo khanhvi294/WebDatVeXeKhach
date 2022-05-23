@@ -102,6 +102,12 @@ public class PhieuDat {
 	public String getSdt() {
 		return sdt;
 	}
+	public Date getNgaydat() {
+		return ngaydat;
+	}
+	public void setNgaydat(Date ngaydat) {
+		this.ngaydat = ngaydat;
+	}
 	public void setSdt(String sdt) {
 		this.sdt = sdt;
 	}
