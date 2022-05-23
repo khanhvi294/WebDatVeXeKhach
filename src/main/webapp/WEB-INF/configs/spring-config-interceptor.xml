@@ -20,21 +20,21 @@
 		<!-- <bean class="poly.interceptor.LoggerInterceptor" /> -->
 		
 		<!-- Chỉ lọc các URL theo path -->
-		<mvc:interceptor>
+		<!-- <mvc:interceptor>
 			<mvc:mapping path="/quanly/**"/>
 			<mvc:exclude-mapping path="/home/index.htm"/>
 			<bean class="ptit.interceptor.QuanLyInterceptor" />
 		</mvc:interceptor>
-		 
-		<!--  <mvc:interceptor>
-			<mvc:mapping path="/user/**"/>
-			<mvc:mapping path="/order/**"/>
-			<mvc:exclude-mapping path="/user/login.htm"/>
-			<mvc:exclude-mapping path="/user/register.htm"/>
-			<mvc:exclude-mapping path="/user/forgot-password.htm"/>
-			<mvc:exclude-mapping path="/user/activate.htm"/>
-			<bean class="poly.interceptor.SecurityInterceptor" />
-		</mvc:interceptor> -->
+		  -->
+		 <mvc:interceptor>
+			<mvc:mapping path="/chonghe.html"/>
+			<mvc:mapping path="/thongtincanhan.html"/>
+			<mvc:mapping path="/phieudat.html"/>
+			<mvc:mapping path="/dienthongtin.html"/>
+			<mvc:mapping path="/hoadon.html"/>
+			<mvc:mapping path="/thanhtoan.html"/>
+			<bean class="ptit.interceptor.KhachHangInterceptor" />
+		</mvc:interceptor>
 	</mvc:interceptors>
 
 </beans>

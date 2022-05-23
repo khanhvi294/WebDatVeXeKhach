@@ -4,6 +4,7 @@
 <html lang="en">
 
 <head>
+		<base href="${pageContext.servletContext.contextPath}/">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="author" content="Jewel Theme">

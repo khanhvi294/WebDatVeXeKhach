@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
+import org.apache.tomcat.util.log.UserDataHelper.Mode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -17,7 +18,9 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -48,7 +51,7 @@ public class KhachHangController {
 		Session session = factory.getCurrentSession();
 		String hql = "from ChuyenXe";
 		Query query = session.createQuery(hql);
-
+		
 		List<ChuyenXe> list = query.list();
 
 		return list;
@@ -132,35 +135,22 @@ public class KhachHangController {
 		PhieuDat pd = (PhieuDat) ss.getAttribute("PhieuDat");
 		System.out.println(pd.getMaPD());
 		pd.setPttt(Boolean.valueOf(request.getParameter("pttt")));
+		pd.setNgaydat(new Date());
 		Session session = factory.openSession();
 		Transaction t = session.beginTransaction();
 
 		try {
 			session.save(pd);
-			t.commit();
-
 			for (VeXe ve : dsve) {
-				Transaction tv = session.beginTransaction();
-				try {
-					session.save(ve);
-					tv.commit();
-				} catch (Exception e) {
-					tv.rollback();
-					Transaction td = session.beginTransaction();
-					try {
-						session.delete(pd);
-						td.commit();
-					} catch (Exception er) {
-						td.rollback();
-					}
-					model.addAttribute("message", "Đặt vé thất bại!");
-				}
-
+				session.save(ve);
 			}
-
-		} catch (Exception e) {
+			t.commit();
+			model.addAttribute("message", "Đặt vé thành công!");
+		}
+		catch (Exception e) {
 			t.rollback();
 			model.addAttribute("message", "Đặt vé thất bại!");
+			System.out.println(e.getCause());
 		} finally {
 			session.close();
 		}
@@ -264,7 +254,7 @@ public class KhachHangController {
 
 	@RequestMapping(value = "doimatkhau", method = RequestMethod.POST)
 	public String doimatkhau(HttpSession ss, @RequestParam("cpassword") String PW,
-			@RequestParam("npassword") String nPW, @RequestParam("y") String rnPW, ModelMap model) {
+			@RequestParam("npassword") String nPW, @RequestParam("rnpassword") String rnPW, ModelMap model) {
 		KhachHang kh = (KhachHang) ss.getAttribute("user");
 		System.out.println(kh.getTenKH());
 		Session session = factory.getCurrentSession();
@@ -309,12 +299,54 @@ public class KhachHangController {
 		return tk;
 
 	}
-	@RequestMapping("phieudat")
-	public String phieudat() {
+	@RequestMapping(value="phieudat")
+	public String phieudat(ModelMap model,HttpSession ss) {
+		
+		KhachHang kh = (KhachHang) ss.getAttribute("user");
+		 model.addAttribute("dsphieudat", this.getds_pdkh(kh.getMaKH()));
 		return "KhachHang/phieudat";
+	}
+	
+	@RequestMapping(value="phieudat/huy/{id}.html")
+	public String huypd(ModelMap model,HttpSession ss) {
+		KhachHang kh = (KhachHang) ss.getAttribute("user");
+		 model.addAttribute("dsphieudat", this.getds_pdkh(kh.getMaKH()));
+		 model.addAttribute("idModal", "modalHuy");
+		return "KhachHang/phieudat";
+	}
+	@RequestMapping(value = "phieudat/huy/{id}.html",params="btnHuyPhieu")
+	public String huyPhieudat(@PathVariable("id") String maPD,ModelMap model,HttpSession ss){
+		System.out.println("ok");
+		Session session =  factory.getCurrentSession();
+		PhieuDat pd = (PhieuDat)session.get(PhieuDat.class, maPD);
+		pd.setTrangThai(2);
+		PhieuDat pdm = pd;
+		Session session2 = factory.openSession();
+		Transaction t = session2.beginTransaction();
+		 try {
+			 session2.update(pdm);
+			 t.commit();
+		 }catch(Exception e) {
+			 t.rollback();
+			 System.out.println(e);
+		 }finally {
+			 session2.close();
+		 }
+		 KhachHang kh = (KhachHang) ss.getAttribute("user");
+		 model.addAttribute("dsphieudat", this.getds_pdkh(kh.getMaKH()));
+		return "redirect:/phieudat.html";
 	}
 	@RequestMapping("hoadon")
 	public String hoadon() {
 		return "KhachHang/hoadon";
+	}
+	public List<PhieuDat> getds_pdkh(String maKH) {
+		Session session = factory.getCurrentSession();
+		String hql = "from PhieuDat where KH.maKH=:maKH";
+		Query query = session.createQuery(hql);
+		query.setParameter("maKH", maKH);
+		List<PhieuDat> list = query.list();
+		
+		return list;
 	}
 }

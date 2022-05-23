@@ -58,7 +58,7 @@
 						<li class="title-wrap ">
 							<div class="title">
 								<span>4.</span>Thanh toán
-							</div>
+							</div> 
 						</li>
 					</ul>
 				</div>

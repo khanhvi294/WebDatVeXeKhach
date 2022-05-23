@@ -5,6 +5,7 @@
     
 <head>
         <meta charset="UTF-8">
+        <base href="${pageContext.servletContext.contextPath}/">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="author" content="Jewel Theme">
         <meta name="description" content="Wheel - Responsive and Modern Car Rental Website Template">
@@ -34,64 +35,7 @@
                 <img src="images/loader.gif" alt="" class="image">
             </div>
         </div>
-        <div class="wheel-menu-wrap ">
-            <div class="container-fluid wheel-bg1">
-                <div class="row">
-                    <div class="col-sm-3">
-                        <div class="wheel-logo">
-                            <a href="index.html"><img src="images/logo.png" alt=""></a>
-                        </div>
-                    </div>
-                    <div class="col-sm-9 col-xs-12 padd-lr0">
-                        <div class="wheel-top-menu clearfix">
-                            <div class="wheel-top-menu-info">
-                                <div class="top-menu-item"><a href="#"><i class="fa fa-phone"></i><span>0912345678</span></a></div>
-                                <div class="top-menu-item"><a href="#"><i class="fa fa-envelope"></i><span>p.h.n.phuong1812@gmail.com</span></a></div>
-                            </div>
-                            <div class="wheel-top-menu-log">
-                                <div class="top-menu-item">
-                                    <div class="dropdown wheel-user-ico">
-                                        <button class="btn btn-default dropdown-toggle" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        Đăng nhập
-                                        <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="login.html">Đăng nhập</a></li>
-                                            <li><a href="register.html">Đăng kí</a></li>
-                                        </ul>
-                                    </div>
-                                </div>                              
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-9 ">
-                        <div class="wheel-navigation">
-                            <nav id="dl-menu">
-                                <ul class="main-menu dl-menu">
-                                    <li class="menu-item   current-menu-parent menu-item-has-children   active-color ">
-                                        <a href="index.html">Trang chủ</a>
-                                    </li>
-                                    <li class="menu-item   ">
-                                        <a href="reservation1.html">Đặt vé</a>
-                                    </li>
-                                    <li class="menu-item menu-item-has-children  ">
-                                        <a href="contact.html">Liên hệ</a>
-                                    </li>
-                                    <li class="menu-item menu-item-has-children  ">
-                                        <a href="about.html">Giới Thiệu</a>
-                                    </li>
-                                    <li class="menu-item menu-item-has-children  ">
-                                        <a href="news.html">Tin tức</a>
-                                    </li>
-                                </ul>
-                                <div class="nav-menu-icon"><i></i></div>
-                            </nav>
-                            <a href="reservation1.html" class="wheel-cheader-but" target="_blank">Đặt vé ngay</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+         <%@include file="navbar.jsp"%>
     <!--/////////////////////////////////////////-->
     <div class="wheel-start3">
         <img src="images/bg7.jpg" alt="" class="wheel-img">
@@ -117,7 +61,6 @@
                                         <h5>Khánh Vi </h5>
                                         <p><b>Số điện thoại :</b> </p>
                                         <p><b>Email :</b> </p>
-                                        <p><b>Địa chỉ :</b> </p>
                                     </div>
                                 </div>
                                 <div class="col-xs-4 col-sm-4 col-md-4">
@@ -146,18 +89,7 @@
                                         </td>
                                         <td class="col-md-3"><i class="fa fa-inr"></i> 400.000 VNĐ</td>
                                     </tr>
-                                    <tr>
-                                        <td class="text-right">
-                                            <p>
-                                                <strong>VAT (10%): </strong>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p>
-                                                <strong><i class="fa fa-inr"></i> 40.000 VNĐ</strong>
-                                            </p>
-                                        </td>
-                                    </tr>
+                  
                                     <tr>
     
                                         <td class="text-right">

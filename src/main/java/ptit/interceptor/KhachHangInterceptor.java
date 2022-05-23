@@ -12,16 +12,16 @@
  			throws Exception {
  		HttpSession session = request.getSession();
  		if(session.getAttribute("user")==null) {
- 			response.sendRedirect(request.getContextPath() + "TaiKhoan/dangnhap.html");
+ 			response.sendRedirect(request.getContextPath() + "/dangnhap.html");
  			return false;
  		}else {
  			String vaitro = (String)session.getAttribute("vaitro");
  			if(vaitro==null) {
- 				response.sendRedirect(request.getContextPath()+"TaiKhoan/dangnhap.html");
+ 				response.sendRedirect(request.getContextPath()+"/dangnhap.html");
  				return false;
  			}else {
  				if(!vaitro.trim().equals("KH")) {
- 					response.sendRedirect(request.getContextPath()+"TaiKhoan/404.html");
+ 					response.sendRedirect(request.getContextPath()+"/dangnhap.html");
  					return false;
  				}
  			}
