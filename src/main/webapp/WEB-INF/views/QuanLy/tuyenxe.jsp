@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -153,13 +154,13 @@
 				</div>
 				<div class="modal-body modal-add">
 					<!-- Profile Edit Form -->
-					<form method = "post">
+					<form:form method = "post" modelAttribute = "tuyen">
 						<div class="row mb-3">
 							<label for="machuyen"
 								class="col-md-4 col-lg-3 col-form-label v-label">Mã
 								tuyến</label>
 							<div class="col-md-8 col-lg-9">
-								<input name="matuyen" type="text"
+								<form:input path="maTuyen" type="text"
 									class="form-control v-form-control" id="matuyen" />
 							</div>
 						</div>
@@ -168,23 +169,19 @@
 							<label for="inputDate" class="col-md-3 col-form-label v-label">Điểm
 								đi </label>
 							<div class="col-md-3">
-								<select class="form-select v-form-control"
-									aria-label=" select example" name = "ddi">
-									<c:forEach var= "dd" items="${listdd}">
-										<option value="${dd.maDD}">${dd.diaDiem}</option>
-									</c:forEach>
-								</select>
+								<form:select class="form-select v-form-control"
+									aria-label=" select example" path="diemDi.maDD">
+									<form:options items="${listdd}" itemValue="maDD" itemLabel="diaDiem"/>
+								</form:select>
 							</div>
 							<label for="inputDate"
 								class="col-md-3 col-lg-3 col-form-label v-label">Điểm
 								đến</label>
 							<div class="col-md-3">
-								<select class="form-select v-form-control"
-									aria-label=" select example" name = "dden">
-									<c:forEach var= "dd" items="${listdd}">
-										<option value="${dd.maDD}">${dd.diaDiem}</option>
-									</c:forEach>
-								</select>
+								<form:select class="form-select v-form-control"
+									aria-label=" select example" path="diemDen.maDD">
+									<form:options items="${listdd}" itemValue="maDD" itemLabel="diaDiem"/>
+								</form:select>
 							</div>
 						</div>
 
@@ -192,11 +189,11 @@
 							<label class="col-md-4 col-lg-3 col-form-label v-label">Trạng
 								thái</label>
 							<div class="col-md-8 col-lg-9">
-								<select class="form-select v-form-control"
-									aria-label=" select example" name = "tramgtjao">
-									<option selected value="true">Hoạt Động</option>
-									<option value="false">Không Hoạt Động</option>
-								</select>
+								<form:select class="form-select v-form-control"
+									aria-label=" select example" path="trangThai">
+									<form:option value="true">Hoạt Động</form:option>
+               						 <form:option value="false">Không Hoạt Động</form:option>	
+								</form:select>
 							</div>
 						</div>
 
@@ -204,7 +201,7 @@
 							<button type="submit"
 								class="btn btn-primary btn-main-color border-0 mt-3">Lưu</button>
 						</div>
-					</form>
+					</form:form>
 					<!-- End Profile Edit Form -->
 				</div>
 			</div>

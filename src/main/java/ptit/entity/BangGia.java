@@ -3,6 +3,7 @@ package ptit.entity;
 import java.io.Serializable;
 import java.util.Collection;
 
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -27,6 +28,17 @@ public class BangGia implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="MaLX", insertable=false, updatable=false)
 	private LoaiXe loaixe;
+	
+	@Column(name = "Gia")
+	private float gia;
+	
+	public float getGia() {
+		return gia;
+	}
+
+	public void setGia(float gia) {
+		this.gia = gia;
+	}
 
 	public BangGiaPK getId() {
 		return id;
