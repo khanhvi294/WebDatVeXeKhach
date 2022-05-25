@@ -47,12 +47,10 @@
 										<td>${u.xekhach.bienXe}</td>
 										<td><c:choose>
 												<c:when test="${u.trangthai eq false}">
-													<span class="badge rounded-pill bg-danger v-bg-tt">Không
-														hoạt động</span>
+													<span class="badge rounded-pill bg-danger v-bg-tt">Chưa Khởi Hành</span>
 												</c:when>
 												<c:when test="${u.trangthai eq true}">
-													<span class="badge rounded-pill bg-success v-bg-tt">Hoạt
-														động</span>
+													<span class="badge rounded-pill bg-success v-bg-tt">Đã Khởi Hành</span>
 												</c:when>
 											</c:choose></td>
 										<td><span><a
@@ -110,11 +108,6 @@
 															- ${chuyen.tuyen.diemDen.diaDiem}</div>
 													</div>
 
-													<div class="row">
-														<div class="col-lg-3 col-md-4 label v-label">Nhân
-															viên</div>
-														<div class="col-lg-8 col-md-5">${chuyen.nv.tenNV}-${chuyen.nv.maNV}</div>
-													</div>
 
 													<div class="row">
 														<div class="col-lg-3 col-md-4 label v-label">Thời
@@ -170,16 +163,16 @@
 							<label for="machuyen"
 								class="col-md-4 col-lg-3 col-form-label v-label">Mã
 								chuyến</label>
-							<div class="col-md-8 col-lg-9">${chuyen.maChuyen }</div>
+							<div class="col-md-8 col-lg-9">${chuyenxe.maChuyen }</div>
 						</div>
 
 						<div class="row mb-3">
 							<label class="col-md-4 col-lg-3 col-form-label v-label">Tuyến</label>
 							<div class="col-md-8 col-lg-9">
 								<select class="form-select v-form-control"
-									aria-label=" select example" name="tuyenxe">
-									<option selected value="${chuyen.tuyen.maTuyen }">${chuyen.tuyen.diemDi.diaDiem}
-										- ${chuyen.tuyen.diemDen.diaDiem}</option>
+									aria-label=" select example" name="tuyenxe" id = "tuyen">
+									<option selected value="${chuyenxe.tuyen.maTuyen }">${chuyenxe.tuyen.diemDi.diaDiem}
+										- ${chuyenxe.tuyen.diemDen.diaDiem}</option>
 									<c:forEach var="tx" items="${listtx}">
 										<option value="${tx.maTuyen}">${tx.diemDi.diaDiem}-
 											${tx.diemDen.diaDiem}</option>
@@ -188,44 +181,19 @@
 							</div>
 						</div>
 
-						<div class="row mb-3">
-							<label class="col-md-4 col-lg-3 col-form-label v-label">Nhân
-								viên</label>
-							<div class="col-md-8 col-lg-9">
-								<select class="form-select v-form-control"
-									aria-label=" select example" name="nhanvien">
-
-									<option selected value="${chuyen.nv.maNV}">${chuyen.nv.hoNV}
-										${chuyen.nv.tenNV}</option>
-									<c:forEach var="nv" items="${listnv}">
-										<option value="${nv.maNV}">${nv.hoNV}${nv.tenNV}</option>
-									</c:forEach>
-								</select>
-							</div>
-						</div>
 
 						<div class="row mb-3">
 							<label for="inputDate" class="col-md-3 col-form-label v-label">Ngày
 								khởi hành</label>
 							<div class="col-md-3">
 								<input type="date" class="form-control v-form-control"
-									name="ngKH" value="${chuyen.ngKH }" />
+									name="ngKH" value="${chuyenxe.ngKH }" />
 							</div>
 							<label for="inputTime" class="col-md-3 col-form-label v-label">Thời
 								gian đi</label>
 							<div class="col-md-3">
 								<input type="time" class="form-control v-form-control"
-									name="tgKH" value="${chuyen.tgKh }" />
-							</div>
-						</div>
-
-						<div class="row mb-3">
-							<label for="Country"
-								class="col-md-4 col-lg-3 col-form-label v-label">Giá</label>
-							<div class="col-md-8 col-lg-9">
-								<input name="money" type="text"
-									class="form-control v-form-control" id="Country"
-									value="${chuyen.gia }" />
+									name="tgKH" value="${chuyenxe.tgKh }" />
 							</div>
 						</div>
 
@@ -235,7 +203,7 @@
 							<div class="col-md-8 col-lg-9">
 								<select class="form-select v-form-control"
 									aria-label=" select example" name="xekhach">
-									<option selected value="${chuyen.xekhach.bienXe}">${chuyen.xekhach.bienXe}</option>
+									<option selected value="${chuyenxe.xekhach.bienXe}">${chuyenxe.xekhach.bienXe}</option>
 									<c:forEach var="xk" items="${listxk}">
 										<option value="${xk.bienXe}">${xk.bienXe}</option>
 									</c:forEach>
@@ -284,11 +252,10 @@
 							<label class="col-md-4 col-lg-3 col-form-label v-label">Tuyến</label>
 							<div class="col-md-8 col-lg-9">
 								<form:select class="form-select v-form-control"
-									aria-label=" select example" path="tuyen">
-									<c:forEach var="tx" items="${listtx}">
-										<form:option value="${tx}">${tx.diemDi.diaDiem} - ${tx.diemDen.diaDiem}</form:option>
-									</c:forEach>
-								</form:select>
+ 									aria-label=" select example" path="tuyen.maTuyen" items="${listtemp}">
+<%--  									<form:options items="${listtx}" itemValue="maTuyen" itemLabel="diemDen.diaDiem"/>  --%>
+ 								</form:select> 
+										
 							</div>
 						</div>
 
@@ -296,11 +263,11 @@
 							<label for="inputDate" class="col-md-3 col-form-label v-label">Ngày
 								khởi hành</label>
 							<div class="col-md-3">
-								<form:input type="date" class="form-control v-form-control"
-									path="ngKH" />
+								<input type="date" class="form-control v-form-control"
+									name="ngKH" />
 							</div>
 
-						<label for="inputTime" class="col-md-3 col-form-label v-label">Thời
+							<label for="inputTime" class="col-md-3 col-form-label v-label">Thời
 								gian đi</label>
 							<div class="col-md-3">
 								<input type="time" class="form-control v-form-control"
@@ -309,23 +276,12 @@
 						</div>
 
 						<div class="row mb-3">
-							<label for="Country"
-								class="col-md-4 col-lg-3 col-form-label v-label">Giá</label>
-							<div class="col-md-8 col-lg-9">
-								<form:input path="gia" type="number"
-									class="form-control v-form-control" id="Country" />
-							</div>
-						</div>
-
-						<div class="row mb-3">
 							<label class="col-md-4 col-lg-3 col-form-label v-label">Xe
 								khách</label>
 							<div class="col-md-8 col-lg-9">
 								<form:select class="form-select v-form-control"
-									aria-label=" select example" path="xekhach">
-									<c:forEach var="xk" items="${listxk}">
-										<form:option value="${xk}">${xk.bienXe}</form:option>
-									</c:forEach>
+									aria-label=" select example" path="xekhach.bienXe">
+									<form:options items="${listxk}" itemValue="bienXe" itemLabel="bienXe"/>
 								</form:select>
 							</div>
 						</div>
