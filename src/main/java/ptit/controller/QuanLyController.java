@@ -116,6 +116,20 @@ public class QuanLyController {
 
 	}
 	
+	public VaiTro vaitrotheoid(String ma) {
+		Session session = factory.getCurrentSession();
+		VaiTro vt = (VaiTro) session.load(VaiTro.class, ma);
+		return vt;
+
+	}
+	
+	public KhachHang khtheoid(String ma) {
+		Session session = factory.getCurrentSession();
+		KhachHang kh = (KhachHang) session.load(KhachHang.class, ma);
+		return kh;
+
+	}
+	
 	public XeKhach xekhachtheoid(String ma) {
 		Session session = factory.getCurrentSession();
 		XeKhach xe = (XeKhach) session.load(XeKhach.class, ma);
@@ -143,6 +157,11 @@ public class QuanLyController {
 		return  gia;
 	}
 	
+	public TaiKhoan tktheousername(String ma) {
+		Session session = factory.getCurrentSession();
+		TaiKhoan tk = (TaiKhoan) session.load(TaiKhoan.class, ma);
+		return tk;
+	}
 	
 	@RequestMapping(value = "QL_TrangChu")
 	public String TrangChu() {
@@ -202,7 +221,7 @@ public class QuanLyController {
 	@RequestMapping(value = "/QL_ChuyenXe/{machuyen}", params = "update", method = RequestMethod.POST)
 	public String ChuyenXeUpdate(ModelMap model, @PathVariable("machuyen") String ma,HttpServletRequest request) {
 		Session session = factory.openSession();
-		Transaction transaction = session.getTransaction();
+		Transaction transaction = session.beginTransaction();
 		try {
 			ChuyenXe chuyen =xetheoid(ma);
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -221,6 +240,8 @@ public class QuanLyController {
 		} catch (Exception e) {
 			System.out.println(e.toString());
 			transaction.rollback();
+		}finally {
+			session.close();
 		}
 
 		return "redirect: /CNPM/QuanLy/QL_ChuyenXe.html";
@@ -329,6 +350,8 @@ public class QuanLyController {
 		} catch (Exception e) {
 			System.out.println(e.toString());
 			transaction.rollback();
+		}finally {
+			session.close();
 		}
 		return "redirect: /CNPM/QuanLy/QL_TuyenXe.html";
 	}
@@ -369,6 +392,8 @@ public class QuanLyController {
 		} catch (Exception e) {
 			System.out.println(e.toString());
 			transaction.rollback();
+		}finally {
+			session.close();
 		}
 		return "redirect: /CNPM/QuanLy/QL_TuyenXe.html";
 	}
@@ -391,10 +416,141 @@ public class QuanLyController {
 		return "QuanLy/nhanvien";
 	}
 	
+	@RequestMapping(value = "/QL_NhanVien/{manv}", params = "update", method = RequestMethod.GET)
+	public String NhanVienupdate(ModelMap model, @PathVariable("manv") String ma) {
+		model.addAttribute("idModal", "modalUpdate");
+		List<NhanVien> nhanviens = dsnv();
+		model.addAttribute("nhanvien",nhanviens);
+		NhanVien nv = nvtheoid(ma);
+		model.addAttribute("nv", nv);
+		return "QuanLy/nhanvien";
+	}
+	
+	@RequestMapping(value = "/QL_NhanVien/{manv}", params = "update", method = RequestMethod.POST)
+	public String NhanVienupdate(@PathVariable("manv") String ma, @ModelAttribute("nv") NhanVien nv, HttpServletRequest request) {
+		Session session = factory.openSession();
+		Transaction transaction = session.beginTransaction();
+		try {
+			nv = nvtheoid(ma);
+			TaiKhoan tk = tktheousername(nv.getTknv().getUserName());
+			nv.setHoNV(request.getParameter("honv"));
+			nv.setTenNV(request.getParameter("tennv"));
+			tk.setEmail(request.getParameter("email"));
+			nv.setCccd(request.getParameter("cccd"));
+			nv.setSdt(request.getParameter("sdt"));
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			Date parsed = format.parse(request.getParameter("ngSinh"));
+			java.sql.Date sql = new java.sql.Date(parsed.getTime());
+			nv.setNgaySinh(sql);
+			nv.setPhai(Boolean.parseBoolean(request.getParameter("gridRadios")));
+			tk.setTrangThai(Boolean.parseBoolean(request.getParameter("trangthai")));
+			session.update(tk);
+			session.update(nv);
+			transaction.commit();
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			transaction.rollback();
+		}finally {
+			session.close();
+		}
+		return "redirect: /CNPM/QuanLy/QL_NhanVien.html";
+	}
+	
+	@RequestMapping(value = "/QL_NhanVien/insert", method = RequestMethod.GET)
+	public String NhanVienInsert(ModelMap model) {
+		model.addAttribute("idModal", "modalCreate");
+		List<NhanVien> nhanviens = dsnv();
+		model.addAttribute("nhanvien",nhanviens);
+		NhanVien nv = new NhanVien();
+		nv.setMaNV(taoMa("NV","NhanVien","maNV"));
+		model.addAttribute("nv", nv);
+		return "QuanLy/nhanvien";
+	}
+	
+	@RequestMapping(value = "/QL_NhanVien/insert", method = RequestMethod.POST)
+	public String NhanVienInsert(@ModelAttribute("nv") NhanVien nv, HttpServletRequest request) {
+		Session session = factory.openSession();
+		Transaction transaction = session.beginTransaction();
+		try {
+			VaiTro vt = vaitrotheoid("NV");
+			TaiKhoan tk = new TaiKhoan();
+			tk.setUserName(request.getParameter("username"));
+			tk.setTrangThai(true);
+			tk.setVaiTro(vt);
+			tk.setEmail(request.getParameter("email"));
+			String[] words=request.getParameter("ngaysinh").split("-");
+			String pw = words[0] + words[1] + words[2];
+			tk.setMatKhau(pw);
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			Date parsed = format.parse(request.getParameter("ngaysinh"));
+			java.sql.Date sql = new java.sql.Date(parsed.getTime());
+			nv.setNgaySinh(sql);
+			nv.setTknv(tk);	
+			session.save(tk);
+			session.save(nv);
+			transaction.commit();
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			transaction.rollback();
+		}finally {
+			session.close();
+		}
+		return "redirect: /CNPM/QuanLy/QL_NhanVien.html";
+	}
+	
 	@RequestMapping("/QL_KhachHang")
 	public String KhachHang(ModelMap model) {
 		List<KhachHang> khachhangs = dskh();
-		model.addAttribute("kh",khachhangs);
-		return "KhachHang/Trangchu";
+		model.addAttribute("dskh",khachhangs);
+		model.addAttribute("kh", new KhachHang());
+		return "QuanLy/khachhang";
+	}
+	
+	@RequestMapping(value = "/QL_KhachHang/{makh}", params = "update", method = RequestMethod.GET)
+	public String KhachHangupdate(ModelMap model, @PathVariable("makh") String ma) {
+		model.addAttribute("idModal", "modalUpdate");
+		List<KhachHang> khachhangs = dskh();
+		model.addAttribute("dskh",khachhangs);
+		KhachHang kh = khtheoid(ma);
+		model.addAttribute("kh", kh);
+		return "QuanLy/khachhang";
+	}
+	
+	@RequestMapping(value = "/QL_KhachHang/{makh}", params = "update", method = RequestMethod.POST)
+	public String KhachHangupdate(@PathVariable("makh") String ma, @ModelAttribute("kh") KhachHang kh, HttpServletRequest request) {
+		Session session = factory.openSession();
+		Transaction transaction = session.beginTransaction();
+
+		try {
+			kh = khtheoid(ma);
+			TaiKhoan tk = tktheousername(kh.getTkkh().getUserName());
+			kh.setHoKH(request.getParameter("hoKH"));
+			kh.setTenKH(request.getParameter("tenKH"));
+			kh.setSdt(request.getParameter("sdt"));
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			Date parsed = format.parse(request.getParameter("ngSinh"));
+			java.sql.Date sql = new java.sql.Date(parsed.getTime());
+			kh.setNgSinh(sql);
+			kh.setPhai(Boolean.parseBoolean(request.getParameter("gridRadios")));
+			tk.setEmail(request.getParameter("email"));
+			tk.setTrangThai(Boolean.parseBoolean(request.getParameter("trangthai")));
+			session.update(tk);
+			session.update(kh);
+			transaction.commit();
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			transaction.rollback();
+		}finally {
+			session.close();
+		}
+		return "redirect: /CNPM/QuanLy/QL_KhachHang.html";
+	}
+	
+	@RequestMapping("/QL_DiaDiem")
+	public String DiaDiem(ModelMap model) {
+		List<DiaDiem> dsdd = dsdd();
+		model.addAttribute("dsdd",dsdd);
+		model.addAttribute("dd", new DiaDiem());
+		return "QuanLy/diadiem";
 	}
 }
