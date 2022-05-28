@@ -51,7 +51,7 @@
 <link
 	href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
 	rel="stylesheet">
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
 <link href="resources/KhachHang/assets/css/style1.css" rel="stylesheet">
@@ -123,9 +123,9 @@
 											</td>
 											<td>${pd.getChuyen().getGia()}</td>
 											<td>
-											<a href="hoadon.html" >
-											<i class="bi bi-info"></i></a> 
-											<a href="phieudat/huy/${pd.maPD }.html" ><i class="bi bi-trash-fill"></i></a>
+											<a href="hoadon/${pd.maPD }.html" >
+											<i class="fas fa-info-circle"></i></a> 
+											<a href="phieudat/huy/${pd.maPD }.html" ><i class="fas fa-ban"></i></a>
 											</td>
 										</tr>
 									</c:forEach>

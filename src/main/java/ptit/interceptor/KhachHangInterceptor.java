@@ -4,6 +4,9 @@
  import javax.servlet.http.HttpServletResponse;
  import javax.servlet.http.HttpSession;
  import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+
+import ptit.entity.KhachHang;
+import ptit.entity.TaiKhoan;
  
  
  public class KhachHangInterceptor extends HandlerInterceptorAdapter {
@@ -11,23 +14,24 @@
  	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
  			throws Exception {
  		HttpSession session = request.getSession();
- 		if(session.getAttribute("user")==null) {
- 			response.sendRedirect(request.getContextPath() + "/dangnhap.html");
- 			return false;
- 		}else {
- 			String vaitro = (String)session.getAttribute("vaitro");
- 			if(vaitro==null) {
- 				response.sendRedirect(request.getContextPath()+"/dangnhap.html");
- 				return false;
- 			}else {
- 				if(!vaitro.trim().equals("KH")) {
- 					response.sendRedirect(request.getContextPath()+"/dangnhap.html");
- 					return false;
- 				}
- 			}
- 		}
- 		
- 		return true;
+		if(session.getAttribute("user") == null) {
+			response.sendRedirect(request.getContextPath() + "/dangnhap.html");
+			return false;
+		}else {
+			KhachHang khachhang = (KhachHang) session.getAttribute("user");
+			if(khachhang != null) {
+				
+				if(!khachhang.getTkkh().getVaiTro().getMaVT().trim().equals("KH")) {
+					response.sendRedirect(request.getContextPath() + "/403.html");
+					return false;
+				}
+			}else {
+				response.sendRedirect(request.getContextPath() + "/dangnhap.html");
+				return false;
+			}
+		}
+		
+		return true;
  	}
  
  }

@@ -33,6 +33,7 @@
 			<mvc:mapping path="/dienthongtin.html"/>
 			<mvc:mapping path="/hoadon.html"/>
 			<mvc:mapping path="/thanhtoan.html"/>
+			<mvc:mapping path="/doimatkhau.html"/>
 			<bean class="ptit.interceptor.KhachHangInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>

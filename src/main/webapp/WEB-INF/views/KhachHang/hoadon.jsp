@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html lang="en">
     
@@ -58,14 +60,14 @@
                             <div class="receipt-header receipt-header-mid">
                                 <div class="col-xs-8 col-sm-8 col-md-8 text-left">
                                     <div class="receipt-right">
-                                        <h5>Khánh Vi </h5>
-                                        <p><b>Số điện thoại :</b> </p>
-                                        <p><b>Email :</b> </p>
+                                        <h5>${phieudat.KH.hoKH } ${phieudat.KH.tenKH }</h5>
+                                        <p><b>Số điện thoại : ${phieudat.sdt}</b> </p>
+                                        <p><b>Email: ${phieudat.email}</b> </p>
                                     </div>
                                 </div>
                                 <div class="col-xs-4 col-sm-4 col-md-4">
                                     <div class="receipt-left">
-                                        <h3>Ticker code:</h3>
+                                        <h3>Mã phiếu đặt: ${phieudat.maPD}</h3>
                                     </div>
                                 </div>
                             </div>
@@ -74,20 +76,24 @@
                         <div>
                             <table class="table table-bordered">
                                 <thead>
-                                    <tr>
-                                        <th>Thông tin chuyến: .... => .... </th>
-                                        <th>Giá</th>
-                                    </tr>
+                                    
+                                        <th colspan="2">Thông tin chuyến:${phieudat.chuyen.tuyen.diemDi.diaDiem}  => ${phieudat.chuyen.tuyen.diemDen.diaDiem} </th>
+                                        
+                                    
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td class="col-md-3">Tuyến xe : từ <span> ...</span> đến <span> ... </span>
-                                            <br> Thời gian lên xe : 04:00 ngày ....
+                                        <td colspan="2" class="col-md-3">
+                                            <br> Thời gian lên xe : ${phieudat.chuyen.tgKh} ngày ${phieudat.chuyen.ngKH}
                                             <br> Số lượng ghế : .....
-                                            <br> Số ghế: .....
+                                            <br> Số ghế:
+                                            <c:forEach var="ve" items="${ phieudat.vexe}"> 
+                                            <br>
+                                            ${ve.id.soGhe }
+                                            </c:forEach>
                                             <br> Điểm lên xe: ........
                                         </td>
-                                        <td class="col-md-3"><i class="fa fa-inr"></i> 400.000 VNĐ</td>
+
                                     </tr>
                   
                                     <tr>
@@ -96,7 +102,7 @@
                                             <h2><strong>Tổng cộng: </strong></h2>
                                         </td>
                                         <td class="text-left text-danger">
-                                            <h2><strong><i class="fa fa-inr"></i> 440.000 VNĐ</strong></h2>
+                                            <h2><strong> ${phieudat.chuyen.gia} VNĐ</strong></h2>
                                         </td>
                                     </tr>
                                 </tbody>

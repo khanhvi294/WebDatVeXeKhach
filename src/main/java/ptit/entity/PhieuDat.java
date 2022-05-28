@@ -28,7 +28,7 @@ public class PhieuDat {
 	private ChuyenXe chuyen;
 	@Column(name = "TrangThai")
 	private int trangThai;
-	@OneToMany(mappedBy = "pd", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "pd", fetch = FetchType.LAZY)
 	private Collection<VeXe> vexe;
 	@ManyToOne
 	@JoinColumn(name = "MaKH")
@@ -69,6 +69,7 @@ public class PhieuDat {
 	public void setTrangThai(int trangThai) {
 		this.trangThai = trangThai;
 	}
+	
 	public Collection<VeXe> getVexe() {
 		return vexe;
 	}
