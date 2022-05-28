@@ -109,6 +109,7 @@ public class KhachHangController {
 			vexe.setId(id);
 			dsve.add(vexe);
 		}
+		System.out.println(dsve.size());
 
 		model.addAttribute("phieudat", new PhieuDat());
 
@@ -126,6 +127,7 @@ public class KhachHangController {
 		ss.setAttribute("PhieuDat", pdss);
 		model.addAttribute("chuyenxe", cx);
 		model.addAttribute("dsve", dsve);
+		System.out.println("hihi" + dsve.size());
 
 		return "KhachHang/thanhtoan";
 	}
@@ -336,8 +338,21 @@ public class KhachHangController {
 		 model.addAttribute("dsphieudat", this.getds_pdkh(kh.getMaKH()));
 		return "redirect:/phieudat.html";
 	}
-	@RequestMapping("hoadon")
-	public String hoadon() {
+	@RequestMapping("hoadon/{id}")
+	public String hoadon(@PathVariable("id") String id,ModelMap model) {
+		Session session = factory.getCurrentSession();
+		String hql = "from PhieuDat where maPD=:id";
+		Query query = session.createQuery(hql);
+		query.setParameter("id", id);
+		PhieuDat pd = (PhieuDat)query.list().get(0); /* (PhieuDat)session.get(PhieuDat.class, id); */
+		System.out.println(pd.getMaPD()+pd.getEmail());
+		model.addAttribute("phieudat",pd);
+		System.out.println(pd.getVexe().size());
+		
+		for(VeXe a: pd.getVexe()) {
+			System.out.println("ve " + a.getId().getSoGhe() + "sf " +a.getPd().getVexe().size());
+		}
+		
 		return "KhachHang/hoadon";
 	}
 	public List<PhieuDat> getds_pdkh(String maKH) {

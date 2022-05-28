@@ -251,6 +251,7 @@ public class QuanLyController {
 	@RequestMapping(value = "/QL_ChuyenXe/{machuyen}", params = "update", method = RequestMethod.POST)
 	public String ChuyenXeUpdate(ModelMap model, @PathVariable("machuyen") String ma,HttpServletRequest request) {
 		Session session = factory.openSession();
+
 		Transaction transaction = session.beginTransaction();
 		try {
 			ChuyenXe chuyen =xetheoid(ma);
