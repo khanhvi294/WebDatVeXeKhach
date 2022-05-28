@@ -96,6 +96,14 @@ public class QuanLyController {
 		List<DiaDiem> list = query.list();
 		return list;
 	}
+	
+	public List<LoaiXe> dslx() {
+		Session session = factory.getCurrentSession();
+		String hql = "from LoaiXe";
+		Query query = session.createQuery(hql);
+		List<LoaiXe> list = query.list();
+		return list;
+	}
 	public List<KhachHang> dskh(){
 		Session session = factory.getCurrentSession();
 		String hql = "FROM KhachHang";
@@ -103,6 +111,21 @@ public class QuanLyController {
 		List<KhachHang> list = query.list();
 		return list;
 	}
+	
+	public List<BangGia> dsbg(){
+		Session session = factory.getCurrentSession();
+		String hql = "FROM BangGia";
+		Query query = session.createQuery(hql);
+		List<BangGia> list = query.list();
+		return list;
+	}
+	
+	public BangGia bgtheoid(BangGiaPK id) {
+		Session session = factory.getCurrentSession();
+		BangGia bg = (BangGia) session.load(BangGia.class, id);
+		return bg;
+	}
+	
 	public ChuyenXe xetheoid(String machuyen) {
 		Session session = factory.getCurrentSession();
 		ChuyenXe chuyen = (ChuyenXe) session.load(ChuyenXe.class, machuyen);
@@ -127,6 +150,13 @@ public class QuanLyController {
 		Session session = factory.getCurrentSession();
 		KhachHang kh = (KhachHang) session.load(KhachHang.class, ma);
 		return kh;
+
+	}
+	
+	public LoaiXe lxtheoid(String ma) {
+		Session session = factory.getCurrentSession();
+		LoaiXe lx = (LoaiXe) session.load(LoaiXe.class, ma);
+		return lx;
 
 	}
 	
@@ -259,10 +289,10 @@ public class QuanLyController {
 		for(int i = 0;i<listtx.size();i++) {
 			tenXK.put(listtx.get(i).getMaTuyen(), listtx.get(i).getDiemDi().getDiaDiem() + " - " + listtx.get(i).getDiemDen().getDiaDiem());
 		}
+		model.addAttribute("listtemp", tenXK);
 		model.addAttribute("listnv", listnv);
 		model.addAttribute("listxk", listxk);
 		model.addAttribute("listtx", listtx);
-		model.addAttribute("listtemp", tenXK);
 		model.addAttribute("list", listcx);
 		ChuyenXe chuyen = new ChuyenXe();
 		chuyen.setMaChuyen(taoMa("CX","ChuyenXe","maChuyen"));
@@ -552,5 +582,194 @@ public class QuanLyController {
 		model.addAttribute("dsdd",dsdd);
 		model.addAttribute("dd", new DiaDiem());
 		return "QuanLy/diadiem";
+	}
+	
+	@RequestMapping(value = "/QL_DiaDiem/{madd}", params = "update", method = RequestMethod.GET)
+	public String DDupdate(ModelMap model, @PathVariable("madd") String ma) {
+		model.addAttribute("idModal", "modalUpdate");
+		List<DiaDiem> dsdd = dsdd();
+		model.addAttribute("dsdd",dsdd);
+		DiaDiem dd = diadiemtheoid(ma);
+		model.addAttribute("dd", dd);
+		return "QuanLy/diadiem";
+	}
+	
+	@RequestMapping(value = "/QL_DiaDiem/{madd}", params = "update", method = RequestMethod.POST)
+	public String DDupdate(@PathVariable("madd") String ma, @ModelAttribute("dd") DiaDiem dd, HttpServletRequest request) {
+		Session session = factory.openSession();
+		Transaction transaction = session.beginTransaction();
+		try {
+			session.update(dd);
+			transaction.commit();
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			transaction.rollback();
+		}finally {
+			session.close();
+		}
+		return "redirect: /CNPM/QuanLy/QL_DiaDiem.html";
+	}
+	
+	@RequestMapping(value = "/QL_DiaDiem/insert", method = RequestMethod.GET)
+	public String DDInsert(ModelMap model) {
+		model.addAttribute("idModal", "modalCreate");
+		List<DiaDiem> dsdd = dsdd();
+		model.addAttribute("dsdd",dsdd);
+		DiaDiem dd = new DiaDiem();
+		model.addAttribute("dd", dd);
+		return "QuanLy/diadiem";
+	}
+	
+	@RequestMapping(value = "/QL_DiaDiem/insert", method = RequestMethod.POST)
+	public String DDInsert(@ModelAttribute("dd") DiaDiem dd, HttpServletRequest request) {
+		Session session = factory.openSession();
+		Transaction transaction = session.beginTransaction();
+		try {
+			session.save(dd);
+			transaction.commit();
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			transaction.rollback();
+		}finally {
+			session.close();
+		}
+		return "redirect: /CNPM/QuanLy/QL_DiaDiem.html";
+	}
+	
+	@RequestMapping("/QL_LoaiXe")
+	public String LoaiXe(ModelMap model) {
+		List<LoaiXe> dslx = dslx();
+		model.addAttribute("dslx",dslx);
+		model.addAttribute("lx", new LoaiXe());
+		return "QuanLy/loaixe";
+	}
+	@RequestMapping(value = "/QL_LoaiXe/{malx}", params = "update", method = RequestMethod.GET)
+	public String LXupdate(ModelMap model, @PathVariable("malx") String ma) {
+		model.addAttribute("idModal", "modalUpdate");
+		List<LoaiXe> dslx = dslx();
+		model.addAttribute("dslx",dslx);
+		LoaiXe lx = lxtheoid(ma);
+		model.addAttribute("lx", lx);
+		return "QuanLy/loaixe";
+	}
+	
+	@RequestMapping(value = "/QL_LoaiXe/{malx}", params = "update", method = RequestMethod.POST)
+	public String LXupdate(@PathVariable("malx") String ma, @ModelAttribute("lx") LoaiXe lx, HttpServletRequest request) {
+		Session session = factory.openSession();
+		Transaction transaction = session.beginTransaction();
+		try {
+			session.update(lx);
+			transaction.commit();
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			transaction.rollback();
+		}finally {
+			session.close();
+		}
+		return "redirect: /CNPM/QuanLy/QL_LoaiXe.html";
+	}
+	
+	@RequestMapping(value = "/QL_LoaiXe/insert", method = RequestMethod.GET)
+	public String LXInsert(ModelMap model) {
+		model.addAttribute("idModal", "modalCreate");
+		List<LoaiXe> dslx = dslx();
+		model.addAttribute("dslx",dslx);
+		LoaiXe lx = new LoaiXe();
+		model.addAttribute("lx", lx);
+		return "QuanLy/loaixe";
+	}
+	
+	@RequestMapping(value = "/QL_LoaiXe/insert", method = RequestMethod.POST)
+	public String LXInsert(@ModelAttribute("lx") LoaiXe lx, HttpServletRequest request) {
+		Session session = factory.openSession();
+		Transaction transaction = session.beginTransaction();
+		try {
+			session.save(lx);
+			transaction.commit();
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			transaction.rollback();
+		}finally {
+			session.close();
+		}
+		return "redirect: /CNPM/QuanLy/QL_LoaiXe.html";
+	}
+	
+	@RequestMapping("/QL_BangGia")
+	public String BangGia(ModelMap model) {
+		List<BangGia> dsbg = dsbg();
+		model.addAttribute("dsbg",dsbg);
+		model.addAttribute("bg", new BangGia());
+		System.out.println(dsbg.get(0).getTuyen().getMaTuyen());
+		return "QuanLy/banggia";
+	}
+	@RequestMapping(value = "/QL_BangGia/{id}", params = "update", method = RequestMethod.GET)
+	public String BangGiaupdate(ModelMap model, @PathVariable("id") BangGiaPK id) {
+		model.addAttribute("idModal", "modalUpdate");
+		List<BangGia> dsbg = dsbg();
+		model.addAttribute("dsbg",dsbg);
+		List<LoaiXe> dslx = dslx();
+		List<TuyenXe> dstx = dstx();
+		Map<String, String> tenXK = new HashMap<>();
+		for(int i = 0;i<dstx.size();i++) {
+			tenXK.put(dstx.get(i).getMaTuyen(), dstx.get(i).getDiemDi().getDiaDiem() + " - " + dstx.get(i).getDiemDen().getDiaDiem());
+		}
+		model.addAttribute("listtemp", tenXK);
+		model.addAttribute("dslx", dslx);
+		model.addAttribute("dstx", dstx);
+		BangGia bg = bgtheoid(id);
+		model.addAttribute("bg", bg);
+		return "QuanLy/banggia";
+	}
+	
+	@RequestMapping(value = "/QL_BangGia/{id}", params = "update", method = RequestMethod.POST)
+	public String BangGiaupdate(@PathVariable("id") BangGiaPK id, @ModelAttribute("bg") BangGia bg, HttpServletRequest request) {
+		Session session = factory.openSession();
+		Transaction transaction = session.beginTransaction();
+		try {
+			session.update(bg);
+			transaction.commit();
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			transaction.rollback();
+		}finally {
+			session.close();
+		}
+		return "redirect: /CNPM/QuanLy/QL_BangGia.html";
+	}
+	
+	@RequestMapping(value = "/QL_BangGia/insert", method = RequestMethod.GET)
+	public String BangGiaInsert(ModelMap model) {
+		model.addAttribute("idModal", "modalCreate");
+		List<BangGia> dsbg = dsbg();
+		model.addAttribute("dsbg",dsbg);
+		List<LoaiXe> dslx = dslx();
+		List<TuyenXe> dstx = dstx();
+		Map<String, String> tenXK = new HashMap<>();
+		for(int i = 0;i<dstx.size();i++) {
+			tenXK.put(dstx.get(i).getMaTuyen(), dstx.get(i).getDiemDi().getDiaDiem() + " - " + dstx.get(i).getDiemDen().getDiaDiem());
+		}
+		model.addAttribute("listtemp", tenXK);
+		model.addAttribute("dslx", dslx);
+		model.addAttribute("dstx", dstx);
+		BangGia bg = new BangGia();
+		model.addAttribute("bg", bg);
+		return "QuanLy/banggia";
+	}
+	
+	@RequestMapping(value = "/QL_BangGia/insert", method = RequestMethod.POST)
+	public String BangGiaInsert(@ModelAttribute("bg") BangGia bg, HttpServletRequest request) {
+		Session session = factory.openSession();
+		Transaction transaction = session.beginTransaction();
+		try {
+			session.save(bg);
+			transaction.commit();
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			transaction.rollback();
+		}finally {
+			session.close();
+		}
+		return "redirect: /CNPM/QuanLy/QL_BangGia.html";
 	}
 }

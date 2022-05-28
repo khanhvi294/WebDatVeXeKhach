@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
+	<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ include file="head.jsp"%>
 <%@ include file="header.jsp"%>
 <%@ include file="slidebar.jsp"%>
@@ -201,130 +203,130 @@
 
 
 
-<!-- Vertically centered Modal -->
-<div class="modal fade" id="verticalycentered" tabindex="-1">
-	<div class="modal-dialog modal-dialog-centered v-modal-add">
-		<div class="modal-content border-0">
-			<div class="modal-header v-modal-header">
-				<h5 class="modal-title v-modal-title">Thêm</h5>
-				<button type="button" class="btn shadow-none"
-					data-bs-dismiss="modal" aria-label="Close" style="font-weight: 700">
-					<i class="bi bi-x v-icon-close"></i>
-				</button>
-			</div>
-			<div class="modal-body modal-add">
-				<!-- Profile Edit Form -->
-				<form>
-					<div class="row mb-3">
-						<label for="fullName"
-							class="col-md-4 col-lg-3 col-form-label v-label">Mã KH</label>
-						<div class="col-md-8 col-lg-9">
-							<input name="fullName" type="text"
-								class="form-control v-form-control" id="fullName"
-								value="Kevin Anderson">
-						</div>
-					</div>
+<!-- <!-- Vertically centered Modal --> -->
+<!-- <div class="modal fade" id="verticalycentered" tabindex="-1"> -->
+<!-- 	<div class="modal-dialog modal-dialog-centered v-modal-add"> -->
+<!-- 		<div class="modal-content border-0"> -->
+<!-- 			<div class="modal-header v-modal-header"> -->
+<!-- 				<h5 class="modal-title v-modal-title">Thêm</h5> -->
+<!-- 				<button type="button" class="btn shadow-none" -->
+<!-- 					data-bs-dismiss="modal" aria-label="Close" style="font-weight: 700"> -->
+<!-- 					<i class="bi bi-x v-icon-close"></i> -->
+<!-- 				</button> -->
+<!-- 			</div> -->
+<!-- 			<div class="modal-body modal-add"> -->
+<!-- 				Profile Edit Form -->
+<!-- 				<form> -->
+<!-- 					<div class="row mb-3"> -->
+<!-- 						<label for="fullName" -->
+<!-- 							class="col-md-4 col-lg-3 col-form-label v-label">Mã KH</label> -->
+<!-- 						<div class="col-md-8 col-lg-9"> -->
+<!-- 							<input name="fullName" type="text" -->
+<!-- 								class="form-control v-form-control" id="fullName" -->
+<!-- 								value="Kevin Anderson"> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
 
-					<div class="row mb-3">
-						<label for="company" class="col-md-3 col-form-label v-label">HọKH</label>
-						<div class="col-md-3">
-							<input name="company" type="text"
-								class="form-control v-form-control" id="company"
-								value="Lueilwitz, Wisoky and Leuschke">
-						</div>
+<!-- 					<div class="row mb-3"> -->
+<!-- 						<label for="company" class="col-md-3 col-form-label v-label">HọKH</label> -->
+<!-- 						<div class="col-md-3"> -->
+<!-- 							<input name="company" type="text" -->
+<!-- 								class="form-control v-form-control" id="company" -->
+<!-- 								value="Lueilwitz, Wisoky and Leuschke"> -->
+<!-- 						</div> -->
 
-						<label for="Job" class="col-md-1 col-form-label v-label">TênKH</label>
-						<div class="col-md-5">
-							<input name="job" type="text"
-								class="form-control  v-form-control" id="Job"
-								value="Web Designer">
-						</div>
-					</div>
-					<div class="row mb-3">
-						<label for="Address"
-							class="col-md-4 col-lg-3 col-form-label v-label">SĐT</label>
-						<div class="col-md-8 col-lg-9">
-							<input name="address" type="text"
-								class="form-control v-form-control" id="Address"
-								value="A108 Adam Street, New York, NY 535022">
-						</div>
-					</div>
+<!-- 						<label for="Job" class="col-md-1 col-form-label v-label">TênKH</label> -->
+<!-- 						<div class="col-md-5"> -->
+<!-- 							<input name="job" type="text" -->
+<!-- 								class="form-control  v-form-control" id="Job" -->
+<!-- 								value="Web Designer"> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 					<div class="row mb-3"> -->
+<!-- 						<label for="Address" -->
+<!-- 							class="col-md-4 col-lg-3 col-form-label v-label">SĐT</label> -->
+<!-- 						<div class="col-md-8 col-lg-9"> -->
+<!-- 							<input name="address" type="text" -->
+<!-- 								class="form-control v-form-control" id="Address" -->
+<!-- 								value="A108 Adam Street, New York, NY 535022"> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
 
-					<div class="row mb-3">
-						<label for="Phone"
-							class="col-md-4 col-lg-3 col-form-label v-label">Ngày
-							sinh</label>
-						<div class="col-md-8 col-lg-9">
-							<input name="phone" type="text"
-								class="form-control v-form-control" id="Phone"
-								value="(436) 486-3538 x29071">
-						</div>
-					</div>
+<!-- 					<div class="row mb-3"> -->
+<!-- 						<label for="Phone" -->
+<!-- 							class="col-md-4 col-lg-3 col-form-label v-label">Ngày -->
+<!-- 							sinh</label> -->
+<!-- 						<div class="col-md-8 col-lg-9"> -->
+<!-- 							<input name="phone" type="text" -->
+<!-- 								class="form-control v-form-control" id="Phone" -->
+<!-- 								value="(436) 486-3538 x29071"> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
 
-					<div class="row mb-3">
-						<label for="Email"
-							class="col-md-4 col-lg-3 col-form-label v-label">Phái</label>
-						<div class="col-md-8">
-							<div class="form-check form-check-inline ">
-								<input class="form-check-input v-check-input shadow-none"
-									type="radio" name="gridRadios" id="gtnam" value="option1"
-									checked> <label class="form-check-label"
-									for="gridRadios1"> Nam </label>
-							</div>
-							<div class="form-check form-check-inline ">
-								<input class="form-check-input v-check-input shadow-none"
-									type="radio" name="gridRadios" id="gtnu" value="option2">
-								<label class="form-check-label" for="gridRadios2"> Nữ </label>
-							</div>
-						</div>
-					</div>
+<!-- 					<div class="row mb-3"> -->
+<!-- 						<label for="Email" -->
+<!-- 							class="col-md-4 col-lg-3 col-form-label v-label">Phái</label> -->
+<!-- 						<div class="col-md-8"> -->
+<!-- 							<div class="form-check form-check-inline "> -->
+<!-- 								<input class="form-check-input v-check-input shadow-none" -->
+<!-- 									type="radio" name="gridRadios" id="gtnam" value="option1" -->
+<!-- 									checked> <label class="form-check-label" -->
+<!-- 									for="gridRadios1"> Nam </label> -->
+<!-- 							</div> -->
+<!-- 							<div class="form-check form-check-inline "> -->
+<!-- 								<input class="form-check-input v-check-input shadow-none" -->
+<!-- 									type="radio" name="gridRadios" id="gtnu" value="option2"> -->
+<!-- 								<label class="form-check-label" for="gridRadios2"> Nữ </label> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
 
-					<div class="row mb-3">
-						<label for="Twitter"
-							class="col-md-4 col-lg-3 col-form-label v-label">Username</label>
-						<div class="col-md-8 col-lg-9">
-							<input name="twitter" type="text"
-								class="form-control v-form-control" id="Twitter"
-								value="https://twitter.com/#">
-						</div>
-					</div>
+<!-- 					<div class="row mb-3"> -->
+<!-- 						<label for="Twitter" -->
+<!-- 							class="col-md-4 col-lg-3 col-form-label v-label">Username</label> -->
+<!-- 						<div class="col-md-8 col-lg-9"> -->
+<!-- 							<input name="twitter" type="text" -->
+<!-- 								class="form-control v-form-control" id="Twitter" -->
+<!-- 								value="https://twitter.com/#"> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
 
-					<div class="row mb-3">
-						<label for="Twitter"
-							class="col-md-4 col-lg-3 col-form-label v-label">Email</label>
-						<div class="col-md-8 col-lg-9">
-							<input type="email" class="form-control v-form-control">
-						</div>
-					</div>
+<!-- 					<div class="row mb-3"> -->
+<!-- 						<label for="Twitter" -->
+<!-- 							class="col-md-4 col-lg-3 col-form-label v-label">Email</label> -->
+<!-- 						<div class="col-md-8 col-lg-9"> -->
+<!-- 							<input type="email" class="form-control v-form-control"> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
 
-					<div class="row mb-3">
-						<label for="Twitter"
-							class="col-md-4 col-lg-3 col-form-label v-label">Mật Khẩu</label>
-						<div class="col-md-8 col-lg-9">
-							<input type="password" class="form-control v-form-control">
-						</div>
-					</div>
+<!-- 					<div class="row mb-3"> -->
+<!-- 						<label for="Twitter" -->
+<!-- 							class="col-md-4 col-lg-3 col-form-label v-label">Mật Khẩu</label> -->
+<!-- 						<div class="col-md-8 col-lg-9"> -->
+<!-- 							<input type="password" class="form-control v-form-control"> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
 
-					<div class="row mb-3">
-						<label for="Twitter"
-							class="col-md-4 col-lg-3 col-form-label v-label">Nhập lại
-							mật Khẩu</label>
-						<div class="col-md-8 col-lg-9">
-							<input type="password" class="form-control v-form-control">
-						</div>
-					</div>
+<!-- 					<div class="row mb-3"> -->
+<!-- 						<label for="Twitter" -->
+<!-- 							class="col-md-4 col-lg-3 col-form-label v-label">Nhập lại -->
+<!-- 							mật Khẩu</label> -->
+<!-- 						<div class="col-md-8 col-lg-9"> -->
+<!-- 							<input type="password" class="form-control v-form-control"> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
 
-					<div class="text-center">
-						<button type="submit"
-							class="btn btn-primary btn-main-color border-0 shadow-none"
-							style="padding: 8px 20px">Lưu</button>
-					</div>
-				</form>
-				<!-- End Profile Edit Form -->
-			</div>
-		</div>
-	</div>
-</div>
+<!-- 					<div class="text-center"> -->
+<!-- 						<button type="submit" -->
+<!-- 							class="btn btn-primary btn-main-color border-0 shadow-none" -->
+<!-- 							style="padding: 8px 20px">Lưu</button> -->
+<!-- 					</div> -->
+<!-- 				</form> -->
+<!-- 				End Profile Edit Form -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
+<!-- </div> -->
 <!-- End Vertically centered Modal-->
 <!-- Vendor JS Files -->
 	<script
@@ -348,9 +350,7 @@
 	<script>
 		$(document).ready(function() {
 			console.log($(".modal_flag").attr("idModal"));
-			if ($(".modal_flag").attr("idModal") === "modalCreate") {
-				$("#verticalycentered").modal("show");
-			} else if ($(".modal_flag").attr("idModal") === "modalUpdate") {
+			if ($(".modal_flag").attr("idModal") === "modalUpdate") {
 				$("#ProfileEditModal").modal("show");
 			}
 		})
