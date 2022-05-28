@@ -56,4 +56,5 @@ public class LoaiXe {
 		this.banggia = banggia;
 	}
 	
+	
 }

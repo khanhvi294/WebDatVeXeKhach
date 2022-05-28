@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+	<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ include file="head.jsp"%>
 <%@ include file="header.jsp"%>
@@ -8,10 +8,10 @@
 
 <main id="main" class="main">
         <div class="pagetitle">
-            <h1>Địa Điểm</h1>
+            <h1>Loại xe</h1>
         </div>
         <!-- End Page Title -->
-        <a href="/CNPM/QuanLy/QL_DiaDiem/insert.html"><button
+        <a href="/CNPM/QuanLy/QL_LoaiXe/insert.html"><button
 				type="button" class="btn add-new btn-outline-danger shadow-none">
 				Thêm mới <i class="bi bi-plus-circle"></i>
 			</button></a>
@@ -23,17 +23,19 @@
                         <table class="table datatable table-striped table-bordered">
                             <thead>
                                 <tr class="v-table-tr-color">
-                                    <th scope="col">Mã địa điểm</th>
-                                    <th scope="col">Địa điểm</th>
+                                    <th scope="col">Mã loại xe</th>
+                                    <th scope="col">Tên loại xe</th>
+                                    <th scope="col">Số chỗ</th>
                                     <th scope="col" class="text-center">Option</th>
                                 </tr>
                             </thead>
                             <tbody>
-                               <c:forEach var="u" items="${dsdd}">
+                                <c:forEach var="u" items="${dslx}">
 								<tr>
-									<th scope="row">${u.diaDiem }</th>
-									<td>${u.maDD}</td>
-									<td><span><a href="/CNPM/QuanLy/QL_DiaDiem/${u.maDD}.html?update"><i
+									<th scope="row">${u.maLX }</th>
+									<td>${u.tenLX}</td>
+									<td>${u.seat}</td>
+									<td><span><a href="/CNPM/QuanLy/QL_LoaiXe/${u.maLX}.html?update"><i
 												class="bi bi-pencil-square v-icon-modal"
 												data-bs-toggle="modal" data-bs-target="#ProfileEditModal"></i></a>
 									</span></td>
@@ -61,20 +63,28 @@
                 </div>
                 <div class="modal-body modal-add">
                     <!-- Profile Edit Form -->
-                    <form:form method = "post" modelAttribute="dd">
+                    <form:form method = "post" modelAttribute="lx">
                         <div class="row mb-3">
-                            <label for="machuyen" class="col-md-4 col-lg-3 col-form-label v-label">Mã địa điểm</label>
+                            <label for="machuyen" class="col-md-4 col-lg-3 col-form-label v-label">Mã loại xe</label>
                             <div class="col-md-8 col-lg-9">
-                                <form:input path="maDD" type="text" readonly = "true" class="form-control v-form-control" id="smadd" />
+                                <form:input path="maLX" type="text" class="form-control v-form-control" readonly = "true" id="smadd" />
                             </div>
                         </div>
 
                         <div class="row mb-3">
-                            <label for="inputDate" class="col-md-4 col-lg-3 col-form-label v-label">Địa điểm </label>
+                            <label for="inputDate" class="col-md-4 col-lg-3 col-form-label v-label">Loại xe </label>
                             <div class="col-md-8 col-lg-9">
-                                <form:input path="diaDiem" type="text" class="form-control v-form-control" id="sdiadiem" />
+                                <form:input path="tenLX" type="text" class="form-control v-form-control" id="sdiadiem" />
                             </div>
                         </div>
+
+                        <div class="row mb-3">
+                            <label class="col-md-4 col-lg-3 col-form-label v-label">Số chỗ</label>
+                            <div class="col-md-8 col-lg-9">
+                                <form:input path="seat" type="text" class="form-control v-form-control" id="smadd" />
+                            </div>
+                        </div>
+
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary btn-main-color border-0 mt-3">Lưu</button>
                         </div>
@@ -96,18 +106,25 @@
                 </div>
                 <div class="modal-body modal-add">
                     <!-- Profile Edit Form -->
-                    <form:form method = "post" modelAttribute="dd">
+                    <form:form method = "post" modelAttribute="lx">
                         <div class="row mb-3">
-                            <label for="machuyen" class="col-md-4 col-lg-3 col-form-label v-label">Mã địa điểm</label>
+                            <label for="machuyen" class="col-md-4 col-lg-3 col-form-label v-label">Mã loại xe</label>
                             <div class="col-md-8 col-lg-9">
-                                <form:input path="maDD" type="text" class="form-control v-form-control" id="madd" />
+                                <form:input path="maLX" type="text" class="form-control v-form-control" id="madd" />
                             </div>
                         </div>
 
                         <div class="row mb-3">
-                            <label for="inputDate" class="col-md-4 col-lg-3 col-form-label v-label">Địa điểm </label>
+                            <label for="inputDate" class="col-md-4 col-lg-3 col-form-label v-label">Loại xe </label>
                             <div class="col-md-8 col-lg-9">
-                                <form:input path="diaDiem" type="text" class="form-control v-form-control" id="diadiem" />
+                                <form:input path="tenLX" type="text" class="form-control v-form-control" id="diadiem" />
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-md-4 col-lg-3 col-form-label v-label">Số chỗ</label>
+                            <div class="col-md-8 col-lg-9">
+                                <form:input path="seat" type="text" class="form-control v-form-control" id="smadd" />
                             </div>
                         </div>
 
@@ -122,7 +139,7 @@
     </div>
     <!-- End Vertically centered Modal-->
     <!-- Vendor JS Files -->
-    <script
+   <script
 	src="<c:url value='/resources/assets/vendor/apexcharts/apexcharts.min.js'/>"></script>
 <script
 	src="<c:url value='/resources/assets/vendor/bootstrap/js/bootstrap.bundle.min.js'/>"></script>
@@ -145,7 +162,7 @@
 		console.log($(".modal_flag").attr("idModal"));
 		if ($(".modal_flag").attr("idModal") === "modalCreate") {
 			$("#verticalycentered").modal("show");
-		} else if ($(".modal_flag").attr("idModal") === "modalUpdate") {
+		}else if ($(".modal_flag").attr("idModal") === "modalUpdate") {
 			$("#ProfileEditModal").modal("show");
 		}
 	})

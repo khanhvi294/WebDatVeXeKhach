@@ -25,6 +25,11 @@ public class BangGia implements Serializable {
 	@JoinColumn(name="Tuyen", insertable=false, updatable=false)
 	private TuyenXe Tuyen;
 	
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	@ManyToOne
 	@JoinColumn(name="MaLX", insertable=false, updatable=false)
 	private LoaiXe loaixe;
@@ -48,20 +53,20 @@ public class BangGia implements Serializable {
 		this.id = id;
 	}
 
-	public TuyenXe getTuyen() {
-		return Tuyen;
-	}
-
-	public void setTuyen(TuyenXe tuyen) {
-		Tuyen = tuyen;
-	}
-
 	public LoaiXe getLoaixe() {
 		return loaixe;
 	}
 
 	public void setLoaixe(LoaiXe loaixe) {
 		this.loaixe = loaixe;
+	}
+
+	public TuyenXe getTuyen() {
+		return Tuyen;
+	}
+
+	public void setTuyen(TuyenXe tuyen) {
+		Tuyen = tuyen;
 	}
 	
 	
