@@ -27,7 +27,7 @@ public class TuyenXe {
 	private boolean trangThai;
 	@OneToMany(mappedBy = "tuyen", fetch = FetchType.EAGER)
 	private Collection<ChuyenXe> chuyen;
-	@OneToMany(mappedBy = "Tuyen", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "tuyen", fetch = FetchType.EAGER)
 	private Collection<BangGia> banggia;
 	public String getMaTuyen() {
 		return maTuyen;

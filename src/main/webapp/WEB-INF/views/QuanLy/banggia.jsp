@@ -11,7 +11,7 @@
             <h1>Bảng Giá</h1>
         </div>
         <!-- End Page Title -->
-        <a href="/CNPM/QuanLy/QL_BangGia/insert.html"><button
+        <a href="/CNPM/quanly/banggia/insert.html"><button
 				type="button" class="btn add-new btn-outline-danger shadow-none">
 				Thêm mới <i class="bi bi-plus-circle"></i>
 			</button></a>
@@ -24,6 +24,7 @@
                             <thead>
                                 <tr class="v-table-tr-color">
                                     <th scope="col">Loại xe</th>
+                                     <th scope="col">Tên Loại xe</th>
                                     <th scope="col">Tuyến</th>
                                     <th scope="col">Giá</th>
                                     <th scope="col" class="text-center">Option</th>
@@ -33,9 +34,10 @@
                                 <c:forEach var="u" items="${dsbg}">
 								<tr>
 									<th scope="row">${u.loaixe.maLX }</th>
-									<td>${u.Tuyen.maTuyen}</td>
+									<th scope="row">${u.loaixe.tenLX }</th>
+									<td>${u.tuyen.diemDi.diaDiem} - ${u.tuyen.diemDen.diaDiem}</td>
 									<td>${u.gia}</td>
-									<td><span><a href="/CNPM/QuanLy/QL_BangGia/${u.id}.html?update"><i
+									<td><span><a href="/CNPM/quanly/banggia/${u.id.tuyen}/${u.id.loaixe}.html?update"><i
 												class="bi bi-pencil-square v-icon-modal"
 												data-bs-toggle="modal" data-bs-target="#ProfileEditModal"></i></a>
 									</span></td>
@@ -52,6 +54,7 @@
     <!-- End #main -->
 
     <!-- ProfileEditModal -->
+     <div class="modal_flag" idModal="${idModal }"></div>
     <div class="modal fade" id="ProfileEditModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered v-modal-add">
             <div class="modal-content border-0">
@@ -62,38 +65,33 @@
                 </div>
                 <div class="modal-body modal-add">
                     <!-- Profile Edit Form -->
-                    <form:form method = "post" modelAttribute="bg">
+                    <form method = "post" >
                         <div class="row mb-3">
                             <label for="machuyen" class="col-md-4 col-lg-3 col-form-label v-label">Loại xe</label>
                             <div class="col-md-8 col-lg-9">
-                                <form:select class="form-select v-form-control"
-									aria-label=" select example" path="loaixe.maLX">
-									<form:options items="${dslx}" itemValue="maLX" itemLabel="tenLX"/>
-								</form:select>
+								<input type="text" class="form-control v-form-control" readonly = "true" value = "${bg.loaixe.tenLX }" />
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <label for="inputDate" class="col-md-4 col-lg-3 col-form-label v-label">Tuyến </label>
                             <div class="col-md-8 col-lg-9">
-                                <form:select class="form-select v-form-control"
- 									aria-label=" select example" path="Tuyen.maTuyen" items="${listtemp}">
-<%--  									<form:options items="${listtx}" itemValue="maTuyen" itemLabel="diemDen.diaDiem"/>  --%>
- 								</form:select>
+								
+								<input type="text" class="form-control v-form-control" readonly = "true" value = "${bg.tuyen.diemDi.diaDiem} - ${bg.tuyen.diemDen.diaDiem}" />
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <label class="col-md-4 col-lg-3 col-form-label v-label">Giá</label>
                             <div class="col-md-8 col-lg-9">
-                                <form:input path="gia" type="text" class="form-control v-form-control" id="diadiem" />
+                                <input name="gia" type="text" class="form-control v-form-control" value = "${bg.gia }" />
                             </div>
                         </div>
 
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary btn-main-color border-0 mt-3">Lưu</button>
                         </div>
-                    </form:form>
+                    </form>
                     <!-- End Profile Edit Form -->
                     <!-- End Profile Edit Form -->
                 </div>
@@ -111,40 +109,43 @@
                 </div>
                 <div class="modal-body modal-add">
                     <!-- Profile Edit Form -->
-                    <form:form method = "post" modelAttribute="bg">
+                    <form method = "post">
                         <div class="row mb-3">
                             <label for="machuyen" class="col-md-4 col-lg-3 col-form-label v-label">Loại xe</label>
                             <div class="col-md-8 col-lg-9">
-                                <form:select class="form-select v-form-control"
-									aria-label=" select example" path="loaixe.maLX">
-									<form:options items="${dslx}" itemValue="maLX" itemLabel="tenLX"/>
-								</form:select>
+                                <select class="form-select v-form-control"
+									aria-label=" select example" name="loaixe" id = "tuyen">
+									<c:forEach var="lx" items="${dslx}">
+										<option value="${lx.maLX}">${lx.tenLX}</option>
+									</c:forEach>
+								</select>
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <label for="inputDate" class="col-md-4 col-lg-3 col-form-label v-label">Tuyến </label>
                             <div class="col-md-8 col-lg-9">
-                                <select class="form-select v-form-control" aria-label=" select example">
-                                    <form:select class="form-select v-form-control"
- 									aria-label=" select example" path="Tuyen.maTuyen" items="${listtemp}">
-<%--  									<form:options items="${listtx}" itemValue="maTuyen" itemLabel="diemDen.diaDiem"/>  --%>
- 									</form:select>
-                                </select>
+                                    <select class="form-select v-form-control"
+									aria-label=" select example" name="tuyenxe" id = "tuyen">
+									<c:forEach var="tx" items="${dstx}">
+										<option value="${tx.maTuyen}">${tx.diemDi.diaDiem}-
+											${tx.diemDen.diaDiem}</option>
+									</c:forEach>
+								</select>
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <label class="col-md-4 col-lg-3 col-form-label v-label">Giá</label>
                             <div class="col-md-8 col-lg-9">
-                               <form:input path="gia" type="text" class="form-control v-form-control" id="diadiem" />
+                               <input name="gia" type="text" class="form-control v-form-control" id="diadiem" />
                             </div>
                         </div>
 
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary btn-main-color border-0 mt-3">Lưu</button>
                         </div>
-                    </form:form>
+                    </form>
                     <!-- End Profile Edit Form -->
                 </div>
             </div>
@@ -174,7 +175,7 @@
 	$(document).ready(function() {
 		console.log($(".modal_flag").attr("idModal"));
 		if ($(".modal_flag").attr("idModal") === "modalCreate") {
-			$("#verticalycentered").modal("show");
+			$("#thembanggia").modal("show");
 		}else if ($(".modal_flag").attr("idModal") === "modalUpdate") {
 			$("#ProfileEditModal").modal("show");
 		}

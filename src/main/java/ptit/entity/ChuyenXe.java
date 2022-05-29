@@ -2,6 +2,7 @@
  * 
  */
 package ptit.entity;
+import java.math.BigDecimal;
 import java.sql.Time;
 import java.util.Collection;
 import java.util.Date;
@@ -45,7 +46,7 @@ public class ChuyenXe {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date ngKH;
 	@Column(name = "Gia")
-	private float gia;
+	private BigDecimal gia;
 	@Column(name="SoChoTrong")
 	private int sochotrong;
 	@OneToMany(mappedBy = "chuyen", fetch = FetchType.EAGER)
@@ -86,10 +87,11 @@ public class ChuyenXe {
 	public void setNgKH(Date ngKH) {
 		this.ngKH = ngKH;
 	}
-	public float getGia() {
+	
+	public BigDecimal getGia() {
 		return gia;
 	}
-	public void setGia(float gia) {
+	public void setGia(BigDecimal gia) {
 		this.gia = gia;
 	}
 	public Collection<PhieuDat> getPhieu() {

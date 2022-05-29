@@ -11,7 +11,7 @@
             <h1>Địa Điểm</h1>
         </div>
         <!-- End Page Title -->
-        <a href="/CNPM/QuanLy/QL_DiaDiem/insert.html"><button
+        <a href="/CNPM/quanly/diadiem/insert.html"><button
 				type="button" class="btn add-new btn-outline-danger shadow-none">
 				Thêm mới <i class="bi bi-plus-circle"></i>
 			</button></a>
@@ -33,7 +33,7 @@
 								<tr>
 									<th scope="row">${u.diaDiem }</th>
 									<td>${u.maDD}</td>
-									<td><span><a href="/CNPM/QuanLy/QL_DiaDiem/${u.maDD}.html?update"><i
+									<td><span><a href="/CNPM/quanly/diadiem/${u.maDD}.html?update"><i
 												class="bi bi-pencil-square v-icon-modal"
 												data-bs-toggle="modal" data-bs-target="#ProfileEditModal"></i></a>
 									</span></td>

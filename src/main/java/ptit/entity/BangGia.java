@@ -1,6 +1,7 @@
 package ptit.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Collection;
 
 import javax.persistence.Column;
@@ -23,7 +24,7 @@ public class BangGia implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name="Tuyen", insertable=false, updatable=false)
-	private TuyenXe Tuyen;
+	private TuyenXe tuyen;
 	
 
 	public static long getSerialversionuid() {
@@ -35,13 +36,13 @@ public class BangGia implements Serializable {
 	private LoaiXe loaixe;
 	
 	@Column(name = "Gia")
-	private float gia;
-	
-	public float getGia() {
+	private BigDecimal gia;
+
+	public BigDecimal getGia() {
 		return gia;
 	}
 
-	public void setGia(float gia) {
+	public void setGia(BigDecimal gia) {
 		this.gia = gia;
 	}
 
@@ -62,12 +63,12 @@ public class BangGia implements Serializable {
 	}
 
 	public TuyenXe getTuyen() {
-		return Tuyen;
+		return tuyen;
 	}
 
 	public void setTuyen(TuyenXe tuyen) {
-		Tuyen = tuyen;
+		this.tuyen = tuyen;
 	}
-	
+
 	
 }
