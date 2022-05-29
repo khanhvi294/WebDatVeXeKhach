@@ -24,7 +24,7 @@
 			</nav>
 		</div>
 		<!-- End Page Title -->
-		<a href = "/CNPM/QuanLy/QL_TuyenXe/insert.html"><button type="button"
+		<a href = "/CNPM/quanly/tuyenxe/insert.html"><button type="button"
 			class="btn add-new btn-outline-danger shadow-none"
 			data-bs-toggle="modal" data-bs-target="#verticalycentered">
 			Thêm mới <i class="bi bi-plus-circle"></i>
@@ -60,7 +60,7 @@
 														động</span>
 												</c:when>
 											</c:choose></td>
-										<td class="text-center"><span><a href = "/CNPM/QuanLy/QL_TuyenXe/${u.maTuyen}.html?update"> <i
+										<td class="text-center"><span><a href = "/CNPM/quanly/tuyenxe/${u.maTuyen}.html?update"> <i
 												class="bi bi-pencil-square v-icon-modal"
 												data-bs-toggle="modal" data-bs-target="#ProfileEditModal"></i></a>
 										</span></td>

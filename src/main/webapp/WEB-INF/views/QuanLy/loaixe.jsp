@@ -11,7 +11,7 @@
             <h1>Loại xe</h1>
         </div>
         <!-- End Page Title -->
-        <a href="/CNPM/QuanLy/QL_LoaiXe/insert.html"><button
+        <a href="/CNPM/quanly/loaixe/insert.html"><button
 				type="button" class="btn add-new btn-outline-danger shadow-none">
 				Thêm mới <i class="bi bi-plus-circle"></i>
 			</button></a>
@@ -35,7 +35,7 @@
 									<th scope="row">${u.maLX }</th>
 									<td>${u.tenLX}</td>
 									<td>${u.seat}</td>
-									<td><span><a href="/CNPM/QuanLy/QL_LoaiXe/${u.maLX}.html?update"><i
+									<td><span><a href="/CNPM/quanly/loaixe/${u.maLX}.html?update"><i
 												class="bi bi-pencil-square v-icon-modal"
 												data-bs-toggle="modal" data-bs-target="#ProfileEditModal"></i></a>
 									</span></td>

@@ -10,7 +10,7 @@
 	<aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
       <li class="nav-item">
-        <a class="nav-link collapsed" href="QuanLy/QL_TrangChu.html">
+        <a class="nav-link collapsed" href="quanly/trangchu.html">
           <i class="ri-home-4-line
           "></i>
           <span>Trang Chủ</span>
@@ -18,7 +18,7 @@
       </li>
       <hr style="margin:0">
       <li class="nav-item">
-        <a class="nav-link collapsed" href="QuanLy/QL_ChuyenXe.html">
+        <a class="nav-link collapsed" href="quanly/chuyenxe.html">
           <i class="ri-bus-line"></i>
           <span>Chuyến Xe</span>
         </a>
@@ -26,7 +26,7 @@
       <!-- End Profile Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="QuanLy/QL_TuyenXe.html">
+        <a class="nav-link collapsed" href="quanly/tuyenxe.html">
           <i class="ri-arrow-left-right-line"></i>
           <span>Tuyến Xe</span>
         </a>
@@ -34,7 +34,7 @@
       <!-- End F.A.Q Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="QuanLy/QL_NhanVien.html">
+        <a class="nav-link collapsed" href="quanly/nhanvien.html">
           <i class="ri-contacts-line"></i>
           <span>Nhân Viên</span>
         </a>
@@ -42,7 +42,7 @@
       <!-- End Contact Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="QuanLy/QL_KhachHang.html">
+        <a class="nav-link collapsed" href="quanly/khachhang.html">
           <i class="bi bi-people"></i>
           <span>Khách Hàng</span>
         </a>
@@ -50,7 +50,7 @@
       <!-- End Register Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="QuanLy/QL_DiaDiem.html">
+        <a class="nav-link collapsed" href="quanly/diadiem.html">
           <i class="bi bi-pin-map-fill"></i>
           <span>Địa Điểm</span>
         </a>
@@ -58,7 +58,7 @@
       <!-- End Login Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="QuanLy/QL_LoaiXe.html">
+        <a class="nav-link collapsed" href="quanly/loaixe.html">
           <i class="ri-align-justify"></i>
           <span>Loại Xe</span>
         </a>
@@ -66,14 +66,14 @@
       <!-- End Error 404 Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="QuanLy/QL_BangGia.html">
+        <a class="nav-link collapsed" href="quanly/banggia.html">
           <i class="bi bi-currency-dollar"></i>
           <span>Bảng Giá</span>
         </a>
       </li>
       <!-- End Blank Page Nav -->
       <li class="nav-item">
-        <a class="nav-link" href="QuanLy/QL_PhieuDat.html">
+        <a class="nav-link" href="quanly/phieudat.html">
           <i class="bi bi-clipboard"></i>
           <span>Phiếu Đặt</span>
         </a>

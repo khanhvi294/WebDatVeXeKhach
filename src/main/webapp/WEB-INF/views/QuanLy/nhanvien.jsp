@@ -11,7 +11,7 @@
 		<h1>Nhân Viên</h1>
 	</div>
 	<!-- End Page Title -->
-	<a href="/CNPM/QuanLy/QL_NhanVien/insert.html"><button
+	<a href="/CNPM/quanly/nhanvien/insert.html"><button
 				type="button" class="btn add-new btn-outline-danger shadow-none">
 				Thêm mới <i class="bi bi-plus-circle"></i>
 			</button></a>
@@ -51,9 +51,9 @@
 											</c:when>
 										</c:choose></td>
 									<td><span><a
-											href="/CNPM/QuanLy/QL_NhanVien/${u.maNV}.html?info"> <i
+											href="/CNPM/quanly/nhanvien/${u.maNV}.html?info"> <i
 												class="bi bi-info-circle-fill v-icon-modal"></i>
-										</a> <a href="/CNPM/QuanLy/QL_NhanVien/${u.maNV}.html?update"><i
+										</a> <a href="/CNPM/quanly/nhanvien/${u.maNV}.html?update"><i
 												class="bi bi-pencil-square v-icon-modal"
 												data-bs-toggle="modal" data-bs-target="#ProfileEditModal"></i></a>
 									</span></td>

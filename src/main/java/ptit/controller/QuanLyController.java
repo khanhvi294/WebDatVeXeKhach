@@ -1,5 +1,6 @@
 package ptit.controller;
 
+import java.math.BigDecimal;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -29,7 +30,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @Transactional
-@RequestMapping("QuanLy")
+@RequestMapping("quanly")
 public class QuanLyController {
 	@Autowired
 	SessionFactory factory;
@@ -120,10 +121,20 @@ public class QuanLyController {
 		return list;
 	}
 	
-	public BangGia bgtheoid(BangGiaPK id) {
+	public List<PhieuDat> dspd(){
 		Session session = factory.getCurrentSession();
-		BangGia bg = (BangGia) session.load(BangGia.class, id);
-		return bg;
+		String hql = "FROM PhieuDat";
+		Query query = session.createQuery(hql);
+		List<PhieuDat> list = query.list();
+		return list;
+	}
+	
+	public BangGia bgtheoid(String matuyen, String LoaiXe) {
+		Session session = factory.getCurrentSession();
+		String hql = "from BangGia where Tuyen = '" + matuyen + "' and loaixe = '" + LoaiXe + "'";
+		Query query = session.createQuery(hql);
+		List<BangGia> list = query.list();
+		return list.get(0);
 	}
 	
 	public ChuyenXe xetheoid(String machuyen) {
@@ -178,12 +189,12 @@ public class QuanLyController {
 		return nv;
 	}
 	
-	public float layGia(String matuyen, String LoaiXe) {
+	public BigDecimal layGia(String matuyen, String LoaiXe) {
 		Session session = factory.getCurrentSession();
 		String hql = "from BangGia where Tuyen = '" + matuyen + "' and loaixe = '" + LoaiXe + "'";
 		Query query = session.createQuery(hql);
 		List<BangGia> list = query.list();
-		float gia = list.get(0).getGia();
+		BigDecimal gia = list.get(0).getGia();
 		return  gia;
 	}
 	
@@ -193,12 +204,26 @@ public class QuanLyController {
 		return tk;
 	}
 	
-	@RequestMapping(value = "QL_TrangChu")
+	public PhieuDat phieudattheoma(String ma) {
+		Session session = factory.getCurrentSession();
+		PhieuDat pd = (PhieuDat) session.load(PhieuDat.class, ma);
+		return pd;
+	}
+	
+	public List<VeXe> vexetheomapd(String ma) {
+		Session session = factory.getCurrentSession();
+		String hql = "from VeXe where pd = '" + ma + "'";
+		Query query = session.createQuery(hql);
+		List<VeXe> list = query.list();
+		return list;
+	}
+	
+	@RequestMapping(value = "trangchu")
 	public String TrangChu() {
 		return "QuanLy/trangchu";
 	}
 
-	@RequestMapping("QL_ChuyenXe")
+	@RequestMapping("chuyenxe")
 	public String ChuyenXe(ModelMap model) {
 		List<ChuyenXe> list = dscx();
 		model.addAttribute("list", list);
@@ -206,7 +231,7 @@ public class QuanLyController {
 		return "QuanLy/chuyenxe";
 	}
 
-	@RequestMapping(value = "QL_ChuyenXe/{machuyen}", params = "info")
+	@RequestMapping(value = "chuyenxe/{machuyen}", params = "info")
 	public String ChuyenXeInfo(ModelMap model, @PathVariable("machuyen") String ma) {
 		model.addAttribute("idModal", "modalShow");
 		List<ChuyenXe> list = dscx();
@@ -217,7 +242,7 @@ public class QuanLyController {
 		return "QuanLy/chuyenxe";
 	}
 
-	@RequestMapping(value = "QL_ChuyenXe/{machuyen}", params = "update", method = RequestMethod.GET)
+	@RequestMapping(value = "chuyenxe/{machuyen}", params = "update", method = RequestMethod.GET)
 	public String ChuyenXeUpdate(ModelMap model, @PathVariable("machuyen") String ma) {
 		ChuyenXe chuyen = xetheoid(ma);
 		model.addAttribute("idModal", "modalUpdate");
@@ -248,7 +273,7 @@ public class QuanLyController {
 		return "QuanLy/chuyenxe";
 	}
 
-	@RequestMapping(value = "/QL_ChuyenXe/{machuyen}", params = "update", method = RequestMethod.POST)
+	@RequestMapping(value = "/chuyenxe/{machuyen}", params = "update", method = RequestMethod.POST)
 	public String ChuyenXeUpdate(ModelMap model, @PathVariable("machuyen") String ma,HttpServletRequest request) {
 		Session session = factory.openSession();
 
@@ -265,7 +290,7 @@ public class QuanLyController {
 			chuyen.setTuyen(tuyentheoid(request.getParameter("tuyenxe")));
 			chuyen.setXekhach(xekhachtheoid(request.getParameter("xekhach")));
 			XeKhach xk = xekhachtheoid(chuyen.getXekhach().getBienXe());
-			float gia = layGia(chuyen.getTuyen().getMaTuyen(), xk.getLx().getMaLX());
+			BigDecimal gia = layGia(chuyen.getTuyen().getMaTuyen(), xk.getLx().getMaLX());
 			session.update(chuyen);
 			transaction.commit();
 		} catch (Exception e) {
@@ -278,7 +303,7 @@ public class QuanLyController {
 		return "redirect: /CNPM/QuanLy/QL_ChuyenXe.html";
 	}
 
-	@RequestMapping(value = "QL_ChuyenXe/insert", method = RequestMethod.GET)
+	@RequestMapping(value = "chuyenxe/insert", method = RequestMethod.GET)
 	public String ChuyenXeInsert(ModelMap model) {
 		System.out.println("l3333oi");
 		model.addAttribute("idModal", "modalCreate");
@@ -301,7 +326,7 @@ public class QuanLyController {
 		return "QuanLy/chuyenxe";
 	}
 
-	@RequestMapping(value = "QL_ChuyenXe/insert", method = RequestMethod.POST)
+	@RequestMapping(value = "chuyenxe/insert", method = RequestMethod.POST)
 	public String ChuyenXeInsertpost(ModelMap model, @ModelAttribute("chuyexe") ChuyenXe chuyen,HttpServletRequest request) {
 		Session session = factory.openSession();
 		Transaction transaction = session.beginTransaction();
@@ -327,7 +352,7 @@ public class QuanLyController {
 			java.sql.Date sql = new java.sql.Date(parsed.getTime());
 			chuyen.setNgKH(sql);
 			XeKhach xk = xekhachtheoid(chuyen.getXekhach().getBienXe());
-			float gia = layGia(chuyen.getTuyen().getMaTuyen(), xk.getLx().getMaLX());
+			BigDecimal gia = layGia(chuyen.getTuyen().getMaTuyen(), xk.getLx().getMaLX());
 			SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
 			Date d1 = sdf.parse(request.getParameter("thoigian"));
 			chuyen.setTgKh(new Time(d1.getTime()));
@@ -344,10 +369,10 @@ public class QuanLyController {
 		finally {
 			session.close();
 		}
-		return "redirect: /CNPM/QuanLy/QL_ChuyenXe.html";
+		return "redirect: /CNPM/quanly/chuyenxe.html";
 	}
 
-	@RequestMapping("/QL_TuyenXe")
+	@RequestMapping("/tuyenxe")
 	public String TuyenXe(ModelMap model) {
 		List<TuyenXe> list = dstx();
 		model.addAttribute("list", list);
@@ -355,7 +380,7 @@ public class QuanLyController {
 		return "QuanLy/tuyenxe";
 	}
 
-	@RequestMapping(value = "/QL_TuyenXe/insert", method = RequestMethod.GET)
+	@RequestMapping(value = "/tuyenxe/insert", method = RequestMethod.GET)
 	public String TuyenXeInsert(ModelMap model) {
 		List<TuyenXe> list = dstx();
 		model.addAttribute("list", list);
@@ -366,7 +391,7 @@ public class QuanLyController {
 		return "QuanLy/tuyenxe";
 	}
 
-	@RequestMapping(value = "/QL_TuyenXe/insert", method = RequestMethod.POST)
+	@RequestMapping(value = "/tuyenxe/insert", method = RequestMethod.POST)
 	public String TuyenXeInsert(HttpServletRequest request, @ModelAttribute("tuyen") TuyenXe tuyen) {
 		Session session = factory.openSession();
 		Transaction transaction = session.beginTransaction();
@@ -384,10 +409,10 @@ public class QuanLyController {
 		}finally {
 			session.close();
 		}
-		return "redirect: /CNPM/QuanLy/QL_TuyenXe.html";
+		return "redirect: /CNPM/quanly/tuyenxe.html";
 	}
 
-	@RequestMapping(value = "/QL_TuyenXe/{matuyen}", params = "update", method = RequestMethod.GET)
+	@RequestMapping(value = "/tuyenxe/{matuyen}", params = "update", method = RequestMethod.GET)
 	public String TuyenXeUpdate(ModelMap model, @PathVariable("matuyen") String ma) {
 		TuyenXe tuyen = tuyentheoid(ma);
 		List<DiaDiem> dsdi = dsdd();
@@ -411,7 +436,7 @@ public class QuanLyController {
 		return "QuanLy/tuyenxe";
 	}
 
-	@RequestMapping(value = "/QL_TuyenXe/{matuyen}", params = "update", method = RequestMethod.POST)
+	@RequestMapping(value = "/tuyenxe/{matuyen}", params = "update", method = RequestMethod.POST)
 	public String TuyenXeUpdate(@PathVariable("matuyen") String ma, HttpServletRequest request) {
 		Session session = factory.openSession();
 		Transaction transaction = session.beginTransaction();
@@ -426,10 +451,10 @@ public class QuanLyController {
 		}finally {
 			session.close();
 		}
-		return "redirect: /CNPM/QuanLy/QL_TuyenXe.html";
+		return "redirect: /CNPM/quanly/tuyenxe.html";
 	}
 
-	@RequestMapping("/QL_NhanVien")
+	@RequestMapping("/nhanvien")
 	public String NhanVien(ModelMap model) {
 		List<NhanVien> nhanviens = dsnv();
 		model.addAttribute("nhanvien",nhanviens);
@@ -437,7 +462,7 @@ public class QuanLyController {
 		return "QuanLy/nhanvien";
 	}
 	
-	@RequestMapping(value = "/QL_NhanVien/{manv}", params = "info")
+	@RequestMapping(value = "/nhanvien/{manv}", params = "info")
 	public String NhanVienInfo(ModelMap model, @PathVariable("manv") String ma, @ModelAttribute("nv") NhanVien nv) {
 		model.addAttribute("idModal", "modalShow");
 		List<NhanVien> nhanviens = dsnv();
@@ -447,7 +472,7 @@ public class QuanLyController {
 		return "QuanLy/nhanvien";
 	}
 	
-	@RequestMapping(value = "/QL_NhanVien/{manv}", params = "update", method = RequestMethod.GET)
+	@RequestMapping(value = "/nhanvien/{manv}", params = "update", method = RequestMethod.GET)
 	public String NhanVienupdate(ModelMap model, @PathVariable("manv") String ma) {
 		model.addAttribute("idModal", "modalUpdate");
 		List<NhanVien> nhanviens = dsnv();
@@ -457,7 +482,7 @@ public class QuanLyController {
 		return "QuanLy/nhanvien";
 	}
 	
-	@RequestMapping(value = "/QL_NhanVien/{manv}", params = "update", method = RequestMethod.POST)
+	@RequestMapping(value = "/nhanvien/{manv}", params = "update", method = RequestMethod.POST)
 	public String NhanVienupdate(@PathVariable("manv") String ma, @ModelAttribute("nv") NhanVien nv, HttpServletRequest request) {
 		Session session = factory.openSession();
 		Transaction transaction = session.beginTransaction();
@@ -484,10 +509,10 @@ public class QuanLyController {
 		}finally {
 			session.close();
 		}
-		return "redirect: /CNPM/QuanLy/QL_NhanVien.html";
+		return "redirect: /CNPM/quanly/nhanvien.html";
 	}
 	
-	@RequestMapping(value = "/QL_NhanVien/insert", method = RequestMethod.GET)
+	@RequestMapping(value = "/nhanvien/insert", method = RequestMethod.GET)
 	public String NhanVienInsert(ModelMap model) {
 		model.addAttribute("idModal", "modalCreate");
 		List<NhanVien> nhanviens = dsnv();
@@ -498,7 +523,7 @@ public class QuanLyController {
 		return "QuanLy/nhanvien";
 	}
 	
-	@RequestMapping(value = "/QL_NhanVien/insert", method = RequestMethod.POST)
+	@RequestMapping(value = "/nhanvien/insert", method = RequestMethod.POST)
 	public String NhanVienInsert(@ModelAttribute("nv") NhanVien nv, HttpServletRequest request) {
 		Session session = factory.openSession();
 		Transaction transaction = session.beginTransaction();
@@ -526,10 +551,10 @@ public class QuanLyController {
 		}finally {
 			session.close();
 		}
-		return "redirect: /CNPM/QuanLy/QL_NhanVien.html";
+		return "redirect: /CNPM/quanly/nhanvien.html";
 	}
 	
-	@RequestMapping("/QL_KhachHang")
+	@RequestMapping("/khachhang")
 	public String KhachHang(ModelMap model) {
 		List<KhachHang> khachhangs = dskh();
 		model.addAttribute("dskh",khachhangs);
@@ -537,7 +562,7 @@ public class QuanLyController {
 		return "QuanLy/khachhang";
 	}
 	
-	@RequestMapping(value = "/QL_KhachHang/{makh}", params = "update", method = RequestMethod.GET)
+	@RequestMapping(value = "/khachhang/{makh}", params = "update", method = RequestMethod.GET)
 	public String KhachHangupdate(ModelMap model, @PathVariable("makh") String ma) {
 		model.addAttribute("idModal", "modalUpdate");
 		List<KhachHang> khachhangs = dskh();
@@ -547,7 +572,7 @@ public class QuanLyController {
 		return "QuanLy/khachhang";
 	}
 	
-	@RequestMapping(value = "/QL_KhachHang/{makh}", params = "update", method = RequestMethod.POST)
+	@RequestMapping(value = "/khachhang/{makh}", params = "update", method = RequestMethod.POST)
 	public String KhachHangupdate(@PathVariable("makh") String ma, @ModelAttribute("kh") KhachHang kh, HttpServletRequest request) {
 		Session session = factory.openSession();
 		Transaction transaction = session.beginTransaction();
@@ -574,10 +599,10 @@ public class QuanLyController {
 		}finally {
 			session.close();
 		}
-		return "redirect: /CNPM/QuanLy/QL_KhachHang.html";
+		return "redirect: /CNPM/quanly/khachhang.html";
 	}
 	
-	@RequestMapping("/QL_DiaDiem")
+	@RequestMapping("/diadiem")
 	public String DiaDiem(ModelMap model) {
 		List<DiaDiem> dsdd = dsdd();
 		model.addAttribute("dsdd",dsdd);
@@ -585,7 +610,7 @@ public class QuanLyController {
 		return "QuanLy/diadiem";
 	}
 	
-	@RequestMapping(value = "/QL_DiaDiem/{madd}", params = "update", method = RequestMethod.GET)
+	@RequestMapping(value = "/diadiem/{madd}", params = "update", method = RequestMethod.GET)
 	public String DDupdate(ModelMap model, @PathVariable("madd") String ma) {
 		model.addAttribute("idModal", "modalUpdate");
 		List<DiaDiem> dsdd = dsdd();
@@ -595,7 +620,7 @@ public class QuanLyController {
 		return "QuanLy/diadiem";
 	}
 	
-	@RequestMapping(value = "/QL_DiaDiem/{madd}", params = "update", method = RequestMethod.POST)
+	@RequestMapping(value = "/diadiem/{madd}", params = "update", method = RequestMethod.POST)
 	public String DDupdate(@PathVariable("madd") String ma, @ModelAttribute("dd") DiaDiem dd, HttpServletRequest request) {
 		Session session = factory.openSession();
 		Transaction transaction = session.beginTransaction();
@@ -608,10 +633,10 @@ public class QuanLyController {
 		}finally {
 			session.close();
 		}
-		return "redirect: /CNPM/QuanLy/QL_DiaDiem.html";
+		return "redirect: /CNPM/quanly/diadiem.html";
 	}
 	
-	@RequestMapping(value = "/QL_DiaDiem/insert", method = RequestMethod.GET)
+	@RequestMapping(value = "/diadiem/insert", method = RequestMethod.GET)
 	public String DDInsert(ModelMap model) {
 		model.addAttribute("idModal", "modalCreate");
 		List<DiaDiem> dsdd = dsdd();
@@ -621,7 +646,7 @@ public class QuanLyController {
 		return "QuanLy/diadiem";
 	}
 	
-	@RequestMapping(value = "/QL_DiaDiem/insert", method = RequestMethod.POST)
+	@RequestMapping(value = "/diadiem/insert", method = RequestMethod.POST)
 	public String DDInsert(@ModelAttribute("dd") DiaDiem dd, HttpServletRequest request) {
 		Session session = factory.openSession();
 		Transaction transaction = session.beginTransaction();
@@ -634,17 +659,17 @@ public class QuanLyController {
 		}finally {
 			session.close();
 		}
-		return "redirect: /CNPM/QuanLy/QL_DiaDiem.html";
+		return "redirect: /CNPM/quanly/diadiem.html";
 	}
 	
-	@RequestMapping("/QL_LoaiXe")
+	@RequestMapping("/loaixe")
 	public String LoaiXe(ModelMap model) {
 		List<LoaiXe> dslx = dslx();
 		model.addAttribute("dslx",dslx);
 		model.addAttribute("lx", new LoaiXe());
 		return "QuanLy/loaixe";
 	}
-	@RequestMapping(value = "/QL_LoaiXe/{malx}", params = "update", method = RequestMethod.GET)
+	@RequestMapping(value = "/loaixe/{malx}", params = "update", method = RequestMethod.GET)
 	public String LXupdate(ModelMap model, @PathVariable("malx") String ma) {
 		model.addAttribute("idModal", "modalUpdate");
 		List<LoaiXe> dslx = dslx();
@@ -654,7 +679,7 @@ public class QuanLyController {
 		return "QuanLy/loaixe";
 	}
 	
-	@RequestMapping(value = "/QL_LoaiXe/{malx}", params = "update", method = RequestMethod.POST)
+	@RequestMapping(value = "/loaixe/{malx}", params = "update", method = RequestMethod.POST)
 	public String LXupdate(@PathVariable("malx") String ma, @ModelAttribute("lx") LoaiXe lx, HttpServletRequest request) {
 		Session session = factory.openSession();
 		Transaction transaction = session.beginTransaction();
@@ -667,10 +692,10 @@ public class QuanLyController {
 		}finally {
 			session.close();
 		}
-		return "redirect: /CNPM/QuanLy/QL_LoaiXe.html";
+		return "redirect: /CNPM/quanly/loaixe.html";
 	}
 	
-	@RequestMapping(value = "/QL_LoaiXe/insert", method = RequestMethod.GET)
+	@RequestMapping(value = "/loaixe/insert", method = RequestMethod.GET)
 	public String LXInsert(ModelMap model) {
 		model.addAttribute("idModal", "modalCreate");
 		List<LoaiXe> dslx = dslx();
@@ -680,7 +705,7 @@ public class QuanLyController {
 		return "QuanLy/loaixe";
 	}
 	
-	@RequestMapping(value = "/QL_LoaiXe/insert", method = RequestMethod.POST)
+	@RequestMapping(value = "/loaixe/insert", method = RequestMethod.POST)
 	public String LXInsert(@ModelAttribute("lx") LoaiXe lx, HttpServletRequest request) {
 		Session session = factory.openSession();
 		Transaction transaction = session.beginTransaction();
@@ -693,19 +718,19 @@ public class QuanLyController {
 		}finally {
 			session.close();
 		}
-		return "redirect: /CNPM/QuanLy/QL_LoaiXe.html";
+		return "redirect: /CNPM/quanly/loaixe.html";
 	}
 	
-	@RequestMapping("/QL_BangGia")
+	@RequestMapping("/banggia")
 	public String BangGia(ModelMap model) {
 		List<BangGia> dsbg = dsbg();
 		model.addAttribute("dsbg",dsbg);
 		model.addAttribute("bg", new BangGia());
-		System.out.println(dsbg.get(0).getTuyen().getMaTuyen());
+		System.out.println(dsbg.get(0).getId());
 		return "QuanLy/banggia";
 	}
-	@RequestMapping(value = "/QL_BangGia/{id}", params = "update", method = RequestMethod.GET)
-	public String BangGiaupdate(ModelMap model, @PathVariable("id") BangGiaPK id) {
+	@RequestMapping(value = "/banggia/{tuyen}/{loaixe}", params = "update", method = RequestMethod.GET)
+	public String BangGiaupdate(ModelMap model, @PathVariable("tuyen") String tuyen,@PathVariable("loaixe") String loaixe) {
 		model.addAttribute("idModal", "modalUpdate");
 		List<BangGia> dsbg = dsbg();
 		model.addAttribute("dsbg",dsbg);
@@ -718,16 +743,18 @@ public class QuanLyController {
 		model.addAttribute("listtemp", tenXK);
 		model.addAttribute("dslx", dslx);
 		model.addAttribute("dstx", dstx);
-		BangGia bg = bgtheoid(id);
+		BangGia bg = bgtheoid(tuyen,loaixe);
 		model.addAttribute("bg", bg);
 		return "QuanLy/banggia";
 	}
 	
-	@RequestMapping(value = "/QL_BangGia/{id}", params = "update", method = RequestMethod.POST)
-	public String BangGiaupdate(@PathVariable("id") BangGiaPK id, @ModelAttribute("bg") BangGia bg, HttpServletRequest request) {
+	@RequestMapping(value = "/banggia/{tuyen}/{loaixe}", params = "update", method = RequestMethod.POST)
+	public String BangGiaupdate(@PathVariable("tuyen") String tuyen,@PathVariable("loaixe") String loaixe, HttpServletRequest request) {
 		Session session = factory.openSession();
 		Transaction transaction = session.beginTransaction();
 		try {
+			BangGia bg = bgtheoid(tuyen,loaixe);
+			bg.setGia(new BigDecimal(request.getParameter("gia")));
 			session.update(bg);
 			transaction.commit();
 		} catch (Exception e) {
@@ -736,33 +763,34 @@ public class QuanLyController {
 		}finally {
 			session.close();
 		}
-		return "redirect: /CNPM/QuanLy/QL_BangGia.html";
+		return "redirect: /CNPM/quanly/banggia.html";
 	}
 	
-	@RequestMapping(value = "/QL_BangGia/insert", method = RequestMethod.GET)
+	@RequestMapping(value = "/banggia/insert", method = RequestMethod.GET)
 	public String BangGiaInsert(ModelMap model) {
 		model.addAttribute("idModal", "modalCreate");
 		List<BangGia> dsbg = dsbg();
 		model.addAttribute("dsbg",dsbg);
 		List<LoaiXe> dslx = dslx();
 		List<TuyenXe> dstx = dstx();
-		Map<String, String> tenXK = new HashMap<>();
-		for(int i = 0;i<dstx.size();i++) {
-			tenXK.put(dstx.get(i).getMaTuyen(), dstx.get(i).getDiemDi().getDiaDiem() + " - " + dstx.get(i).getDiemDen().getDiaDiem());
-		}
-		model.addAttribute("listtemp", tenXK);
 		model.addAttribute("dslx", dslx);
 		model.addAttribute("dstx", dstx);
-		BangGia bg = new BangGia();
-		model.addAttribute("bg", bg);
 		return "QuanLy/banggia";
 	}
 	
-	@RequestMapping(value = "/QL_BangGia/insert", method = RequestMethod.POST)
-	public String BangGiaInsert(@ModelAttribute("bg") BangGia bg, HttpServletRequest request) {
+	@RequestMapping(value = "/banggia/insert", method = RequestMethod.POST)
+	public String BangGiaInsert( HttpServletRequest request) {
 		Session session = factory.openSession();
 		Transaction transaction = session.beginTransaction();
 		try {
+			BangGiaPK bgpk = new BangGiaPK();
+			bgpk.setLoaixe(request.getParameter("loaixe"));
+			bgpk.setTuyen(request.getParameter("tuyenxe"));
+			BangGia bg = new BangGia();
+			bg.setId(bgpk);
+			bg.setLoaixe(lxtheoid(request.getParameter("loaixe")));
+			bg.setTuyen(tuyentheoid(request.getParameter("tuyenxe")));
+			bg.setGia(new BigDecimal(request.getParameter("gia")));
 			session.save(bg);
 			transaction.commit();
 		} catch (Exception e) {
@@ -771,6 +799,93 @@ public class QuanLyController {
 		}finally {
 			session.close();
 		}
-		return "redirect: /CNPM/QuanLy/QL_BangGia.html";
+		return "redirect: /CNPM/quanly/banggia.html";
+	}
+	
+	@RequestMapping("/phieudat")
+	public String PhieuDat(ModelMap model) {
+		List<PhieuDat> ds = dspd(); 
+		model.addAttribute("dspd", ds);
+		model.addAttribute("pd", new PhieuDat());
+		return "QuanLy/phieudat";
+	}
+	
+	@RequestMapping(value = "/phieudat/{mapd}", params = "info")
+	public String PhieuDatInfo(ModelMap model, @PathVariable("mapd") String ma, @ModelAttribute("pd") PhieuDat pd) {
+		model.addAttribute("idModal", "modalShow");
+		List<PhieuDat> ds = dspd(); 
+		model.addAttribute("dspd", ds);
+		pd = phieudattheoma(ma);
+		List<VeXe> dsvx = vexetheomapd(ma);
+		model.addAttribute("pd", pd);
+		Map<Integer, String> vx = new HashMap<Integer, String>();
+		for(int i=0;i<dsvx.size();i++) {
+			int k = i +1;
+			vx.put(k, dsvx.get(i).getId().getSoGhe());
+		}
+		model.addAttribute("vx", vx);
+		return "QuanLy/phieudat";
+	}
+	
+	@RequestMapping(value = "/phieudat/{mapd}", params = "update", method = RequestMethod.GET)
+	public String PhieuDatupdate(ModelMap model, @PathVariable("mapd") String ma) {
+		model.addAttribute("idModal", "modalUpdate");
+		List<PhieuDat> ds = dspd(); 
+		model.addAttribute("dspd", ds);
+		PhieuDat pd = new PhieuDat();
+		pd = phieudattheoma(ma);
+		model.addAttribute("pd", pd);
+		return "QuanLy/phieudat";
+	}
+	
+	@RequestMapping(value = "/phieudat/{mapd}", params = "update", method = RequestMethod.POST)
+	public String PhieuDatupdate(@PathVariable("mapd") String ma, HttpServletRequest request) {
+		Session session = factory.openSession();
+		Transaction transaction = session.beginTransaction();
+		try {
+			PhieuDat pd = phieudattheoma(ma);
+			pd.setTrangThai(Integer.parseInt(request.getParameter("trangthai")));
+			session.update(pd);
+			transaction.commit();
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			transaction.rollback();
+		}finally {
+			session.close();
+		}
+		return "redirect: /CNPM/quanly/phieudat.html";
+	}
+	
+	@RequestMapping(value = "/phieudat/insert", method = RequestMethod.GET)
+	public String PhieuDatInsert(ModelMap model) {
+		model.addAttribute("idModal", "modalCreate");
+		List<PhieuDat> ds = dspd(); 
+		model.addAttribute("dspd", ds);
+		model.addAttribute("pd", new PhieuDat());
+		return "QuanLy/phieudat";
+	}
+	
+	@RequestMapping(value = "/phieudat/insert", method = RequestMethod.POST)
+	public String PhieuDatInsert( HttpServletRequest request) {
+		Session session = factory.openSession();
+		Transaction transaction = session.beginTransaction();
+		try {
+			BangGiaPK bgpk = new BangGiaPK();
+			bgpk.setLoaixe(request.getParameter("loaixe"));
+			bgpk.setTuyen(request.getParameter("tuyenxe"));
+			BangGia bg = new BangGia();
+			bg.setId(bgpk);
+			bg.setLoaixe(lxtheoid(request.getParameter("loaixe")));
+			bg.setTuyen(tuyentheoid(request.getParameter("tuyenxe")));
+			bg.setGia(new BigDecimal(request.getParameter("gia")));
+			session.save(bg);
+			transaction.commit();
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			transaction.rollback();
+		}finally {
+			session.close();
+		}
+		return "redirect: /CNPM/quanly/phieudat.html";
 	}
 }
