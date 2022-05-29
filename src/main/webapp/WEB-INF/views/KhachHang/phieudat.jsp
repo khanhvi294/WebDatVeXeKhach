@@ -123,7 +123,7 @@
 											</td>
 											<td>${pd.getChuyen().getGia()}</td>
 											<td>
-											<a href="hoadon/${pd.maPD }.html" >
+											<a href="phieudat/chitietphieudat/${pd.maPD }.html" >
 											<i class="fas fa-info-circle"></i></a> 
 											<a href="phieudat/huy/${pd.maPD }.html" ><i class="fas fa-ban"></i></a>
 											</td>

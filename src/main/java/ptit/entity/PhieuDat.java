@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,6 +16,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -28,7 +31,9 @@ public class PhieuDat {
 	private ChuyenXe chuyen;
 	@Column(name = "TrangThai")
 	private int trangThai;
-	@OneToMany(mappedBy = "pd", fetch = FetchType.LAZY)
+	
+	@Fetch(FetchMode.SUBSELECT)
+	@OneToMany(mappedBy = "pd", fetch = FetchType.EAGER)
 	private Collection<VeXe> vexe;
 	@ManyToOne
 	@JoinColumn(name = "MaKH")

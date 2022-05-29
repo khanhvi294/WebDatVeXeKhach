@@ -14,25 +14,6 @@
 	</div>
 	<%@include file="navbar.jsp"%>
 	<!-- ////////////////////////////////////////////////////////////// -->
-
-	<!-- //////////////////////////////// -->
-	<div class="wheel-start3">
-		<img src="images/bg7.jpg" alt="" class="wheel-img">
-		<div class="container">
-			<div class="row">
-				<div class="col-xs-12 padd-lr0">
-					<div
-						class="wheel-start3-body clearfix marg-lg-t255 marg-lg-b75 marg-sm-t190 marg-xs-b30">
-						<h3>Đặt vé</h3>
-						<ol class="breadcrumb">
-							<li><a href="index.html">Trang chủ</a></li>
-							<li class="active">Đặt vé</li>
-						</ol>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 	<!-- /////////////////////////////////// -->
 	<div class="step-wrap">
 		<!-- ////////////////////////////////////////// -->
@@ -40,25 +21,30 @@
 			<div class="row">
 				<div class="col-xs-12 padd-lr0">
 					<ul class="steps">
-						<li class="title-wrap ">
+						<li class="title-wrap">
 							<div class="title">
-								<span>1.</span>Chọn tuyến
-							</div>
-						</li>
-						<li class="title-wrap  ">
-							<div class="title">
-								<span>2.</span>Xác nhận lộ trình
+								<span>1.</span>Tìm chuyến
 							</div>
 						</li>
 						<li class="title-wrap ">
 							<div class="title">
-								<span>3.</span>Thông tin khách hàng
+								<span>2.</span>Chọn chuyến
 							</div>
 						</li>
-						<li class="title-wrap active ">
+						<li class="title-wrap ">
 							<div class="title">
-								<span>4.</span>Thanh toán
+								<span>3.</span>Chọn ghế
 							</div>
+						</li>
+						<li class="title-wrap ">
+							<div class="title">
+								<span>4.</span>Thông tin khách hàng
+							</div>
+						</li>
+						<li class="title-wrap active">
+							<div class="title">
+								<span>5.</span>Thanh toán
+							</div> 
 						</li>
 					</ul>
 				</div>

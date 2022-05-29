@@ -15,53 +15,42 @@
         </div>
         <%@include file="navbar.jsp"%>
         <!-- //////////////////////////////// -->
-        <div class="wheel-start3">
-            <img src="resources/KhachHang/images/bg7.jpg" alt="" class="wheel-img">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-12 padd-lr0">
-                        <div class="wheel-start3-body clearfix marg-lg-t255 marg-lg-b75 marg-sm-t190 marg-xs-b30">
-                            <h3>Checkout</h3>
-                            <ol class="breadcrumb">
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#"> pages </a></li>
-                                <li class="active">Checkout</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+      
         <div class="step-wrap">
             <!-- ////////////////////////////////////////// -->
             <div class="container padd-lr0">
-                <div class="row">
-                    <div class="col-xs-12 padd-lr0">
-                        <ul class="steps">
-                            <li class="title-wrap ">
-                                <div class="title">
-                                    <span>1.</span>Chọn tuyến
-                                </div>
-                            </li>
-                            <li class="title-wrap ">
-                                <div class="title">
-                                    <span>2.</span>Xác nhận lộ trình
-                                </div>
-                            </li>
-                            <li class="title-wrap active">
-                                <div class="title">
-                                    <span>3.</span>Thông tin khách hàng
-                                </div>
-                            </li>
-                            <li class="title-wrap ">
-                                <div class="title">
-                                    <span>4.</span>Thanh toán
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+			<div class="row">
+				<div class="col-xs-12 padd-lr0">
+					<ul class="steps">
+						<li class="title-wrap">
+							<div class="title">
+								<span>1.</span>Tìm chuyến
+							</div>
+						</li>
+						<li class="title-wrap ">
+							<div class="title">
+								<span>2.</span>Chọn chuyến
+							</div>
+						</li>
+						<li class="title-wrap">
+							<div class="title">
+								<span>3.</span>Chọn ghế
+							</div>
+						</li>
+						<li class="title-wrap active">
+							<div class="title">
+								<span>4.</span>Thông tin khách hàng
+							</div>
+						</li>
+						<li class="title-wrap ">
+							<div class="title">
+								<span>5.</span>Thanh toán
+							</div> 
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
             <!-- ////////////////////////////////////////// -->
         </div>
         <!-- /////////////////////////////////// -->
@@ -114,25 +103,6 @@
          </form:form>
         </div>
         <!-- .wheel-billing -->
-        <!-- /////////////////////////////// -->
-        <div class="wheel-subscribe wheel-bg2">
-            <div class="container ">
-                <div class="row">
-                    <div class="col-md-6 padd-lr0">
-                        <div class="wheel-header">
-                            <h5>Đăng kí để nhận tin</h5>
-                            <h3>Đăng kí ngay và bạn sẽ được nhận mã giảm giá<span> 20% </span></h3>
-                        </div>
-                    </div>
-                    <div class="col-md-6 padd-lr0">
-                        <form action="#">
-                            <input type="text" placeholder="Địa chỉ gmail của bạn ">
-                            <a href="register.html" class="wheel-cheader-but" target="_blank">Đăng kí ngay</a>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
         <!-- FOOTER -->
         <!-- ///////////////// -->
         <footer class="wheel-footer">

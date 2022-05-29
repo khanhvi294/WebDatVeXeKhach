@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package ptit.entity;
 import java.sql.Time;
 import java.util.Collection;
@@ -19,11 +17,6 @@ import javax.persistence.TemporalType;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-
-/**
- * @author Kiritsugu
- *
- */
 @Entity
 @Table(name = "CHUYENXE")
 public class ChuyenXe {
