@@ -236,7 +236,7 @@
 				</div>
 				<div class="modal-body modal-add">
 					<!-- Profile Edit Form -->
-					<form:form action="QuanLy/QL_ChuyenXe/insert.html" method="post"
+					<form:form action="quanly/chuyenxe/insert.html" method="post"
 						modelAttribute="chuyenxe">
 						<div class="row mb-3">
 							<label for="machuyen"
