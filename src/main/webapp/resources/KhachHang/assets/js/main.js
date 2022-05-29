@@ -179,7 +179,7 @@
   }
 
   /**button */
-  <button onclick="window.location.href='index.html'">Continue</button>
+ /* <button onclick="window.location.href='index.html'">Continue</button>*/
   
   
 

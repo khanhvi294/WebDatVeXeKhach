@@ -12,23 +12,7 @@
             </div>
         </div>
          <%@include file="navbar.jsp"%>
-        <!-- ////////////////////////////////////////////////////////////// -->
-        <div class="wheel-start3">
-            <img src="resources/KhachHang/images/bg7.jpg" alt="" class="wheel-img">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-12 padd-lr0">
-                        <div class="wheel-start3-body clearfix marg-lg-t255 marg-lg-b75 marg-sm-t190 marg-xs-b30">
-                            <h3>Về chúng tôi</h3>
-                            <ol class="breadcrumb">
-                                <li><a href="index-2.html">Trang chủ</a></li>
-                                <li class="about.html">Về chúng tôi</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+       
         <!-- /////////////////////////////////////////////////// -->
         <div class="container padd-lr0">
             <div class="row">

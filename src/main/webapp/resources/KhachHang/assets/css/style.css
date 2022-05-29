@@ -4,8 +4,6 @@
   box-sizing: border-box;
 }
 
-
-
 .car-containers {
   margin: 20px 400px;
 }
@@ -31,7 +29,7 @@
 }
 
 .seat {
-  background-color: #c3c3c383;
+  background-color: #75c364;
   height: 26px;
   width: 35px;
   margin: 10px;
@@ -67,7 +65,7 @@
   transform: scale(1.2);
 }
 .seats {
-  background-color: #444451;
+  background-color: #75c364;
   height: 26px;
   width: 32px;
   margin: 10px;
@@ -78,11 +76,11 @@
 }
 
 .seats.selected {
-  background-color: green;
+  background-color: rgb(57, 205, 228);
 }
 
 .seats.sold {
-  background-color: #fff;
+  background-color: #848080;
 }
 
 .seats:nth-of-type(1) {
@@ -138,7 +136,7 @@
 }
 
 .screen {
-  background-color: #ff7043;
+  background-color: rgba(0, 0, 0, 0.1);
   height: 400px;
   width: 70%;
   margin: 15px 170px;
@@ -284,5 +282,54 @@ input#\31 A {
   width: 0;
 }
 
+/*vi  */
+label.fa.fa-calendar::after{
+	display:none;
+}
+.bia {
+	    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.steps .title {
+    min-width: 200px;
+}
+.prosuct-wrap {
+	padding: 0;
+}
+.step-progress{  
+	background-color: #dfdfdf;
+    border-radius: 8px;
+    padding: 0px;
+    width: 73% !important;
+    color: #000 !important;
+    font-size: 17px !important;
+    padding-left: 16px;
+}
+.step-progress i{
+	 font-size: 11px;
+    color: #6f6d6d;
+}
+.step-progress p {
+	font-weight: 500;
+	margin: 0;
+	padding-right: 2px; 
+}
 
-
+.choose-cx {
+	width: 22px;
+    height: 22px;
+}
+ .steps .title {
+    min-width: 168px;
+}
+.step-wrap{
+	/* background-color: #eceff1; */
+	padding: 102px 0 118px;
+}
+.screen input[type="checkbox"]:disabled +label {
+  background: #848080;
+   transform: none;
+  cursor: not-allowed;
+}

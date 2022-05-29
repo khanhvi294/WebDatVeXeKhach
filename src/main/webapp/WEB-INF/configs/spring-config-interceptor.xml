@@ -29,6 +29,7 @@
 		 <mvc:interceptor>
 			<mvc:mapping path="/chonghe.html"/>
 			<mvc:mapping path="/thongtincanhan.html"/>
+			<mvc:mapping path="/phieudat/**"/>
 			<mvc:mapping path="/phieudat.html"/>
 			<mvc:mapping path="/dienthongtin.html"/>
 			<mvc:mapping path="/hoadon.html"/>
