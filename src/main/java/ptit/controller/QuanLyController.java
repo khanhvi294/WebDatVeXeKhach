@@ -279,6 +279,7 @@ public class QuanLyController {
 		model.addAttribute("chuyenxe", chuyen);
 		return "QuanLy/chuyenxe";
 	}
+
 //	public ChuyenXe CheckChuyenXe(String ma) {
 //		Session session = factory.getCurrentSession();
 //		String hql = "from ChuyenXe where maChuyen = '" + ma + "'";
@@ -302,6 +303,7 @@ public class QuanLyController {
 //		
 //		return list.get(a);
 //	}
+
 	
 	
 	@RequestMapping(value = "/chuyenxe/{machuyen}", params = "update", method = RequestMethod.POST)

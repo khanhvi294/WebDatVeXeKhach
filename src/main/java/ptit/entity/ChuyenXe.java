@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package ptit.entity;
 import java.math.BigDecimal;
 import java.sql.Time;
@@ -20,11 +18,6 @@ import javax.persistence.TemporalType;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-
-/**
- * @author Kiritsugu
- *
- */
 @Entity
 @Table(name = "CHUYENXE")
 public class ChuyenXe {

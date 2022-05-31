@@ -22,8 +22,11 @@
         <link rel="stylesheet" href="resources/KhachHang/assets/css/style.css" />
             <!--     <link rel="stylesheet" href="resources/KhachHang/assets/css/style1.css" /> -->
          <link rel="stylesheet" type="text/css" href="resources/KhachHang/assets/css/custom-v.css">
+         <link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <!--[if lt IE 9]>
         <script src="assets/js/html5shiv.min.js"></script>
         <script src="assets/js/respond.min.js"></script>
+        
         <![endif]-->
     </head>

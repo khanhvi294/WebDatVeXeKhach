@@ -5,6 +5,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import ptit.entity.NhanVien;
+import ptit.entity.TaiKhoan;
+
 public class QuanLyInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -14,10 +17,10 @@ public class QuanLyInterceptor extends HandlerInterceptorAdapter {
 			response.sendRedirect(request.getContextPath() + "TaiKhoan/dangnhap.html");
 			return false;
 		}else {
-			String vaitro = (String) session.getAttribute("vaitro");
-			if(vaitro != null) {
+			NhanVien quanly = (NhanVien) session.getAttribute("user");
+			if(quanly != null) {
 				
-				if(!vaitro.trim().equals("QL")) {
+				if(!quanly.getTknv().getVaiTro().getMaVT().trim().equals("QL")) {
 					response.sendRedirect(request.getContextPath() + "/403.html");
 					return false;
 				}

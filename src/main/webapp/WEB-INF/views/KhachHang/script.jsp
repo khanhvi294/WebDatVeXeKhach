@@ -15,4 +15,4 @@
         <script type="text/javascript" src="resources/KhachHang/assets/js/main.js"></script>
                 <script type="text/javascript" src="resources/KhachHang/assets/js/script.js"></script>
              
-        <!-- sixth block end>
+     
