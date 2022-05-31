@@ -279,13 +279,14 @@ public class QuanLyController {
 		model.addAttribute("chuyenxe", chuyen);
 		return "QuanLy/chuyenxe";
 	}
-	public ChuyenXe CheckChuyenXe(String ma) {
-		Session session = factory.getCurrentSession();
-		String hql = "from ChuyenXe where maChuyen = '" + ma + "'";
-		Query query = session.createQuery(hql);
-		List<ChuyenXe> list = query.list();
-		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
-		Date d1 = null;
+
+
+	@RequestMapping(value = "/chuyenxe/{machuyen}", params = "update", method = RequestMethod.POST)
+	public String ChuyenXeUpdate(ModelMap model, @PathVariable("machuyen") String ma,HttpServletRequest request) {
+		Session session = factory.openSession();
+
+		Transaction transaction = session.beginTransaction();
+    
 		try {
 			d1 = sdf.parse("00:00");
 		} catch (ParseException e) {

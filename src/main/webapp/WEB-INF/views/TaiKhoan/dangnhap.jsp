@@ -14,28 +14,13 @@
         </div>
    <%@include file="../KhachHang/navbar.jsp"%>
         <!-- /////////////////////////////// -->
-        <div class="wheel-start3">
-            <img src="resources/KhachHang/images/bg7.jpg" alt="" class="wheel-img">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-12 padd-lr0">
-                        <div class="wheel-start3-body clearfix marg-lg-t255 marg-lg-b75 marg-sm-t190 marg-xs-b30">
-                            <h3>Đăng nhập</h3>
-                            <ol class="breadcrumb">
-                                <li><a href="index.html">Trang chủ</a></li>
-                                <li class="active">Đăng nhập</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+  
         <!-- /////////////////////////////////// -->
           ${message}
         <div class="wheel-register-block">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6 ">
+                    <div class="col-md-6 " style="float:right">
                         <div class="wheel-register-log marg-lg-t150 marg-lg-b150 marg-sm-t100 marg-sm-b100">
                             <div class="wheel-header">
                                 <h5>Đăng Nhập</h5>
@@ -45,9 +30,9 @@
                                 <form:input path="userName" id="userName" placeholder='Tên đăng nhập / Email'/></label>
                                 <label for="userPass" class="fa fa-lock">
                                 <form:input type="password" path="matKhau" id="userPass" placeholder='Mật khẩu'/></label>
-                                <button type="submit" class="wheel-btn">Đăng nhập ngay</button>
+                                <button type="submit" class="wheel-btn">Đăng nhập</button>
                                 <label class="password-sing clearfix" for="input-val2">
-                                    <input type='checkbox' id='input-val2'> <span>Nhớ mật khẩu</span>
+                                   <!--  <input type='checkbox' id='input-val2'> <span>Nhớ mật khẩu</span> -->
                                     <a href="forgot.html">Quên mật khẩu</a>
                                 </label>
                             </form:form>

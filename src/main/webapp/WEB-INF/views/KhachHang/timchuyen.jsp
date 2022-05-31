@@ -16,23 +16,7 @@
 	</div>
 	<%@include file="navbar.jsp"%>
 	<!-- //////////////////////////////// -->
-	<div class="wheel-start3">
-		<img src="resources/KhachHang/images/bg7.jpg" alt="" class="wheel-img">
-		<div class="container">
-			<div class="row">
-				<div class="col-xs-12 padd-lr0">
-					<div
-						class="wheel-start3-body clearfix marg-lg-t255 marg-lg-b75 marg-sm-t190 marg-xs-b30">
-						<h3>Đặt vé</h3>
-						<ol class="breadcrumb">
-							<li><a href="index.html">Trang chủ</a></li>
-							<li class="active">Đặt vé</li>
-						</ol>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	
 	<!-- /////////////////////////////////// -->
 	<div class="step-wrap">
 		<!-- ////////////////////////////////////////// -->
@@ -42,22 +26,27 @@
 					<ul class="steps">
 						<li class="title-wrap active">
 							<div class="title">
-								<span>1.</span>Chọn tuyến
+								<span>1.</span>Tìm chuyến
 							</div>
 						</li>
 						<li class="title-wrap ">
 							<div class="title">
-								<span>2.</span>Xác nhận lộ trình
+								<span>2.</span>Chọn chuyến
 							</div>
 						</li>
 						<li class="title-wrap ">
 							<div class="title">
-								<span>3.</span>Thông tin khách hàng
+								<span>3.</span>Chọn ghế
 							</div>
 						</li>
 						<li class="title-wrap ">
 							<div class="title">
-								<span>4.</span>Thanh toán
+								<span>4.</span>Thông tin khách hàng
+							</div>
+						</li>
+						<li class="title-wrap ">
+							<div class="title">
+								<span>5.</span>Thanh toán
 							</div> 
 						</li>
 					</ul>
@@ -95,14 +84,15 @@
 								</div>
 								<div class="wheel-date ">
 									<span>Ngày đi</span> <label class="fa fa-calendar"
-										for="input-val22"> <form:input path="ngKH"
-											class="" type="date" id="input-val22"
-											value="29 Apr" />
+										for="inputval22"> <form:input path="ngKH"
+											class="" type="date" id="inputval22"
+											value="" />
+											
 									</label>
 								</div>
 
 					
-								<button type="submit" class="wheel-btn" id='input-val27'>Tìm
+								<button type="submit" class="wheel-btn" id='input-val27' style="line-height: 59px;">Tìm
 									kiếm</button>
 							</div>
 						</div>
@@ -113,27 +103,7 @@
 		</div>
 	</div>
 	<!-- ////////////////////////////////////////// -->
-	<div class="wheel-subscribe wheel-bg2">
-		<div class="container ">
-			<div class="row">
-				<div class="col-md-6 padd-lr0">
-					<div class="wheel-header">
-						<h5>Đăng kí để nhận tin</h5>
-						<h3>
-							Đăng kí ngay và bạn sẽ được nhận mã giảm giá<span> 20% </span>
-						</h3>
-					</div>
-				</div>
-				<div class="col-md-6 padd-lr0">
-					<form action="#">
-						<input type="text" placeholder="Địa chỉ gmail của bạn "> <a
-							href="register.html" class="wheel-cheader-but" target="_blank">Đăng
-							kí ngay</a>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
+
 	<!-- FOOTER -->
 	<!-- ///////////////// -->
 	<footer class="wheel-footer">
@@ -252,8 +222,24 @@
 			</div>
 		</div>
 	</div>
+	<script >
+	$(document).ready( function() {
+	    var now = new Date();
+	    var month = (now.getMonth() + 1);               
+	    var day = now.getDate();
+	    if (month < 10) 
+	        month = "0" + month;
+	    if (day < 10) 
+	        day = "0" + day;
+	    var today = now.getFullYear() + '-' + month + '-' + day;
+	    $('#inputval22').val(today);
+	});
+	/*nhớ mở
+	inputval22.min = new Date().toISOString().split("T")[0]; */
+	</script>
 	<!-- Scripts project -->
 	<%@include file="script.jsp"%>
+	
 
 	<!-- sixth block end -->
 </body>
