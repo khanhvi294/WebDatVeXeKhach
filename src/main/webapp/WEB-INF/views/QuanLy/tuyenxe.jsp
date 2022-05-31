@@ -40,6 +40,7 @@
 									<th scope="col">Mã Tuyến</th>
 									<th scope="col">Điểm đi</th>
 									<th scope="col">Điểm đến</th>
+									<th scope="col">Thời Gian Chạy Tuyến</th>
 									<th scope="col">Trạng Thái</th>
 									<th scope="col" class="text-center">Option</th>
 								</tr>
@@ -50,6 +51,7 @@
 										<th scope="row">${u.maTuyen }</th>
 										<td>${u.diemDi.diaDiem}</td>
 										<td>${u.diemDen.diaDiem}</td>
+										<td>${u.tgchay}</td>
 										<td><c:choose>
 												<c:when test="${u.trangThai eq false}">
 													<span class="badge rounded-pill bg-danger v-bg-tt">Không
@@ -116,7 +118,14 @@
 									class="form-control v-form-control" id="matuyen" readonly="true" value = "${tuyen.diemDen.diaDiem }"/>
 							</div>
 						</div>
-
+						<div class="row mb-3">
+							<label for="machuyen"
+								class="col-md-4 col-lg-3 col-form-label v-label">Thời gian chạy tuyến</label>
+							<div class="col-md-8 col-lg-9">
+								<input name="tgchay" type="time"
+									class="form-control v-form-control" id="matuyen" value = "${tuyen.tgchay }"/>
+							</div>
+						</div>
 						<div class="row mb-3">
 							<label class="col-md-4 col-lg-3 col-form-label v-label">Trạng
 								thái</label>
@@ -154,7 +163,7 @@
 				</div>
 				<div class="modal-body modal-add">
 					<!-- Profile Edit Form -->
-					<form:form method = "post" modelAttribute = "tuyen">
+					<form:form action = "/quanly/trangcanhan/update.html" modelAttribute = "tuyen">
 						<div class="row mb-3">
 							<label for="machuyen"
 								class="col-md-4 col-lg-3 col-form-label v-label">Mã
@@ -162,6 +171,7 @@
 							<div class="col-md-8 col-lg-9">
 								<form:input path="maTuyen" type="text"
 									class="form-control v-form-control" id="matuyen" />
+								<form:errors style = "color:red" path="maTuyen"/>
 							</div>
 						</div>
 
@@ -184,7 +194,14 @@
 								</form:select>
 							</div>
 						</div>
-
+						<div class="row mb-3">
+							<label for="machuyen"
+								class="col-md-4 col-lg-3 col-form-label v-label">Thời gian chạy tuyến</label>
+							<div class="col-md-8 col-lg-9">
+								<input type="time" class="form-control v-form-control"
+									name="tgchay" />
+							</div>
+						</div>
 						<div class="row mb-3">
 							<label class="col-md-4 col-lg-3 col-form-label v-label">Trạng
 								thái</label>
@@ -196,7 +213,6 @@
 								</form:select>
 							</div>
 						</div>
-
 						<div class="text-center">
 							<button type="submit"
 								class="btn btn-primary btn-main-color border-0 mt-3">Lưu</button>

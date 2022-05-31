@@ -1,5 +1,6 @@
 package ptit.entity;
 
+import java.sql.Time;
 import java.util.Collection;
 
 import javax.persistence.Column;
@@ -25,6 +26,8 @@ public class TuyenXe {
 	private DiaDiem diemDen;
 	@Column(name = "TrangThai")
 	private boolean trangThai;
+	@Column(name = "tgchaytuyen")
+	private Time tgchay;
 	@OneToMany(mappedBy = "tuyen", fetch = FetchType.EAGER)
 	private Collection<ChuyenXe> chuyen;
 	@OneToMany(mappedBy = "tuyen", fetch = FetchType.EAGER)
@@ -65,5 +68,10 @@ public class TuyenXe {
 	public void setBanggia(Collection<BangGia> banggia) {
 		this.banggia = banggia;
 	}
-	
+	public Time getTgchay() {
+		return tgchay;
+	}
+	public void setTgchay(Time tgchay) {
+		this.tgchay = tgchay;
+	}
 }

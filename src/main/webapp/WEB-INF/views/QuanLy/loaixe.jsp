@@ -82,6 +82,7 @@
                             <label class="col-md-4 col-lg-3 col-form-label v-label">Số chỗ</label>
                             <div class="col-md-8 col-lg-9">
                                 <form:input path="seat" type="text" class="form-control v-form-control" id="smadd" />
+                                <form:errors style = "color:red" path="seat"/>
                             </div>
                         </div>
 
@@ -111,6 +112,7 @@
                             <label for="machuyen" class="col-md-4 col-lg-3 col-form-label v-label">Mã loại xe</label>
                             <div class="col-md-8 col-lg-9">
                                 <form:input path="maLX" type="text" class="form-control v-form-control" id="madd" />
+                                <form:errors style = "color:red" path="maLX"/>
                             </div>
                         </div>
 
@@ -118,6 +120,7 @@
                             <label for="inputDate" class="col-md-4 col-lg-3 col-form-label v-label">Loại xe </label>
                             <div class="col-md-8 col-lg-9">
                                 <form:input path="tenLX" type="text" class="form-control v-form-control" id="diadiem" />
+                                <form:errors style = "color:red" path="tenLX"/>
                             </div>
                         </div>
 
@@ -125,6 +128,7 @@
                             <label class="col-md-4 col-lg-3 col-form-label v-label">Số chỗ</label>
                             <div class="col-md-8 col-lg-9">
                                 <form:input path="seat" type="text" class="form-control v-form-control" id="smadd" />
+                                <form:errors style = "color:red" path="seat"/>
                             </div>
                         </div>
 

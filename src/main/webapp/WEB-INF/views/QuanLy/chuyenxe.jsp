@@ -55,10 +55,13 @@
 											</c:choose></td>
 										<td><span><a
 												href="/CNPM/quanly/chuyenxe/${u.maChuyen}.html?info">
-													<i class="bi bi-info-circle-fill v-icon-modal"></i>
-											</a> <a href="/CNPM/quanly/chuyenxe/${u.maChuyen}.html?update"><i
+													<i class="bi bi-info-circle-fill v-icon-modal"></i></a>
+													
+											<c:if test = "${u.trangthai eq false}">
+	         									<a href="/CNPM/quanly/chuyenxe/${u.maChuyen}.html?update"><i
 													class="bi bi-pencil-square v-icon-modal"
 													data-bs-toggle="modal" data-bs-target="#ProfileEditModal"></i></a>
+	     									</c:if>
 										</span></td>
 									</tr>
 								</c:forEach>
@@ -210,7 +213,18 @@
 								</select> 
 							</div>
 						</div>
-
+						
+						<div class="row mb-3">
+							<label class="col-md-4 col-lg-3 col-form-label v-label">Trạng Thái</label>
+							<div class="col-md-8 col-lg-9">
+								<select class="form-select v-form-control"
+									aria-label=" select example" name="trangthai">
+										<option value="false">Chưa Khởi Hành</option>
+										<option value="true">Đã Khởi Hành</option>
+								</select> </select>
+							</div>
+						</div>
+						<label class="col-md-4 col-lg-3 col-form-label v-label">${message}</label>
 						<div class="text-center">
 							<button type="submit"
 								class="btn btn-primary btn-main-color border-0">Lưu</button>
@@ -264,6 +278,7 @@
 							<div class="col-md-3">
 								<input type="date" class="form-control v-form-control"
 									name="ngKH" />
+								<form:errors style = "color:red" path="ngKH"/>
 							</div>
 
 							<label for="inputTime" class="col-md-3 col-form-label v-label">Thời
@@ -271,6 +286,7 @@
 							<div class="col-md-3">
 								<input type="time" class="form-control v-form-control"
 									name="thoigian" />
+								<form:errors style = "color:red" path="tgKh"/>
 							</div>
 						</div>
 
@@ -284,7 +300,6 @@
 								</form:select>
 							</div>
 						</div>
-
 						<div class="text-center">
 							<button type="submit"
 								class="btn  btn-primary btn-main-color border-0">Lưu</button>

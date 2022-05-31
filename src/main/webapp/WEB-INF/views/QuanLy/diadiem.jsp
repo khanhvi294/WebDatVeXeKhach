@@ -73,6 +73,7 @@
                             <label for="inputDate" class="col-md-4 col-lg-3 col-form-label v-label">Địa điểm </label>
                             <div class="col-md-8 col-lg-9">
                                 <form:input path="diaDiem" type="text" class="form-control v-form-control" id="sdiadiem" />
+                                <form:errors style = "color:red" path="diaDiem"/>
                             </div>
                         </div>
                         <div class="text-center">
@@ -101,6 +102,7 @@
                             <label for="machuyen" class="col-md-4 col-lg-3 col-form-label v-label">Mã địa điểm</label>
                             <div class="col-md-8 col-lg-9">
                                 <form:input path="maDD" type="text" class="form-control v-form-control" id="madd" />
+                                <form:errors style = "color:red" path="maDD"/>
                             </div>
                         </div>
 
@@ -108,6 +110,7 @@
                             <label for="inputDate" class="col-md-4 col-lg-3 col-form-label v-label">Địa điểm </label>
                             <div class="col-md-8 col-lg-9">
                                 <form:input path="diaDiem" type="text" class="form-control v-form-control" id="diadiem" />
+                                <form:errors style = "color:red" path="diaDiem"/>
                             </div>
                         </div>
 

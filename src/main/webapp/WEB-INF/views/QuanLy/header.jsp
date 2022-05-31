@@ -36,7 +36,7 @@
 					</li>
 
 					<li><a class="dropdown-item d-flex align-items-center"
-						href="QL_TrangCaNhan.html"> <i class="bi bi-person"></i> <span>Tài
+						href="quanly/trangcanhan.html"> <i class="bi bi-person"></i> <span>Tài
 								khoản của tôi</span>
 					</a></li>
 
