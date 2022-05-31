@@ -234,6 +234,7 @@
 								<input name="honv" type="text"
 									class="form-control v-form-control" id="company"
 									value="${nv.hoNV }">
+								<form:errors style = "color:red" path="hoNV"/>
 							</div>
 
 							<label for="Job" class="col-md-1 col-form-label v-label">Tên</label>
@@ -241,6 +242,7 @@
 								<input name="tennv" type="text"
 									class="form-control  v-form-control" id="Job"
 									value="${nv.tenNV }">
+								<form:errors style = "color:red" path="tenNV"/>
 							</div>
 						</div>
 
@@ -258,6 +260,7 @@
 							<div class="col-md-8 col-lg-9">
 								<input name="cccd" type="text"
 									class="form-control v-form-control" id="Country" value="${nv.cccd }">
+								<form:errors style = "color:red" path="cccd"/>
 							</div>
 						</div>
 
@@ -268,6 +271,7 @@
 								<input name="sdt" type="text"
 									class="form-control v-form-control" id="Address"
 									value="${nv.sdt }">
+									<form:errors style = "color:red" path="sdt"/>
 							</div>
 						</div>
 
@@ -278,6 +282,7 @@
 							<div class="col-md-8 col-lg-9">
 								<input type="date" class="form-control v-form-control"
 									name="ngSinh" value="${nv.ngaySinh }" />
+									
 							</div>
 						</div>
 
@@ -361,6 +366,7 @@
 							<form:input path="hoNV" type="text"
 								class="form-control v-form-control" id="company"
 								value=""/>
+							<form:errors style = "color:red" path="hoNV"/>
 						</div>
 
 						<label for="Job" class="col-md-1 col-form-label v-label">Tên</label>
@@ -368,6 +374,7 @@
 							<form:input path="tenNV" type="text"
 								class="form-control  v-form-control" id="Job"
 								value=""/>
+								<form:errors style = "color:red" path="tenNV"/>
 						</div>
 					</div>
 
@@ -378,6 +385,7 @@
 							<input name="username" type="text"
 								class="form-control v-form-control" id="Twitter"
 								value=""/>
+								<form:errors style = "color:red" path="maNV"/>
 						</div>
 					</div>
 
@@ -386,6 +394,7 @@
 							class="col-md-4 col-lg-3 col-form-label v-label">Email</label>
 						<div class="col-md-8 col-lg-9">
 							<input name="email" type="email" class="form-control v-form-control">
+							<form:errors style = "color:red" path="phai"/>
 						</div>
 					</div>
 
@@ -396,6 +405,7 @@
 						<div class="col-md-8 col-lg-9">
 							<form:input path="cccd" type="text"
 								class="form-control v-form-control" id="Country" value=""/>
+									<form:errors style = "color:red" path="cccd"/>
 						</div>
 					</div>
 
@@ -406,6 +416,7 @@
 							<form:input path="sdt" type="text"
 								class="form-control v-form-control" id="Address"
 								value=""/>
+								<form:errors style = "color:red" path="sdt"/>
 						</div>
 					</div>
 
@@ -416,6 +427,7 @@
 						<div class="col-md-8 col-lg-9">
 							<input type="date" class="form-control v-form-control"
 									name="ngaysinh" value="" />
+									<form:errors style = "color:red" path="ngaySinh"/>
 						</div>
 					</div>
 

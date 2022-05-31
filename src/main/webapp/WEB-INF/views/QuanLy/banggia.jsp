@@ -85,6 +85,7 @@
                             <label class="col-md-4 col-lg-3 col-form-label v-label">Giá</label>
                             <div class="col-md-8 col-lg-9">
                                 <input name="gia" type="text" class="form-control v-form-control" value = "${bg.gia }" />
+                                 <span style = "color:red">${message }</span>
                             </div>
                         </div>
 
@@ -139,9 +140,10 @@
                             <label class="col-md-4 col-lg-3 col-form-label v-label">Giá</label>
                             <div class="col-md-8 col-lg-9">
                                <input name="gia" type="text" class="form-control v-form-control" id="diadiem" />
+                               <span style = "color:red">${message }</span>
                             </div>
                         </div>
-
+						
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary btn-main-color border-0 mt-3">Lưu</button>
                         </div>
