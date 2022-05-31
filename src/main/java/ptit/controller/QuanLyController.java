@@ -279,29 +279,29 @@ public class QuanLyController {
 		model.addAttribute("chuyenxe", chuyen);
 		return "QuanLy/chuyenxe";
 	}
-	public ChuyenXe CheckChuyenXe(String ma) {
-		Session session = factory.getCurrentSession();
-		String hql = "from ChuyenXe where maChuyen = '" + ma + "'";
-		Query query = session.createQuery(hql);
-		List<ChuyenXe> list = query.list();
-		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
-		Date d1 = null;
-		try {
-			d1 = sdf.parse("00:00");
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Time t1 = new Time(d1.getTime()); int a=0;
-		for(int i=0;i<list.size();i++) {
-			if(list.get(i).getTgKh().compareTo(t1)>=0) {
-				t1 = list.get(i).getTgKh();
-				a = i;
-			}
-		}
-		
-		return list.get(a);
-	}
+//	public ChuyenXe CheckChuyenXe(String ma) {
+//		Session session = factory.getCurrentSession();
+//		String hql = "from ChuyenXe where maChuyen = '" + ma + "'";
+//		Query query = session.createQuery(hql);
+//		List<ChuyenXe> list = query.list();
+//		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
+//		Date d1 = null;
+//		try {
+//			d1 = sdf.parse("00:00");
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		Time t1 = new Time(d1.getTime()); int a=0;
+//		for(int i=0;i<list.size();i++) {
+//			if(list.get(i).getTgKh().compareTo(t1)>=0) {
+//				t1 = list.get(i).getTgKh();
+//				a = i;
+//			}
+//		}
+//		
+//		return list.get(a);
+//	}
 	
 	
 	@RequestMapping(value = "/chuyenxe/{machuyen}", params = "update", method = RequestMethod.POST)
@@ -313,18 +313,18 @@ public class QuanLyController {
 //		Time t2 = new Time(d2.getTime());
 //		
 //		ChuyenXe chuyen =xetheoid(ma);
-//		if(request.getParameter("ngKH") == "") {
-//			errors.rejectValue("ngKH", "chuyen", "Ngày Tháng Không Được Để Trống");
-//		}
-//		if(request.getParameter("thoigian") == "") {
-//			errors.rejectValue("tgKh", "chuyen", "Thời Gian Không Được Để Trống");
-//		}
+		if(request.getParameter("ngKH") == "") {
+			errors.rejectValue("ngKH", "chuyen", "Ngày Tháng Không Được Để Trống");
+		}
+		if(request.getParameter("thoigian") == "") {
+			errors.rejectValue("tgKh", "chuyen", "Thời Gian Không Được Để Trống");
+		}
 //		if(chuyen.get.equals(CheckChuyenXe(ma).getTuyen().getDiemDen().getMaDD()) ) {
 //			
 //		}
 //		if(t1.compareTo(CheckChuyenXe(ma).getTgKh() + CheckChuyenXe(ma).getTuyen().getTgchay() + t2)<0)
 		if(errors.hasErrors()) {
-			chuyen = xetheoid(ma);
+			ChuyenXe chuyen = xetheoid(ma);
 			model.addAttribute("idModal", "modalUpdate");
 			List<ChuyenXe> listcx = dscx();
 			model.addAttribute("list", listcx);
@@ -350,7 +350,7 @@ public class QuanLyController {
 			Session session = factory.openSession();
 			Transaction transaction = session.beginTransaction();
 			try {
-				chuyen = xetheoid(ma);
+				ChuyenXe chuyen = xetheoid(ma);
 				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 				Date parsed = format.parse(request.getParameter("ngKH"));
 				java.sql.Date sql = new java.sql.Date(parsed.getTime());
