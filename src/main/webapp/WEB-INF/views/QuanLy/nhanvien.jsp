@@ -115,22 +115,6 @@
 													<div class="col-lg-9 col-md-8">${nv.tenNV}</div>
 												</div>
 
-												<div class="row">
-													<div class="col-lg-3 col-md-4 label v-label">Vai trò</div>
-													<div class="col-lg-9 col-md-8">
-														<c:choose>
-															<c:when test="${nv.tknv.vaiTro eq NV}">
-																<span class="badge rounded-pill bg-danger v-bg-tt">Nhân
-																	Viên</span>
-															</c:when>
-															<c:when test="${u.tknv.trangThai eq QL}">
-																<span class="badge rounded-pill bg-success v-bg-tt">Quản
-																	Lý</span>
-															</c:when>
-														</c:choose>
-
-													</div>
-												</div>
 
 												<div class="row">
 													<div class="col-lg-3 col-md-4 label v-label">Email</div>

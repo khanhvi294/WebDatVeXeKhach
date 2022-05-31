@@ -163,7 +163,7 @@
 				</div>
 				<div class="modal-body modal-add">
 					<!-- Profile Edit Form -->
-					<form:form action = "/quanly/trangcanhan/update.html" modelAttribute = "tuyen">
+					<form:form method = "post" modelAttribute = "tuyen">
 						<div class="row mb-3">
 							<label for="machuyen"
 								class="col-md-4 col-lg-3 col-form-label v-label">Mã
