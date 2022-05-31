@@ -6,6 +6,8 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Random;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
@@ -14,6 +16,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -33,6 +37,8 @@ import ptit.entity.VaiTro;
 public class TaiKhoanController {
 	@Autowired
 	SessionFactory factory;
+	@Autowired
+	JavaMailSender mailer;
 	
 	@RequestMapping(value="dangnhap.html",method = RequestMethod.GET) 
 	public String getDangNhapKH(ModelMap model) {
@@ -43,9 +49,18 @@ public class TaiKhoanController {
 	public String postDangNhapKH(HttpSession ss,ModelMap model,
 			@ModelAttribute("taikhoan") TaiKhoan tk, BindingResult errors) {
 		//b1: ktra lỗi
-		
+		if(tk.getUserName().isEmpty()) {
+			errors.rejectValue("userName", "tk","Dữ liệu không được để trống!");
+		}
+		if(tk.getMatKhau().isEmpty()) {
+			errors.rejectValue("matKhau","tk","Dữ liệu không được để trống!");
+		}
 		//b2: check tk
-		TaiKhoan tkdn = this.KTtaikhoan(tk.getUserName(),tk.getMatKhau());
+		if(errors.hasErrors()) {
+			return "TaiKhoan/dangnhap";
+		}
+		String matkhau = hashPass(tk.getMatKhau());
+		TaiKhoan tkdn = this.KTtaikhoan(tk.getUserName(),matkhau);
 		if(tkdn == null){
 			model.addAttribute("message", "Sai thông tin đăng nhập!");
 			
@@ -174,9 +189,9 @@ public class TaiKhoanController {
 					"^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")) {
 			  errors.rejectValue("tkkh.email", "khachhang","Vui lòng nhập đúng định dạng email!");
 		  }
-		  System.out.println(checkemail(kh.getTkkh().getEmail()));
+		  System.out.println(gettkbyemail(kh.getTkkh().getEmail()));
 		  System.out.println(kh.getTkkh().getUserName());
-		  if(checkemail(kh.getTkkh().getEmail())==false) {
+		  if(gettkbyemail(kh.getTkkh().getEmail())!=null) {
 			  errors.rejectValue("tkkh.email", "khachhang","Email đã được sử dụng!");
 		  }
 		  if(checkusername(kh.getTkkh().getUserName()) == false) {
@@ -205,6 +220,7 @@ public class TaiKhoanController {
 			VaiTro vt = (VaiTro)session.get(VaiTro.class,"KH");
 			System.out.println(vt.getMaVT());
 			kh.setMaKH(taoMa("KH","KhachHang","maKH"));
+			kh.getTkkh().setTrangThai(true);
 			kh.getTkkh().setVaiTro(vt);
 			String password = request.getParameter("pw");
 			kh.getTkkh().setMatKhau(hashPass(password));
@@ -227,13 +243,64 @@ public class TaiKhoanController {
 		
 		return "TaiKhoan/dangki";
 	}
+	
 	@RequestMapping("quenmatkhau")
-	public String quenmatkhau() {
+	public String formquenmatkhau(ModelMap model) {
+		
+		return "TaiKhoan/quenmatkhau";
+	}
+	
+	@RequestMapping(value="dangnhap.html",method=RequestMethod.POST,params="btnlaymatkhau")
+	public String quenmatkhau(@RequestParam("email") String email,ModelMap model) {
+		System.out.println("vo");
+		TaiKhoan tk = gettkbyemail(email);
+		
+		if(tk == null) {
+			
+			return "redirect:quenmatkhau.html";
+		}
+		System.out.println(tk.getUserName());
 		Random random = new Random();
-		 int ranNum = random.nextInt(999999)+100000;
-		 System.out.println(ranNum);
-		 
-		return "KhachHang/trangchu";
+		int ranNum = random.nextInt(999999)+100000;
+		String matkhaumoi = Integer.toString(ranNum);
+		String mkhash = hashPass(matkhaumoi);
+		tk.setMatKhau(mkhash);
+		Session session = factory.openSession();
+		Transaction t = session.beginTransaction();
+		try {
+			System.out.println("hihi");
+			session.update(tk);
+			t.commit();
+			MimeMessage mail = mailer.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(mail);
+
+			try {
+				System.out.println("khanhvigui");
+				helper.setFrom("no-reply-email");
+				helper.setTo(/* email */"n19dccn223@student.ptithcm.edu.vn");
+				helper.setSubject("Đặt lại mật khẩu");
+				helper.setText("Mật khẩu mới của quý khách là: " + matkhaumoi);
+			} catch (MessagingException e) {
+				e.printStackTrace();
+			}
+			mailer.send(mail);
+			model.addAttribute("message", "Mật khẩu mới đã được gửi vào Email");
+			
+		}catch(Exception e) {
+			t.rollback();
+			System.out.println(e.getCause());
+			System.out.println("huhu");
+		}finally {
+			session.close();
+		}
+		model.addAttribute("taikhoan",new TaiKhoan());
+		return "TaiKhoan/dangnhap";
+	}
+	@RequestMapping(value="dangnhap.html",params="btnDatlaimatkhau")
+	public String datlaimatkhau() {
+		
+		
+		return "TaiKhoan/dangnhap";
 	}
 	// tạo mã tự động
 	public String taoMa(String refix, String table, String columnId) {
@@ -257,21 +324,22 @@ public class TaiKhoanController {
 		}
 		return id;
 	}
-
+//mã hóa mật khẩu
 	public String hashPass(String matKhau) {
 		String hashpw = DigestUtils.md5Hex(matKhau).toUpperCase();
 		return hashpw;
 	}
-	public boolean checkemail(String email) {
+	public TaiKhoan gettkbyemail(String email) {
 		Session session = factory.getCurrentSession();
 		String hql = "from TaiKhoan where email=:email";
 		Query query = session.createQuery(hql);
 		query.setParameter("email", email);
-		List<String> list = query.list();
-		if(list.size() != 0) {
-			return false;
+		List<TaiKhoan> list = query.list();
+		if(list.size() == 0) {
+			return null;
 		}
-		return true;
+		System.out.println(list.get(0).getUserName());
+		return list.get(0);
 	}
 	public boolean checkusername(String username) {
 		Session session = factory.getCurrentSession();

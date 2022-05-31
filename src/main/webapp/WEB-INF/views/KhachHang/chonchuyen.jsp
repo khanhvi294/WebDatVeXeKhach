@@ -108,6 +108,7 @@
 												</div>
 											</div>
 											<label for="ip-cx">Chọn</label>
+											
 											<input type="radio" name="machuyen" id="ip-cx" value="${cx.maChuyen }" class="choose-cx" />
 										</div>
 									</div>
@@ -240,6 +241,16 @@
 	</div>
 	<!-- Scripts project -->
 	<%@include file="script.jsp"%>
+	<script type="text/javascript">
+	
+	const btnSubmit = $("#Re3");
+	btnSubmit.click(function(e) {
+		if($("input[name='machuyen']:checked").val() == null){
+			alert("Vui lòng chọn chuyến trước khi tiếp tục")
+		 e.preventDefault()
+		}
+	})
+	</script>
 	<!-- sixth block end -->
 </body>
 </html>

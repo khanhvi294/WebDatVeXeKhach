@@ -5,6 +5,8 @@
 
 <%@include file="head.jsp"%>
 <body class=" wheel-bg2 ">
+<div class="alert-flag" aType='${message.type}'
+		aMessage="${message.message }"></div>
 	<!-- MAIN -->
 	
 	<%@include file="navbar.jsp"%>
@@ -164,8 +166,7 @@
 						<div class="ends">
 							<li>
 								<p class="text">
-									Bạn đã chọn <span id="count">0</span> ghế với giá tiền <span
-										id="total">0</span> vnđ
+									
 								</p>
 							</li>
 

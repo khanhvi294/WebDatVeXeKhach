@@ -7,6 +7,8 @@
 
 <%@include file="head.jsp"%>
 <body class="">
+<div class="alert-flag" aType='${message.type}'
+		aMessage="${message.message }"></div>
 	<!-- MAIN -->
 	
 	<%@include file="navbar.jsp"%>
