@@ -68,9 +68,7 @@
 				<div class="product-list product-list2 wheel-bgt clearfix">
 					<c:forEach var="cx" items="${dschuyenxe}">
 						<div class="row">
-							<div class="col-xs-11" style="
-    margin-left: 50px;
-">
+							<div class="col-xs-11" style="margin-left: 50px;">
 								<div
 									class="product-elem-style1 product-elem-style wheel-bg1 clearfix"
 									style="border-radius: 10px;">

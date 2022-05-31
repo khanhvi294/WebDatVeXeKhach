@@ -333,3 +333,9 @@ label.fa.fa-calendar::after{
    transform: none;
   cursor: not-allowed;
 }
+.text-er {
+	color: red !important;
+}
+.wheel-btn{
+	padding: 0 19px;
+}

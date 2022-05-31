@@ -372,8 +372,10 @@ public class QuanLyController {
 				session.close();
 			}
 
+
 			return "redirect: /CNPM/quanly/chuyenxe.html";
 		}
+
 	}
 
 	@RequestMapping(value = "chuyenxe/insert", method = RequestMethod.GET)

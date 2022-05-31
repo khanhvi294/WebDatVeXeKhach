@@ -40,26 +40,9 @@
       
     </head>
     <body class="">
-        <!-- MAIN -->
-        <div class="load-wrap">
-            <div class="wheel-load">
-                <img src="images/loader.gif" alt="" class="image">
-            </div>
-        </div>
+     
          <%@include file="navbar.jsp"%>
         <!-- /////////////////////////////// -->
-        <div class="wheel-start3">
-            <img src="images/bg7.jpg" alt="" class="wheel-img">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-12 padd-lr0">
-                        <div class="wheel-start3-body clearfix marg-lg-t255 marg-lg-b75 marg-sm-t190 marg-xs-b30">
-                            <h3>Thông tin cá nhân</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <!-- /////////////////////////////////// -->
         <div class="wheel-register-block">
             <div class="container">
@@ -74,10 +57,12 @@
                               <div class="col-md-12" style="margin-top:40px">
                                 <label for="inputName5" class="form-label">Họ</label>
                                 <form:input path="hoKH" type="text" class="form-control" id="inputName5"/>
+                               <form:errors  class="text-er" path="hoKH"></form:errors>
                               </div>
                               <div class="col-md-12" style="margin-top:40px">
                                 <label for="inputName5" class="form-label"> Tên</label>
                                 <form:input path="TenKH" type="text" class="form-control" id="inputName5"/>
+                                 <form:errors  class="text-er" path="tenKH"></form:errors>
                               </div>
                               <div class="col-md-12">
                                 <label class="col-form-label">Giới tính</label>
@@ -105,15 +90,18 @@
                                 <label for="inputDate" class="form-label">Ngày sinh</label>
                                 <div class="col-md-12">
                                   <form:input path="ngSinh" type="date" class="form-control"/>
+                                   <form:errors  class="text-er" path="ngSinh"></form:errors>
                                 </div>
                               </div>
                               <div class="col-md-12">
                                 <label for="inputName5" class="form-label">Email</label>
                                 <form:input path="tkkh.email" type="text" class="form-control" id="inputName5"/>
+                                 <form:errors  class="text-er" path="tkkh.email"></form:errors>
                               </div>
                               <div class="col-md-12">
                                 <label for="inputName5" class="form-label">SĐT</label>
                                 <form:input path="sdt" type="text" class="form-control" id="inputName5"/>
+                                  <form:errors  class="text-er" path="sdt"></form:errors>
                               </div>
                       
                               <div class="text-center">
