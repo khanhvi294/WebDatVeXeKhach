@@ -1134,3 +1134,6 @@ img.rounded-circle {
   text-align: center;
   font-size: 16px;
 }
+.text-er {
+	color: red !important;
+}

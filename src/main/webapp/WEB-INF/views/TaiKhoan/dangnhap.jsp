@@ -7,11 +7,7 @@
 <%@include file="../KhachHang/head.jsp"%>
     <body class="">
         <!-- MAIN -->
-        <div class="load-wrap">
-            <div class="wheel-load">
-                <img src="resources/KhachHang/images/loader.gif" alt="" class="image">
-            </div>
-        </div>
+        
    <%@include file="../KhachHang/navbar.jsp"%>
         <!-- /////////////////////////////// -->
   

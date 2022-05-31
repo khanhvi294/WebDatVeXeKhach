@@ -207,14 +207,13 @@
 									<c:forEach var="xk" items="${listxk}">
 										<option value="${xk.bienXe}">${xk.bienXe}</option>
 									</c:forEach>
-								</select> </select>
+								</select> 
 							</div>
 						</div>
 
 						<div class="text-center">
 							<button type="submit"
-								class="btn btn-primary btn-main-color border-0">Save
-								Changes</button>
+								class="btn btn-primary btn-main-color border-0">Lưu</button>
 						</div>
 					</form>
 					<!-- End Profile Edit Form -->
@@ -236,7 +235,7 @@
 				</div>
 				<div class="modal-body modal-add">
 					<!-- Profile Edit Form -->
-					<form:form action="QuanLy/QL_ChuyenXe/insert.html" method="post"
+					<form:form action="quanly/chuyenxe/insert.html" method="post"
 						modelAttribute="chuyenxe">
 						<div class="row mb-3">
 							<label for="machuyen"
