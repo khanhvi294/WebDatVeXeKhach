@@ -13,6 +13,8 @@
         <script type="text/javascript" src="resources/KhachHang/assets/js/bootstrap-select.min.js"></script>
         <script type="text/javascript" src="resources/KhachHang/assets/js/index.js"></script>
         <script type="text/javascript" src="resources/KhachHang/assets/js/main.js"></script>
-                <script type="text/javascript" src="resources/KhachHang/assets/js/script.js"></script>
+        <script type="text/javascript" src="resources/KhachHang/assets/js/script.js"></script>
+        <script type="text/javascript" src="resources/KhachHang/assets/js/alertify.min.js"></script>
+        <script type="text/javascript" src="resources/KhachHang/assets/js/showMessage.js"></script>
              
      

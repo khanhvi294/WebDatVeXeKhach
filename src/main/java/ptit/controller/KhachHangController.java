@@ -1,7 +1,7 @@
 package ptit.controller;
 
 import java.math.BigDecimal;
-import java.net.http.HttpRequest;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,25 +13,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
-import org.apache.tomcat.util.log.UserDataHelper.Mode;
+import org.apache.commons.codec.digest.DigestUtils;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 
 import ptit.entity.ChuyenXe;
 import ptit.entity.DiaDiem;
@@ -41,6 +39,7 @@ import ptit.entity.TaiKhoan;
 import ptit.entity.VeXe;
 import ptit.entity.VeXePK;
 
+
 @Controller
 @Transactional
 public class KhachHangController {
@@ -48,6 +47,8 @@ public class KhachHangController {
 	SessionFactory factory;
 	public List<VeXe> dsve;
 	public ChuyenXe cx = new ChuyenXe();
+	
+	
 
 	@ModelAttribute("chuyenxe")
 	public ChuyenXe chuyenxe() {
@@ -65,6 +66,12 @@ public class KhachHangController {
 		return list;
 	}
 
+	@RequestMapping("trangchu")
+	public String index(ModelMap model) {
+		/* model.addAttribute("chuyenxe",new ChuyenXe()); */
+		return "KhachHang/trangchu";
+	}
+	
 //tìm chuyến
 	@RequestMapping("timchuyen")
 	public String timchuyen(ModelMap model) {
@@ -78,7 +85,7 @@ public class KhachHangController {
 
 		String referer = request.getHeader("Referer");
 		String r = referer.substring(referer.lastIndexOf("/") + 1);
-		if(r.equals("timchuyen.html")) {
+		if(r.equals("timchuyen.html") || r.equals("trangchu.html")) {
 			Session session = factory.getCurrentSession();
 			List<ChuyenXe> list = this.getdsChuyenXe(cx.getTuyen().getDiemDi().getMaDD(),
 					cx.getTuyen().getDiemDen().getMaDD(), cx.getNgKH());
@@ -152,7 +159,8 @@ public class KhachHangController {
 		if (r.equals("chonghe.html")) {
 			String[] dsghe = request.getParameterValues("ghe");
 			if (dsghe == null) {
-				redirectAttributes.addFlashAttribute("message", "Vui lòng chọn ghế!");
+				redirectAttributes.addFlashAttribute("message",
+						new Message("error", "Vui lòng chọn ghế!"));
 
 				return "redirect:chonghe.html";
 			}
@@ -248,7 +256,8 @@ public class KhachHangController {
 				session.save(ve);
 			}
 			t.commit();
-			model.addAttribute("message", "Đặt vé thành công!");
+			model.addAttribute("message",
+					new Message("success","Thêm mới thành công!"));
 		} catch (Exception e) {
 			t.rollback();
 			model.addAttribute("message", "Đặt vé thất bại!");
@@ -367,7 +376,8 @@ public class KhachHangController {
 			return "KhachHang/doimatkhau";
 		}
 
-		if (tkkh.getMatKhau().equals(PW) == false) {
+		String matkhau = hashPass(PW);
+		if (tkkh.getMatKhau().equals(matkhau) == false) {
 			model.addAttribute("message1", "Sai mật khẩu!");
 		} else {
 			if (nPW.equals(rnPW) == false) {
@@ -375,7 +385,8 @@ public class KhachHangController {
 			} else {
 				Session session2 = factory.openSession();
 				Transaction t = session2.beginTransaction();
-				tkkh.setMatKhau(nPW);
+				String matkhaumoi = hashPass(nPW);
+				tkkh.setMatKhau(matkhaumoi);
 				try {
 					session2.update(tkkh);
 					t.commit();
@@ -525,6 +536,10 @@ public class KhachHangController {
 		List<PhieuDat> list = query.list();
 
 		return list;
+	}
+	public String hashPass(String matKhau) {
+		String hashpw = DigestUtils.md5Hex(matKhau).toUpperCase();
+		return hashpw;
 	}
 
 }
