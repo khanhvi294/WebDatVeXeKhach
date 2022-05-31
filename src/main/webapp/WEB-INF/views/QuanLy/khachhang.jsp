@@ -11,11 +11,6 @@
 		<h1>Khách hàng</h1>
 	</div>
 	<!-- End Page Title -->
-	<button type="button"
-		class="btn add-new btn-outline-danger shadow-none"
-		data-bs-toggle="modal" data-bs-target="#verticalycentered">
-		Thêm mới <i class="bi bi-person-plus"></i>
-	</button>
 	<section class="section">
 		<div class="row">
 
@@ -116,6 +111,7 @@
 								<input name="hoKH" type="text"
 									class="form-control v-form-control" id="company"
 									value="${kh.hoKH }">
+									<form:errors style = "color:red" path="hoKH"/>
 							</div>
 
 							<label for="Job" class="col-md-1 col-form-label v-label">TênKH</label>
@@ -123,6 +119,7 @@
 								<input name="tenKH" type="text"
 									class="form-control  v-form-control" id="Job"
 									value="${kh.tenKH }">
+									<form:errors style = "color:red" path="tenKH"/>
 							</div>
 						</div>
 						<div class="row mb-3">
@@ -132,6 +129,7 @@
 								<input name="sdt" type="text"
 									class="form-control v-form-control" id="Address"
 									value="${kh.sdt }">
+									<form:errors style = "color:red" path="sdt"/>
 							</div>
 						</div>
 
@@ -168,6 +166,7 @@
 								class="col-md-4 col-lg-3 col-form-label v-label">Email</label>
 							<div class="col-md-8 col-lg-9">
 								<input type="email" name = "email" class="form-control v-form-control" value = "${kh.tkkh.email }">
+								<form:errors style = "color:red" path="phai"/>
 							</div>
 						</div>
 
