@@ -20,12 +20,16 @@
 		<!-- <bean class="poly.interceptor.LoggerInterceptor" /> -->
 		
 		<!-- Chỉ lọc các URL theo path -->
-		<!-- <mvc:interceptor>
+		<mvc:interceptor>
 			<mvc:mapping path="/quanly/**"/>
-			<mvc:exclude-mapping path="/home/index.htm"/>
 			<bean class="ptit.interceptor.QuanLyInterceptor" />
 		</mvc:interceptor>
-		  -->
+		<mvc:interceptor>
+			<mvc:mapping path="/dangnhap.html"/>
+			<mvc:mapping path="/dangki.html"/>
+			<bean class="ptit.interceptor.DangNhapInterceptor" />
+		</mvc:interceptor>
+		 
 		 <mvc:interceptor>
 			<mvc:mapping path="/chonghe.html"/>
 			<mvc:mapping path="/thongtincanhan.html"/>

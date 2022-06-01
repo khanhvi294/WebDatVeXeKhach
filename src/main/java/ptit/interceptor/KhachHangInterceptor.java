@@ -5,7 +5,6 @@
  import javax.servlet.http.HttpSession;
  import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import ptit.entity.KhachHang;
 import ptit.entity.TaiKhoan;
  
  
@@ -14,14 +13,15 @@ import ptit.entity.TaiKhoan;
  	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
  			throws Exception {
  		HttpSession session = request.getSession();
-		if(session.getAttribute("user") == null) {
+		if(session.getAttribute("user") == null && session.getAttribute("tkdn") == null) {
 			response.sendRedirect(request.getContextPath() + "/dangnhap.html");
 			return false;
 		}else {
-			KhachHang khachhang = (KhachHang) session.getAttribute("user");
+			
+				TaiKhoan khachhang = (TaiKhoan) session.getAttribute("tkdn");
 			if(khachhang != null) {
 				
-				if(!khachhang.getTkkh().getVaiTro().getMaVT().trim().equals("KH")) {
+				if(!khachhang.getVaiTro().getMaVT().trim().equals("KH")) {
 					response.sendRedirect(request.getContextPath() + "/403.html");
 					return false;
 				}
