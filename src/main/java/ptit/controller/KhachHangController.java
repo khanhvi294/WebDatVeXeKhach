@@ -82,7 +82,8 @@ public class KhachHangController {
 //chọn chuyến
 	@RequestMapping(value = "chonchuyen")
 	public String chonchuyen(@ModelAttribute("chuyenxe") ChuyenXe cx, ModelMap model,HttpServletRequest request) {
-
+System.out.println("ihi");
+System.out.println(cx.getNgKH());
 		String referer = request.getHeader("Referer");
 		String r = referer.substring(referer.lastIndexOf("/") + 1);
 		if(r.equals("timchuyen.html") || r.equals("trangchu.html")) {
@@ -224,6 +225,7 @@ public class KhachHangController {
 		if (check) {
 
 			redirectAttributes.addFlashAttribute("phieudat", pd);
+			redirectAttributes.addFlashAttribute("message",new Message("error", "Vui lòng đồng ý với điều khoản!"));
 			return "redirect:dienthongtin.html";
 		}
 		PhieuDat pdss = (PhieuDat) ss.getAttribute("PhieuDat");
@@ -257,10 +259,10 @@ public class KhachHangController {
 			}
 			t.commit();
 			model.addAttribute("message",
-					new Message("success","Thêm mới thành công!"));
+					new Message("success","Đặt vé thành công!"));
 		} catch (Exception e) {
 			t.rollback();
-			model.addAttribute("message", "Đặt vé thất bại!");
+			model.addAttribute("message",new Message("error", "Đặt vé thất bại!"));
 			System.out.println(e.getCause());
 		} finally {
 			session.close();
@@ -278,7 +280,7 @@ public class KhachHangController {
 	}
 
 	@RequestMapping(value = "thongtincanhan", method = RequestMethod.POST)
-	public String ttcanhan(HttpSession sess, @ModelAttribute("khachhang") KhachHang khachhang, BindingResult errors) {
+	public String ttcanhan(HttpSession sess, @ModelAttribute("khachhang") KhachHang khachhang, BindingResult errors,ModelMap model) {
 		System.out.println(khachhang.getMaKH());
 		if (khachhang.getHoKH().isEmpty()) {
 			 errors.rejectValue("hoKH", "KhachHang", "Dữ liệu không được để trống!"); 
@@ -330,10 +332,12 @@ public class KhachHangController {
 
 				t.commit();
 				sess.setAttribute("user", khachhang);
+				model.addAttribute("message",new Message("success", "Cập nhật thông tin thành công"));
 			} catch (Exception e) {
 				System.out.println(e);
 				System.out.println(e.getCause());
 				t.rollback();
+				model.addAttribute("message",new Message("error", "Cập nhật thông tin thất bại!"));
 			} finally {
 				session.close();
 			}
@@ -390,11 +394,12 @@ public class KhachHangController {
 				try {
 					session2.update(tkkh);
 					t.commit();
-					model.addAttribute("message", "Đổi mật khẩu thành công!");
+					model.addAttribute("message",new Message("success", "Đổi mật khẩu thành công!"));
 					kh.setTkkh(tkkh);
 					ss.setAttribute("user", kh);
 				} catch (Exception e) {
 					t.rollback();
+					model.addAttribute("message",new Message("error", "Đổi mật khẩu thất bại!"));
 				} finally {
 					session2.close();
 				}
@@ -417,11 +422,12 @@ public class KhachHangController {
 		KhachHang kh = (KhachHang) ss.getAttribute("user");
 		model.addAttribute("dsphieudat", this.getds_pdkh(kh.getMaKH()));
 		model.addAttribute("idModal", "modalHuy");
+		
 		return "KhachHang/phieudat";
 	}
 
 	@RequestMapping(value = "phieudat/huy/{id}.html", params = "btnHuyPhieu")
-	public String huyPhieudat(@PathVariable("id") String maPD, ModelMap model, HttpSession ss) {
+	public String huyPhieudat(@PathVariable("id") String maPD, ModelMap model, HttpSession ss,RedirectAttributes redirectAttributes) {
 		System.out.println("ok");
 		Session session = factory.getCurrentSession();
 		PhieuDat pd = (PhieuDat) session.get(PhieuDat.class, maPD);
@@ -430,11 +436,14 @@ public class KhachHangController {
 		Session session2 = factory.openSession();
 		Transaction t = session2.beginTransaction();
 		try {
-			session2.update(pdm);
+			session2.merge(pdm);
 			t.commit();
+			System.out.println("hihivi");
+			redirectAttributes.addFlashAttribute("message",new Message("success", "Hủy vé thành công!"));
 		} catch (Exception e) {
 			t.rollback();
 			System.out.println(e);
+			redirectAttributes.addFlashAttribute("message",new Message("error", "Hủy vé thất bại!"));
 		} finally {
 			session2.close();
 		}

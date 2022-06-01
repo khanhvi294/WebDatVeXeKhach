@@ -72,13 +72,18 @@ public class TaiKhoanController {
 			
 			return "TaiKhoan/dangnhap";
 		}
+		Session session = factory.getCurrentSession();
+	
+		TaiKhoan taikhoan = (TaiKhoan)session.get(TaiKhoan.class, tkdn.getUserName());
+		ss.setAttribute("tkdn", taikhoan);
 		
 		//b3: check vai tro tạo phiên đnagư nhập
 		if (tkdn.getVaiTro().getMaVT().trim().equals("KH")) {
 			KhachHang kh = this.getKhachHang(tkdn.getUserName());
 			if(kh != null) {
 				ss.setAttribute("user", kh);
-			
+				
+				
 				return "redirect:/trangchu.html";
 			}else {
 				model.addAttribute("message", "Tài khoản không tồn tại!");

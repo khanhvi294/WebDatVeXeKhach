@@ -37,10 +37,11 @@
       
         <link href="resources/KhachHang/assets/css/style1.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-      
+         <link rel="stylesheet" type="text/css" href="resources/KhachHang/assets/css/alertify.min.css">
     </head>
     <body class="">
-     
+      <div class="alert-flag" aType='${message.type}'
+		aMessage="${message.message }"></div>
          <%@include file="navbar.jsp"%>
         <!-- /////////////////////////////// -->
         <!-- /////////////////////////////////// -->
@@ -191,6 +192,8 @@
         <!-- Latest compiled and minified JavaScript -->
         <script type="text/javascript" src="resources/KhachHang/assets/js/bootstrap-select.min.js"></script>
         <script type="text/javascript" src="resources/KhachHang/assets/js/index.js"></script>
+          <script type="text/javascript" src="resources/KhachHang/assets/js/alertify.min.js"></script>
+        <script type="text/javascript" src="resources/KhachHang/assets/js/showMessage.js"></script>
         <!-- sixth block end -->
     </body>
 

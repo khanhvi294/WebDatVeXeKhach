@@ -14,14 +14,14 @@ public class NhanVienInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		HttpSession session = request.getSession();
-		if(session.getAttribute("user") == null) {
+		if(session.getAttribute("user") == null && session.getAttribute("tkdn") == null) {
 			response.sendRedirect(request.getContextPath() + "TaiKhoan/dangnhap.html");
 			return false;
 		}else {
-			NhanVien nhanvien = (NhanVien) session.getAttribute("user");
+			TaiKhoan nhanvien = (TaiKhoan) session.getAttribute("tkdn");
 			if(nhanvien != null) {
 				
-				if(!nhanvien.getTknv().getVaiTro().getMaVT().trim().equals("NV")) {
+				if(!nhanvien.getVaiTro().getMaVT().trim().equals("NV")) {
 					response.sendRedirect(request.getContextPath() + "/403.html");
 					return false;
 				}

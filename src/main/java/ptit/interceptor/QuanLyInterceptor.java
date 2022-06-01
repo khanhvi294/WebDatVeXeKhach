@@ -13,15 +13,15 @@ public class QuanLyInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		HttpSession session = request.getSession();
-		if(session.getAttribute("user") == null) {
-			response.sendRedirect(request.getContextPath() + "TaiKhoan/dangnhap.html");
+		if(session.getAttribute("user") == null && session.getAttribute("tkdn") == null) {
+			response.sendRedirect(request.getContextPath() + "/dangnhap.html");
 			return false;
 		}else {
-			NhanVien quanly = (NhanVien) session.getAttribute("user");
+			TaiKhoan quanly = (TaiKhoan) session.getAttribute("tkdn");
 			if(quanly != null) {
 				
-				if(!quanly.getTknv().getVaiTro().getMaVT().trim().equals("QL")) {
-					response.sendRedirect(request.getContextPath() + "/403.html");
+				if(!quanly.getVaiTro().getMaVT().trim().equals("QL")) {
+					response.sendRedirect(request.getContextPath() + "/dangnhap.html");
 					return false;
 				}
 			}else {
