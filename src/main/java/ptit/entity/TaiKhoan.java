@@ -52,7 +52,4 @@ public class TaiKhoan {
 	public void setTrangThai(int trangThai) {
 		this.trangThai = trangThai;
 	}
-
-	
-
 }

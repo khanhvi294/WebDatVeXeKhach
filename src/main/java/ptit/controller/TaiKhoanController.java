@@ -51,6 +51,7 @@ public class TaiKhoanController {
 			@ModelAttribute("taikhoan") TaiKhoan tk, BindingResult errors) {
 		System.out.println("vitesst");
 		//b1: ktra lỗi
+		
 		if(tk.getUserName().isEmpty()) {
 			errors.rejectValue("userName", "tk","Dữ liệu không được để trống!");
 		}
@@ -64,13 +65,14 @@ public class TaiKhoanController {
 		String matkhau = hashPass(tk.getMatKhau());
 		TaiKhoan tkdn = this.KTtaikhoan(tk.getUserName(),matkhau);
 		if(tkdn == null){
-			model.addAttribute("message", "Sai thông tin đăng nhập!");
+			model.addAttribute("message", "Sai thÃ´ng tin Ä‘Äƒng nháº­p!");
 			
 			return "TaiKhoan/dangnhap";
 		}
 		
 		if(tkdn.getTrangThai() == 0) {
 			model.addAttribute("message", "Tài khoản đang bị khóa!");
+
 			
 			return "TaiKhoan/dangnhap";
 		}
@@ -79,7 +81,7 @@ public class TaiKhoanController {
 		TaiKhoan taikhoan = (TaiKhoan)session.get(TaiKhoan.class, tkdn.getUserName());
 		ss.setAttribute("tkdn", taikhoan);
 		
-		//b3: check vai tro tạo phiên đnagư nhập
+		//b3: check vai tro táº¡o phiÃªn Ä‘nagÆ° nháº­p
 		if (tkdn.getVaiTro().getMaVT().trim().equals("KH")) {
 			KhachHang kh = this.getKhachHang(tkdn.getUserName());
 			if(kh != null) {
@@ -88,7 +90,7 @@ public class TaiKhoanController {
 				
 				return "redirect:/trangchu.html";
 			}else {
-				model.addAttribute("message", "Tài khoản không tồn tại!");
+				model.addAttribute("message", "TÃ i khoáº£n khÃ´ng tá»“n táº¡i!");
 				return "TaiKhoan/dangnhap";
 			}
 		} 
@@ -100,7 +102,7 @@ public class TaiKhoanController {
 				return "redirect:quanly/trangchu.html";
 			}
 			else {
-				model.addAttribute("message","Tài khoản không tồn tại!");
+				model.addAttribute("message","TÃ i khoáº£n khÃ´ng tá»“n táº¡i!");
 				return "TaiKhoan/dangnhap";
 			}
 		}
@@ -111,7 +113,7 @@ public class TaiKhoanController {
 				return "redirect:quanly/trangchu.html";
 			}
 			else {
-				model.addAttribute("message","Tài khoản không tồn tại!");
+				model.addAttribute("message","TÃ i khoáº£n khÃ´ng tá»“n táº¡i!");
 				return "TaiKhoan/dangnhap";
 			}
 		}
@@ -168,7 +170,9 @@ public class TaiKhoanController {
 			return "redirect:/dangnhap.html";
 	
 	}
+
 	//đăng kí
+
 	@RequestMapping("dangki") 
 	public String showdangki(ModelMap model){
 		
@@ -186,6 +190,7 @@ public class TaiKhoanController {
 		
 		
 		  if(kh.getHoKH().isEmpty()) { 
+
 			  errors.rejectValue("hoKH","khachhang", "Dữ liệu không được để trống!"); } 
 		  if(kh.getTenKH().isEmpty()) {
 		  errors.rejectValue("tenKH","khachhang", "Dữ liệu không được để trống!"); }
@@ -196,10 +201,12 @@ public class TaiKhoanController {
 		  if (!kh.getTkkh().getEmail().trim().matches(
 					"^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")) {
 			  errors.rejectValue("tkkh.email", "khachhang","Vui lòng nhập đúng định dạng email!");
+
 		  }
 		  System.out.println(gettkbyemail(kh.getTkkh().getEmail()));
 		  System.out.println(kh.getTkkh().getUserName());
 		  if(gettkbyemail(kh.getTkkh().getEmail())!=null) {
+
 			  errors.rejectValue("tkkh.email", "khachhang","Email đã được sử dụng!");
 		  }
 		  if(checkusername(kh.getTkkh().getUserName()) == false) {
@@ -218,6 +225,7 @@ public class TaiKhoanController {
 		  System.out.println(pw);
 		  System.out.println(rpw);
 		  if(pw.equals("")) {
+
 			  errors.rejectValue("tkkh.matKhau","KhachHang", "Dữ liệu không được để trống!"); }
 		 
 		  if(rpw.equals("")) {
@@ -287,12 +295,15 @@ public class TaiKhoanController {
 
 				helper.setFrom("no-reply-email");
 				helper.setTo(/* email */"n19dccn223@student.ptithcm.edu.vn");
+
 				helper.setSubject("Đặt lại mật khẩu");
 				helper.setText("Mật khẩu mới của quý khách là: " + matkhaumoi);
+
 			} catch (MessagingException e) {
 				e.printStackTrace();
 			}
 			mailer.send(mail);
+
 			model.addAttribute("message", "Mật khẩu mới đã được gửi vào Email");
 			
 		}catch(Exception e) {
@@ -356,7 +367,9 @@ public class TaiKhoanController {
 		}
 		return "redirect:trangchu.html";
 	}
+
 	// tạo mã tự động
+
 	public String taoMa(String refix, String table, String columnId) {
 		Session session = factory.getCurrentSession();
 		String hql = "FROM " + table;
@@ -378,7 +391,9 @@ public class TaiKhoanController {
 		}
 		return id;
 	}
+
 //mã hóa mật khẩu
+
 	public String hashPass(String matKhau) {
 		String hashpw = DigestUtils.md5Hex(matKhau).toUpperCase();
 		return hashpw;
@@ -406,4 +421,5 @@ public class TaiKhoanController {
 		}
 		return true;
 	}
+
 }

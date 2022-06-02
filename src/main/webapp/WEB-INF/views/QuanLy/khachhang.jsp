@@ -30,7 +30,7 @@
 								<th scope="col">SĐT</th>
 								<th scope="col">Ngaysinh</th>
 								<th scope="col">Trạng Thái</th>
-								<th scope="col">Option</th>
+								<th scope="col">Thao Tác</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -51,10 +51,10 @@
 									<td>${u.sdt}</td>	
 									<td>${u.ngSinh}</td>
 									<td><c:choose>
-											<c:when test="${u.tkkh.trangThai eq false}">
+											<c:when test="${u.tkkh.trangThai eq 0}">
 												<span class="badge rounded-pill bg-danger v-bg-tt">Khóa</span>
 											</c:when>
-											<c:when test="${u.tkkh.trangThai eq true}">
+											<c:when test="${u.tkkh.trangThai eq 1}">
 												<span class="badge rounded-pill bg-success v-bg-tt">Hoạt
 													động</span>
 											</c:when>
@@ -109,7 +109,7 @@
 							<label for="company" class="col-md-3 col-form-label v-label">HoKH</label>
 							<div class="col-md-3">
 								<input name="hoKH" type="text"
-									class="form-control v-form-control" id="company"
+									class="form-control v-form-control" id="company" readonly = "true"
 									value="${kh.hoKH }">
 									<form:errors style = "color:red" path="hoKH"/>
 							</div>
@@ -117,7 +117,7 @@
 							<label for="Job" class="col-md-1 col-form-label v-label">TênKH</label>
 							<div class="col-md-5">
 								<input name="tenKH" type="text"
-									class="form-control  v-form-control" id="Job"
+									class="form-control  v-form-control" id="Job" readonly = "true"
 									value="${kh.tenKH }">
 									<form:errors style = "color:red" path="tenKH"/>
 							</div>
@@ -127,7 +127,7 @@
 								class="col-md-4 col-lg-3 col-form-label v-label">SĐT</label>
 							<div class="col-md-8 col-lg-9">
 								<input name="sdt" type="text"
-									class="form-control v-form-control" id="Address"
+									class="form-control v-form-control" id="Address" readonly = "true"
 									value="${kh.sdt }">
 									<form:errors style = "color:red" path="sdt"/>
 							</div>
@@ -138,7 +138,7 @@
 								class="col-md-4 col-lg-3 col-form-label v-label">Ngày
 								sinh</label>
 							<div class="col-md-8 col-lg-9">
-								<input type="date" class="form-control v-form-control"
+								<input type="date" class="form-control v-form-control" readonly = "true"
 									name="ngSinh" value="${kh.ngSinh }" />
 							</div>
 						</div>
@@ -146,18 +146,17 @@
 						<div class="row mb-3">
 							<label for="Email"
 								class="col-md-4 col-lg-3 col-form-label v-label">Phái</label>
-							<div class="col-md-8">
-								<div class="form-check form-check-inline ">
-									<input class="form-check-input v-check-input shadow-none"
-										type="radio" name="gridRadios" id="gtnam" value="true"
-										checked> <label class="form-check-label"
-										for="gridRadios1"> Nam </label>
-								</div>
-								<div class="form-check form-check-inline ">
-									<input class="form-check-input v-check-input shadow-none"
-										type="radio" name="gridRadios" id="gtnu" value="false">
-									<label class="form-check-label" for="gridRadios2"> Nữ </label>
-								</div>
+							<div class="col-md-8 col-lg-9">
+								<c:choose>
+									<c:when test="${kh.phai eq true}">
+										<input type="text" class="form-control v-form-control" readonly = "true"
+												 value="Nam" />
+									</c:when>
+									<c:when test="${kh.phai eq false}">
+										<input type="text" class="form-control v-form-control" readonly = "true"
+												 value="Nữ" />
+									</c:when>
+								</c:choose>
 							</div>
 						</div>
 		
@@ -165,7 +164,7 @@
 							<label for="Twitter"
 								class="col-md-4 col-lg-3 col-form-label v-label">Email</label>
 							<div class="col-md-8 col-lg-9">
-								<input type="email" name = "email" class="form-control v-form-control" value = "${kh.tkkh.email }">
+								<input type="email" name = "email" class="form-control v-form-control" value = "${kh.tkkh.email }" readonly = "true">
 								<form:errors style = "color:red" path="phai"/>
 							</div>
 						</div>
@@ -177,8 +176,8 @@
 							<div class="col-md-8 col-lg-9">
 								<select class="form-select v-form-control"
 									aria-label=" select example" name = "trangthai">
-									<option selected value="true">Đang Hoạt Động</option>
-									<option value="false">Khóa</option>
+									<option selected value="1">Đang Hoạt Động</option>
+									<option value="0">Khóa</option>
 								</select>
 							</div>
 						</div>
