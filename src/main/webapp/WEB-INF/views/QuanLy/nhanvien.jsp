@@ -11,10 +11,10 @@
 		<h1>Nhân Viên</h1>
 	</div>
 	<!-- End Page Title -->
-	<a href="/CNPM/quanly/nhanvien/insert.html"><button
-				type="button" class="btn add-new btn-outline-danger shadow-none">
-				Thêm mới <i class="bi bi-plus-circle"></i>
-			</button></a>
+	<a href="/CNPM/quanly/nhanvien/insert.html"><button type="button"
+			class="btn add-new btn-outline-danger shadow-none">
+			Thêm mới <i class="bi bi-plus-circle"></i>
+		</button></a>
 	<section class="section">
 		<div class="row">
 
@@ -31,7 +31,7 @@
 								<th scope="col">Tên</th>
 								<th scope="col">Username</th>
 								<th scope="col">Trạng Thái</th>
-								<th scope="col">Option</th>
+								<th scope="col">Thao Tác</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -42,10 +42,10 @@
 									<td>${u.tenNV}</td>
 									<td>${u.tknv.userName}</td>
 									<td><c:choose>
-											<c:when test="${u.tknv.trangThai eq false}">
+											<c:when test="${u.tknv.trangThai == 0}">
 												<span class="badge rounded-pill bg-danger v-bg-tt">Khóa</span>
 											</c:when>
-											<c:when test="${u.tknv.trangThai eq true}">
+											<c:when test="${u.tknv.trangThai == 1}">
 												<span class="badge rounded-pill bg-success v-bg-tt">Hoạt
 													động</span>
 											</c:when>
@@ -139,10 +139,10 @@
 														thái</div>
 													<div class="col-lg-9 col-md-8">
 														<c:choose>
-															<c:when test="${nv.tknv.trangThai eq false}">
+															<c:when test="${nv.tknv.trangThai == 0}">
 																<span class="badge rounded-pill bg-danger v-bg-tt">Khóa</span>
 															</c:when>
-															<c:when test="${nv.tknv.trangThai eq true}">
+															<c:when test="${nv.tknv.trangThai == 1}">
 																<span class="badge rounded-pill bg-success v-bg-tt">Hoạt
 																	động</span>
 															</c:when>
@@ -200,13 +200,13 @@
 				<!-- profile -->
 				<!-- Profile Edit Form -->
 				<div class="col-12 v-edit-form">
-					<form method = "post">
+					<form method="post">
 						<div class="row mb-3">
 							<label for="fullName"
 								class="col-md-4 col-lg-3 col-form-label v-label">Mã nhân
 								viên</label>
 							<div class="col-md-8 col-lg-9">
-								<input type="text" readonly = "true"
+								<input type="text" readonly="true"
 									class="form-control v-form-control" id="fullName"
 									value="${nv.maNV }">
 							</div>
@@ -216,17 +216,17 @@
 							<label for="company" class="col-md-3 col-form-label v-label">Họ</label>
 							<div class="col-md-3">
 								<input name="honv" type="text"
-									class="form-control v-form-control" id="company"
-									value="${nv.hoNV }">
-								<form:errors style = "color:red" path="hoNV"/>
+									class="form-control v-form-control" readonly="true"
+									id="company" value="${nv.hoNV }">
+								<%-- 								<form:errors style = "color:red" path="hoNV"/> --%>
 							</div>
 
 							<label for="Job" class="col-md-1 col-form-label v-label">Tên</label>
 							<div class="col-md-5">
 								<input name="tennv" type="text"
-									class="form-control  v-form-control" id="Job"
+									class="form-control  v-form-control" readonly="true" id="Job"
 									value="${nv.tenNV }">
-								<form:errors style = "color:red" path="tenNV"/>
+								<%-- 								<form:errors style = "color:red" path="tenNV"/> --%>
 							</div>
 						</div>
 
@@ -234,7 +234,8 @@
 							<label for="Twitter"
 								class="col-md-4 col-lg-3 col-form-label v-label">Email</label>
 							<div class="col-md-8 col-lg-9">
-								<input type="email" class="form-control v-form-control" name="email" value = "${nv.tknv.email }">
+								<input type="email" class="form-control v-form-control"
+									readonly="true" name="email" value="${nv.tknv.email }">
 							</div>
 						</div>
 
@@ -243,8 +244,9 @@
 								class="col-md-4 col-lg-3 col-form-label v-label">CMND/CCCD</label>
 							<div class="col-md-8 col-lg-9">
 								<input name="cccd" type="text"
-									class="form-control v-form-control" id="Country" value="${nv.cccd }">
-								<form:errors style = "color:red" path="cccd"/>
+									class="form-control v-form-control" readonly="true"
+									id="Country" value="${nv.cccd }">
+								<%-- 								<form:errors style = "color:red" path="cccd"/> --%>
 							</div>
 						</div>
 
@@ -254,8 +256,8 @@
 							<div class="col-md-8 col-lg-9">
 								<input name="sdt" type="text"
 									class="form-control v-form-control" id="Address"
-									value="${nv.sdt }">
-									<form:errors style = "color:red" path="sdt"/>
+									readonly="true" value="${nv.sdt }">
+								<%-- 									<form:errors style = "color:red" path="sdt"/> --%>
 							</div>
 						</div>
 
@@ -265,26 +267,25 @@
 								sinh</label>
 							<div class="col-md-8 col-lg-9">
 								<input type="date" class="form-control v-form-control"
-									name="ngSinh" value="${nv.ngaySinh }" />
-									
+									readonly="true" name="ngSinh" value="${nv.ngaySinh }" />
+
 							</div>
 						</div>
 
 						<div class="row mb-3">
 							<label for="Email"
 								class="col-md-4 col-lg-3 col-form-label v-label">Phái</label>
-							<div class="col-md-8">
-								<div class="form-check form-check-inline ">
-									<input class="form-check-input v-check-input shadow-none"
-										type="radio" name="gridRadios" id="gtnam" value="true"
-										checked> <label class="form-check-label"
-										for="gridRadios1"> Nam </label>
-								</div>
-								<div class="form-check form-check-inline ">
-									<input class="form-check-input v-check-input shadow-none"
-										type="radio" name="gridRadios" id="gtnu" value="false">
-									<label class="form-check-label" for="gridRadios2"> Nữ </label>
-								</div>
+							<div class="col-md-8 col-lg-9">
+								<c:choose>
+									<c:when test="${nv.phai eq true}">
+										<input type="text" class="form-control v-form-control" readonly = "true"
+												 value="Nam" />
+									</c:when>
+									<c:when test="${nv.phai eq false}">
+										<input type="text" class="form-control v-form-control" readonly = "true"
+												 value="Nữ" />
+									</c:when>
+								</c:choose>
 							</div>
 						</div>
 						<div class="row mb-3">
@@ -293,9 +294,9 @@
 								thái</label>
 							<div class="col-md-8 col-lg-9">
 								<select class="form-select v-form-control"
-									aria-label=" select example" name = "trangthai">
-									<option value="true">Đang Hoạt Động</option>
-									<option value="false">Khóa</option>
+									aria-label=" select example" name="trangthai">
+									<option value="1">Đang Hoạt Động</option>
+									<option value="0">Khóa</option>
 								</select>
 							</div>
 						</div>
@@ -332,15 +333,15 @@
 			</div>
 			<div class="modal-body modal-add">
 				<!-- Profile Edit Form -->
-				<form:form method = "post" modelAttribute="nv">
+				<form:form method="post" modelAttribute="nv">
 					<div class="row mb-3">
 						<label for="fullName"
 							class="col-md-4 col-lg-3 col-form-label v-label">Mã nhân
 							viên</label>
 						<div class="col-md-8 col-lg-9">
-							<form:input path="maNV" type="text" readonly = "true"
+							<form:input path="maNV" type="text" readonly="true"
 								class="form-control v-form-control" id="fullName"
-								value="${nv.maNV }"/>
+								value="${nv.maNV }" />
 						</div>
 					</div>
 
@@ -348,17 +349,15 @@
 						<label for="company" class="col-md-3 col-form-label v-label">Họ</label>
 						<div class="col-md-3">
 							<form:input path="hoNV" type="text"
-								class="form-control v-form-control" id="company"
-								value=""/>
-							<form:errors style = "color:red" path="hoNV"/>
+								class="form-control v-form-control" id="company" value="" />
+							<form:errors style="color:red" path="hoNV" />
 						</div>
 
 						<label for="Job" class="col-md-1 col-form-label v-label">Tên</label>
 						<div class="col-md-5">
 							<form:input path="tenNV" type="text"
-								class="form-control  v-form-control" id="Job"
-								value=""/>
-								<form:errors style = "color:red" path="tenNV"/>
+								class="form-control  v-form-control" id="Job" value="" />
+							<form:errors style="color:red" path="tenNV" />
 						</div>
 					</div>
 
@@ -367,9 +366,8 @@
 							class="col-md-4 col-lg-3 col-form-label v-label">Username</label>
 						<div class="col-md-8 col-lg-9">
 							<input name="username" type="text"
-								class="form-control v-form-control" id="Twitter"
-								value=""/>
-								<form:errors style = "color:red" path="maNV"/>
+								class="form-control v-form-control" id="Twitter" readonly="true"
+								value="${nv.maNV }" />
 						</div>
 					</div>
 
@@ -377,8 +375,9 @@
 						<label for="Twitter"
 							class="col-md-4 col-lg-3 col-form-label v-label">Email</label>
 						<div class="col-md-8 col-lg-9">
-							<input name="email" type="email" class="form-control v-form-control">
-							<form:errors style = "color:red" path="phai"/>
+							<input name="email" type="email"
+								class="form-control v-form-control">
+							<form:errors style="color:red" path="phai" />
 						</div>
 					</div>
 
@@ -388,8 +387,8 @@
 							class="col-md-4 col-lg-3 col-form-label v-label">CMND/CCCD</label>
 						<div class="col-md-8 col-lg-9">
 							<form:input path="cccd" type="text"
-								class="form-control v-form-control" id="Country" value=""/>
-									<form:errors style = "color:red" path="cccd"/>
+								class="form-control v-form-control" id="Country" value="" />
+							<form:errors style="color:red" path="cccd" />
 						</div>
 					</div>
 
@@ -398,9 +397,8 @@
 							class="col-md-4 col-lg-3 col-form-label v-label">SĐT</label>
 						<div class="col-md-8 col-lg-9">
 							<form:input path="sdt" type="text"
-								class="form-control v-form-control" id="Address"
-								value=""/>
-								<form:errors style = "color:red" path="sdt"/>
+								class="form-control v-form-control" id="Address" value="" />
+							<form:errors style="color:red" path="sdt" />
 						</div>
 					</div>
 
@@ -410,8 +408,8 @@
 							sinh</label>
 						<div class="col-md-8 col-lg-9">
 							<input type="date" class="form-control v-form-control"
-									name="ngaysinh" value="" />
-									<form:errors style = "color:red" path="ngaySinh"/>
+								name="ngaysinh" value="" />
+							<form:errors style="color:red" path="ngaySinh" />
 						</div>
 					</div>
 
@@ -420,14 +418,15 @@
 							class="col-md-4 col-lg-3 col-form-label v-label">Phái</label>
 						<div class="col-md-8">
 							<div class="form-check form-check-inline ">
-								<input class="form-check-input v-check-input shadow-none"
-									type="radio" name="gridRadios" id="gtnam" value="option1"
-									checked> <label class="form-check-label"
-									for="gridRadios1"> Nam </label>
+								<form:radiobutton
+									class="form-check-input v-check-input shadow-none" value="1"
+									path="phai" />
+								<label class="form-check-label">NaM</label>
 							</div>
 							<div class="form-check form-check-inline ">
-								<input class="form-check-input v-check-input shadow-none"
-									type="radio" name="gridRadios" id="gtnu" value="option2">
+								<form:radiobutton
+									class="form-check-input v-check-input shadow-none" value="0"
+									path="phai" />
 								<label class="form-check-label" for="gridRadios2"> Nữ </label>
 							</div>
 						</div>
