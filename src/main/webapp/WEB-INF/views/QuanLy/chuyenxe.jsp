@@ -210,7 +210,7 @@
 									<c:forEach var="xk" items="${listxk}">
 										<option value="${xk.bienXe}">${xk.bienXe}</option>
 									</c:forEach>
-								</select> </select>
+								</select> 
 							</div>
 						</div>
 						
@@ -227,8 +227,7 @@
 						<label class="col-md-4 col-lg-3 col-form-label v-label">${message}</label>
 						<div class="text-center">
 							<button type="submit"
-								class="btn btn-primary btn-main-color border-0">Save
-								Changes</button>
+								class="btn btn-primary btn-main-color border-0">Lưu</button>
 						</div>
 					</form>
 					<!-- End Profile Edit Form -->

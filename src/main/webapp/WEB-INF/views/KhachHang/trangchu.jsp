@@ -1,20 +1,65 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+ <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 
 <html lang="en">
     <%@include file="head.jsp"%>
     <body class="">
-        <!-- MAIN -->
-        <div class="load-wrap">
-            <div class="wheel-load">
-                <img src="resources/KhachHang/images/loader.gif" alt="" class="image">
-            </div>
-        </div>
+    <div class="alert-flag" aType='${message.type}'
+		aMessage="${message.message }"></div>
+        
          <%@include file="navbar.jsp"%>
        
         <!-- /////////////////////////////////////////////////// -->
         <div class="container padd-lr0">
+        <div class="reservation" style="background-color:#fff">
+		<div
+			class="container padd-lr0 marg-lg-t100 marg-lg-b100 marg-xs-t0 marg-xs-b0">
+			<div class="row">
+				<div class="padd-lr0 box-shadow">
+					<form:form action="chonchuyen.html" modelAttribute="chuyenxe"
+						method="post">
+						<div class="wheel-start-form wheel-start-form2">
+							<div class="clearfix">
+								<div class="wheel-date">
+									<span>Điểm đi</span> <label for="input-val20"
+										class="fa fa-map-marker"> <form:select
+											class="selectpicker" path="tuyen.diemDi.maDD"
+											itemLabel="diaDiem" itemValue="maDD" id="input-val20"
+											items="${dsdiadiem }"></form:select>
+									</label>
+
+								</div>
+								<div class="wheel-date">
+									<span>Điểm đến</span> <label for="input-val20"
+										class="fa fa-map-marker"> <form:select
+											class="selectpicker" path="tuyen.diemDen.maDD"
+											itemLabel="diaDiem" itemValue="maDD" id="input-val21"
+											items="${dsdiadiem }"></form:select>
+									</label>
+								</div>
+								<div class="wheel-date ">
+									<span>Ngày đi</span> <label class="fa fa-calendar"
+										for="inputval22"> <form:input path="ngKH"
+											class="" type="date" id="inputval22"
+											value="" />
+											
+									</label>
+								</div>
+
+					
+								<button type="submit" class="wheel-btn" id='input-val27' style="line-height: 59px;">Tìm
+									kiếm</button>
+							</div>
+						</div>
+					</form:form>
+
+				</div>
+			</div>
+		</div>
+	</div>
             <div class="row">
                 <div class="col-md-6 ">
                     <div class="wheel-info-img  marg-lg-t150 marg-lg-b150 marg-md-t100 marg-md-b100">
@@ -173,25 +218,7 @@
                 </div>
             </div>
         </div>
-        
-        <div class="wheel-subscribe wheel-bg2">
-            <div class="container ">
-                <div class="row">
-                    <div class="col-md-6 padd-lr0">
-                        <div class="wheel-header">
-                            <h5>Đăng kí để nhận tin</h5>
-                            <h3>Đăng kí ngay và bạn sẽ được nhận mã giảm giá<span> 20% </span></h3>
-                        </div>
-                    </div>
-                    <div class="col-md-6 padd-lr0">
-                        <form action="#">
-                            <input type="text" placeholder="Địa chỉ gmail của bạn ">
-                            <a href="register.html" class="wheel-cheader-but" target="_blank">Đăng kí ngay</a>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+       
         <!-- FOOTER -->
         <!-- ///////////////// -->
         <footer class="wheel-footer">
@@ -279,20 +306,7 @@
                 </div>
             </div>
         </div>
-        <!-- Scripts project -->
-        <script type="text/javascript" src="resources/KhachHang/assets/js/jquery-2.2.4.min.js"></script>
-        <script type="text/javascript" src="resources/KhachHang/assets/js/bootstrap.min.js"></script>
-        <!-- count -->
-        <script type="text/javascript" src='resources/KhachHang/assets/js/jquery.countTo.js'></script>
-        <!-- google maps -->
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBt5tJTim4lOO3ojbGARhPd1Z3O3CnE-C8" type="text/javascript"></script>
-        <!-- swiper -->
-        <script type="text/javascript" src="resources/KhachHang/assets/js/idangerous.swiper.min.js"></script>
-        <script type="text/javascript" src="resources/KhachHang/assets/js/equalHeightsPlugin.js"></script>
-        <script type="text/javascript" src="resources/KhachHang/assets/js/jquery.datetimepicker.full.min.js"></script>
-        <!-- Latest compiled and minified JavaScript -->
-        <script type="text/javascript" src="resources/KhachHang/assets/js/bootstrap-select.min.js"></script>
-        <script type="text/javascript" src="resources/KhachHang/assets/js/index.js"></script>
+<%@include file="script.jsp"%>
         <!-- sixth block end -->
     </body>
 

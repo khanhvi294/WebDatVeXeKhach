@@ -1,29 +1,44 @@
 package ptit.controller;
 
+import java.net.http.HttpRequest;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Random;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.jsf.FacesContextUtils;
 
 import ptit.entity.KhachHang;
 import ptit.entity.NhanVien;
 import ptit.entity.TaiKhoan;
+import ptit.entity.VaiTro;
 
 @Controller
 @Transactional
 public class TaiKhoanController {
 	@Autowired
 	SessionFactory factory;
+	@Autowired
+	JavaMailSender mailer;
 	
 	@RequestMapping(value="dangnhap.html",method = RequestMethod.GET) 
 	public String getDangNhapKH(ModelMap model) {
@@ -33,20 +48,20 @@ public class TaiKhoanController {
 	@RequestMapping(value="dangnhap.html",method = RequestMethod.POST)
 	public String postDangNhapKH(HttpSession ss,ModelMap model,
 			@ModelAttribute("taikhoan") TaiKhoan tk, BindingResult errors) {
-<<<<<<< Updated upstream
 		//b1: ktra lỗi
 		
-=======
-		//b1: ktra lá»—i
 		if(tk.getUserName().isEmpty()) {
-			errors.rejectValue("userName", "tk","Dá»¯ liá»‡u khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng!");
+			errors.rejectValue("userName", "tk","Dữ liệu không được để trống!");
 		}
 		if(tk.getMatKhau().isEmpty()) {
-			errors.rejectValue("matKhau","tk","Dá»¯ liá»‡u khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng!");
+			errors.rejectValue("matKhau","tk","Dữ liệu không được để trống!");
 		}
->>>>>>> Stashed changes
 		//b2: check tk
-		TaiKhoan tkdn = this.KTtaikhoan(tk.getUserName(),tk.getMatKhau());
+		if(errors.hasErrors()) {
+			return "TaiKhoan/dangnhap";
+		}
+		String matkhau = hashPass(tk.getMatKhau());
+		TaiKhoan tkdn = this.KTtaikhoan(tk.getUserName(),matkhau);
 		if(tkdn == null){
 			model.addAttribute("message", "Sai thÃ´ng tin Ä‘Äƒng nháº­p!");
 			
@@ -58,13 +73,18 @@ public class TaiKhoanController {
 			
 			return "TaiKhoan/dangnhap";
 		}
+		Session session = factory.getCurrentSession();
+	
+		TaiKhoan taikhoan = (TaiKhoan)session.get(TaiKhoan.class, tkdn.getUserName());
+		ss.setAttribute("tkdn", taikhoan);
 		
 		//b3: check vai tro táº¡o phiÃªn Ä‘nagÆ° nháº­p
 		if (tkdn.getVaiTro().getMaVT().trim().equals("KH")) {
 			KhachHang kh = this.getKhachHang(tkdn.getUserName());
 			if(kh != null) {
 				ss.setAttribute("user", kh);
-				ss.setAttribute("vaitro", tkdn.getVaiTro().getMaVT());
+				
+				
 				return "redirect:/trangchu.html";
 			}else {
 				model.addAttribute("message", "TÃ i khoáº£n khÃ´ng tá»“n táº¡i!");
@@ -72,12 +92,11 @@ public class TaiKhoanController {
 			}
 		} 
 		else if(tkdn.getVaiTro().getMaVT().trim().equals("NV")) {
-			NhanVien tknv = this.getNhanVien(tkdn.getUserName());
-			if(tknv != null) {
-				ss.setAttribute("user", tknv);
-				ss.setAttribute("tkdn", tkdn);
-				ss.setAttribute("vaitro", tkdn.getVaiTro().getMaVT());
-				return "redirect:/QL_TrangChu.html";
+			NhanVien nv = this.getNhanVien(tkdn.getUserName());
+			if(nv != null) {
+				ss.setAttribute("user", nv);
+
+				return "redirect:quanly/trangchu.html";
 			}
 			else {
 				model.addAttribute("message","TÃ i khoáº£n khÃ´ng tá»“n táº¡i!");
@@ -85,11 +104,10 @@ public class TaiKhoanController {
 			}
 		}
 		else if(tkdn.getVaiTro().getMaVT().trim().equals("QL")) {
-			NhanVien tknv = this.getNhanVien(tkdn.getUserName());
-			if(tknv != null) {
-				ss.setAttribute("user", tknv);
-				ss.setAttribute("vaitro", tkdn.getVaiTro().getMaVT());
-				return "QuanLy/trangchu";
+			NhanVien ql = this.getNhanVien(tkdn.getUserName());
+			if(ql != null) {
+				ss.setAttribute("user", ql);
+				return "redirect:quanly/trangchu.html";
 			}
 			else {
 				model.addAttribute("message","TÃ i khoáº£n khÃ´ng tá»“n táº¡i!");
@@ -144,14 +162,13 @@ public class TaiKhoanController {
 	public String dangxuat(HttpSession ss) {
 	
 			ss.removeAttribute("user");
-			ss.removeAttribute("vaitro");
 		
 			return "redirect:/dangnhap.html";
 	
 	}
-<<<<<<< Updated upstream
-=======
-	//Ä‘Äƒng kÃ­
+
+	//đăng kí
+
 	@RequestMapping("dangki") 
 	public String showdangki(ModelMap model){
 		
@@ -169,49 +186,55 @@ public class TaiKhoanController {
 		
 		
 		  if(kh.getHoKH().isEmpty()) { 
-			  errors.rejectValue("hoKH","khachhang", "Dá»¯ liá»‡u khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng!"); } 
+
+			  errors.rejectValue("hoKH","khachhang", "Dữ liệu không được để trống!"); } 
 		  if(kh.getTenKH().isEmpty()) {
-		  errors.rejectValue("tenKH","khachhang", "Dá»¯ liá»‡u khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng!"); }
+		  errors.rejectValue("tenKH","khachhang", "Dữ liệu không được để trống!"); }
 		  if(kh.getNgSinh()==null) { 
-			  errors.rejectValue("ngSinh","khachhang","Dá»¯ liá»‡u khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng!"); } 
+			  errors.rejectValue("ngSinh","khachhang","Dữ liệu không được để trống!"); } 
 		  if(kh.getTkkh().getEmail().isEmpty()) {
-		  errors.rejectValue("tkkh.email", "khachhang","Dá»¯ liá»‡u khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng!"); }
+		  errors.rejectValue("tkkh.email", "khachhang","Dữ liệu không được để trống!"); }
 		  if (!kh.getTkkh().getEmail().trim().matches(
 					"^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")) {
-			  errors.rejectValue("tkkh.email", "khachhang","Vui lÃ²ng nháº­p Ä‘Ãºng Ä‘á»‹nh dáº¡ng email!");
+			  errors.rejectValue("tkkh.email", "khachhang","Vui lòng nhập đúng định dạng email!");
+
 		  }
 		  System.out.println(gettkbyemail(kh.getTkkh().getEmail()));
 		  System.out.println(kh.getTkkh().getUserName());
 		  if(gettkbyemail(kh.getTkkh().getEmail())!=null) {
-			  errors.rejectValue("tkkh.email", "khachhang","Email Ä‘Ã£ Ä‘Æ°á»£c sá»­ dá»¥ng!");
+
+			  errors.rejectValue("tkkh.email", "khachhang","Email đã được sử dụng!");
 		  }
 		  if(checkusername(kh.getTkkh().getUserName()) == false) {
-			  errors.rejectValue("tkkh.userName", "khachhang","TÃªn Ä‘Äƒng nháº­p Ä‘Ã£ Ä‘Æ°á»£c sá»­ dá»¥ng!");
+			  errors.rejectValue("tkkh.userName", "khachhang","Tên đăng nhập đã được sử dụng!");
 		  }
 		  if (kh.getSdt().length() == 0) {
-			  errors.rejectValue("sdt","khachhang", "Dá»¯ liá»‡u nÃ y khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng!");
+			  errors.rejectValue("sdt","khachhang", "Dữ liệu này không được để trống!");
 			}
 		  if (! kh.getSdt().trim().matches("^[0-9]*$") || kh.getSdt().length() != 10) {
-			  errors.rejectValue("sdt","khachhang", "Vui lÃ²ng nháº­p Ä‘Ãºng Ä‘á»‹nh dáº¡ng sá»‘ Ä‘iá»‡n thoáº¡i!");
+			  errors.rejectValue("sdt","khachhang", "Vui lòng nhập đúng định dạng số điện thoại!");
 			
 			}
 		  if(kh.getTkkh().getUserName().isEmpty()) {
-		  errors.rejectValue("tkkh.userName", "khachhang","Dá»¯ liá»‡u khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng!"); }
+		  errors.rejectValue("tkkh.userName", "khachhang","Dữ liệu không được để trống!"); }
 		  
 		  System.out.println(pw);
 		  System.out.println(rpw);
 		  if(pw.equals("")) {
-			  errors.rejectValue("tkkh.matKhau","KhachHang", "Dá»¯ liá»‡u khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng!"); }
+
+			  errors.rejectValue("tkkh.matKhau","KhachHang", "Dữ liệu không được để trống!"); }
 		 
 		  if(rpw.equals("")) {
-			model.addAttribute("messageer","Dá»¯ liá»‡u khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng!");
+			model.addAttribute("messageer","Dữ liệu không được để trống!");
 		}
 		if(!errors.hasErrors()) {
 			Session session = factory.getCurrentSession();
 			VaiTro vt = (VaiTro)session.get(VaiTro.class,"KH");
 			System.out.println(vt.getMaVT());
 			kh.setMaKH(taoMa("KH","KhachHang","maKH"));
+
 			kh.getTkkh().setTrangThai(1);
+
 			kh.getTkkh().setVaiTro(vt);
 			String password = request.getParameter("pw");
 			kh.getTkkh().setMatKhau(hashPass(password));
@@ -269,13 +292,16 @@ public class TaiKhoanController {
 				System.out.println("khanhvigui");
 				helper.setFrom("no-reply-email");
 				helper.setTo(/* email */"n19dccn223@student.ptithcm.edu.vn");
-				helper.setSubject("Ä�áº·t láº¡i máº­t kháº©u");
-				helper.setText("Máº­t kháº©u má»›i cá»§a quÃ½ khÃ¡ch lÃ : " + matkhaumoi);
+
+				helper.setSubject("Đặt lại mật khẩu");
+				helper.setText("Mật khẩu mới của quý khách là: " + matkhaumoi);
+
 			} catch (MessagingException e) {
 				e.printStackTrace();
 			}
 			mailer.send(mail);
-			model.addAttribute("message", "Máº­t kháº©u má»›i Ä‘Ã£ Ä‘Æ°á»£c gá»­i vÃ o Email");
+
+			model.addAttribute("message", "Mật khẩu mới đã được gửi vào Email");
 			
 		}catch(Exception e) {
 			t.rollback();
@@ -293,7 +319,9 @@ public class TaiKhoanController {
 		
 		return "TaiKhoan/dangnhap";
 	}
-	// táº¡o mÃ£ tá»± Ä‘á»™ng
+
+	// tạo mã tự động
+
 	public String taoMa(String refix, String table, String columnId) {
 		Session session = factory.getCurrentSession();
 		String hql = "FROM " + table;
@@ -315,7 +343,9 @@ public class TaiKhoanController {
 		}
 		return id;
 	}
-//mÃ£ hÃ³a máº­t kháº©u
+
+//mã hóa mật khẩu
+
 	public String hashPass(String matKhau) {
 		String hashpw = DigestUtils.md5Hex(matKhau).toUpperCase();
 		return hashpw;
@@ -343,5 +373,5 @@ public class TaiKhoanController {
 		}
 		return true;
 	}
->>>>>>> Stashed changes
+
 }

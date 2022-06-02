@@ -7,11 +7,7 @@
 <%@include file="../KhachHang/head.jsp"%>
     <body class="">
         <!-- MAIN -->
-        <div class="load-wrap">
-            <div class="wheel-load">
-                <img src="resources/KhachHang/images/loader.gif" alt="" class="image">
-            </div>
-        </div>
+        
    <%@include file="../KhachHang/navbar.jsp"%>
         <!-- /////////////////////////////// -->
   
@@ -28,12 +24,14 @@
                             <form:form action="dangnhap.html"  method="post" modelAttribute="taikhoan" >
                                 <label for="userName" class="fa fa-user">
                                 <form:input path="userName" id="userName" placeholder='Tên đăng nhập / Email'/></label>
+                                 <form:errors  class="text-er" path="userName"></form:errors>
                                 <label for="userPass" class="fa fa-lock">
                                 <form:input type="password" path="matKhau" id="userPass" placeholder='Mật khẩu'/></label>
+                                <form:errors  class="text-er" path="matKhau"></form:errors>
                                 <button type="submit" class="wheel-btn">Đăng nhập</button>
                                 <label class="password-sing clearfix" for="input-val2">
                                    <!--  <input type='checkbox' id='input-val2'> <span>Nhớ mật khẩu</span> -->
-                                    <a href="forgot.html">Quên mật khẩu</a>
+                                    <a href="quenmatkhau.html">Quên mật khẩu</a>
                                 </label>
                             </form:form>
                         </div>

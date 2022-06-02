@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -22,7 +24,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "PHIEUDAT")
-public class PhieuDat {
+public class PhieuDat{
 	@Id
 	@Column(name = "MaPD")
 	private String maPD;
@@ -43,9 +45,6 @@ public class PhieuDat {
 	private NhanVien NV;
 	@Column(name="TongTien")
 	private BigDecimal tongtien;
-	public String getMaPD() {
-		return maPD;
-	}
 	@Column(name="Email")
 	private String email;
 	@Column(name="SDT")
@@ -59,6 +58,10 @@ public class PhieuDat {
 	public ChuyenXe getChuyen() {
 		return chuyen;
 	}
+	public String getMaPD() {
+		return maPD;
+	}
+	
 	public boolean isPttt() {
 		return pttt;
 	}

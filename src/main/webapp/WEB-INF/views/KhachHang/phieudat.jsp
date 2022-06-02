@@ -51,37 +51,29 @@
 <link
 	href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
 	rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+	integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
 <link href="resources/KhachHang/assets/css/style1.css" rel="stylesheet">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	   <link rel="stylesheet" type="text/css" href="resources/KhachHang/assets/css/alertify.min.css">
 
 </head>
 <body class="">
-<div class="modal-flag" idModal="${idModal}"></div>
+	<div class="modal-flag" idModal="${idModal}"></div>
+	 <div class="alert-flag" aType='${message.type}'
+		aMessage="${message.message }"></div>
 	<!-- MAIN -->
 	<div class="load-wrap">
 		<div class="wheel-load">
 			<img src="images/loader.gif" alt="" class="image">
 		</div>
 	</div>
-	 <%@include file="navbar.jsp"%>
-	<!-- /////////////////////////////// -->
-	<div class="wheel-start3">
-		<img src="images/bg7.jpg" alt="" class="wheel-img">
-		<div class="container">
-			<div class="row">
-				<div class="col-xs-12 padd-lr0">
-					<div
-						class="wheel-start3-body clearfix marg-lg-t255 marg-lg-b75 marg-sm-t190 marg-xs-b30">
-						<h3>Vé đặt</h3>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	<%@include file="navbar.jsp"%>
 	<!-- /////////////////////////////////// -->
 	<div class="wheel-register-block">
 		<div class="container">
@@ -108,25 +100,24 @@
 											<th scope="row">${pd.maPD }</th>
 											<td>${pd.ngaydat }</td>
 											<td>${pd.getChuyen().getTuyen().getMaTuyen() }</td>
-											<td>
-											<c:choose>
-												<c:when test="${pd.trangThai==0}">
+											<td><c:choose>
+													<c:when test="${pd.trangThai==0}">
 												Chờ thanh toán
 												</c:when>
-												<c:when test="${pd.trangThai==1}">
+													<c:when test="${pd.trangThai==1}">
 												Đã thanh toán
 												</c:when>
-												<c:when test="${pd.trangThai==2}">
+													<c:when test="${pd.trangThai==2}">
 												Đã hủy
 												</c:when>
-											</c:choose>
-											</td>
+												</c:choose></td>
 											<td>${pd.getChuyen().getGia()}</td>
-											<td>
-											<a href="phieudat/chitietphieudat/${pd.maPD }.html" >
-											<i class="fas fa-info-circle"></i></a> 
-											<a href="phieudat/huy/${pd.maPD }.html" ><i class="fas fa-ban"></i></a>
-											</td>
+											<td><a href="phieudat/chitietphieudat/${pd.maPD }.html">
+													<i class="fas fa-info-circle"></i>
+											</a> <c:if test="${pd.trangThai!=2}">
+													<a href="phieudat/huy/${pd.maPD }.html"><i
+														class="fas fa-ban"></i></a>
+												</c:if></td>
 										</tr>
 									</c:forEach>
 
@@ -210,18 +201,19 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Xoá vé xe</h5>
+					<h5 class="modal-title" id="exampleModalLabel">Hủy Vé</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<div class="modal-body">Bạn có muốn xoá vé xe này ?</div>
+				<div class="modal-body">Bạn có chắc chắn muốn hủy vé không?</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">Đóng</button>
-					<form method= "post">
-					<button type="submit" name="btnHuyPhieu" class="btn btn btn-primary">Đồng ý</button>
+						data-dismiss="modal">Hủy bỏ thao tác</button>
+					<form method="post">
+						<button type="submit" name="btnHuyPhieu"
+							class="btn btn btn-primary">Chắc chắn</button>
 					</form>
 				</div>
 			</div>
@@ -265,9 +257,12 @@
 	<script
 		src="resources/KhachHang/assets/vendor/php-email-form/validate.js"></script>
 	<script src="resources/KhachHang/assets/js/main.js"></script>
+	  <script type="text/javascript" src="resources/KhachHang/assets/js/alertify.min.js"></script>
+        <script type="text/javascript" src="resources/KhachHang/assets/js/showMessage.js"></script>
 	<script>
-	if ($(".modal-flag").attr("idModal") === "modalHuy") {
-		$("#exampleModal").modal("show");}
+		if ($(".modal-flag").attr("idModal") === "modalHuy") {
+			$("#exampleModal").modal("show");
+		}
 	</script>
 </body>
 

@@ -333,3 +333,12 @@ label.fa.fa-calendar::after{
    transform: none;
   cursor: not-allowed;
 }
+.text-er {
+	color: red !important;
+}
+.wheel-btn{
+	padding: 0 19px;
+}
+.box-shadow {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}

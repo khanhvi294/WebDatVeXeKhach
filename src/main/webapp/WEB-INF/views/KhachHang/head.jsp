@@ -29,4 +29,6 @@
         <script src="assets/js/respond.min.js"></script>
         
         <![endif]-->
+          <link rel="stylesheet" type="text/css" href="resources/KhachHang/assets/css/alertify.min.css">
     </head>
+   
