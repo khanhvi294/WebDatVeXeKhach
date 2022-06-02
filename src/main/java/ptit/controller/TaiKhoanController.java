@@ -1,6 +1,5 @@
 package ptit.controller;
 
-import java.net.http.HttpRequest;
 import org.apache.commons.codec.digest.DigestUtils;
 import java.text.DecimalFormat;
 import java.util.List;
@@ -25,7 +24,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.jsf.FacesContextUtils;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ptit.entity.KhachHang;
 import ptit.entity.NhanVien;
@@ -41,13 +40,16 @@ public class TaiKhoanController {
 	JavaMailSender mailer;
 	
 	@RequestMapping(value="dangnhap.html",method = RequestMethod.GET) 
-	public String getDangNhapKH(ModelMap model) {
+	public String getDangNhap(ModelMap model,HttpSession ss) {
+
+		System.out.println("ihihihi");
 		model.addAttribute("taikhoan",new TaiKhoan());
 		return "TaiKhoan/dangnhap";
 	}
 	@RequestMapping(value="dangnhap.html",method = RequestMethod.POST)
-	public String postDangNhapKH(HttpSession ss,ModelMap model,
+	public String postDangNhap(HttpSession ss,ModelMap model,
 			@ModelAttribute("taikhoan") TaiKhoan tk, BindingResult errors) {
+		System.out.println("vitesst");
 		//b1: ktra lỗi
 		
 		if(tk.getUserName().isEmpty()) {
@@ -69,7 +71,8 @@ public class TaiKhoanController {
 		}
 		
 		if(tkdn.getTrangThai() == 0) {
-			model.addAttribute("message", "TÃ i khoáº£n Ä‘ang bá»‹ khÃ³a!");
+			model.addAttribute("message", "Tài khoản đang bị khóa!");
+
 			
 			return "TaiKhoan/dangnhap";
 		}
@@ -162,6 +165,7 @@ public class TaiKhoanController {
 	public String dangxuat(HttpSession ss) {
 	
 			ss.removeAttribute("user");
+			ss.removeAttribute("tkdn");
 		
 			return "redirect:/dangnhap.html";
 	
@@ -232,9 +236,7 @@ public class TaiKhoanController {
 			VaiTro vt = (VaiTro)session.get(VaiTro.class,"KH");
 			System.out.println(vt.getMaVT());
 			kh.setMaKH(taoMa("KH","KhachHang","maKH"));
-
 			kh.getTkkh().setTrangThai(1);
-
 			kh.getTkkh().setVaiTro(vt);
 			String password = request.getParameter("pw");
 			kh.getTkkh().setMatKhau(hashPass(password));
@@ -266,30 +268,31 @@ public class TaiKhoanController {
 	
 	@RequestMapping(value="dangnhap.html",method=RequestMethod.POST,params="btnlaymatkhau")
 	public String quenmatkhau(@RequestParam("email") String email,ModelMap model) {
-		System.out.println("vo");
+	
 		TaiKhoan tk = gettkbyemail(email);
 		
 		if(tk == null) {
 			
 			return "redirect:quenmatkhau.html";
 		}
-		System.out.println(tk.getUserName());
+		
 		Random random = new Random();
 		int ranNum = random.nextInt(999999)+100000;
 		String matkhaumoi = Integer.toString(ranNum);
 		String mkhash = hashPass(matkhaumoi);
 		tk.setMatKhau(mkhash);
+		tk.setTrangThai(2);
 		Session session = factory.openSession();
 		Transaction t = session.beginTransaction();
 		try {
-			System.out.println("hihi");
+			
 			session.update(tk);
 			t.commit();
 			MimeMessage mail = mailer.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(mail);
 
 			try {
-				System.out.println("khanhvigui");
+
 				helper.setFrom("no-reply-email");
 				helper.setTo(/* email */"n19dccn223@student.ptithcm.edu.vn");
 
@@ -313,11 +316,56 @@ public class TaiKhoanController {
 		model.addAttribute("taikhoan",new TaiKhoan());
 		return "TaiKhoan/dangnhap";
 	}
-	@RequestMapping(value="dangnhap.html",params="btnDatlaimatkhau")
-	public String datlaimatkhau() {
+
+	@RequestMapping("doimatkhau") 
+	public String hiendoimatkhau(){
+		return "TaiKhoan/doimatkhau";
+	}
+	@RequestMapping(value="doimatkhau.html",method=RequestMethod.POST) 
+	public String doimatkhau(@RequestParam("pw") String pw,@RequestParam("rpw") String rpw,
+			ModelMap model,HttpServletRequest request,RedirectAttributes redirectAttributes){
 		
+		boolean check = false;
+		if(!rpw.equals(pw)) {
+			model.addAttribute("messrpw","Mật khẩu không trùng khớp!");
+			check = true;
+		}
+		if(rpw.length()<6) {
+			model.addAttribute("messpw","Mật khẩu không được bé hơn 6 kí tự!");
+			check=true;
+		}
 		
-		return "TaiKhoan/dangnhap";
+		if(rpw.isEmpty()) {
+			model.addAttribute("messrpw","Dữ liệu không được để trống!");
+			check = true;
+		}
+		if(pw.isEmpty()) {
+			model.addAttribute("messpw","Dữ liệu không được để trống!");
+			check = true;
+		}
+		if(check) {
+			return "TaiKhoan/doimatkhau";
+		}
+		HttpSession ss = request.getSession();
+		TaiKhoan tk = (TaiKhoan)ss.getAttribute("tkdn");
+		String matkhaumoi = hashPass(pw);
+		tk.setMatKhau(matkhaumoi);
+		tk.setTrangThai(1);
+		Session session = factory.openSession();
+		Transaction t = session.beginTransaction();
+		try {
+			session.update(tk);
+			t.commit();
+			redirectAttributes.addFlashAttribute("message", new Message("success", "Đổi mật khẩu thành công"));
+		}catch(Exception e) {
+			System.out.println(e.getCause());
+			t.rollback();
+			model.addAttribute("message",new Message("error", "Đổi mật khẩu thất bại!"));
+			return "TaiKhoan/doimatkhau";
+		}finally {
+			session.close();
+		}
+		return "redirect:trangchu.html";
 	}
 
 	// tạo mã tự động

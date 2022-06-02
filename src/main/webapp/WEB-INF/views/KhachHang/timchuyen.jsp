@@ -75,7 +75,7 @@
 
 								</div>
 								<div class="wheel-date">
-									<span>Điểm đến</span> <label for="input-val20"
+									<span>Điểm đến</span> <label for="input-val21"
 										class="fa fa-map-marker"> <form:select
 											class="selectpicker" path="tuyen.diemDen.maDD"
 											itemLabel="diaDiem" itemValue="maDD" id="input-val21"

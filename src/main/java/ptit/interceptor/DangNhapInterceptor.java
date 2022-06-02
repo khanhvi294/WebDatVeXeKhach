@@ -15,12 +15,12 @@ public class DangNhapInterceptor extends HandlerInterceptorAdapter {
 			throws Exception {
 
 		HttpSession session = request.getSession();
-		if (session.getAttribute("user") != null) {
+		if (session.getAttribute("tkdn") != null) {
 			TaiKhoan taikhoan = (TaiKhoan) session.getAttribute("tkdn");
 
 			if (taikhoan.getVaiTro().getMaVT().equals("KH")) {
 
-				response.sendRedirect(request.getContextPath() + "/");
+				response.sendRedirect(request.getContextPath() + "/trangchu.html");
 				return false;
 			}
 

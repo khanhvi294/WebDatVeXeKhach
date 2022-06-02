@@ -2,7 +2,9 @@ const containers = document.querySelector(".containers");
 const seats = document.querySelectorAll(".rows .seat:not(.sold)");
 const count = document.getElementById("count");
 const total = document.getElementById("total");
-const carSelect = document.getElementById("car");
+let carSelect = document.getElementById("car");
+
+if(carSelect) {
 
 populateUI();
 
@@ -76,7 +78,7 @@ containers.addEventListener("click", (e) => {
 
 // Initial count and total set
 updateSelectedCount();
-
+}
 
 $(document).ready(function() {
 	var formheight = $("#form-wrapper").height();
