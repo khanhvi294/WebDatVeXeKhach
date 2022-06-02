@@ -21,7 +21,7 @@ public class TaiKhoan {
 	@JoinColumn(name = "VaiTro")
 	private VaiTro vaiTro;
 	@Column(name = "Trangthai")
-	private boolean trangThai;
+	private int trangThai;
 	public String getUserName() {
 		return userName;
 	}
@@ -46,12 +46,13 @@ public class TaiKhoan {
 	public void setVaiTro(VaiTro vaiTro) {
 		this.vaiTro = vaiTro;
 	}
-	public boolean isTrangThai() {
+	public int getTrangThai() {
 		return trangThai;
 	}
-	public void setTrangThai(boolean trangThai) {
+	public void setTrangThai(int trangThai) {
 		this.trangThai = trangThai;
 	}
+
 	
 
 }

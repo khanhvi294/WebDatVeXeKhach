@@ -3,10 +3,14 @@
 <!DOCTYPE html>
 <html lang="en">
 
- <%@include file="../KhachHang/head.jsp"%>
+<%@include file="../KhachHang/head.jsp"%>
     <body class="">
- 
-  <%@include file="../KhachHang/navbar.jsp"%>
+    <div class="alert-flag" aType='${message.type}'
+		aMessage="${message.message }"></div>
+    
+        <!-- MAIN -->
+       <%@include file="../KhachHang/navbar.jsp"%>
+        
         <!-- /////////////////////////////////// -->
         <div class="wheel-register-block">
             <div class="container">
@@ -14,20 +18,22 @@
                     <div class="col-md-6 " style="margin-left: 300px">
                         <div class="wheel-register-log marg-lg-t150 marg-lg-b150 marg-sm-t100 marg-sm-b100">
                             <div class="wheel-header">
-                                <h5>Quên Mật Khẩu</h5>
-                         
+                                <h5>Đặt lại mật khẩu</h5>
                             </div>
-                            <form action="dangnhap.html" method="post">
-                                <label for="email" class="fa fa-user"><input type="text" name="email" id="email" placeholder='Nhập email'></label>
-                                <button name="btnlaymatkhau" type="submit" class="wheel-btn">Tiếp tục</button>
+                            <form action="doimatkhau.html" method="post">
+                                <label for="pw" class="fa fa-lock">
+                                <input type="password" id='pw' name="pw" placeholder='Mật khẩu mới'></label>
+                               <span class="text-er">${messpw }</span> 
+                                <label for="rpw" class="fa fa-lock">
+                                <input type="password" name="rpw" id='userPass' placeholder='Xác nhận mật khẩu mới'></label>
+                               <span class="text-er"> ${messrpw }</span>
+                                <button type="submit" class="wheel-btn">Lưu</button>
                             </form>
                         </div>
                     </div>
                 </div>    
             </div>
         </div>
-                    
-   
         <!-- FOOTER -->
         <!-- ///////////////// -->
          <!-- FOOTER -->
@@ -91,8 +97,7 @@
             </div>
         </div>
         <!-- Scripts project -->
-        <%@include file="../KhachHang/script.jsp"%>
-        <!-- sixth block end -->
+         <%@include file="../KhachHang/script.jsp"%>
     </body>
 
 </html>

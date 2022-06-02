@@ -55,8 +55,8 @@
 				<div class="col-sm-8">
 					<header class="wheel-header marg-lg-t25 marg-lg-b65">
 						<h3>
-							Danh sách chuyến xe từ <span>${diemdi.diaDiem } </span> đến <span>
-								${diemden.diaDiem } </span>
+							Danh sách chuyến xe từ <span>${diemdi} </span> đến <span>
+								${diemden} </span>
 						</h3>
 					</header>
 				</div>

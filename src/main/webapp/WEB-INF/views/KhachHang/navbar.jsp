@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
- <div class="wheel-menu-wrap ">
+ <div class="wheel-menu-wrap">
             <div class="container-fluid wheel-bg1">
                 <div class="row">
                     <div class="col-sm-3">
@@ -27,7 +27,7 @@
                                         </button>
                                         <ul class="dropdown-menu">
                                             <li><a href="thongtincanhan.html">Thông tin cá nhân</a></li>
-                                            <li><a href="doimatkhau.html">Đổi mật khẩu</a></li>
+                                            <li><a href="matkhau.html">Đổi mật khẩu</a></li>
                                             <li><a href="phieudat.html">Vé đặt</a></li>
                                             <li><a href="dangxuat.html">Đăng xuất</a></li>
                                         </ul>
@@ -80,12 +80,12 @@
                 </div>
             </div>
         </div>
-        <div class="wheel-start3" style="height: 220px;">
+        <div class="wheel-start3" style="height: 180px;">
 		<div class="container">
 			<div class="row">
 				<div class="col-xs-12 padd-lr0">
 					<div
-						class="wheel-start3-body clearfix marg-lg-t255 marg-lg-b75 marg-sm-t190 marg-xs-b30">
+						class="wheel-start3-body clearfix   marg-sm-t190 marg-xs-b30">
 		
 					</div>
 				</div>

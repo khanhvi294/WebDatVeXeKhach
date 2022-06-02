@@ -16,8 +16,8 @@
         <div class="wheel-register-block">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6 " style="float:right">
-                        <div class="wheel-register-log marg-lg-t150 marg-lg-b150 marg-sm-t100 marg-sm-b100">
+                    <div class="col-md-6 " style="margin-left: 300px">
+                        <div class="wheel-register-log marg-lg-b150 marg-sm-t100 marg-sm-b100">
                             <div class="wheel-header">
                                 <h5>Đăng Nhập</h5>
                             </div>
@@ -40,25 +40,7 @@
             </div>
         </div>
                     
-        <!-- /////////////////////////////// -->
-        <div class="wheel-subscribe wheel-bg2">
-            <div class="container ">
-                <div class="row">
-                    <div class="col-md-6 padd-lr0">
-                        <div class="wheel-header">
-                            <h5>Đăng kí để nhận tin</h5>
-                            <h3>Đăng kí ngay và bạn sẽ được nhận mã giảm giá<span> 20% </span></h3>
-                        </div>
-                    </div>
-                    <div class="col-md-6 padd-lr0">
-                        <form action="#">
-                            <input type="text" placeholder="Địa chỉ gmail của bạn ">
-                            <a href="register.html" class="wheel-cheader-but" target="_blank">Đăng kí ngay</a>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+ 
         <!-- FOOTER -->
         <!-- ///////////////// -->
         <footer class="wheel-footer">

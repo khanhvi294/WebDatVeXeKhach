@@ -36,6 +36,7 @@ import ptit.entity.DiaDiem;
 import ptit.entity.KhachHang;
 import ptit.entity.PhieuDat;
 import ptit.entity.TaiKhoan;
+import ptit.entity.TuyenXe;
 import ptit.entity.VeXe;
 import ptit.entity.VeXePK;
 
@@ -65,10 +66,31 @@ public class KhachHangController {
 
 		return list;
 	}
-
+	@ModelAttribute("tuyenrandom")
+	public List<TuyenXe> gettuyenrandom() {
+		Session session = factory.getCurrentSession();
+		String hql = "from TuyenXe order by newid()";
+		Query query = session.createQuery(hql);
+		List<TuyenXe> list = query.list();
+		
+		List<TuyenXe> res = new ArrayList<TuyenXe>();
+		if(list.size() >0) {
+			for(int i=0; i<list.size() ; i++) {
+				if(i == 6) {
+					break;
+				}
+				
+				res.add(list.get(i));
+			}
+		}
+		
+		
+		return res;
+	}
+	
 	@RequestMapping("trangchu")
 	public String index(ModelMap model) {
-		/* model.addAttribute("chuyenxe",new ChuyenXe()); */
+		
 		return "KhachHang/trangchu";
 	}
 	
@@ -79,20 +101,43 @@ public class KhachHangController {
 		return "KhachHang/timchuyen";
 	}
 
+	@RequestMapping(value="timchuyen.html",params="chon") 
+	public String timchuyenget(@RequestParam("di") String di,@RequestParam("den") String den,ModelMap model){
+		
+		Session session = factory.getCurrentSession();
+		String hql = "from TuyenXe where diemDi.maDD=:diemdi and diemDen.maDD=:diemden";
+		Query query = session.createQuery(hql);
+		query.setParameter("diemdi", di);
+		query.setParameter("diemden", den);
+		TuyenXe tx = (TuyenXe)query.list().get(0);
+		ChuyenXe chuyenxe= new ChuyenXe();
+		chuyenxe.setTuyen(tx);
+		model.addAttribute("chuyenxe", chuyenxe);
+		
+		return "KhachHang/timchuyen";
+	}
 //chọn chuyến
 	@RequestMapping(value = "chonchuyen")
 	public String chonchuyen(@ModelAttribute("chuyenxe") ChuyenXe cx, ModelMap model,HttpServletRequest request) {
 System.out.println("ihi");
-System.out.println(cx.getNgKH());
+System.out.println(cx.getTuyen().getDiemDi().getMaDD());
+System.out.println(cx.getTuyen().getDiemDen().getMaDD());
 		String referer = request.getHeader("Referer");
 		String r = referer.substring(referer.lastIndexOf("/") + 1);
-		if(r.equals("timchuyen.html") || r.equals("trangchu.html")) {
-			Session session = factory.getCurrentSession();
+		System.out.println(r);
+		if(!r.equals("chonghe.html")) {
+			System.out.println("hihih");
+			
 			List<ChuyenXe> list = this.getdsChuyenXe(cx.getTuyen().getDiemDi().getMaDD(),
 					cx.getTuyen().getDiemDen().getMaDD(), cx.getNgKH());
 			model.addAttribute("dschuyenxe", list);
-			model.addAttribute("diemdi", (DiaDiem) session.get(DiaDiem.class, cx.getTuyen().getDiemDi().getMaDD()));
-			model.addAttribute("diemden", (DiaDiem) session.get(DiaDiem.class, cx.getTuyen().getDiemDen().getMaDD()));
+			Session session = factory.getCurrentSession();
+			DiaDiem ddi = (DiaDiem) session.get(DiaDiem.class, cx.getTuyen().getDiemDi().getMaDD());
+			DiaDiem dden = (DiaDiem) session.get(DiaDiem.class, cx.getTuyen().getDiemDen().getMaDD());
+			System.out.println(dden.getDiaDiem());
+			System.out.println(ddi.getDiaDiem());
+			model.addAttribute("diemdi", dden.getDiaDiem());
+			model.addAttribute("diemden", ddi.getDiaDiem());
 
 		}else {
 			
@@ -349,12 +394,12 @@ System.out.println(cx.getNgKH());
 	}
 
 //đổi mật khẩu
-	@RequestMapping("doimatkhau")
+	@RequestMapping("matkhau")
 	public String doimk() {
-		return "KhachHang/doimatkhau";
+		return "KhachHang/doimatkhau"; 
 	}
 
-	@RequestMapping(value = "doimatkhau", method = RequestMethod.POST)
+	@RequestMapping(value = "matkhau", method = RequestMethod.POST)
 	public String doimatkhau(HttpSession ss, @RequestParam("cpassword") String PW,
 			@RequestParam("npassword") String nPW, @RequestParam("rnpassword") String rnPW, ModelMap model) {
 		KhachHang kh = (KhachHang) ss.getAttribute("user");

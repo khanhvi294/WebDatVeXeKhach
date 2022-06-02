@@ -30,5 +30,6 @@
         
         <![endif]-->
           <link rel="stylesheet" type="text/css" href="resources/KhachHang/assets/css/alertify.min.css">
+           <link rel="stylesheet" href="resources/KhachHang/assets/vendor/slick/slick/slick.css" />
     </head>
    

@@ -1,3 +1,15 @@
+   	<script>
+window.addEventListener( "pageshow", function ( event ) {
+	  var historyTraversal = event.persisted || 
+	                         ( typeof window.performance != "undefined" && 
+	                              window.performance.navigation.type === 2 );
+	  if ( historyTraversal ) {
+	    // Handle page restore.
+	    window.location.reload();
+	  }
+	});
+</script>
+   
    <!-- Scripts project -->
         <script type="text/javascript" src="resources/KhachHang/assets/js/jquery-2.2.4.min.js"></script>
         <script type="text/javascript" src="resources/KhachHang/assets/js/bootstrap.min.js"></script>
@@ -16,5 +28,7 @@
         <script type="text/javascript" src="resources/KhachHang/assets/js/script.js"></script>
         <script type="text/javascript" src="resources/KhachHang/assets/js/alertify.min.js"></script>
         <script type="text/javascript" src="resources/KhachHang/assets/js/showMessage.js"></script>
+        <script type="text/javascript" src="resources/KhachHang/assets/vendor/slick/slick/slick.min.js"></script>
+              
              
      
