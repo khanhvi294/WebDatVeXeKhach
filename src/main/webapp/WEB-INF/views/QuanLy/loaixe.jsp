@@ -78,12 +78,12 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <label class="col-md-4 col-lg-3 col-form-label v-label">Số chỗ</label>
-                            <div class="col-md-8 col-lg-9">
-                                <form:input path="seat" type="text" class="form-control v-form-control" readonly = "true" id="smadd"  value = "36"/>
-                            </div>
-                        </div>
+<!--                         <div class="row mb-3"> -->
+<!--                             <label class="col-md-4 col-lg-3 col-form-label v-label">Số chỗ</label> -->
+<!--                             <div class="col-md-8 col-lg-9"> -->
+<%--                                 <form:input path="seat" type="text" class="form-control v-form-control" readonly = "true" id="smadd"  value = "36"/> --%>
+<!--                             </div> -->
+<!--                         </div> -->
 
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary btn-main-color border-0 mt-3">Lưu</button>
@@ -123,13 +123,13 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <label class="col-md-4 col-lg-3 col-form-label v-label">Số chỗ</label>
-                            <div class="col-md-8 col-lg-9">
-                                <form:input path="seat" type="text" class="form-control v-form-control" readonly = "true" id="smadd"  value = "36"/>
+<!--                         <div class="row mb-3"> -->
+<!--                             <label class="col-md-4 col-lg-3 col-form-label v-label">Số chỗ</label> -->
+<!--                             <div class="col-md-8 col-lg-9"> -->
+<%--                                 <form:input path="seat" type="text" class="form-control v-form-control" readonly = "true" id="smadd"  value = "36"/> --%>
 
-                            </div>
-                        </div>
+<!--                             </div> -->
+<!--                         </div> -->
 
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary btn-main-color border-0 mt-3">Lưu</button>

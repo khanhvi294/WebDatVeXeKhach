@@ -7,11 +7,14 @@
 <head>
 <meta charset="utf-8">
 <%@ include file="head.jsp"%>
+
 </head>
 <body>
 	<%@ include file="header.jsp"%>
 	<!-- End Header -->
 	<%@ include file="slidebar.jsp"%>
+	<div class="alert-flag" aType='${message.type}'
+		aMessage="${message.message }"></div>
 	<main id="main" class="main">
 		<div class="pagetitle">
 			<h1>Chuyến Xe</h1>
@@ -35,7 +38,7 @@
 									<th scope="col">Thời gian đi</th>
 									<th scope="col">Biển xe</th>
 									<th scope="col">Trạng Thái</th>
-									<th scope="col" class="text-center">Thao tác</th>
+									<th scope="col" class="text-center">Thao Tác</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -56,6 +59,7 @@
 												</c:when>
 											</c:choose></td>
 										<td><span><a
+
 												href="/CNPM/quanly/chuyenxe/${u.maChuyen}.html?info"> <i
 													class="bi bi-info-circle-fill v-icon-modal"></i></a> <c:if
 													test="${u.trangthai eq false}">
@@ -64,8 +68,11 @@
 														data-bs-toggle="modal" data-bs-target="#ProfileEditModal"></i></a>
 												</c:if> </span> 
 												
-												<i class="bi bi-arrow-repeat v-icon-modal"
-											data-bs-toggle="modal" data-bs-target="#Edittrangthai"></i></td>
+												<a href="/CNPM/quanly/chuyenxe/${u.maChuyen}.html?trangthai"><i class="bi bi-arrow-repeat v-icon-modal"
+											data-bs-toggle="modal" data-bs-target="#Edittrangthai"></i></a>
+											</td>
+
+
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -121,7 +128,7 @@
 
 														<div class="col-lg-4 col-md-5">${chuyen.ngKH}</div>
 
-														<div class="col-lg-4 col-md-5">${chuyen.tgKh}</div>
+														<div class="col-lg-4 col-md-5">${time}</div>
 													</div>
 
 													<div class="row">
@@ -216,18 +223,6 @@
 								</select>
 							</div>
 						</div>
-
-						<div class="row mb-3">
-							<label class="col-md-4 col-lg-3 col-form-label v-label">Trạng
-								Thái</label>
-							<div class="col-md-8 col-lg-9">
-								<select class="form-select v-form-control"
-									aria-label=" select example" name="trangthai">
-									<option value="false">Chưa Khởi Hành</option>
-									<option value="true">Đã Khởi Hành</option>
-								</select> </select>
-							</div>
-						</div>
 						<label class="col-md-4 col-lg-3 col-form-label v-label">${message}</label>
 						<div class="text-center">
 							<button type="submit"
@@ -239,6 +234,7 @@
 			</div>
 		</div>
 	</div>
+
 	<!-- edit trang thai -->
 	<!-- Button trigger modal -->
 
@@ -256,7 +252,9 @@
                     <!-- profile -->
                     <!-- Profile Edit Form -->
                     <div class="col-12 v-edit-form">
-                        <form>
+
+                        <form method = "post">
+
                            
 
                             <div class="row mb-3">
@@ -313,6 +311,7 @@
     </div>
   </div>
 </div>
+
 	<!-- add model -->
 	<div class="modal fade" id="verticalycentered" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered v-modal-add">
@@ -343,10 +342,11 @@
 							<label class="col-md-4 col-lg-3 col-form-label v-label">Tuyến</label>
 							<div class="col-md-8 col-lg-9">
 								<form:select class="form-select v-form-control"
-									aria-label=" select example" path="tuyen.maTuyen"
-									items="${listtemp}">
-									<%--  									<form:options items="${listtx}" itemValue="maTuyen" itemLabel="diemDen.diaDiem"/>  --%>
-								</form:select>
+
+ 									aria-label=" select example" path="tuyen.maTuyen" items="${listtemp}">
+<%--  									<form:options items="${listtx}" itemValue="maTuyen" itemLabel="diemDen.diaDiem"/>  --%>
+ 								</form:select> 
+								<form:errors style = "color:red" path="maChuyen"/>		
 
 							</div>
 						</div>
@@ -393,6 +393,11 @@
 	</div>
 	<!-- End Vertically centered Modal-->
 	<!-- Vendor JS Files -->
+	<%@include file="../KhachHang/script.jsp"%>
+	<script
+		src="<c:url value='/resources/KhachHang/assets/js/alertify.min.js'/>"></script>
+	<script
+		src="<c:url value='/resources/KhachHang/assets/js/showMessage.js'/>"></script>
 	<script
 		src="<c:url value='/resources/assets/vendor/apexcharts/apexcharts.min.js'/>"></script>
 	<script
@@ -421,11 +426,14 @@
 
 			} else if ($(".modal_flag").attr("idModal") === "modalUpdate") {
 				$("#ProfileEditModal").modal("show");
+			}else if ($(".modal_flag").attr("idModal") === "modalTT") {
+				$("#Edittrangthai").modal("show");
 			}
+			
 		})
 	</script>
 
 	<!-- Template Main JS File -->
-	<script src="<c:url value='/resources/assets/js/main.js'/>"></script>
+
 </body>
 </html>

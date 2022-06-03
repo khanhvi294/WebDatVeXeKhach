@@ -47,6 +47,7 @@
 	href="<c:url value='/resources/assets/vendor/simple-datatables/style.css'/>"
 	rel="stylesheet" />
 
+<<<<<<< HEAD
 <!-- Alertify -->
 <!-- CSS -->
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
@@ -64,6 +65,18 @@
 	<link href="<c:url value='resources/KhachHang/assets/css/alertify.min.css'/>"
 	rel="stylesheet" />
 	</head>
+=======
+  <!-- Vendor CSS Files -->
+ <%--  <c:url value=''/> --%>
+  <link href="<c:url value='/resources/assets/vendor/bootstrap/css/bootstrap.min.css'/>" rel="stylesheet" />
+  <link href="<c:url value='/resources/assets/vendor/bootstrap-icons/bootstrap-icons.css'/>" rel="stylesheet" />
+  <link href="<c:url value='/resources/assets/vendor/boxicons/css/boxicons.min.css'/>" rel="stylesheet" />
+  <link href="<c:url value='/resources/assets/vendor/quill/quill.snow.css'/>" rel="stylesheet" />
+  <link href="<c:url value='/resources/assets/vendor/quill/quill.bubble.css'/>" rel="stylesheet" />
+  <link href="<c:url value='/resources/assets/vendor/remixicon/remixicon.css'/>" rel="stylesheet" />
+  <link href="<c:url value='/resources/assets/vendor/simple-datatables/style.css'/>" rel="stylesheet" />
+  <link href="<c:url value='/resources/KhachHang/assets/css/alertify.min.css'/>" rel="stylesheet" />
+>>>>>>> 9fa60d8195611b38ede2d409ea6e6f02d2c9b492
 	
 <!-- =======================================================
   * Template Name: NiceAdmin - v2.2.2
