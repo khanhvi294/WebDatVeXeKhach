@@ -25,7 +25,7 @@
                                 <tr class="v-table-tr-color">
                                     <th scope="col">Mã địa điểm</th>
                                     <th scope="col">Địa điểm</th>
-                                    <th scope="col" class="text-center">Option</th>
+                                    <th scope="col" class="text-center">Thao tác</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -65,7 +65,7 @@
                         <div class="row mb-3">
                             <label for="machuyen" class="col-md-4 col-lg-3 col-form-label v-label">Mã địa điểm</label>
                             <div class="col-md-8 col-lg-9">
-                                <form:input path="maDD" type="text" readonly = "true" class="form-control v-form-control" id="smadd" />
+                                <form:input path="maDD" type="text" readonly="true" class="form-control v-form-control" id="smadd" />
                             </div>
                         </div>
 
