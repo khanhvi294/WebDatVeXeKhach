@@ -15,7 +15,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-7 padd-r0" style="margin-left: 300px">
-                        <div class="wheel-register-log marg-lg-t150 marg-lg-b150 marg-sm-t100 marg-sm-b100">
+                        <div class="wheel-register-log marg-lg-t50 marg-lg-b150 marg-sm-t50 marg-sm-b100">
                             <div class="wheel-header">
                                 <h5> Đăng kí </h5>
                             </div>

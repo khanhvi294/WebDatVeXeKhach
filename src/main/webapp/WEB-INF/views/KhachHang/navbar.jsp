@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
- <div class="wheel-menu-wrap ">
+ <div class="wheel-menu-wrap">
             <div class="container-fluid wheel-bg1">
                 <div class="row">
                     <div class="col-sm-3">
@@ -12,8 +12,8 @@
                     <div class="col-sm-9 col-xs-12 padd-lr0">
                         <div class="wheel-top-menu clearfix">
                             <div class="wheel-top-menu-info">
-                                <div class="top-menu-item"><a href="#"><i class="fa fa-phone"></i><span>0912345678</span></a></div>
-                                <div class="top-menu-item"><a href="#"><i class="fa fa-envelope"></i><span>p.h.n.phuong1812@gmail.com</span></a></div>
+                                <div class="top-menu-item"><a href="#"><i class="fa fa-phone"></i><span>19009898</span></a></div>
+                                <div class="top-menu-item"><a href="#"><i class="fa fa-envelope"></i><span>hotro@gmail.com</span></a></div>
                             </div>
                             <div class="wheel-top-menu-log">
                                 <div class="top-menu-item">
@@ -27,7 +27,7 @@
                                         </button>
                                         <ul class="dropdown-menu">
                                             <li><a href="thongtincanhan.html">Thông tin cá nhân</a></li>
-                                            <li><a href="doimatkhau.html">Đổi mật khẩu</a></li>
+                                            <li><a href="matkhau.html">Đổi mật khẩu</a></li>
                                             <li><a href="phieudat.html">Vé đặt</a></li>
                                             <li><a href="dangxuat.html">Đăng xuất</a></li>
                                         </ul>
@@ -80,12 +80,12 @@
                 </div>
             </div>
         </div>
-        <div class="wheel-start3" style="height: 220px;">
+        <div class="wheel-start3" style="height: 180px;">
 		<div class="container">
 			<div class="row">
 				<div class="col-xs-12 padd-lr0">
 					<div
-						class="wheel-start3-body clearfix marg-lg-t255 marg-lg-b75 marg-sm-t190 marg-xs-b30">
+						class="wheel-start3-body clearfix   marg-sm-t190 marg-xs-b30">
 		
 					</div>
 				</div>

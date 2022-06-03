@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+    <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!-- ======= Header ======= -->
 <header id="header" class="header fixed-top d-flex align-items-center">
 	<div class="d-flex align-items-center justify-content-between">
@@ -18,18 +19,19 @@
 			</a></li>
 			<!-- End Search Icon-->
 
+		<c:if test="${user!=null}">
 			<li class="nav-item dropdown pe-3 me-2"><a
 				class="nav-link nav-profile d-flex align-items-center pe-0" href="#"
 				data-bs-toggle="dropdown"> <img
 					src="<c:url value='/resources/assets/img/profile-img.jpg'/>" alt="Profile"
 					class="rounded-circle" /> <span
-					class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
+					class="d-none d-md-block dropdown-toggle ps-2">${user.getHoNV()} ${user.getTenNV() }</span>
 			</a> <!-- End Profile Iamge Icon -->
 
 				<ul
 					class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile v-drop-profile">
 					<li class="dropdown-header">
-						<h6>Kevin Anderson</h6> <span>Web Designer</span>
+						<h6>${user.getHoNV()} ${user.getTenNV() }</h6> 
 					</li>
 					<li>
 						<hr class="dropdown-divider" />
@@ -45,10 +47,12 @@
 					</li>
 
 					<li><a class="dropdown-item d-flex align-items-center"
-						href="QL_DangNhap.html"> <i class="bi bi-box-arrow-right"></i>
+						href="dangxuat.html"> <i class="bi bi-box-arrow-right"></i>
 							<span>Đăng xuất</span>
 					</a></li>
 				</ul> <!-- End Profile Dropdown Items --></li>
+				
+				</c:if>
 			<!-- End Profile Nav -->
 		</ul>
 	</nav>
