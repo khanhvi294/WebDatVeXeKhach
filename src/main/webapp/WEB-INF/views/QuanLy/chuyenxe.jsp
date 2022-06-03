@@ -7,11 +7,14 @@
 <head>
 <meta charset="utf-8">
 <%@ include file="head.jsp"%>
+
 </head>
 <body>
 	<%@ include file="header.jsp"%>
 	<!-- End Header -->
 	<%@ include file="slidebar.jsp"%>
+	<div class="alert-flag" aType='${message.type}'
+		aMessage="${message.message }"></div>
 	<main id="main" class="main">
 		<div class="pagetitle">
 			<h1>Chuyến Xe</h1>
@@ -35,7 +38,7 @@
 									<th scope="col">Thời gian đi</th>
 									<th scope="col">Biển xe</th>
 									<th scope="col">Trạng Thái</th>
-									<th scope="col" class="text-center">Option</th>
+									<th scope="col" class="text-center">Thao Tác</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -118,7 +121,7 @@
 
 														<div class="col-lg-4 col-md-5">${chuyen.ngKH}</div>
 
-														<div class="col-lg-4 col-md-5">${chuyen.tgKh}</div>
+														<div class="col-lg-4 col-md-5">${time}</div>
 													</div>
 
 													<div class="row">
@@ -268,7 +271,7 @@
  									aria-label=" select example" path="tuyen.maTuyen" items="${listtemp}">
 <%--  									<form:options items="${listtx}" itemValue="maTuyen" itemLabel="diemDen.diaDiem"/>  --%>
  								</form:select> 
-										
+								<form:errors style = "color:red" path="maChuyen"/>		
 							</div>
 						</div>
 
@@ -313,6 +316,11 @@
 	</div>
 	<!-- End Vertically centered Modal-->
 	<!-- Vendor JS Files -->
+	<%@include file="../KhachHang/script.jsp"%>
+	<script
+		src="<c:url value='/resources/KhachHang/assets/js/alertify.min.js'/>"></script>
+	<script
+		src="<c:url value='/resources/KhachHang/assets/js/showMessage.js'/>"></script>
 	<script
 		src="<c:url value='/resources/assets/vendor/apexcharts/apexcharts.min.js'/>"></script>
 	<script
@@ -346,6 +354,6 @@
 	</script>
 
 	<!-- Template Main JS File -->
-	<script src="<c:url value='/resources/assets/js/main.js'/>"></script>
+
 </body>
 </html>

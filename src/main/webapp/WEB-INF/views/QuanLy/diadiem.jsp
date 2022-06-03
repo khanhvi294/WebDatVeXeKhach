@@ -31,8 +31,8 @@
                             <tbody>
                                <c:forEach var="u" items="${dsdd}">
 								<tr>
-									<th scope="row">${u.diaDiem }</th>
-									<td>${u.maDD}</td>
+									<th scope="row">${u.maDD}</th>
+									<td>${u.diaDiem }</td>
 									<td><span><a href="/CNPM/quanly/diadiem/${u.maDD}.html?update"><i
 												class="bi bi-pencil-square v-icon-modal"
 												data-bs-toggle="modal" data-bs-target="#ProfileEditModal"></i></a>
