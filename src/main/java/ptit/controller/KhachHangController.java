@@ -351,7 +351,7 @@ System.out.println(cx.getTuyen().getDiemDen().getMaDD());
 			errors.rejectValue("tkkh.email", "KhachHang", "Vui lòng nhập đúng định dạng email!");
 		}
 		if (khachhang.getSdt().isEmpty()) {
-			errors.rejectValue("sdt", "KhachHang", "Dữ liệu không được để trống!");
+			errors.rejectValue("sdt", "KhachHang", "Dữ liệu không được để trống!!!");
 		}
 		if (khachhang.getNgSinh() == null) {
 			errors.rejectValue("ngSinh", "KhachHang", "Dữ liệu không được để trống!");
