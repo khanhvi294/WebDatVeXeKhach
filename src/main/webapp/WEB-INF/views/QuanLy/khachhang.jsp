@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-	<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ include file="head.jsp"%>
 <%@ include file="header.jsp"%>
@@ -42,13 +42,13 @@
 									<td>${u.tkkh.userName}</td>
 									<td><c:choose>
 											<c:when test="${u.phai eq true}">
-													<span class="badge rounded-pill bg-danger v-bg-tt">Nam</span>
+												<span class="badge rounded-pill bg-danger v-bg-tt">Nam</span>
 											</c:when>
 											<c:when test="${u.phai eq false}">
-													<span class="badge rounded-pill bg-success v-bg-tt">Nữ</span>
+												<span class="badge rounded-pill bg-success v-bg-tt">Nữ</span>
 											</c:when>
 										</c:choose></td>
-									<td>${u.sdt}</td>	
+									<td>${u.sdt}</td>
 									<td>${u.ngSinh}</td>
 									<td><c:choose>
 											<c:when test="${u.tkkh.trangThai eq 0}">
@@ -58,8 +58,9 @@
 												<span class="badge rounded-pill bg-success v-bg-tt">Hoạt
 													động</span>
 											</c:when>
-										</c:choose></td>	
-									<td><span><a href="/CNPM/quanly/khachhang/${u.maKH}.html?update"><i
+										</c:choose></td>
+									<td><span><a
+											href="/CNPM/quanly/khachhang/${u.maKH}.html?update"><i
 												class="bi bi-pencil-square v-icon-modal"
 												data-bs-toggle="modal" data-bs-target="#ProfileEditModal"></i></a>
 												<i class="bi bi-pencil-square v-icon-modal"
@@ -96,7 +97,7 @@
 				<!-- profile -->
 				<!-- Profile Edit Form -->
 				<div class="col-12 v-edit-form">
-					<form method = "post">
+					<form method="post">
 						<div class="row mb-3">
 							<label for="fullName"
 								class="col-md-4 col-lg-3 col-form-label v-label">Mã KH</label>
@@ -112,16 +113,18 @@
 							<div class="col-md-3">
 								<input name="hoKH" type="text"
 									class="form-control v-form-control" id="company" readonly="true"
+
 									value="${kh.hoKH }">
-									<form:errors style = "color:red" path="hoKH"/>
+								<form:errors style="color:red" path="hoKH" />
 							</div>
 
 							<label for="Job" class="col-md-1 col-form-label v-label">TênKH</label>
 							<div class="col-md-5">
 								<input name="tenKH" type="text"
 									class="form-control  v-form-control" id="Job" readonly="true"
+
 									value="${kh.tenKH }">
-									<form:errors style = "color:red" path="tenKH"/>
+								<form:errors style="color:red" path="tenKH" />
 							</div>
 						</div>
 						<div class="row mb-3">
@@ -129,9 +132,11 @@
 								class="col-md-4 col-lg-3 col-form-label v-label">SĐT</label>
 							<div class="col-md-8 col-lg-9">
 								<input name="sdt" type="text"
+
 									class="form-control v-form-control" id="Address" readonly="true"
+
 									value="${kh.sdt }">
-									<form:errors style = "color:red" path="sdt"/>
+								<form:errors style="color:red" path="sdt" />
 							</div>
 						</div>
 
@@ -140,7 +145,9 @@
 								class="col-md-4 col-lg-3 col-form-label v-label">Ngày
 								sinh</label>
 							<div class="col-md-8 col-lg-9">
+
 								<input type="date" class="form-control v-form-control" readonly="true"
+
 									name="ngSinh" value="${kh.ngSinh }" />
 							</div>
 						</div>
@@ -149,27 +156,23 @@
 							<label for="Email"
 								class="col-md-4 col-lg-3 col-form-label v-label">Phái</label>
 							<div class="col-md-8 col-lg-9">
-								<c:choose>
-									<c:when test="${kh.phai eq true}">
-										<input type="text" class="form-control v-form-control" readonly="true"
-												 value="Nam" />
-									</c:when>
-									<c:when test="${kh.phai eq false}">
-										<input type="text" class="form-control v-form-control" readonly="true"
-												 value="Nữ" />
-									</c:when>
-								</c:choose>
+
+								<select class="form-select v-form-control"
+									aria-label=" select example" name="gridRadios">
+									<c:if test="${kh.phai eq false}">
+										<option selected value="false">Nữ</option>
+										<option value="true">Nam</option>
+									</c:if>
+									<c:if test="${kh.phai eq true}">
+										<option value="false">Nữ</option>
+										<option selected value="true">Nam</option>
+									</c:if>
+								</select>
+
+
 							</div>
 						</div>
-		
-						<div class="row mb-3">
-							<label for="Twitter"
-								class="col-md-4 col-lg-3 col-form-label v-label">Email</label>
-							<div class="col-md-8 col-lg-9">
-								<input type="email" name = "email" class="form-control v-form-control" value = "${kh.tkkh.email }" readonly="true">
-								<form:errors style = "color:red" path="phai"/>
-							</div>
-						</div>
+
 
 						<div class="row mb-3">
 							<label for="Twitter"
@@ -177,13 +180,19 @@
 								thái</label>
 							<div class="col-md-8 col-lg-9">
 								<select class="form-select v-form-control"
-									aria-label=" select example" name = "trangthai">
-									<option selected value="1">Đang Hoạt Động</option>
-									<option value="0">Khóa</option>
+									aria-label=" select example" name="trangthai">
+									<c:if test="${kh.tkkh.trangThai eq 0}">
+										<option selected value="0">Khóa</option>
+										<option value="1">Đang Hoạt Động</option>
+									</c:if>
+									<c:if test="${kh.tkkh.trangThai eq 1}">
+										<option value="0">Khóa</option>
+										<option selected value="1">Đang Hoạt Động</option>
+									</c:if>
 								</select>
 							</div>
 						</div>
-						
+
 						<div class="text-center">
 							<button type="submit"
 								class="btn btn-primary btn-main-color border-0 shadow-none"
@@ -255,7 +264,8 @@
 
 
 
-<!-- <!-- Vertically centered Modal --> -->
+<!-- <!-- Vertically centered Modal -->
+-->
 <!-- <div class="modal fade" id="verticalycentered" tabindex="-1"> -->
 <!-- 	<div class="modal-dialog modal-dialog-centered v-modal-add"> -->
 <!-- 		<div class="modal-content border-0"> -->
@@ -381,31 +391,31 @@
 <!-- </div> -->
 <!-- End Vertically centered Modal-->
 <!-- Vendor JS Files -->
-	<script
-		src="<c:url value='/resources/assets/vendor/apexcharts/apexcharts.min.js'/>"></script>
-	<script
-		src="<c:url value='/resources/assets/vendor/bootstrap/js/bootstrap.bundle.min.js'/>"></script>
-	<script
-		src="<c:url value='/resources/assets/vendor/chart.js/chart.min.js'/>"></script>
-	<script
-		src="<c:url value='/resources/assets/vendor/echarts/echarts.min.js'/>"></script>
-	<script
-		src="<c:url value='/resources/assets/vendor/quill/quill.min.js'/>"></script>
-	<script
-		src="<c:url value='/resources/assets/vendor/simple-datatables/simple-datatables.js'/>"></script>
-	<script
-		src="<c:url value='/resources/assets/vendor/tinymce/tinymce.min.js'/>"></script>
-	<script
-		src="<c:url value='/resources/assets/vendor/php-email-form/validate.js'/>"></script>
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	<script>
-		$(document).ready(function() {
-			console.log($(".modal_flag").attr("idModal"));
-			if ($(".modal_flag").attr("idModal") === "modalUpdate") {
-				$("#ProfileEditModal").modal("show");
-			}
-		})
-	</script>
-	<!-- Template Main JS File -->
-	<script src="<c:url value='/resources/assets/js/main.js'/>"></script>
+<script
+	src="<c:url value='/resources/assets/vendor/apexcharts/apexcharts.min.js'/>"></script>
+<script
+	src="<c:url value='/resources/assets/vendor/bootstrap/js/bootstrap.bundle.min.js'/>"></script>
+<script
+	src="<c:url value='/resources/assets/vendor/chart.js/chart.min.js'/>"></script>
+<script
+	src="<c:url value='/resources/assets/vendor/echarts/echarts.min.js'/>"></script>
+<script
+	src="<c:url value='/resources/assets/vendor/quill/quill.min.js'/>"></script>
+<script
+	src="<c:url value='/resources/assets/vendor/simple-datatables/simple-datatables.js'/>"></script>
+<script
+	src="<c:url value='/resources/assets/vendor/tinymce/tinymce.min.js'/>"></script>
+<script
+	src="<c:url value='/resources/assets/vendor/php-email-form/validate.js'/>"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+	$(document).ready(function() {
+		console.log($(".modal_flag").attr("idModal"));
+		if ($(".modal_flag").attr("idModal") === "modalUpdate") {
+			$("#ProfileEditModal").modal("show");
+		}
+	})
+</script>
+<!-- Template Main JS File -->
+<script src="<c:url value='/resources/assets/js/main.js'/>"></script>
