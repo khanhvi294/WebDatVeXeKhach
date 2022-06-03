@@ -156,20 +156,12 @@
 							<label for="Email"
 								class="col-md-4 col-lg-3 col-form-label v-label">Phái</label>
 							<div class="col-md-8 col-lg-9">
-
-								<select class="form-select v-form-control"
-									aria-label=" select example" name="gridRadios">
 									<c:if test="${kh.phai eq false}">
-										<option selected value="false">Nữ</option>
-										<option value="true">Nam</option>
+										<input type="text" class="form-control v-form-control" readonly="true" value="Nữ" />
 									</c:if>
 									<c:if test="${kh.phai eq true}">
-										<option value="false">Nữ</option>
-										<option selected value="true">Nam</option>
+										<input type="text" class="form-control v-form-control" readonly="true" value="Nam" />
 									</c:if>
-								</select>
-
-
 							</div>
 						</div>
 

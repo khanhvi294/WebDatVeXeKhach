@@ -272,9 +272,18 @@ public class QuanLyController {
 	}
 	
 	@RequestMapping(value = "chuyenxe/{machuyen}", params = "trangthai", method = RequestMethod.POST)
-	public String ChuyenXeTrangThai( @PathVariable("machuyen") String ma) {
-		
-		return "QuanLy/chuyenxe";
+	public String ChuyenXeTrangThai( @PathVariable("machuyen") String ma, @ModelAttribute("chuyenxe") ChuyenXe chuyen, HttpServletRequest request) {
+		Session session = factory.openSession();
+		Transaction transaction = session.beginTransaction();
+		try {
+			chuyen.setTrangthai(Boolean.parseBoolean(request.getParameter("gridRadios")));
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			transaction.rollback();
+		} finally {
+			session.close();
+		}
+		return "redirect:/quanly/chuyenxe.html";
 	}
 	
 	@RequestMapping(value = "chuyenxe/{machuyen}", params = "update", method = RequestMethod.GET)
@@ -365,7 +374,7 @@ public class QuanLyController {
 				session.close();
 			}
 
-			return "redirect: /quanly/chuyenxe.html";
+			return "redirect:/quanly/chuyenxe.html";
 		}
 
 	}
@@ -729,7 +738,7 @@ public class QuanLyController {
 			}finally {
 				session.close();
 			}
-			return "redirect: /quanly/nhanvien.html";
+			return "redirect:/quanly/nhanvien.html";
 		}
 
 	}
@@ -825,7 +834,7 @@ public class QuanLyController {
 			} finally {
 				session.close();
 			}
-			return "redirect: /quanly/nhanvien.html";
+			return "redirect:/quanly/nhanvien.html";
 		}
 
 	}
@@ -968,7 +977,7 @@ public class QuanLyController {
 			} finally {
 				session.close();
 			}
-			return "redirect: /quanly/diadiem.html";
+			return "redirect:/quanly/diadiem.html";
 		}
 	}
 
@@ -1103,7 +1112,7 @@ public class QuanLyController {
 			} finally {
 				session.close();
 			}
-			return "redirect: /quanly/loaixe.html";
+			return "redirect:/quanly/loaixe.html";
 		}
 	}
 
@@ -1163,7 +1172,7 @@ public class QuanLyController {
 			} finally {
 				session.close();
 			}
-			return "redirect: /quanly/loaixe.html";
+			return "redirect:/quanly/loaixe.html";
 		}
 
 	}
@@ -1242,7 +1251,7 @@ public class QuanLyController {
 			} finally {
 				session.close();
 			}
-			return "redirect: /quanly/banggia.html";
+			return "redirect:/quanly/banggia.html";
 		}
 
 	}
@@ -1303,7 +1312,7 @@ public class QuanLyController {
 			} finally {
 				session.close();
 			}
-			return "redirect: /quanly/banggia.html";
+			return "redirect:/quanly/banggia.html";
 		}
 
 	}
@@ -1392,7 +1401,7 @@ public class QuanLyController {
 		}finally {
 			session.close();
 		}
-		return "redirect: /quanly/phieudat.html";
+		return "redirect:/quanly/phieudat.html";
 	}
 
 //	@RequestMapping(value = "/phieudat/insert", method = RequestMethod.GET)
@@ -1460,41 +1469,42 @@ public class QuanLyController {
 			session.close();
 		}
 
-		return "redirect: /quanly/trangcanhan.html";
+		return "redirect:/quanly/trangcanhan.html";
 	}
 
-	@RequestMapping(value = "/trangcanhan/changepw")
+	@RequestMapping(value = "/trangcanhan/changepw", method = RequestMethod.GET)
 	public String ChangePW(ModelMap model, HttpSession ss, HttpServletRequest request) {
-		NhanVien nv = (NhanVien) ss.getAttribute("user");
-		int count = 0;
-		TaiKhoan tk = tktheousername(nv.getTknv().getUserName());
-		String s = "";
-		if (request.getParameter("password").equals(tk.getMatKhau())) {
-			s = "Máº­t Kháº©u Hiá»‡n Táº¡i Bá»‹ Sai";
-			count++;
-		} else if (request.getParameter("newpassword").equals("renewpassword") == false) {
-			s = "Máº­t Kháº©u Má»›i KhÃ´ng Khá»›p Vá»›i Nhau";
-			count++;
-		}
-		if (count == 0) {
-			model.addAttribute("message", s);
-			return "QuanLy/profile";
-		} else {
-			Session session = factory.openSession();
-			Transaction transaction = session.beginTransaction();
-			try {
-				tk.setMatKhau(request.getParameter("newpassword"));
-				session.update(tk);
-				transaction.commit();
-			} catch (Exception e) {
-				System.out.println(e.toString());
-				transaction.rollback();
-			} finally {
-				session.close();
-			}
-
-			return "redirect: /quanly/trangcanhan.html";
-		}
+		model.addAttribute("idModal", "modalCreate");
+		return "QuanLy/profile";
 	}
-
+//	NhanVien nv = (NhanVien) ss.getAttribute("user");
+//	int count = 0;
+//	TaiKhoan tk = tktheousername(nv.getTknv().getUserName());
+//	String s = "";
+//	if (request.getParameter("password").equals(tk.getMatKhau())) {
+//		s = "Máº­t Kháº©u Hiá»‡n Táº¡i Bá»‹ Sai";
+//		count++;
+//	} else if (request.getParameter("newpassword").equals("renewpassword") == false) {
+//		s = "Máº­t Kháº©u Má»›i KhÃ´ng Khá»›p Vá»›i Nhau";
+//		count++;
+//	}
+//	if (count == 0) {
+//		model.addAttribute("message", s);
+//		return "QuanLy/profile";
+//	} else {
+//		Session session = factory.openSession();
+//		Transaction transaction = session.beginTransaction();
+//		try {
+//			tk.setMatKhau(request.getParameter("newpassword"));
+//			session.update(tk);
+//			transaction.commit();
+//		} catch (Exception e) {
+//			System.out.println(e.toString());
+//			transaction.rollback();
+//		} finally {
+//			session.close();
+//		}
+//
+//		return "redirect:/quanly/trangcanhan.html";
+//	}
 }
