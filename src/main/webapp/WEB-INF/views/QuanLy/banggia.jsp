@@ -27,7 +27,7 @@
                                      <th scope="col">Tên Loại xe</th>
                                     <th scope="col">Tuyến</th>
                                     <th scope="col">Giá</th>
-                                    <th scope="col" class="text-center">Option</th>
+                                    <th scope="col" class="text-center">Thao tác</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -69,7 +69,7 @@
                         <div class="row mb-3">
                             <label for="machuyen" class="col-md-4 col-lg-3 col-form-label v-label">Loại xe</label>
                             <div class="col-md-8 col-lg-9">
-								<input type="text" class="form-control v-form-control" readonly = "true" value = "${bg.loaixe.tenLX }" />
+								<input type="text" class="form-control v-form-control" readonly="true" value = "${bg.loaixe.tenLX }" />
                             </div>
                         </div>
 
@@ -77,7 +77,7 @@
                             <label for="inputDate" class="col-md-4 col-lg-3 col-form-label v-label">Tuyến </label>
                             <div class="col-md-8 col-lg-9">
 								
-								<input type="text" class="form-control v-form-control" readonly = "true" value = "${bg.tuyen.diemDi.diaDiem} - ${bg.tuyen.diemDen.diaDiem}" />
+								<input type="text" class="form-control v-form-control" readonly="true" value = "${bg.tuyen.diemDi.diaDiem} - ${bg.tuyen.diemDen.diaDiem}" />
                             </div>
                         </div>
 

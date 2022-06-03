@@ -100,16 +100,19 @@ public class KhachHangController {
 
 		return "KhachHang/timchuyen";
 	}
-
+//tìm chuyến trang hcur
 	@RequestMapping(value="timchuyen.html",params="chon") 
-	public String timchuyenget(@RequestParam("di") String di,@RequestParam("den") String den,ModelMap model){
-		
+	public String timchuyenget(@RequestParam("di") String di,@RequestParam("den") String den,ModelMap model,HttpServletRequest request){
+	
 		Session session = factory.getCurrentSession();
 		String hql = "from TuyenXe where diemDi.maDD=:diemdi and diemDen.maDD=:diemden";
 		Query query = session.createQuery(hql);
+		
 		query.setParameter("diemdi", di);
 		query.setParameter("diemden", den);
+		
 		TuyenXe tx = (TuyenXe)query.list().get(0);
+		
 		ChuyenXe chuyenxe= new ChuyenXe();
 		chuyenxe.setTuyen(tx);
 		model.addAttribute("chuyenxe", chuyenxe);
@@ -118,26 +121,33 @@ public class KhachHangController {
 	}
 //chọn chuyến
 	@RequestMapping(value = "chonchuyen")
-	public String chonchuyen(@ModelAttribute("chuyenxe") ChuyenXe cx, ModelMap model,HttpServletRequest request) {
-System.out.println("ihi");
+	public String chonchuyen(@ModelAttribute("chuyenxe") ChuyenXe cx, ModelMap model,
+			HttpServletRequest request,RedirectAttributes redirectAttributes) {
+
 System.out.println(cx.getTuyen().getDiemDi().getMaDD());
 System.out.println(cx.getTuyen().getDiemDen().getMaDD());
 		String referer = request.getHeader("Referer");
 		String r = referer.substring(referer.lastIndexOf("/") + 1);
 		System.out.println(r);
 		if(!r.equals("chonghe.html")) {
-			System.out.println("hihih");
+			
 			
 			List<ChuyenXe> list = this.getdsChuyenXe(cx.getTuyen().getDiemDi().getMaDD(),
 					cx.getTuyen().getDiemDen().getMaDD(), cx.getNgKH());
+			List<ChuyenXe> listcx = list;
+			if(listcx.size()==0) {
+				
+				redirectAttributes.addFlashAttribute("message", new Message("error", "Không tìm thấy bất kì chuyến xe nào mà bạn muốn tìm kiếm!"));
+				return "redirect:" + referer;
+			}
 			model.addAttribute("dschuyenxe", list);
 			Session session = factory.getCurrentSession();
 			DiaDiem ddi = (DiaDiem) session.get(DiaDiem.class, cx.getTuyen().getDiemDi().getMaDD());
 			DiaDiem dden = (DiaDiem) session.get(DiaDiem.class, cx.getTuyen().getDiemDen().getMaDD());
 			System.out.println(dden.getDiaDiem());
 			System.out.println(ddi.getDiaDiem());
-			model.addAttribute("diemdi", dden.getDiaDiem());
-			model.addAttribute("diemden", ddi.getDiaDiem());
+			model.addAttribute("diemdi", ddi.getDiaDiem());
+			model.addAttribute("diemden", dden.getDiaDiem());
 
 		}else {
 			

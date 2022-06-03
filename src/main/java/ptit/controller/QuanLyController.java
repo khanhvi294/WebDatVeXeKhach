@@ -407,7 +407,7 @@ public class QuanLyController {
 
 		}
 		if (request.getParameter("thoigian") == "") {
-			errors.rejectValue("tgKh", "chuyen", "Thá»�i Gian KhÃ´ng Ä�Æ°á»£c Ä�á»ƒ Trá»‘ng");
+			errors.rejectValue("tgKh", "chuyen", "Thời gian không được bỏ trống");
 		}
 		
 		if (errors.hasErrors()) {
@@ -515,10 +515,10 @@ public class QuanLyController {
 			BindingResult errors) {
 		int count = 0;
 		if (tuyen.getMaTuyen().trim().length() == 0) {
-			errors.rejectValue("maTuyen", "tuyen", "MÃ£ Tuyáº¿n KhÃ´ng Ä�Æ°á»£c Ä�á»ƒ Trá»‘ng");
+			errors.rejectValue("maTuyen", "tuyen", "Mã tuyến không được bỏ trống");
 			count = 1;
 		} else if (checkmatuyentrung(tuyen.getMaTuyen()) == 0) {
-			errors.rejectValue("maTuyen", "tuyen", "MÃ£ Tuyáº¿n Ä�Ã£ Tá»“n Táº¡i");
+			errors.rejectValue("maTuyen", "tuyen", "Mã tuyến đã tồn tại");
 			count = 1;
 		}
 		if (count == 1) {
