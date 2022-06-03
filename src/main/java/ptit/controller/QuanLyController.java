@@ -1439,8 +1439,7 @@ public class QuanLyController {
 
 	@RequestMapping(value = "/trangcanhan", method = RequestMethod.GET)
 	public String Profile(ModelMap model, HttpSession ss) {
-//		NhanVien nv = (NhanVien)ss.getAttribute("user");
-		NhanVien nv = nvtheoid("NV01");
+		NhanVien nv = (NhanVien)ss.getAttribute("user");
 		System.out.println(nv.getHoNV());
 		System.out.println(nv.getTknv());
 		model.addAttribute("nv", nv);
@@ -1475,6 +1474,10 @@ public class QuanLyController {
 	@RequestMapping(value = "/trangcanhan/changepw", method = RequestMethod.GET)
 	public String ChangePW(ModelMap model, HttpSession ss, HttpServletRequest request) {
 		model.addAttribute("idModal", "modalCreate");
+		NhanVien nv = (NhanVien)ss.getAttribute("user");
+		System.out.println(nv.getHoNV());
+		System.out.println(nv.getTknv());
+		model.addAttribute("nv", nv);
 		return "QuanLy/profile";
 	}
 //	NhanVien nv = (NhanVien) ss.getAttribute("user");
