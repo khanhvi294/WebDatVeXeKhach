@@ -122,7 +122,7 @@
 							<label for="machuyen"
 								class="col-md-4 col-lg-3 col-form-label v-label">Thời gian chạy tuyến</label>
 							<div class="col-md-8 col-lg-9">
-								<input name="tgchay" type="time"
+								<input name="tgchay" type="text"
 									class="form-control v-form-control" id="matuyen" value = "${tuyen.tgchay }"/>
 							</div>
 						</div>
@@ -198,7 +198,7 @@
 							<label for="machuyen"
 								class="col-md-4 col-lg-3 col-form-label v-label">Thời gian chạy tuyến</label>
 							<div class="col-md-8 col-lg-9">
-								<input type="time" class="form-control v-form-control"
+								<input type="text" class="form-control v-form-control"
 									name="tgchay" />
 							</div>
 						</div>
