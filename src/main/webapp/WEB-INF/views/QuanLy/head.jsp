@@ -27,6 +27,7 @@
   <link href="<c:url value='/resources/assets/vendor/quill/quill.bubble.css'/>" rel="stylesheet" />
   <link href="<c:url value='/resources/assets/vendor/remixicon/remixicon.css'/>" rel="stylesheet" />
   <link href="<c:url value='/resources/assets/vendor/simple-datatables/style.css'/>" rel="stylesheet" />
+  <link href="<c:url value='/resources/KhachHang/assets/css/alertify.min.css'/>" rel="stylesheet" />
 	
   <!-- Template Main CSS File -->
   <link href="<c:url value='/resources/assets/css/style.css'/>" rel="stylesheet" type="text/css" />
