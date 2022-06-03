@@ -49,6 +49,9 @@
 												<span class="badge rounded-pill bg-success v-bg-tt">Hoạt
 													động</span>
 											</c:when>
+											<c:when test="${u.tknv.trangThai == 2}">
+												<span class="badge rounded-pill bg-danger v-bg-tt">Chưa Đổi Mật Khẩu</span>
+											</c:when>
 										</c:choose></td>
 									<td><span><a
 											href="/CNPM/quanly/nhanvien/${u.maNV}.html?info"> <i

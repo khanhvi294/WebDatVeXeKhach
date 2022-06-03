@@ -59,6 +59,7 @@
 												</c:when>
 											</c:choose></td>
 										<td><span><a
+
 												href="/CNPM/quanly/chuyenxe/${u.maChuyen}.html?info"> <i
 													class="bi bi-info-circle-fill v-icon-modal"></i></a> <c:if
 													test="${u.trangthai eq false}">
@@ -67,8 +68,11 @@
 														data-bs-toggle="modal" data-bs-target="#ProfileEditModal"></i></a>
 												</c:if> </span> 
 												
-												<i class="bi bi-arrow-repeat v-icon-modal"
-											data-bs-toggle="modal" data-bs-target="#Edittrangthai"></i></td>
+												<a href="/CNPM/quanly/chuyenxe/${u.maChuyen}.html?trangthai"><i class="bi bi-arrow-repeat v-icon-modal"
+											data-bs-toggle="modal" data-bs-target="#Edittrangthai"></i></a>
+											</td>
+
+
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -219,18 +223,6 @@
 								</select>
 							</div>
 						</div>
-
-						<div class="row mb-3">
-							<label class="col-md-4 col-lg-3 col-form-label v-label">Trạng
-								Thái</label>
-							<div class="col-md-8 col-lg-9">
-								<select class="form-select v-form-control"
-									aria-label=" select example" name="trangthai">
-									<option value="false">Chưa Khởi Hành</option>
-									<option value="true">Đã Khởi Hành</option>
-								</select> </select>
-							</div>
-						</div>
 						<label class="col-md-4 col-lg-3 col-form-label v-label">${message}</label>
 						<div class="text-center">
 							<button type="submit"
@@ -242,6 +234,7 @@
 			</div>
 		</div>
 	</div>
+
 	<!-- edit trang thai -->
 	<!-- Button trigger modal -->
 
@@ -259,7 +252,9 @@
                     <!-- profile -->
                     <!-- Profile Edit Form -->
                     <div class="col-12 v-edit-form">
-                        <form>
+
+                        <form method = "post">
+
                            
 
                             <div class="row mb-3">
@@ -316,6 +311,7 @@
     </div>
   </div>
 </div>
+
 	<!-- add model -->
 	<div class="modal fade" id="verticalycentered" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered v-modal-add">
@@ -430,7 +426,10 @@
 
 			} else if ($(".modal_flag").attr("idModal") === "modalUpdate") {
 				$("#ProfileEditModal").modal("show");
+			}else if ($(".modal_flag").attr("idModal") === "modalTT") {
+				$("#Edittrangthai").modal("show");
 			}
+			
 		})
 	</script>
 
