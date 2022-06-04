@@ -42,7 +42,7 @@
 									<th scope="col">Điểm đến</th>
 									<th scope="col">Thời Gian Chạy Tuyến</th>
 									<th scope="col">Trạng Thái</th>
-									<th scope="col" class="text-center">Thao tác</th>
+									<th scope="col" class="text-center">Option</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -65,8 +65,6 @@
 										<td class="text-center"><span><a href = "/CNPM/quanly/tuyenxe/${u.maTuyen}.html?update"> <i
 												class="bi bi-pencil-square v-icon-modal"
 												data-bs-toggle="modal" data-bs-target="#ProfileEditModal"></i></a>
-												<i class="bi bi-pencil-square v-icon-modal"
-											data-bs-toggle="modal" data-bs-target="#Edittrangthai"></i>
 										</span></td>
 									</tr>
 								</c:forEach>
@@ -151,57 +149,6 @@
 			</div>
 		</div>
 	</div>
-	<!-- model sửa trạng thái -->
-	<div class="modal fade" id="Edittrangthai" tabindex="-1"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog v-modal-container">
-            <div class="modal-content border-0">
-                <div class="modal-header v-modal-header">
-                    <h5 class="modal-title v-modal-title">Thay đổi trạng thái</h5>
-                    <button type="button" class="btn shadow-none" data-bs-dismiss="modal" aria-label="Close"
-                        style="font-weight:700"><i class="bi bi-x v-icon-close"></i></button>
-                </div>
-                <div class="modal-body row">
-                    <!-- profile -->
-                    <!-- Profile Edit Form -->
-                    <div class="col-12 v-edit-form">
-                        <form>
-                           
-
-                            <div class="row mb-3">
-                                <label for="Email" class="col-md-4 col-lg-3 col-form-label v-label">Trạng thái</label>
-                                <div class="col-md-8">
-                                    <div class="form-check form-check-inline ">
-                                        <input class="form-check-input v-check-input shadow-none" type="radio"
-                                            name="gridRadios" id="gtnam" value="option1" checked>
-                                        <label class="form-check-label" for="gridRadios1">
-                                           Hoạt động
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline ">
-                                        <input class="form-check-input v-check-input shadow-none" type="radio"
-                                            name="gridRadios" id="gtnu" value="option2">
-                                        <label class="form-check-label" for="gridRadios2">
-                                            Ngừng hoạt động
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-        
-                         
-                            <div class="text-center">
-                                <button data-bs-toggle="modal" data-bs-target="#xacnhan" class="btn btn-primary btn-main-color border-0 shadow-none"
-                                    style="padding: 8px 20px">Lưu
-                                </button>
-                            </div>
-                        </form><!-- End Profile Edit Form -->
-                    </div>
-                    <!-- end profile -->
-                </div>
-            </div>
-        </div>
-	</div>
-	
 	<!-- modal -->
 	<div class="modal fade" id="verticalycentered" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered v-modal-add">

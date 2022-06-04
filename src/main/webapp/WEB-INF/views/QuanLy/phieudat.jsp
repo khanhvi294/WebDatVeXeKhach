@@ -23,7 +23,7 @@
                                     <th scope="col">Tuyến</th>
                                     <th scope="col">Thời gian đi</th>
                                     <th scope="col">Trạng Thái</th>
-                                    <th scope="col" class="text-center">Thao tác</th>
+                                    <th scope="col" class="text-center">Option</th>
                                 </tr>
                             </thead>
                             <tbody>

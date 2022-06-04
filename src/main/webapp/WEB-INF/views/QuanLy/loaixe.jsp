@@ -26,7 +26,7 @@
                                     <th scope="col">Mã loại xe</th>
                                     <th scope="col">Tên loại xe</th>
                                     <th scope="col">Số chỗ</th>
-                                    <th scope="col" class="text-center">Thao tác</th>
+                                    <th scope="col" class="text-center">Option</th>
                                 </tr>
                             </thead>
                             <tbody>

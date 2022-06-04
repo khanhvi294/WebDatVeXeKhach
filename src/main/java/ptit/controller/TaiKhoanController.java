@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javassist.expr.NewArray;
 import ptit.entity.KhachHang;
 import ptit.entity.NhanVien;
 import ptit.entity.TaiKhoan;
@@ -66,13 +65,13 @@ public class TaiKhoanController {
 		String matkhau = hashPass(tk.getMatKhau());
 		TaiKhoan tkdn = this.KTtaikhoan(tk.getUserName(),matkhau);
 		if(tkdn == null){
-			model.addAttribute("message", new Message("error", "Sai thông tin đăng nhập!"));
+			model.addAttribute("message", "Sai thÃ´ng tin Ä‘Äƒng nháº­p!");
 			
 			return "TaiKhoan/dangnhap";
 		}
 		
 		if(tkdn.getTrangThai() == 0) {
-			model.addAttribute("message", new Message("error","Tài khoản đang bị khóa!"));
+			model.addAttribute("message", "Tài khoản đang bị khóa!");
 
 			
 			return "TaiKhoan/dangnhap";
@@ -91,7 +90,7 @@ public class TaiKhoanController {
 				
 				return "redirect:/trangchu.html";
 			}else {
-				model.addAttribute("message",new Message("error", "Tài khoản không tồn tại!"));
+				model.addAttribute("message", "TÃ i khoáº£n khÃ´ng tá»“n táº¡i!");
 				return "TaiKhoan/dangnhap";
 			}
 		} 
@@ -103,7 +102,7 @@ public class TaiKhoanController {
 				return "redirect:quanly/trangchu.html";
 			}
 			else {
-				model.addAttribute("message",new Message("error","Tài khoản không tồn tại!"));
+				model.addAttribute("message","TÃ i khoáº£n khÃ´ng tá»“n táº¡i!");
 				return "TaiKhoan/dangnhap";
 			}
 		}
@@ -114,7 +113,7 @@ public class TaiKhoanController {
 				return "redirect:quanly/trangchu.html";
 			}
 			else {
-				model.addAttribute("message",new Message("error","Tài khoản đã tồn tại!"));
+				model.addAttribute("message","TÃ i khoáº£n khÃ´ng tá»“n táº¡i!");
 				return "TaiKhoan/dangnhap";
 			}
 		}
@@ -305,7 +304,7 @@ public class TaiKhoanController {
 			}
 			mailer.send(mail);
 
-			model.addAttribute("message",new Message("succses", "Mật khẩu mới đã được gửi vào Email"));
+			model.addAttribute("message", "Mật khẩu mới đã được gửi vào Email");
 			
 		}catch(Exception e) {
 			t.rollback();
