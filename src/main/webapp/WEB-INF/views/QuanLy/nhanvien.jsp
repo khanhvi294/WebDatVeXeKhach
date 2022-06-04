@@ -7,6 +7,10 @@
 <%@ include file="slidebar.jsp"%>
 
 <main id="main" class="main">
+	<div class="alert-flag" aType='${message.type}'
+		aMessage="${message.message }"></div>
+		<h1> hihi
+${vi }</h1>
 	<div class="pagetitle">
 		<h1>Nhân Viên</h1>
 	</div>
@@ -214,9 +218,10 @@
 							<label for="company" class="col-md-3 col-form-label v-label">Họ</label>
 							<div class="col-md-3">
 								<input name="honv" type="text"
-									class="form-control v-form-control" id="company"
-									value="${nv.hoNV }">
-								<form:errors style="color:red" path="hoNV" />
+
+									class="form-control v-form-control"
+									id="company" value="${nv.hoNV }">
+								 								<form:errors style = "color:red" path="hoNV"/> 
 							</div>
 
 							<label for="Job" class="col-md-1 col-form-label v-label">Tên</label>
@@ -224,7 +229,9 @@
 								<input name="tennv" type="text"
 									class="form-control  v-form-control" id="Job"
 									value="${nv.tenNV }">
-								<form:errors style="color:red" path="tenNV" />
+
+													<form:errors style = "color:red" path="tenNV"/> 
+
 							</div>
 						</div>
 
@@ -234,9 +241,11 @@
 								class="col-md-4 col-lg-3 col-form-label v-label">CMND/CCCD</label>
 							<div class="col-md-8 col-lg-9">
 								<input name="cccd" type="text"
-									class="form-control v-form-control" id="Country"
-									value="${nv.cccd }">
-								<form:errors style="color:red" path="cccd" />
+
+									class="form-control v-form-control"
+									id="Country" value="${nv.cccd }">
+
+								<form:errors style = "color:red" path="cccd"/>
 							</div>
 						</div>
 
@@ -247,7 +256,8 @@
 								<input name="sdt" type="text"
 									class="form-control v-form-control" id="Address"
 									value="${nv.sdt }">
-								<form:errors style="color:red" path="sdt" />
+
+							<form:errors style = "color:red" path="sdt"/> 
 							</div>
 						</div>
 
@@ -266,6 +276,7 @@
 							<label for="Email"
 								class="col-md-4 col-lg-3 col-form-label v-label">Phái</label>
 							<div class="col-md-8 col-lg-9">
+
 								<select class="form-select v-form-control"
 									aria-label=" select example" name="gridRadios">
 									<c:if test="${nv.phai eq false}">
@@ -277,6 +288,7 @@
 										<option selected value="true">Nam</option>
 									</c:if>
 								</select>
+
 							</div>
 						</div>
 						<div class="row mb-3">
@@ -313,6 +325,8 @@
 </div>
 
 <!-- End ProfileEditModal-->
+
+
 
 <!-- model sửa trạng thái -->
 <div class="modal fade" id="Edittrangthai" tabindex="-1"
@@ -355,7 +369,8 @@
 
 
 						<div class="text-center">
-							<button id="btn-change-state"
+
+							<button id="modal-change-state"
 								class="btn btn-primary btn-main-color border-0 shadow-none"
 								style="padding: 8px 20px">Lưu</button>
 						</div>
@@ -367,7 +382,6 @@
 		</div>
 	</div>
 </div>
-
 
 <!-- Vertically centered Modal -->
 <div class="modal fade" id="verticalycentered" tabindex="-1">
@@ -514,9 +528,15 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script
+
 	src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 <script
-	src="<c:url value='/resources/assets/js/my-main.js'/>"></script>
+	src="<c:url value='/resources/KhachHang/assets/js/showMessage.js'/>"></script>	
+
+
+<!-- Template Main JS File -->
+<script src="<c:url value='/resources/assets/js/main.js'/>"></script>
+<script src="<c:url value='/resources/assets/js/my-main.js'/>"></script>
 <script>
 	$(document).ready(function() {
 		
@@ -533,5 +553,7 @@
 		}
 	})
 </script>
-<!-- Template Main JS File -->
-<script src="<c:url value='/resources/assets/js/main.js'/>"></script>
+
+
+
+

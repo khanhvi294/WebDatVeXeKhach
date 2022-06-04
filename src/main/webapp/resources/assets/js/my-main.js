@@ -9,7 +9,9 @@ function showModalConfirm(idButton, title, ok, cancel){
 			$(idButton).unbind("click")
 			$(idButton)[0].click()
 		}
-        , function(){} ).set('labels', {ok:ok, cancel:cancel});
+
+        , function(){} ).set('labels', {ok:ok, cancel: cancel});
+
 
 	})
 }

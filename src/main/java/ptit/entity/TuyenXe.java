@@ -27,7 +27,7 @@ public class TuyenXe {
 	@Column(name = "TrangThai")
 	private boolean trangThai;
 	@Column(name = "tgchaytuyen")
-	private Time tgchay;
+	private int tgchay;
 	@OneToMany(mappedBy = "tuyen", fetch = FetchType.EAGER)
 	private Collection<ChuyenXe> chuyen;
 	@OneToMany(mappedBy = "tuyen", fetch = FetchType.EAGER)
@@ -68,10 +68,10 @@ public class TuyenXe {
 	public void setBanggia(Collection<BangGia> banggia) {
 		this.banggia = banggia;
 	}
-	public Time getTgchay() {
+	public int getTgchay() {
 		return tgchay;
 	}
-	public void setTgchay(Time tgchay) {
+	public void setTgchay(int tgchay) {
 		this.tgchay = tgchay;
 	}
 }

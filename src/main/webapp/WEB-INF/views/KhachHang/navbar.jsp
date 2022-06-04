@@ -12,8 +12,8 @@
                     <div class="col-sm-9 col-xs-12 padd-lr0">
                         <div class="wheel-top-menu clearfix">
                             <div class="wheel-top-menu-info">
-                                <div class="top-menu-item"><a href="#"><i class="fa fa-phone"></i><span>19009898</span></a></div>
-                                <div class="top-menu-item"><a href="#"><i class="fa fa-envelope"></i><span>hotro@gmail.com</span></a></div>
+                                <div class="top-menu-item"><a href="#"><i class="fa fa-phone"></i><span>0912345678</span></a></div>
+                                <div class="top-menu-item"><a href="#"><i class="fa fa-envelope"></i><span>p.h.n.phuong1812@gmail.com</span></a></div>
                             </div>
                             <div class="wheel-top-menu-log">
                                 <div class="top-menu-item">
