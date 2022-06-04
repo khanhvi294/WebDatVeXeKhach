@@ -4,7 +4,6 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
-
 <!DOCTYPE html>
 
 <html lang="en">
@@ -86,7 +85,6 @@
 												value="${datek}" type="date" pattern="yyyy-MM-dd" /> <form:input
 												path="ngKH" class="" type="date" value="${datek2 }"
 												id="inputval22" />
-
 										</label>
 									</div>
 

@@ -324,7 +324,6 @@ ${vi }</h1>
 <!-- End ProfileEditModal-->
 
 
-
 <!-- model sửa trạng thái -->
 <div class="modal fade" id="Edittrangthai" tabindex="-1"
 	aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -378,7 +377,6 @@ ${vi }</h1>
 		</div>
 	</div>
 </div>
-
 
 
 <!-- Vertically centered Modal -->
