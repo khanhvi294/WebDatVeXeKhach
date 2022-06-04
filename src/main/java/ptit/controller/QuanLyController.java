@@ -289,6 +289,7 @@ public class QuanLyController {
 
 	}
 
+
 	@RequestMapping(value = "chuyenxe/{machuyen}", params = "update", method = RequestMethod.GET)
 	public String ChuyenXeUpdate(ModelMap model, @PathVariable("machuyen") String ma) {
 		ChuyenXe chuyen = xetheoid(ma);
@@ -315,6 +316,7 @@ public class QuanLyController {
 		model.addAttribute("chuyenxe", chuyen);
 		return "QuanLy/chuyenxe";
 	}
+
 
 	@RequestMapping(value = "/chuyenxe/{machuyen}", params = "update", method = RequestMethod.POST)
 	public String ChuyenXeUpdate(ModelMap model, @PathVariable("machuyen") String ma, HttpServletRequest request,
@@ -376,7 +378,7 @@ public class QuanLyController {
 				session.close();
 			}
 
-			return "redirect: /quanly/chuyenxe.html";
+			return "redirect: /CNPM/quanly/chuyenxe.html";
 		}
 
 	}
@@ -420,6 +422,7 @@ public class QuanLyController {
 			}
 		}
 		return 0;
+		
 	}
 
 	@RequestMapping(value = "chuyenxe/insert", method = RequestMethod.POST)
@@ -428,13 +431,13 @@ public class QuanLyController {
 		if (request.getParameter("ngKH") == "") {
 
 			errors.rejectValue("ngKH", "chuyen", "Ngày Tháng Không Được Để Trống");
-		} else if (chuyen.getNgKH().before(new Date())) {
+		}
+		if (chuyen.getNgKH()!=null && chuyen.getNgKH().before(new Date())) {
 			errors.rejectValue("ngKH", "chuyen", "Ngày Tháng Không Được Để Nhỏ Hơn Ngày Hiện Tại");
 
 		} else if (checkchuyenxe(chuyen.getXekhach().getBienXe(), request.getParameter("ngKH"), chuyen) == 1) {
 			errors.rejectValue("maChuyen", "chuyen", "Xe Không ở vị trí hiện tại");
 		}
-
 		if (request.getParameter("thoigian") == "") {
 			errors.rejectValue("tgKh", "chuyen", "Thời gian không được bỏ trống");
 		}
@@ -451,7 +454,7 @@ public class QuanLyController {
 				tenXK.put(listtx.get(i).getMaTuyen(),
 						listtx.get(i).getDiemDi().getDiaDiem() + " - " + listtx.get(i).getDiemDen().getDiaDiem());
 			}
-
+			System.out.println(chuyen.getNgKH().toString());
 			model.addAttribute("listtemp", tenXK);
 			model.addAttribute("listnv", listnv);
 			model.addAttribute("listxk", listxk);
@@ -503,7 +506,7 @@ public class QuanLyController {
 			} finally {
 				session.close();
 			}
-			return "redirect: /quanly/chuyenxe.html";
+			return "redirect: /CNPM/quanly/chuyenxe.html";
 
 		}
 
@@ -576,7 +579,7 @@ public class QuanLyController {
 			} finally {
 				session.close();
 			}
-			return "redirect: /quanly/tuyenxe.html";
+			return "redirect: /CNPM/quanly/tuyenxe.html";
 		}
 	}
 
@@ -611,7 +614,6 @@ public class QuanLyController {
 		try {
 			TuyenXe tuyen = tuyentheoid(ma);
 			tuyen.setTrangThai(Boolean.parseBoolean(request.getParameter("trangthai")));
-
 			tuyen.setTgchay(Integer.parseInt(request.getParameter("tgchay")));
 			session.save(tuyen);
 			transaction.commit();
@@ -621,7 +623,7 @@ public class QuanLyController {
 		} finally {
 			session.close();
 		}
-		return "redirect: /quanly/tuyenxe.html";
+		return "redirect: /CNPM/quanly/tuyenxe.html";
 	}
 
 	@RequestMapping("/nhanvien")
@@ -742,7 +744,9 @@ public class QuanLyController {
 			} finally {
 				session.close();
 			}
+
 			return "redirect:/quanly/nhanvien.html";
+
 		}
 
 	}
@@ -816,7 +820,7 @@ public class QuanLyController {
 				TaiKhoan tk = new TaiKhoan();
 				VaiTro vt = vaitrotheoid("NV");
 				tk.setUserName(nv.getMaNV());
-				tk.setTrangThai(2);
+				tk.setTrangThai(1);
 				tk.setVaiTro(vt);
 				tk.setEmail(request.getParameter("email"));
 				String[] words = request.getParameter("ngaysinh").split("-");
@@ -829,7 +833,6 @@ public class QuanLyController {
 				nv.setTknv(tk);
 				session.save(tk);
 				session.save(nv);
-				model.addAttribute("message", "vô đây");
 				transaction.commit();
 				redirectAttributes.addFlashAttribute("message", new Message("success", "Thêm mới thành công!"));
 
@@ -841,7 +844,9 @@ public class QuanLyController {
 				session.close();
 			}
 
+
 			return "redirect:/quanly/nhanvien.html";
+
 		}
 
 	}
@@ -877,6 +882,7 @@ public class QuanLyController {
 		if (request.getParameter("tenKH").trim().length() == 0) {
 			errors.rejectValue("tenKH", "kh", "Không Được Để Trống");
 		}
+
 
 		if (Pattern.matches("[a-zA-Z]+", request.getParameter("sdt")) == true) {
 			errors.rejectValue("sdt", "kh", "Số Điện Thoại Không Có Kí Tự Chữ");
@@ -936,7 +942,9 @@ public class QuanLyController {
 
 			}
 		}
+
 		return "redirect:/quanly/khachhang.html";
+
 	}
 
 	@RequestMapping("/diadiem")
@@ -997,7 +1005,9 @@ public class QuanLyController {
 			} finally {
 				session.close();
 			}
+
 			return "redirect:/quanly/diadiem.html";
+
 		}
 	}
 
@@ -1055,7 +1065,7 @@ public class QuanLyController {
 			} finally {
 				session.close();
 			}
-			return "redirect:/quanly/diadiem.html";
+			return "redirect: /CNPM/quanly/diadiem.html";
 		}
 
 	}
@@ -1131,6 +1141,7 @@ public class QuanLyController {
 				session.close();
 			}
 			return "redirect:/quanly/loaixe.html";
+
 		}
 	}
 
@@ -1190,7 +1201,9 @@ public class QuanLyController {
 			} finally {
 				session.close();
 			}
+
 			return "redirect:/quanly/loaixe.html";
+
 		}
 
 	}
@@ -1269,6 +1282,7 @@ public class QuanLyController {
 			} finally {
 				session.close();
 			}
+
 			return "redirect:/quanly/banggia.html";
 		}
 
@@ -1330,7 +1344,9 @@ public class QuanLyController {
 			} finally {
 				session.close();
 			}
+
 			return "redirect:/quanly/banggia.html";
+
 		}
 
 	}
@@ -1415,7 +1431,8 @@ public class QuanLyController {
 		} finally {
 			session.close();
 		}
-		return "redirect:/quanly/phieudat.html";
+		return "redirect: /CNPM/quanly/phieudat.html";
+
 	}
 
 //	@RequestMapping(value = "/phieudat/insert", method = RequestMethod.GET)
@@ -1482,17 +1499,42 @@ public class QuanLyController {
 			session.close();
 		}
 
-		return "redirect: /quanly/trangcanhan.html";
+		return "redirect: /CNPM/quanly/trangcanhan.html";
 	}
 
 	@RequestMapping(value = "/trangcanhan/changepw", method = RequestMethod.GET)
 	public String ChangePW(ModelMap model, HttpSession ss, HttpServletRequest request) {
-		model.addAttribute("idModal", "modalCreate");
-		NhanVien nv = (NhanVien)ss.getAttribute("user");
-		System.out.println(nv.getHoNV());
-		System.out.println(nv.getTknv());
-		model.addAttribute("nv", nv);
-		return "QuanLy/profile";
+		NhanVien nv = (NhanVien) ss.getAttribute("user");
+		int count = 0;
+		TaiKhoan tk = tktheousername(nv.getTknv().getUserName());
+		String s = "";
+		if (request.getParameter("password").equals(tk.getMatKhau())) {
+			s = "Máº­t Kháº©u Hiá»‡n Táº¡i Bá»‹ Sai";
+			count++;
+		} else if (request.getParameter("newpassword").equals("renewpassword") == false) {
+			s = "Máº­t Kháº©u Má»›i KhÃ´ng Khá»›p Vá»›i Nhau";
+			count++;
+		}
+		if (count == 0) {
+			model.addAttribute("message", s);
+			return "QuanLy/profile";
+		} else {
+			Session session = factory.openSession();
+			Transaction transaction = session.beginTransaction();
+			try {
+				tk.setMatKhau(request.getParameter("newpassword"));
+				session.update(tk);
+				transaction.commit();
+			} catch (Exception e) {
+				System.out.println(e.toString());
+				transaction.rollback();
+			} finally {
+				session.close();
+			}
+
+			return "redirect: /CNPM/quanly/trangcanhan.html";
+		}
+
 	}
 //	NhanVien nv = (NhanVien) ss.getAttribute("user");
 //	int count = 0;

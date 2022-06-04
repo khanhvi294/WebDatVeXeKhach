@@ -74,5 +74,4 @@ public class TuyenXe {
 	public void setTgchay(int tgchay) {
 		this.tgchay = tgchay;
 	}
-	
 }
