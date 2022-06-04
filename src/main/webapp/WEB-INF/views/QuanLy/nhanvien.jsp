@@ -60,13 +60,10 @@ ${vi }</h1>
 										</a> <a href="/CNPM/quanly/nhanvien/${u.maNV}.html?update"><i
 												class="bi bi-pencil-square v-icon-modal"
 												data-bs-toggle="modal" data-bs-target="#ProfileEditModal"></i></a>
-<<<<<<< HEAD
 											<i class="bi bi-pencil-square v-icon-modal"
 											data-bs-toggle="modal" data-bs-target="#Edittrangthai"></i> </span></td>
 
-=======
 									</span></td>
->>>>>>> parent of 786d3f7 (Merge pull request #20 from khanhvi294/vi)
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -326,7 +323,7 @@ ${vi }</h1>
 
 <!-- End ProfileEditModal-->
 
-<<<<<<< HEAD
+
 <!-- model sửa trạng thái -->
 <div class="modal fade" id="Edittrangthai" tabindex="-1"
 	aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -381,10 +378,6 @@ ${vi }</h1>
 	</div>
 </div>
 
-=======
-
-
->>>>>>> parent of 786d3f7 (Merge pull request #20 from khanhvi294/vi)
 
 <!-- Vertically centered Modal -->
 <div class="modal fade" id="verticalycentered" tabindex="-1">

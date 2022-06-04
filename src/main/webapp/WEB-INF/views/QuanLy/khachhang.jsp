@@ -148,11 +148,6 @@
 							<label for="Email"
 								class="col-md-4 col-lg-3 col-form-label v-label">Phái</label>
 							<div class="col-md-8 col-lg-9">
-<<<<<<< HEAD
-=======
-								<select class="form-select v-form-control"
-									aria-label=" select example" name="gridRadios">
->>>>>>> parent of 786d3f7 (Merge pull request #20 from khanhvi294/vi)
 									<c:if test="${kh.phai eq false}">
 										<input type="text" class="form-control v-form-control" readonly="true" value="Nữ" />
 									</c:if>
