@@ -22,7 +22,7 @@
                                 <c:when test="${user!=null}">
                                     <div class="dropdown wheel-user-ico">
                                         <button class="btn btn-default dropdown-toggle">
-                                      ${user.getHoKH()} ${user.getTenKH() }
+                                      ${user.getHoNV()} ${user.getTenNV() }
                                         <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu">
