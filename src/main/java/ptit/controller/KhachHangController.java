@@ -118,7 +118,7 @@ public class KhachHangController {
 	}
 //chọn chuyến
 	@RequestMapping(value = "chonchuyen")
-	public String chonchuyen(@ModelAttribute("chuyenxe") ChuyenXe cx, ModelMap model,HttpServletRequest request) {
+	public String chonchuyen(@ModelAttribute("chuyenxe") ChuyenXe cx, ModelMap model,HttpServletRequest request,RedirectAttributes redirectAttributes) {
 System.out.println("ihi");
 System.out.println(cx.getTuyen().getDiemDi().getMaDD());
 System.out.println(cx.getTuyen().getDiemDen().getMaDD());
@@ -130,6 +130,12 @@ System.out.println(cx.getTuyen().getDiemDen().getMaDD());
 			
 			List<ChuyenXe> list = this.getdsChuyenXe(cx.getTuyen().getDiemDi().getMaDD(),
 					cx.getTuyen().getDiemDen().getMaDD(), cx.getNgKH());
+			List<ChuyenXe> listcx = list;
+			if(listcx.size()==0) {
+				
+				redirectAttributes.addFlashAttribute("message", new Message("error", "Không tìm thấy bất kì chuyến xe nào mà bạn muốn tìm kiếm!"));
+				return "redirect:" + referer;
+			}
 			model.addAttribute("dschuyenxe", list);
 			Session session = factory.getCurrentSession();
 			DiaDiem ddi = (DiaDiem) session.get(DiaDiem.class, cx.getTuyen().getDiemDi().getMaDD());
@@ -169,11 +175,16 @@ System.out.println(cx.getTuyen().getDiemDen().getMaDD());
 				redirectAttributes.addFlashAttribute("dschuyenxe",dscx);
 				redirectAttributes.addFlashAttribute("diemdi",diemdi);
 				redirectAttributes.addFlashAttribute("diemden",diemden);
-				return "redirect: chonchuyen.html";
+				return "redirect:chonchuyen.html";
 			}
 			Session session = factory.getCurrentSession();
 			ChuyenXe cx = (ChuyenXe) session.get(ChuyenXe.class, machuyen);
 			this.cx = cx;
+			Integer socho = 47/*cx.getXekhach().getLx().getSeat()*/;
+			Integer phannguyen = socho/6;
+			Integer phandu = socho%6;
+			request.setAttribute("phannguyen", phannguyen.toString());
+			request.setAttribute("phandu", phandu.toString());
 			pd.setChuyen(this.cx);
 			pd.setTongtien(new BigDecimal(0));
 			ss.setAttribute("PhieuDat", pd);
@@ -377,6 +388,7 @@ System.out.println(cx.getTuyen().getDiemDen().getMaDD());
 
 				t.commit();
 				sess.setAttribute("user", khachhang);
+				sess.setAttribute("tkdn", tk);
 				model.addAttribute("message",new Message("success", "Cập nhật thông tin thành công"));
 			} catch (Exception e) {
 				System.out.println(e);
@@ -442,6 +454,7 @@ System.out.println(cx.getTuyen().getDiemDen().getMaDD());
 					model.addAttribute("message",new Message("success", "Đổi mật khẩu thành công!"));
 					kh.setTkkh(tkkh);
 					ss.setAttribute("user", kh);
+					ss.setAttribute("tkdn", tkkh);
 				} catch (Exception e) {
 					t.rollback();
 					model.addAttribute("message",new Message("error", "Đổi mật khẩu thất bại!"));
