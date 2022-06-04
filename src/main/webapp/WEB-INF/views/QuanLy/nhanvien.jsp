@@ -9,8 +9,6 @@
 <main id="main" class="main">
 	<div class="alert-flag" aType='${message.type}'
 		aMessage="${message.message }"></div>
-		<h1> hihi
-${vi }</h1>
 	<div class="pagetitle">
 		<h1>Nhân Viên</h1>
 	</div>
@@ -370,7 +368,7 @@ ${vi }</h1>
 
 						<div class="text-center">
 
-							<button id="modal-change-state"
+							<button id="btn-change-state"
 								class="btn btn-primary btn-main-color border-0 shadow-none"
 								style="padding: 8px 20px">Lưu</button>
 						</div>
