@@ -148,6 +148,7 @@
 							<label for="Email"
 								class="col-md-4 col-lg-3 col-form-label v-label">Phái</label>
 							<div class="col-md-8 col-lg-9">
+
 									<c:if test="${kh.phai eq false}">
 										<input type="text" class="form-control v-form-control" readonly="true" value="Nữ" />
 									</c:if>
