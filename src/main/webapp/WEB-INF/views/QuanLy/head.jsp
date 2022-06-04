@@ -29,6 +29,14 @@
   <link href="<c:url value='/resources/assets/vendor/simple-datatables/style.css'/>" rel="stylesheet" />
   <link href="<c:url value='/resources/KhachHang/assets/css/alertify.min.css'/>" rel="stylesheet" />
 	
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+<!-- Default theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+<!-- Semantic UI theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
+<!-- Bootstrap theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
+	
   <!-- Template Main CSS File -->
   <link href="<c:url value='/resources/assets/css/style.css'/>" rel="stylesheet" type="text/css" />
   <link href="<c:url value='/resources/assets/css/style-v.css'/>" rel="stylesheet" />

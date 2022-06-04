@@ -790,7 +790,7 @@ public class QuanLyController {
 				TaiKhoan tk = new TaiKhoan();
 				VaiTro vt = vaitrotheoid("NV");
 				tk.setUserName(nv.getMaNV());
-				tk.setTrangThai(1);
+				tk.setTrangThai(2);
 				tk.setVaiTro(vt);
 				tk.setEmail(request.getParameter("email"));
 				String[] words = request.getParameter("ngaysinh").split("-");
@@ -810,7 +810,7 @@ public class QuanLyController {
 			} finally {
 				session.close();
 			}
-			return "redirect: /CNPM/quanly/nhanvien.html";
+			return "redirect:/quanly/nhanvien.html";
 		}
 
 	}
@@ -1415,8 +1415,8 @@ public class QuanLyController {
 
 	@RequestMapping(value = "/trangcanhan", method = RequestMethod.GET)
 	public String Profile(ModelMap model, HttpSession ss) {
-//		NhanVien nv = (NhanVien)ss.getAttribute("user");
-		NhanVien nv = nvtheoid("NV01");
+		NhanVien nv = (NhanVien)ss.getAttribute("user");
+		
 		System.out.println(nv.getHoNV());
 		System.out.println(nv.getTknv());
 		model.addAttribute("nv", nv);

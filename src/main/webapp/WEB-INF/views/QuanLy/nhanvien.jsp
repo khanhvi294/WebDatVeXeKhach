@@ -56,10 +56,9 @@
 										</a> <a href="/CNPM/quanly/nhanvien/${u.maNV}.html?update"><i
 												class="bi bi-pencil-square v-icon-modal"
 												data-bs-toggle="modal" data-bs-target="#ProfileEditModal"></i></a>
-												<i class="bi bi-pencil-square v-icon-modal"
-											data-bs-toggle="modal" data-bs-target="#Edittrangthai"></i>
-									</span></td>
-									
+											<i class="bi bi-pencil-square v-icon-modal"
+											data-bs-toggle="modal" data-bs-target="#Edittrangthai"></i> </span></td>
+
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -109,8 +108,9 @@
 												</div>
 
 												<div class="row">
-													<div class="col-lg-3 col-md-4 label v-label">Họ tên nhân viên</div>
-													<div class="col-lg-9 col-md-8">${nv.hoNV} ${nv.tenNV}</div>
+													<div class="col-lg-3 col-md-4 label v-label">Họ tên
+														nhân viên</div>
+													<div class="col-lg-9 col-md-8">${nv.hoNV}${nv.tenNV}</div>
 												</div>
 
 
@@ -204,7 +204,7 @@
 								class="col-md-4 col-lg-3 col-form-label v-label">Mã nhân
 								viên</label>
 							<div class="col-md-8 col-lg-9">
-								<input type="text" readonly="true" 
+								<input type="text" readonly="true"
 									class="form-control v-form-control" id="fullName"
 									value="${nv.maNV }">
 							</div>
@@ -214,9 +214,9 @@
 							<label for="company" class="col-md-3 col-form-label v-label">Họ</label>
 							<div class="col-md-3">
 								<input name="honv" type="text"
-									class="form-control v-form-control"
-									id="company" value="${nv.hoNV }">
-									<form:errors style = "color:red" path="hoNV"/>
+									class="form-control v-form-control" id="company"
+									value="${nv.hoNV }">
+								<form:errors style="color:red" path="hoNV" />
 							</div>
 
 							<label for="Job" class="col-md-1 col-form-label v-label">Tên</label>
@@ -224,7 +224,7 @@
 								<input name="tennv" type="text"
 									class="form-control  v-form-control" id="Job"
 									value="${nv.tenNV }">
-								<form:errors style = "color:red" path="tenNV"/>
+								<form:errors style="color:red" path="tenNV" />
 							</div>
 						</div>
 
@@ -234,9 +234,9 @@
 								class="col-md-4 col-lg-3 col-form-label v-label">CMND/CCCD</label>
 							<div class="col-md-8 col-lg-9">
 								<input name="cccd" type="text"
-									class="form-control v-form-control"
-									id="Country" value="${nv.cccd }">
-							<form:errors style = "color:red" path="cccd"/>
+									class="form-control v-form-control" id="Country"
+									value="${nv.cccd }">
+								<form:errors style="color:red" path="cccd" />
 							</div>
 						</div>
 
@@ -246,8 +246,8 @@
 							<div class="col-md-8 col-lg-9">
 								<input name="sdt" type="text"
 									class="form-control v-form-control" id="Address"
-									 value="${nv.sdt }">
-								<form:errors style = "color:red" path="sdt"/>
+									value="${nv.sdt }">
+								<form:errors style="color:red" path="sdt" />
 							</div>
 						</div>
 
@@ -257,7 +257,7 @@
 								sinh</label>
 							<div class="col-md-8 col-lg-9">
 								<input type="date" class="form-control v-form-control"
-									 name="ngSinh" value="${nv.ngaySinh }" />
+									name="ngSinh" value="${nv.ngaySinh }" />
 
 							</div>
 						</div>
@@ -315,56 +315,59 @@
 <!-- End ProfileEditModal-->
 
 <!-- model sửa trạng thái -->
-	<div class="modal fade" id="Edittrangthai" tabindex="-1"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog v-modal-container">
-            <div class="modal-content border-0">
-                <div class="modal-header v-modal-header">
-                    <h5 class="modal-title v-modal-title">Thay đổi trạng thái</h5>
-                    <button type="button" class="btn shadow-none" data-bs-dismiss="modal" aria-label="Close"
-                        style="font-weight:700"><i class="bi bi-x v-icon-close"></i></button>
-                </div>
-                <div class="modal-body row">
-                    <!-- profile -->
-                    <!-- Profile Edit Form -->
-                    <div class="col-12 v-edit-form">
-                        <form>
-                           
+<div class="modal fade" id="Edittrangthai" tabindex="-1"
+	aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog v-modal-container">
+		<div class="modal-content border-0">
+			<div class="modal-header v-modal-header">
+				<h5 class="modal-title v-modal-title">Thay đổi trạng thái</h5>
+				<button type="button" class="btn shadow-none"
+					data-bs-dismiss="modal" aria-label="Close" style="font-weight: 700">
+					<i class="bi bi-x v-icon-close"></i>
+				</button>
+			</div>
+			<div class="modal-body row">
+				<!-- profile -->
+				<!-- Profile Edit Form -->
+				<div class="col-12 v-edit-form">
+					<form>
 
-                            <div class="row mb-3">
-                                <label for="Email" class="col-md-4 col-lg-3 col-form-label v-label">Trạng thái</label>
-                                <div class="col-md-8">
-                                    <div class="form-check form-check-inline ">
-                                        <input class="form-check-input v-check-input shadow-none" type="radio"
-                                            name="gridRadios" id="gtnam" value="option1" checked>
-                                        <label class="form-check-label" for="gridRadios1">
-											Đang hoạt động
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline ">
-                                        <input class="form-check-input v-check-input shadow-none" type="radio"
-                                            name="gridRadios" id="gtnu" value="option2">
-                                        <label class="form-check-label" for="gridRadios2">
-                                            Khóa
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-        
-                         
-                            <div class="text-center">
-                                <button data-bs-toggle="modal" data-bs-target="#xacnhan" class="btn btn-primary btn-main-color border-0 shadow-none"
-                                    style="padding: 8px 20px">Lưu
-                                </button>
-                            </div>
-                        </form><!-- End Profile Edit Form -->
-                    </div>
-                    <!-- end profile -->
-                </div>
-            </div>
-        </div>
+
+						<div class="row mb-3">
+							<label for="Email"
+								class="col-md-4 col-lg-3 col-form-label v-label">Trạng
+								thái</label>
+							<div class="col-md-8">
+								<div class="form-check form-check-inline ">
+									<input class="form-check-input v-check-input shadow-none"
+										type="radio" name="gridRadios" id="gtnam" value="option1"
+										checked> <label class="form-check-label"
+										for="gridRadios1"> Đang hoạt động </label>
+								</div>
+								<div class="form-check form-check-inline ">
+									<input class="form-check-input v-check-input shadow-none"
+										type="radio" name="gridRadios" id="gtnu" value="option2">
+									<label class="form-check-label" for="gridRadios2"> Khóa
+									</label>
+								</div>
+							</div>
+						</div>
+
+
+						<div class="text-center">
+							<button id="btn-change-state"
+								class="btn btn-primary btn-main-color border-0 shadow-none"
+								style="padding: 8px 20px">Lưu</button>
+						</div>
+					</form>
+					<!-- End Profile Edit Form -->
+				</div>
+				<!-- end profile -->
+			</div>
+		</div>
 	</div>
-	
+</div>
+
 
 <!-- Vertically centered Modal -->
 <div class="modal fade" id="verticalycentered" tabindex="-1">
@@ -510,8 +513,15 @@
 	src="<c:url value='/resources/assets/vendor/php-email-form/validate.js'/>"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script
+	src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+<script
+	src="<c:url value='/resources/assets/js/my-main.js'/>"></script>
 <script>
 	$(document).ready(function() {
+		
+		showModalConfirm("#btn-change-state", "Bạn có chắc chắn muốn thực hiện?", "Xác nhận", "Hủy");
+		
 		console.log($(".modal_flag").attr("idModal"));
 		if ($(".modal_flag").attr("idModal") === "modalCreate") {
 			$("#verticalycentered").modal("show");
