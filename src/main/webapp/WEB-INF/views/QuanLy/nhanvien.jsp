@@ -233,8 +233,29 @@
 
 							</div>
 						</div>
+						<div class="row mb-3">
+							<label for="Country"
+								class="col-md-4 col-lg-3 col-form-label v-label">Email</label>
+							<div class="col-md-8 col-lg-9">
+								<form:input path="tknv.email" type="text"
+									class="form-control v-form-control" readonly = "true"
+									id="Country" value="${nv.tknv.email }"/>
 
+								<form:errors style = "color:red" path="cccd"/>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<label for="Country"
+								class="col-md-4 col-lg-3 col-form-label v-label">Username</label>
+							<div class="col-md-8 col-lg-9">
+								<form:input path="tknv.userName" type="text"
+									class="form-control v-form-control" readonly = "true"
+									id="Country" value="${nv.tknv.userName }"/>
 
+								<form:errors style = "color:red" path="cccd"/>
+							</div>
+						</div>
+						
 						<div class="row mb-3">
 							<label for="Country"
 								class="col-md-4 col-lg-3 col-form-label v-label">CMND/CCCD</label>
@@ -365,7 +386,7 @@
 
 						<div class="text-center">
 
-							<button id="modal-change-state"
+							<button id="btn-change-state"
 								class="btn btn-primary btn-main-color border-0 shadow-none"
 								style="padding: 8px 20px">Lưu</button>
 						</div>

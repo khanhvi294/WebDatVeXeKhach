@@ -193,6 +193,7 @@
 									<form:options items="${listdd}" itemValue="maDD" itemLabel="diaDiem"/>
 								</form:select>
 							</div>
+							<form:errors style = "color:red" path="diemDen"/>
 						</div>
 						<div class="row mb-3">
 							<label for="machuyen"
