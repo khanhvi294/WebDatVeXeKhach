@@ -817,7 +817,7 @@ public class QuanLyController {
 				TaiKhoan tk = new TaiKhoan();
 				VaiTro vt = vaitrotheoid("NV");
 				tk.setUserName(nv.getMaNV());
-				tk.setTrangThai(1);
+				tk.setTrangThai(2);
 				tk.setVaiTro(vt);
 				tk.setEmail(request.getParameter("email"));
 				String[] words = request.getParameter("ngaysinh").split("-");
@@ -843,6 +843,7 @@ public class QuanLyController {
 
 
 			return "redirect:/quanly/nhanvien.html";
+
 
 		}
 

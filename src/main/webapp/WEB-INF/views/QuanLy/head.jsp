@@ -47,24 +47,36 @@
 	href="<c:url value='/resources/assets/vendor/simple-datatables/style.css'/>"
 	rel="stylesheet" />
 
+
+  <!-- Vendor CSS Files -->
+ <%--  <c:url value=''/> --%>
+  <link href="<c:url value='/resources/assets/vendor/bootstrap/css/bootstrap.min.css'/>" rel="stylesheet" />
+  <link href="<c:url value='/resources/assets/vendor/bootstrap-icons/bootstrap-icons.css'/>" rel="stylesheet" />
+  <link href="<c:url value='/resources/assets/vendor/boxicons/css/boxicons.min.css'/>" rel="stylesheet" />
+  <link href="<c:url value='/resources/assets/vendor/quill/quill.snow.css'/>" rel="stylesheet" />
+  <link href="<c:url value='/resources/assets/vendor/quill/quill.bubble.css'/>" rel="stylesheet" />
+  <link href="<c:url value='/resources/assets/vendor/remixicon/remixicon.css'/>" rel="stylesheet" />
+  <link href="<c:url value='/resources/assets/vendor/simple-datatables/style.css'/>" rel="stylesheet" />
+  <link href="<c:url value='/resources/KhachHang/assets/css/alertify.min.css'/>" rel="stylesheet" />
+	
+
 <!-- Alertify -->
 <!-- CSS -->
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+
 <!-- Default theme -->
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
 <!-- Semantic UI theme -->
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
 <!-- Bootstrap theme -->
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
-<!-- Template Main CSS File -->
-<link href="<c:url value='/resources/assets/css/style.css'/>"
-	rel="stylesheet" type="text/css" />
-<link href="<c:url value='/resources/assets/css/style-v.css'/>"
-	rel="stylesheet" />
-	<link href="<c:url value='resources/KhachHang/assets/css/alertify.min.css'/>"
-	rel="stylesheet" />
-	</head>
-<!-- =======================================================
+
+	
+  <!-- Template Main CSS File -->
+  <link href="<c:url value='/resources/assets/css/style.css'/>" rel="stylesheet" type="text/css" />
+  <link href="<c:url value='/resources/assets/css/style-v.css'/>" rel="stylesheet" />
+  <!-- =======================================================
+
   * Template Name: NiceAdmin - v2.2.2
   * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
   * Author: BootstrapMade.com

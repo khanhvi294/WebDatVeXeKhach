@@ -64,7 +64,6 @@
 											<i class="bi bi-pencil-square v-icon-modal"
 											data-bs-toggle="modal" data-bs-target="#Edittrangthai"></i> </span></td>
 
-									</span></td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -114,8 +113,9 @@
 												</div>
 
 												<div class="row">
-													<div class="col-lg-3 col-md-4 label v-label">Họ tên nhân viên</div>
-													<div class="col-lg-9 col-md-8">${nv.hoNV} ${nv.tenNV}</div>
+													<div class="col-lg-3 col-md-4 label v-label">Họ tên
+														nhân viên</div>
+													<div class="col-lg-9 col-md-8">${nv.hoNV}${nv.tenNV}</div>
 												</div>
 
 
@@ -265,7 +265,6 @@
 							<div class="col-md-8 col-lg-9">
 								<input type="date" class="form-control v-form-control"
 									 name="ngSinh" value="${ngaysinh }" />
-
 							</div>
 						</div>
 
@@ -365,6 +364,7 @@
 
 
 						<div class="text-center">
+
 							<button id="modal-change-state"
 								class="btn btn-primary btn-main-color border-0 shadow-none"
 								style="padding: 8px 20px">Lưu</button>
@@ -377,7 +377,6 @@
 		</div>
 	</div>
 </div>
-
 
 <!-- Vertically centered Modal -->
 <div class="modal fade" id="verticalycentered" tabindex="-1">
@@ -524,35 +523,31 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script
-	src="<c:url value='/resources/KhachHang/assets/js/alertify.min.js'/>"></script>	
+
+	src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 <script
 	src="<c:url value='/resources/KhachHang/assets/js/showMessage.js'/>"></script>	
-	
-<!-- Alertify -->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/alertify.min.js"
-	integrity="sha512-JnjG+Wt53GspUQXQhc+c4j8SBERsgJAoHeehagKHlxQN+MtCCmFDghX9/AcbkkNRZptyZU4zC8utK59M5L45Iw=="
-	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 
 <!-- Template Main JS File -->
 <script src="<c:url value='/resources/assets/js/main.js'/>"></script>
 <script src="<c:url value='/resources/assets/js/my-main.js'/>"></script>
-
 <script>
-	$(document).ready(
-			function() {
-				
-				// sua trang thai nhan vien
-				showModalConfirm("#btn-change-state", "Bạn có chắc chắn muốn thực hiện?", "Xác nhận", "Hủy");
-
-				console.log($(".modal_flag").attr("idModal"));
-				if ($(".modal_flag").attr("idModal") === "modalCreate") {
-					$("#verticalycentered").modal("show");
-				} else if ($(".modal_flag").attr("idModal") === "modalShow") {
-					$("#ProfileViewModal").modal("show");
-
-				} else if ($(".modal_flag").attr("idModal") === "modalUpdate") {
-					$("#ProfileEditModal").modal("show");
-				}
-			})
+	$(document).ready(function() {
+		
+		showModalConfirm("#btn-change-state", "Bạn có chắc chắn muốn thực hiện?", "Xác nhận", "Hủy");
+		
+		console.log($(".modal_flag").attr("idModal"));
+		if ($(".modal_flag").attr("idModal") === "modalCreate") {
+			$("#verticalycentered").modal("show");
+		} else if ($(".modal_flag").attr("idModal") === "modalShow") {
+			$("#ProfileViewModal").modal("show");
+		} else if ($(".modal_flag").attr("idModal") === "modalUpdate") {
+			$("#ProfileEditModal").modal("show");
+		}
+	})
 </script>
+
+
+
+
