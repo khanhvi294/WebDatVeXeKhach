@@ -26,8 +26,8 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <button class="nav-link v-nav-link v-active" data-bs-toggle="tab"
-                                        data-bs-target="#profile-change-password">Đổi mật khẩu</button>
+                                   <a href = "/CNPM/quanly/trangcanhan/changepw.html"><button class="nav-link v-nav-link v-active" data-bs-toggle="tab"
+                                        data-bs-target="#profile-change-password">Đổi mật khẩu</button></a>
                                 </li>
                             </ul>
                             <div class="tab-content pt-2">
@@ -177,10 +177,10 @@
                                     </form:form><!-- End Profile Edit Form -->
 
                                 </div>
-
+								<div class="modal_flag" idModal="${idModal }"></div>
                                 <div class="tab-pane fade pt-3" id="profile-change-password">
                                     <!-- Change Password Form -->
-                                    <form action = "quanly/trangcanhan/changepw.html">
+                                    <form method = "post">
 
                                         <div class="row mb-3">
                                             <label for="currentPassword"
@@ -250,3 +250,14 @@
 		src="<c:url value='/resources/assets/vendor/php-email-form/validate.js'/>"></script>
 	<!-- Template Main JS File -->
 	<script src="<c:url value='/resources/assets/js/main.js'/>"></script>
+	
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			console.log($(".modal_flag").attr("idModal"));
+			if ($(".modal_flag").attr("idModal") === "modalCreate") {
+				$("#profile-change-password").modal("show");
+			}
+		})
+	</script>

@@ -2,6 +2,9 @@
 	pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -78,8 +81,11 @@
 									</div>
 									<div class="wheel-date ">
 										<span>Ngày đi</span> <label class="fa fa-calendar"
-											for="inputval22"> <form:input path="ngKH" class=""
-												type="date" id="inputval22" value="" />
+											for="inputval22"> <jsp:useBean id="datek"
+												class="java.util.Date" /> <fmt:formatDate var="datek2"
+												value="${datek}" type="date" pattern="yyyy-MM-dd" /> <form:input
+												path="ngKH" class="" type="date" value="${datek2 }"
+												id="inputval22" />
 
 										</label>
 									</div>
