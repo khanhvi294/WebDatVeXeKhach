@@ -63,8 +63,8 @@
                                             <label for="Twitter"
                                                 class="col-md-4 col-lg-3 col-form-label v-label">Username</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="username" type="text" class="form-control v-form-control"
-                                                    id="Twitter" readonly="true" value="${nv.tknv.userName }">
+                                                <form:input path="tknv.userName" type="text" class="form-control v-form-control"
+                                                    id="Twitter" readonly="true" value="${nv.tknv.userName }"/>
                                             </div>
                                         </div>
 
@@ -72,7 +72,8 @@
                                             <label for="Twitter"
                                                 class="col-md-4 col-lg-3 col-form-label v-label">Email</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name = "email" type="email" class="form-control v-form-control" value = "${nv.tknv.email }">
+                                                <form:input path = "tknv.email" type="email" class="form-control v-form-control" value = "${nv.tknv.email }"/>
+                                            	<form:errors style = "color:red" path="maNV"/>
                                             </div>
                                         </div>
 
@@ -80,7 +81,7 @@
                                             <label for="Twitter" class="col-md-4 col-lg-3 col-form-label v-label">Vai
                                                 trò</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input type="text" class="form-control v-form-control" readonly = "true" value = "${nv.tknv.vaiTro.tenVT }">
+                                                <form:input path = "tknv.vaiTro.tenVT" type="text" class="form-control v-form-control" readonly = "true" value = "${nv.tknv.vaiTro.tenVT }"/>
                                             </div>
                                         </div>
 
@@ -89,6 +90,7 @@
                                                 class="col-md-4 col-lg-3 col-form-label v-label">CMND/CCCD</label>
                                             <div class="col-md-8 col-lg-9">
                                                 <form:input path = "cccd" type="text" class="form-control v-form-control" value = "${nv.cccd }"/>
+                                                <form:errors style = "color:red" path="cccd"/>
                                             </div>
                                         </div>
 
@@ -98,6 +100,7 @@
                                             <div class="col-md-8 col-lg-9">
                                                 <form:input path="sdt" type="text" class="form-control v-form-control"
                                                     id="Address" value="${nv.sdt }"/>
+                                                    <form:errors style = "color:red" path="sdt"/> 
                                             </div>
                                         </div>
 
@@ -106,7 +109,7 @@
                                                 sinh</label>
                                             <div class="col-md-8 col-lg-9">
                                                 <input name="ngaysinh" type="date" class="form-control v-form-control"
-                                                    id="Phone" value="${nv.ngaySinh }">
+                                                    id="Phone" value="${ngaysinh }"/>
                                             </div>
                                         </div>
 
@@ -180,7 +183,7 @@
 								<div class="modal_flag" idModal="${idModal }"></div>
                                 <div class="tab-pane fade pt-3" id="profile-change-password">
                                     <!-- Change Password Form -->
-                                    <form method = "post">
+                                    <form method = "post" action = "trangcanhan/changepw.html">
 
                                         <div class="row mb-3">
                                             <label for="currentPassword"
@@ -189,6 +192,7 @@
                                             <div class="col-md-8 col-lg-9">
                                                 <input name="password" type="password"
                                                     class="form-control v-form-control" id="currentPassword">
+                                                  <span style = "color:red">${messpassword }</span>
                                             </div>
                                         </div>
 
@@ -197,8 +201,9 @@
                                                 class="col-md-4 col-lg-3 col-form-label  v-label">Mật khẩu
                                                 mới</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="newpassword" type="password"
+                                                <input name="pw" type="password"
                                                     class="form-control v-form-control" id="newPassword">
+                                                <span style = "color:red">${messpw }</span>
                                             </div>
                                         </div>
 
@@ -207,11 +212,12 @@
                                                 class="col-md-4 col-lg-3 col-form-label  v-label">Nhập lại
                                                 mật khẩu mới</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="renewpassword" type="password"
+                                                <input name="rpw" type="password"
                                                     class="form-control v-form-control" id="renewPassword">
+                                                <span style = "color:red">${messrpw }</span>
                                             </div>
                                         </div>
-										<span style = "color:red">${message }</span>
+										
                                         <div class="text-center">
                                             <button type="submit"
                                                 class="btn btn-primary btn-main-color border-0 shadow-none">Save
