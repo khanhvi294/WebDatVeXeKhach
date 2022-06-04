@@ -140,7 +140,7 @@ ${vi }</h1>
 												</div>
 												<div class="row">
 													<div class="col-lg-3 col-md-4 label v-label">Trạng
-														thái   </div>
+														thái</div>
 													<div class="col-lg-9 col-md-8">
 														<c:choose>
 															<c:when test="${nv.tknv.trangThai == 0}">
@@ -222,8 +222,11 @@ ${vi }</h1>
 								<input name="honv" type="text"
 									class="form-control v-form-control"
 									id="company" value="${nv.hoNV }">
+<<<<<<< HEAD
 								 								<form:errors style = "color:red" path="hoNV"/> 
-
+=======
+									<form:errors style = "color:red" path="hoNV"/>
+>>>>>>> 9fa60d8195611b38ede2d409ea6e6f02d2c9b492
 							</div>
 
 							<label for="Job" class="col-md-1 col-form-label v-label">Tên</label>
@@ -231,8 +234,11 @@ ${vi }</h1>
 								<input name="tennv" type="text"
 									class="form-control  v-form-control" id="Job"
 									value="${nv.tenNV }">
-
+<<<<<<< HEAD
 													<form:errors style = "color:red" path="tenNV"/> 
+=======
+								<form:errors style = "color:red" path="tenNV"/>
+>>>>>>> 9fa60d8195611b38ede2d409ea6e6f02d2c9b492
 							</div>
 						</div>
 
@@ -244,9 +250,11 @@ ${vi }</h1>
 								<input name="cccd" type="text"
 									class="form-control v-form-control"
 									id="Country" value="${nv.cccd }">
-
+<<<<<<< HEAD
 								<form:errors style = "color:red" path="cccd"/>
-
+=======
+							<form:errors style = "color:red" path="cccd"/>
+>>>>>>> 9fa60d8195611b38ede2d409ea6e6f02d2c9b492
 							</div>
 						</div>
 
@@ -256,11 +264,13 @@ ${vi }</h1>
 							<div class="col-md-8 col-lg-9">
 								<input name="sdt" type="text"
 									class="form-control v-form-control" id="Address"
-
+<<<<<<< HEAD
 									value="${nv.sdt }">
 							<form:errors style = "color:red" path="sdt"/> 
-
-
+=======
+									 value="${nv.sdt }">
+								<form:errors style = "color:red" path="sdt"/>
+>>>>>>> 9fa60d8195611b38ede2d409ea6e6f02d2c9b492
 							</div>
 						</div>
 
@@ -279,6 +289,18 @@ ${vi }</h1>
 							<label for="Email"
 								class="col-md-4 col-lg-3 col-form-label v-label">Phái</label>
 							<div class="col-md-8 col-lg-9">
+<<<<<<< HEAD
+								<c:choose>
+									<c:when test="${nv.phai eq true}">
+										<input type="text" class="form-control v-form-control"
+											readonly="true" value="Nam" />
+									</c:when>
+									<c:when test="${nv.phai eq false}">
+										<input type="text" class="form-control v-form-control"
+											readonly="true" value="Nữ" />
+									</c:when>
+								</c:choose>
+=======
 								<select class="form-select v-form-control"
 									aria-label=" select example" name="gridRadios">
 									<c:if test="${nv.phai eq false}">
@@ -290,7 +312,7 @@ ${vi }</h1>
 										<option selected value="true">Nam</option>
 									</c:if>
 								</select>
-
+>>>>>>> 9fa60d8195611b38ede2d409ea6e6f02d2c9b492
 							</div>
 						</div>
 						<div class="row mb-3">

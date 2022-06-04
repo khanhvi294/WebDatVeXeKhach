@@ -376,7 +376,7 @@ public class QuanLyController {
 				session.close();
 			}
 
-			return "redirect: /quanly/chuyenxe.html";
+			return "redirect:/quanly/chuyenxe.html";
 		}
 
 	}

@@ -10,7 +10,7 @@
                             <h3>Liên hệ</h3>
                             <ul>
                                 <li><span><i class="fa fa-map-marker"></i>97 Man Thiện, Phường Hiệp Phú <br>
-                                    TP Thủ Đức, TP Hồ Chí Minh </span>
+                                    TP Thủ Đức, TP Hồ Chí Minh 
                                 </li>
                                 <li><a href="#"><span><i class="fa fa-phone"></i> 19009898</span></a></li>
                                 <li><a href="#"><span><i class="fa fa-envelope"></i>hotro@gmail.com</span></a></li>
