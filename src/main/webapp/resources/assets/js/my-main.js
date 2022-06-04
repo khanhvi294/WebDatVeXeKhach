@@ -1,6 +1,7 @@
 /**
  * 
  */
+
 function showModalConfirm(idButton, title, ok, cancel){
 	$(idButton).on("click", function(e){
 		e.preventDefault();
@@ -8,13 +9,10 @@ function showModalConfirm(idButton, title, ok, cancel){
 			$(idButton).unbind("click")
 			$(idButton)[0].click()
 		}
+
         , function(){} ).set('labels', {ok:ok, cancel: cancel});
+
 
 	})
 }
 
-$(document).ready(function () {
-	
-	
-	
-})
