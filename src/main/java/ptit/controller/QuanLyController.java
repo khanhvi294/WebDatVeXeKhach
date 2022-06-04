@@ -1499,7 +1499,7 @@ public class QuanLyController {
 			session.close();
 		}
 
-		return "redirect: /CNPM/quanly/trangcanhan.html";
+		return "redirect:/quanly/trangcanhan.html";
 	}
 
 	@RequestMapping(value = "/trangcanhan/changepw", method = RequestMethod.GET)
@@ -1532,7 +1532,7 @@ public class QuanLyController {
 				session.close();
 			}
 
-			return "redirect: /CNPM/quanly/trangcanhan.html";
+			return "redirect:/quanly/trangcanhan.html";
 		}
 
 	}
