@@ -20,8 +20,8 @@
 			<h1>Chuyến Xe</h1>
 		</div>
 		<!-- End Page Title -->
-		<a href="/CNPM/quanly/chuyenxe/insert.html"><button
-				type="button" class="btn add-new btn-outline-danger shadow-none">
+		<a href="/CNPM/quanly/chuyenxe/insert.html"><button type="button"
+				class="btn add-new btn-outline-danger shadow-none">
 				Thêm mới <i class="bi bi-plus-circle"></i>
 			</button></a>
 
@@ -50,22 +50,26 @@
 										<td>${u.xekhach.bienXe}</td>
 										<td><c:choose>
 												<c:when test="${u.trangthai eq false}">
-													<span class="badge rounded-pill bg-danger v-bg-tt">Chưa Khởi Hành</span>
+													<span class="badge rounded-pill bg-danger v-bg-tt">Chưa
+														Khởi Hành</span>
 												</c:when>
 												<c:when test="${u.trangthai eq true}">
-													<span class="badge rounded-pill bg-success v-bg-tt">Đã Khởi Hành</span>
+													<span class="badge rounded-pill bg-success v-bg-tt">Đã
+														Khởi Hành</span>
 												</c:when>
 											</c:choose></td>
 										<td><span><a
-												href="/CNPM/quanly/chuyenxe/${u.maChuyen}.html?info">
-													<i class="bi bi-info-circle-fill v-icon-modal"></i></a>
-													
-											<c:if test = "${u.trangthai eq false}">
-	         									<a href="/CNPM/quanly/chuyenxe/${u.maChuyen}.html?update"><i
-													class="bi bi-pencil-square v-icon-modal"
-													data-bs-toggle="modal" data-bs-target="#ProfileEditModal"></i></a>
-	     									</c:if>
-										</span></td>
+												href="/CNPM/quanly/chuyenxe/${u.maChuyen}.html?info"> <i
+													class="bi bi-info-circle-fill v-icon-modal"></i></a> <c:if
+													test="${u.trangthai eq false}">
+													<a href="/CNPM/quanly/chuyenxe/${u.maChuyen}.html?update"><i
+														class="bi bi-pencil-square v-icon-modal"
+														data-bs-toggle="modal" data-bs-target="#ProfileEditModal"></i></a>
+													<a
+														href="/CNPM/quanly/chuyenxe/${u.maChuyen}.html?trangthai"><i
+														class="bi bi-pencil-square v-icon-modal"
+														data-bs-toggle="modal" data-bs-target="#Edittrangthai"></i></a></span>
+											</c:if> </span></td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -176,7 +180,7 @@
 							<label class="col-md-4 col-lg-3 col-form-label v-label">Tuyến</label>
 							<div class="col-md-8 col-lg-9">
 								<select class="form-select v-form-control"
-									aria-label=" select example" name="tuyenxe" id = "tuyen">
+									aria-label=" select example" name="tuyenxe" id="tuyen">
 									<option selected value="${chuyenxe.tuyen.maTuyen }">${chuyenxe.tuyen.diemDi.diaDiem}
 										- ${chuyenxe.tuyen.diemDen.diaDiem}</option>
 									<c:forEach var="tx" items="${listtx}">
@@ -213,11 +217,11 @@
 									<c:forEach var="xk" items="${listxk}">
 										<option value="${xk.bienXe}">${xk.bienXe}</option>
 									</c:forEach>
-								</select> 
+								</select>
 							</div>
 						</div>
-						
-						<div class="row mb-3">
+
+						<!-- 						<div class="row mb-3">
 							<label class="col-md-4 col-lg-3 col-form-label v-label">Trạng Thái</label>
 							<div class="col-md-8 col-lg-9">
 								<select class="form-select v-form-control"
@@ -226,7 +230,7 @@
 										<option value="true">Đã Khởi Hành</option>
 								</select> </select>
 							</div>
-						</div>
+						</div> -->
 						<label class="col-md-4 col-lg-3 col-form-label v-label">${message}</label>
 						<div class="text-center">
 							<button type="submit"
@@ -268,10 +272,11 @@
 							<label class="col-md-4 col-lg-3 col-form-label v-label">Tuyến</label>
 							<div class="col-md-8 col-lg-9">
 								<form:select class="form-select v-form-control"
- 									aria-label=" select example" path="tuyen.maTuyen" items="${listtemp}">
-<%--  									<form:options items="${listtx}" itemValue="maTuyen" itemLabel="diemDen.diaDiem"/>  --%>
- 								</form:select> 
-								<form:errors style = "color:red" path="maChuyen"/>		
+									aria-label=" select example" path="tuyen.maTuyen"
+									items="${listtemp}">
+									<%--  									<form:options items="${listtx}" itemValue="maTuyen" itemLabel="diemDen.diaDiem"/>  --%>
+								</form:select>
+								<form:errors style="color:red" path="maChuyen" />
 							</div>
 						</div>
 
@@ -281,7 +286,7 @@
 							<div class="col-md-3">
 								<input type="date" class="form-control v-form-control"
 									name="ngKH" />
-								<form:errors style = "color:red" path="ngKH"/>
+								<form:errors style="color:red" path="ngKH" />
 							</div>
 
 							<label for="inputTime" class="col-md-3 col-form-label v-label">Thời
@@ -289,7 +294,7 @@
 							<div class="col-md-3">
 								<input type="time" class="form-control v-form-control"
 									name="thoigian" />
-								<form:errors style = "color:red" path="tgKh"/>
+								<form:errors style="color:red" path="tgKh" />
 							</div>
 						</div>
 
@@ -299,7 +304,8 @@
 							<div class="col-md-8 col-lg-9">
 								<form:select class="form-select v-form-control"
 									aria-label=" select example" path="xekhach.bienXe">
-									<form:options items="${listxk}" itemValue="bienXe" itemLabel="bienXe"/>
+									<form:options items="${listxk}" itemValue="bienXe"
+										itemLabel="bienXe" />
 								</form:select>
 							</div>
 						</div>
@@ -314,9 +320,63 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="modal fade" id="Edittrangthai" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog v-modal-container">
+			<div class="modal-content border-0">
+				<div class="modal-header v-modal-header">
+					<h5 class="modal-title v-modal-title">Thay đổi trạng thái</h5>
+					<button type="button" class="btn shadow-none"
+						data-bs-dismiss="modal" aria-label="Close"
+						style="font-weight: 700">
+						<i class="bi bi-x v-icon-close"></i>
+					</button>
+				</div>
+				<div class="modal-body row">
+					<!-- profile -->
+					<!-- Profile Edit Form -->
+					<div class="col-12 v-edit-form">
+						<form:form method = "post" modelAttribute="chuyenxe">
+
+
+							<div class="row mb-3">
+								<label for="Email"
+									class="col-md-4 col-lg-3 col-form-label v-label">Trạng
+									thái</label>
+								<div class="col-md-8">
+									<div class="form-check form-check-inline ">
+										<form:radiobutton
+											class="form-check-input v-check-input shadow-none" value="1"
+											path="trangthai" />
+										<label class="form-check-label"> Đã Khởi Hành </label>
+									</div>
+									<div class="form-check form-check-inline ">
+										<form:radiobutton
+											class="form-check-input v-check-input shadow-none" value="0"
+											path="trangthai" />
+										<label class="form-check-label"> Chưa Khởi Hành </label>
+									</div>
+								</div>
+							</div>
+
+
+							<div class="text-center">
+
+								<button type="submit" id="btn-change-state"
+									class="btn btn-primary btn-main-color border-0 shadow-none"
+									style="padding: 8px 20px">Lưu</button>
+							</div>
+						</form:form>
+						<!-- End Profile Edit Form -->
+					</div>
+					<!-- end profile -->
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- End Vertically centered Modal-->
 	<!-- Vendor JS Files -->
-	<%@include file="../KhachHang/script.jsp"%>
 	<script
 		src="<c:url value='/resources/KhachHang/assets/js/alertify.min.js'/>"></script>
 	<script
@@ -339,18 +399,29 @@
 		src="<c:url value='/resources/assets/vendor/php-email-form/validate.js'/>"></script>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<!-- Template Main JS File -->
+	<script src="<c:url value='/resources/assets/js/main.js'/>"></script>
+	<script src="<c:url value='/resources/assets/js/my-main.js'/>"></script>
 	<script>
-		$(document).ready(function() {
-			console.log($(".modal_flag").attr("idModal"));
-			if ($(".modal_flag").attr("idModal") === "modalCreate") {
-				$("#verticalycentered").modal("show");
-			} else if ($(".modal_flag").attr("idModal") === "modalShow") {
-				$("#ProfileViewModal").modal("show");
+		$(document)
+				.ready(
+						function() {
+							showModalConfirm("#btn-change-state",
+									"Bạn có chắc chắn muốn thực hiện?",
+									"Xác nhận", "Hủy");
 
-			} else if ($(".modal_flag").attr("idModal") === "modalUpdate") {
-				$("#ProfileEditModal").modal("show");
-			}
-		})
+							console.log($(".modal_flag").attr("idModal"));
+							if ($(".modal_flag").attr("idModal") === "modalCreate") {
+								$("#verticalycentered").modal("show");
+							} else if ($(".modal_flag").attr("idModal") === "modalShow") {
+								$("#ProfileViewModal").modal("show");
+
+							} else if ($(".modal_flag").attr("idModal") === "modalUpdate") {
+								$("#ProfileEditModal").modal("show");
+							} else if ($(".modal_flag").attr("idModal") === "modalTT") {
+								$("#Edittrangthai").modal("show");
+							}
+						})
 	</script>
 
 	<!-- Template Main JS File -->

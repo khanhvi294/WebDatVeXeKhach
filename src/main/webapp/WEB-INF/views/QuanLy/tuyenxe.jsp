@@ -122,7 +122,7 @@
 							<label for="machuyen"
 								class="col-md-4 col-lg-3 col-form-label v-label">Thời gian chạy tuyến</label>
 							<div class="col-md-8 col-lg-9">
-								<input name="tgchay" type="time"
+								<input name="tgchay" type="text"
 									class="form-control v-form-control" id="matuyen" value = "${tuyen.tgchay }"/>
 							</div>
 						</div>
@@ -193,13 +193,14 @@
 									<form:options items="${listdd}" itemValue="maDD" itemLabel="diaDiem"/>
 								</form:select>
 							</div>
+							<form:errors style = "color:red" path="diemDen"/>
 						</div>
 						<div class="row mb-3">
 							<label for="machuyen"
 								class="col-md-4 col-lg-3 col-form-label v-label">Thời gian chạy tuyến</label>
 							<div class="col-md-8 col-lg-9">
-								<input type="time" class="form-control v-form-control"
-									name="tgchay" />
+								<form:input type="text" class="form-control v-form-control"
+									path="tgchay" />
 							</div>
 						</div>
 						<div class="row mb-3">

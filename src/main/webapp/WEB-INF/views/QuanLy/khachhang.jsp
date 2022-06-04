@@ -110,7 +110,7 @@
 							<label for="company" class="col-md-3 col-form-label v-label">HoKH</label>
 							<div class="col-md-3">
 								<input name="hoKH" type="text"
-									class="form-control v-form-control" id="company"
+									class="form-control v-form-control" id="company" readonly="true"
 									value="${kh.hoKH }">
 								<form:errors style="color:red" path="hoKH" />
 							</div>
@@ -118,7 +118,7 @@
 							<label for="Job" class="col-md-1 col-form-label v-label">TênKH</label>
 							<div class="col-md-5">
 								<input name="tenKH" type="text"
-									class="form-control  v-form-control" id="Job"
+									class="form-control  v-form-control" id="Job" readonly="true"
 									value="${kh.tenKH }">
 								<form:errors style="color:red" path="tenKH" />
 							</div>
@@ -128,7 +128,7 @@
 								class="col-md-4 col-lg-3 col-form-label v-label">SĐT</label>
 							<div class="col-md-8 col-lg-9">
 								<input name="sdt" type="text"
-									class="form-control v-form-control" id="Address"
+									class="form-control v-form-control" id="Address" readonly="true"
 									value="${kh.sdt }">
 								<form:errors style="color:red" path="sdt" />
 							</div>
@@ -139,7 +139,7 @@
 								class="col-md-4 col-lg-3 col-form-label v-label">Ngày
 								sinh</label>
 							<div class="col-md-8 col-lg-9">
-								<input type="date" class="form-control v-form-control"
+								<input type="text" class="form-control v-form-control" readonly="true"
 									name="ngSinh" value="${kh.ngSinh }" />
 							</div>
 						</div>
@@ -148,7 +148,6 @@
 							<label for="Email"
 								class="col-md-4 col-lg-3 col-form-label v-label">Phái</label>
 							<div class="col-md-8 col-lg-9">
-
 									<c:if test="${kh.phai eq false}">
 										<input type="text" class="form-control v-form-control" readonly="true" value="Nữ" />
 									</c:if>

@@ -9,8 +9,6 @@
 <main id="main" class="main">
 	<div class="alert-flag" aType='${message.type}'
 		aMessage="${message.message }"></div>
-		<h1> hihi
-${vi }</h1>
 	<div class="pagetitle">
 		<h1>Nhân Viên</h1>
 	</div>
@@ -52,6 +50,9 @@ ${vi }</h1>
 											<c:when test="${u.tknv.trangThai == 1}">
 												<span class="badge rounded-pill bg-success v-bg-tt">Hoạt
 													động</span>
+											</c:when>
+											<c:when test="${u.tknv.trangThai == 2}">
+												<span class="badge rounded-pill bg-danger v-bg-tt">Chưa Đổi Mật Khẩu</span>
 											</c:when>
 										</c:choose></td>
 									<td><span><a
@@ -153,7 +154,7 @@ ${vi }</h1>
 												</div>
 												<div class="row">
 													<div class="col-lg-3 col-md-4 label v-label">CMND/CCCD</div>
-													<div class="col-lg-9 col-md-8">${nv.cccd}</div>
+													<div class="col-lg-9 col-md-8">${ nv.cccd }</div>
 												</div>
 
 												<div class="row">
@@ -208,42 +209,60 @@ ${vi }</h1>
 								class="col-md-4 col-lg-3 col-form-label v-label">Mã nhân
 								viên</label>
 							<div class="col-md-8 col-lg-9">
-								<input type="text" readonly="true"
+								<form:input path = "maNV" type="text" readonly="true"
 									class="form-control v-form-control" id="fullName"
-									value="${nv.maNV }">
+									value="${nv.maNV }"/>
 							</div>
 						</div>
 
 						<div class="row mb-3">
 							<label for="company" class="col-md-3 col-form-label v-label">Họ</label>
 							<div class="col-md-3">
-								<input name="honv" type="text"
-
+								<form:input path="hoNV" type="text"
 									class="form-control v-form-control"
-									id="company" value="${nv.hoNV }">
-								 								<form:errors style = "color:red" path="hoNV"/> 
+									id="company" value="${nv.hoNV }"/>
+								 <form:errors style = "color:red" path="hoNV"/> 
 							</div>
 
 							<label for="Job" class="col-md-1 col-form-label v-label">Tên</label>
 							<div class="col-md-5">
-								<input name="tennv" type="text"
+								<form:input path="tenNV" type="text"
 									class="form-control  v-form-control" id="Job"
-									value="${nv.tenNV }">
-
-													<form:errors style = "color:red" path="tenNV"/> 
+									value="${nv.tenNV }"/>
+								<form:errors style = "color:red" path="tenNV"/> 
 
 							</div>
 						</div>
+						<div class="row mb-3">
+							<label for="Country"
+								class="col-md-4 col-lg-3 col-form-label v-label">Email</label>
+							<div class="col-md-8 col-lg-9">
+								<form:input path="tknv.email" type="text"
+									class="form-control v-form-control" readonly = "true"
+									id="Country" value="${nv.tknv.email }"/>
 
+								<form:errors style = "color:red" path="cccd"/>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<label for="Country"
+								class="col-md-4 col-lg-3 col-form-label v-label">Username</label>
+							<div class="col-md-8 col-lg-9">
+								<form:input path="tknv.userName" type="text"
+									class="form-control v-form-control" readonly = "true"
+									id="Country" value="${nv.tknv.userName }"/>
 
+								<form:errors style = "color:red" path="cccd"/>
+							</div>
+						</div>
+						
 						<div class="row mb-3">
 							<label for="Country"
 								class="col-md-4 col-lg-3 col-form-label v-label">CMND/CCCD</label>
 							<div class="col-md-8 col-lg-9">
-								<input name="cccd" type="text"
-
+								<form:input path="cccd" type="text"
 									class="form-control v-form-control"
-									id="Country" value="${nv.cccd }">
+									id="Country" value="${nv.cccd }"/>
 
 								<form:errors style = "color:red" path="cccd"/>
 							</div>
@@ -253,10 +272,9 @@ ${vi }</h1>
 							<label for="Address"
 								class="col-md-4 col-lg-3 col-form-label v-label">SĐT</label>
 							<div class="col-md-8 col-lg-9">
-								<input name="sdt" type="text"
+								<form:input path="sdt" type="text"
 									class="form-control v-form-control" id="Address"
-									value="${nv.sdt }">
-
+									value="${nv.sdt }"/>
 							<form:errors style = "color:red" path="sdt"/> 
 							</div>
 						</div>
@@ -267,8 +285,7 @@ ${vi }</h1>
 								sinh</label>
 							<div class="col-md-8 col-lg-9">
 								<input type="date" class="form-control v-form-control"
-									name="ngSinh" value="${nv.ngaySinh }" />
-
+									 name="ngSinh" value="${ngaysinh }" />
 							</div>
 						</div>
 
@@ -278,7 +295,7 @@ ${vi }</h1>
 							<div class="col-md-8 col-lg-9">
 
 								<select class="form-select v-form-control"
-									aria-label=" select example" name="gridRadios">
+									aria-label=" select example" name = "gridRadios">
 									<c:if test="${nv.phai eq false}">
 										<option selected value="false">Nữ</option>
 										<option value="true">Nam</option>
@@ -291,24 +308,24 @@ ${vi }</h1>
 
 							</div>
 						</div>
-						<div class="row mb-3">
-							<label for="Twitter"
-								class="col-md-4 col-lg-3 col-form-label v-label">Trạng
-								thái</label>
-							<div class="col-md-8 col-lg-9">
-								<select class="form-select v-form-control"
-									aria-label=" select example" name="trangthai">
-									<c:if test="${nv.tknv.trangThai eq 0}">
-										<option selected value="0">Khóa</option>
-										<option value="1">Đang Hoạt Động</option>
-									</c:if>
-									<c:if test="${nv.tknv.trangThai eq 1}">
-										<option value="0">Khóa</option>
-										<option selected value="1">Đang Hoạt Động</option>
-									</c:if>
-								</select>
-							</div>
-						</div>
+<!-- 						<div class="row mb-3"> -->
+<!-- 							<label for="Twitter" -->
+<!-- 								class="col-md-4 col-lg-3 col-form-label v-label">Trạng -->
+<!-- 								thái</label> -->
+<!-- 							<div class="col-md-8 col-lg-9"> -->
+<!-- 								<select class="form-select v-form-control" -->
+<!-- 									aria-label=" select example" name = "trangthai"> -->
+<%-- 									<c:if test="${nv.tknv.trangThai eq 0}"> --%>
+<!-- 										<option selected value="0">Khóa</option> -->
+<!-- 										<option value="1">Đang Hoạt Động</option> -->
+<%-- 									</c:if> --%>
+<%-- 									<c:if test="${nv.tknv.trangThai eq 1}"> --%>
+<!-- 										<option value="0">Khóa</option> -->
+<!-- 										<option selected value="1">Đang Hoạt Động</option> -->
+<%-- 									</c:if> --%>
+<!-- 								</select> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
 
 						<div class="text-center">
 							<button type="submit"
@@ -325,7 +342,6 @@ ${vi }</h1>
 </div>
 
 <!-- End ProfileEditModal-->
-
 
 
 <!-- model sửa trạng thái -->
@@ -370,7 +386,7 @@ ${vi }</h1>
 
 						<div class="text-center">
 
-							<button id="modal-change-state"
+							<button id="btn-change-state"
 								class="btn btn-primary btn-main-color border-0 shadow-none"
 								style="padding: 8px 20px">Lưu</button>
 						</div>
@@ -547,7 +563,6 @@ ${vi }</h1>
 			$("#verticalycentered").modal("show");
 		} else if ($(".modal_flag").attr("idModal") === "modalShow") {
 			$("#ProfileViewModal").modal("show");
-
 		} else if ($(".modal_flag").attr("idModal") === "modalUpdate") {
 			$("#ProfileEditModal").modal("show");
 		}
