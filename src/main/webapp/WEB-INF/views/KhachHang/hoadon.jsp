@@ -30,11 +30,27 @@
         <script src="resources/KhachHang/assets/js/respond.min.js"></script>
         <![endif]-->
     </head>
-    <body class="" style="margin-top:0">
+    <body class="">
         <!-- MAIN -->
-        
+        <div class="load-wrap">
+            <div class="wheel-load">
+                <img src="images/loader.gif" alt="" class="image">
+            </div>
+        </div>
          <%@include file="navbar.jsp"%>
     <!--/////////////////////////////////////////-->
+    <div class="wheel-start3">
+        <img src="images/bg7.jpg" alt="" class="wheel-img">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 padd-lr0">
+                    <div class="wheel-start3-body clearfix marg-lg-t255 marg-lg-b75 marg-sm-t190 marg-xs-b30">
+                        <h3>Chi tiết vé đặt</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="wheel-register-block">
         <div class="container">
             <div class="col-md-12">
@@ -100,9 +116,9 @@
                                         <p><b>Ngày :</b> ..... </p>
                                         <h5 style="color: rgb(140, 140, 140);">Cảm ơn vì đã tin tưởng hãng xe của chúng tôi
                                         </h5>
-                                        <form action="phieudat.html">
+                                        <form action="#">
                                             <label for="input-val27" class="promo promo2">
-                                                <button class="btn btn-primary" id="Re4">Quay lại</button>
+                                                <button class="wheel-btn" id="Re4">Quay lại</button>
                                             </label>
                                         </form>
                                     </div>
@@ -114,7 +130,67 @@
             </div>
         </div>
     </div>
-     <%@include file="footer.jsp"%>
+    
+        <!-- FOOTER -->
+        <!-- ///////////////// -->
+        <footer class="wheel-footer">
+            <img src="images/bg4.jpg" alt="" class="wheel-img">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3  col-sm-6  padd-lr0">
+                        <div class="wheel-address">
+                            <div class="wheel-footer-logo"><a href="#"><img src="images/logo.png" alt=""></a></div>
+                            <ul>
+                                <li><span><i class="fa fa-map-marker"></i>97 Man Thiện, Phường Hiệp Phú <br>
+                                    TP Thủ Đức, TP Hồ Chí Minh 
+                                </li>
+                                <li><a href="#"><span><i class="fa fa-phone"></i> 0912345678</span></a></li>
+                                <li><a href="#"><span><i class="fa fa-envelope"></i>p.h.n.phuong1812@gmail.com</span></a></li>
+                            </ul>
+                            <div class="wheel-soc">
+                                <a href="#" class="fa fa-twitter"></a>
+                                <a href="#" class="fa fa-facebook"></a>
+                                <a href="#" class="fa fa-linkedin"></a>
+                                <a href="#" class="fa fa-instagram"></a>
+                                <a href="#" class="fa fa-share-alt"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6  padd-lr0">
+                        <div class="wheel-footer-item">
+                            <h3>Whell</h3>
+                            <ul>
+                                <li><a href="about.html" class="">Về chúng tôi</a></li>
+                                <li><a href="news.html" class="">Tin tức</a></li>
+                                <li><a href="about.html" class="">Giới thiệu</a></li>
+                                <li><a href="contact.html" class="">Liên hệ</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-sm-6  padd-lr0">
+                        <div class="wheel-footer-item ">
+                            <h3><span>Chăm sóc khách hàng</span> 1900 6886 </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <div class="wheel-footer-info wheel-bg6">
+            <div class="container">
+                <div class="row">
+                   <div class="col-lg-8 col-sm-6  padd-lr0"><span>&#169; WHEEL 2021</span></div>
+                    <div class="col-lg-4 col-sm-6 padd-lr0">
+                        <ul>
+                            <li><a href="index.html">Trang chủ</a></li>
+                            <li><a href="reservation.html"> Đặt vé</a></li>
+                            <li><a href="contact.html"> Liên hệ</a></li>
+                            <li><a href="about.html"> Giới thiệu</a></li>
+                            <li><a href="news.html">Tin tức</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- Scripts project -->
         <script type="text/javascript" src="resources/KhachHang/assets/js/jquery-2.2.4.min.js"></script>
         <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
