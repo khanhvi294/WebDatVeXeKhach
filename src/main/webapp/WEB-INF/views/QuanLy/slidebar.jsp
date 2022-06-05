@@ -64,13 +64,6 @@
         </a>
       </li>
       <!-- End Error 404 Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="quanly/banggia.html">
-          <i class="bi bi-currency-dollar"></i>
-          <span>Bảng Giá</span>
-        </a>
-      </li>
       <!-- End Blank Page Nav -->
       <li class="nav-item">
         <a class="nav-link" href="quanly/phieudat.html">
