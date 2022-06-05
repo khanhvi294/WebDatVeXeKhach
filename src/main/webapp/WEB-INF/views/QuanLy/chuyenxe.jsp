@@ -65,8 +65,7 @@
 													<a href="/CNPM/quanly/chuyenxe/${u.maChuyen}.html?update"><i
 														class="bi bi-pencil-square v-icon-modal"
 														data-bs-toggle="modal" data-bs-target="#ProfileEditModal"></i></a>
-													<a
-														href="/CNPM/quanly/chuyenxe/${u.maChuyen}.html?trangthai"><i
+													<a href="quanly/chuyenxe/trangthai/${u.maChuyen}.html"><i
 														class="bi bi-pencil-square v-icon-modal"
 														data-bs-toggle="modal" data-bs-target="#Edittrangthai"></i></a>
 											</c:if> </span></td>
@@ -337,7 +336,7 @@
 					<!-- profile -->
 					<!-- Profile Edit Form -->
 					<div class="col-12 v-edit-form">
-						<form:form method = "post" modelAttribute="chuyenxe">
+						<form:form method="post" modelAttribute="chuyenxe">
 
 
 							<div class="row mb-3">
@@ -348,14 +347,17 @@
 									<div class="form-check form-check-inline ">
 										<form:radiobutton
 											class="form-check-input v-check-input shadow-none" value="1"
-											path="trangthai" />
-										<label class="form-check-label"> Đã Khởi Hành </label>
+											path="trangthai" id="1" />
+										<label for="1" class="form-check-label"> Đã Khởi Hành
+										</label>
 									</div>
+
 									<div class="form-check form-check-inline ">
 										<form:radiobutton
 											class="form-check-input v-check-input shadow-none" value="0"
-											path="trangthai" />
-										<label class="form-check-label"> Chưa Khởi Hành </label>
+											path="trangthai" id="0" />
+										<label class="form-check-label" for="0"> Chưa Khởi
+											Hành </label>
 									</div>
 								</div>
 							</div>
@@ -364,6 +366,7 @@
 							<div class="text-center">
 
 								<button type="submit" id="btn-change-state"
+									name="btnDoitrangthai"
 									class="btn btn-primary btn-main-color border-0 shadow-none"
 									style="padding: 8px 20px">Lưu</button>
 							</div>
@@ -377,10 +380,7 @@
 	</div>
 	<!-- End Vertically centered Modal-->
 	<!-- Vendor JS Files -->
-	<script
-		src="<c:url value='/resources/KhachHang/assets/js/alertify.min.js'/>"></script>
-	<script
-		src="<c:url value='/resources/KhachHang/assets/js/showMessage.js'/>"></script>
+
 	<script
 		src="<c:url value='/resources/assets/vendor/apexcharts/apexcharts.min.js'/>"></script>
 	<script
@@ -399,6 +399,10 @@
 		src="<c:url value='/resources/assets/vendor/php-email-form/validate.js'/>"></script>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script
+		src="<c:url value='/resources/KhachHang/assets/js/alertify.min.js'/>"></script>
+	<script
+		src="<c:url value='/resources/KhachHang/assets/js/showMessage.js'/>"></script>
 	<!-- Template Main JS File -->
 	<script src="<c:url value='/resources/assets/js/main.js'/>"></script>
 	<script src="<c:url value='/resources/assets/js/my-main.js'/>"></script>

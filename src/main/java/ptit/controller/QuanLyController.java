@@ -265,9 +265,12 @@ public class QuanLyController {
 		model.addAttribute("time", s);
 		return "QuanLy/chuyenxe";
 	}
+	
 
-	@RequestMapping(value = "chuyenxe/{machuyen}.html", params = "trangthai", method = RequestMethod.GET)
+	
+	@RequestMapping(value = "chuyenxe/trangthai/{machuyen}.html")
 	public String ChuyenXeTrangThai(ModelMap model, @PathVariable("machuyen") String ma) {
+		System.out.println("test");
 		model.addAttribute("idModal", "modalTT");
 		List<ChuyenXe> list = dscx();
 		model.addAttribute("list", list);
@@ -276,17 +279,22 @@ public class QuanLyController {
 		return "QuanLy/chuyenxe";
 	}
 
-	@RequestMapping(value = "chuyenxe/{machuyen}.html", params = "trangthai", method = RequestMethod.POST)
-	public String ChuyenXetrangThai( @PathVariable("machuyen") String ma, @ModelAttribute("chuyenxe") ChuyenXe chuyen, HttpServletRequest request) {
+	@RequestMapping(value = "chuyenxe/trangthai/{machuyen}.html", params = "btnDoitrangthai")
+	public String ChuyenXetrangThai( @PathVariable("machuyen") String ma, @ModelAttribute("chuyenxe") ChuyenXe chuyen, HttpServletRequest request,RedirectAttributes redirectAttributes) {
 		Session session = factory.openSession();
 		Transaction transaction = session.beginTransaction();
-		System.out.println("vô");
+		System.out.println(chuyen.isTrangthai());
+		ChuyenXe chuyenxe = xetheoid(ma);
+		chuyenxe.setTrangthai(chuyen.isTrangthai());
+	
 		try {
-			session.update(chuyen);
+			session.merge(chuyenxe);
 			transaction.commit();
+			redirectAttributes.addFlashAttribute("message",new Message("success", "Thay đổi trạng thái thành công!"));
 		} catch (Exception e) {
 			System.out.println(e.toString());
 			transaction.rollback();
+			redirectAttributes.addFlashAttribute("message",new Message("error", "Thay đổi trạng thái thất bại!"));
 		} finally {
 			session.close();
 		}
