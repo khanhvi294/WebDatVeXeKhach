@@ -109,7 +109,6 @@
 									readonly="true" value="${tuyen.maTuyen }" />
 							</div>
 						</div>
-
 						<div class="row mb-3">
 							<label for="inputDate" class="col-md-3 col-form-label v-label">Điểm
 								đi </label>
@@ -135,8 +134,20 @@
 								<input name="tgchay" type="text"
 									class="form-control v-form-control" id="matuyen"
 									value="${tuyen.tgchay }" />
+								<span style="color:red">${messagetgchay }</span>
 							</div>
 						</div>
+						<div class="row mb-3">
+							<label for="machuyen"
+								class="col-md-4 col-lg-3 col-form-label v-label">Giá tuyến</label>
+							<div class="col-md-8 col-lg-9">
+								<input type="text" class="form-control v-form-control"
+									name="giatuyen" value = "${tuyen.giatuyen }"/>
+								<span style="color:red">${messagegia }</span>
+							</div>
+						</div>
+						
+						
 						<!-- 						<div class="row mb-3"> -->
 						<!-- 							<label class="col-md-4 col-lg-3 col-form-label v-label">Trạng -->
 						<!-- 								thái</label> -->
@@ -211,10 +222,20 @@
 						<div class="row mb-3">
 							<label for="machuyen"
 								class="col-md-4 col-lg-3 col-form-label v-label">Thời
-								gian chạy tuyến</label>
+								gian đi hết tuyến</label>
 							<div class="col-md-8 col-lg-9">
 								<form:input type="text" class="form-control v-form-control"
 									path="tgchay" />
+								<form:errors style="color:red" path="tgchay" />
+							</div>
+						</div>
+						<div class="row mb-3">
+							<label for="machuyen"
+								class="col-md-4 col-lg-3 col-form-label v-label">Giá tuyến</label>
+							<div class="col-md-8 col-lg-9">
+								<form:input type="text" class="form-control v-form-control"
+									path="giatuyen" />
+								<form:errors style="color:red" path="giatuyen" />
 							</div>
 						</div>
 						<div class="row mb-3">
@@ -342,3 +363,5 @@
 	<!-- Template Main JS File -->
 </body>
 </html>
+
+

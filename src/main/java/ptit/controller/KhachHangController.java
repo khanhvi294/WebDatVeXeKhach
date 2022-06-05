@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
 import ptit.entity.ChuyenXe;
 import ptit.entity.DiaDiem;
 import ptit.entity.KhachHang;
@@ -40,7 +39,6 @@ import ptit.entity.TuyenXe;
 import ptit.entity.VeXe;
 import ptit.entity.VeXePK;
 
-
 @Controller
 @Transactional
 public class KhachHangController {
@@ -48,8 +46,6 @@ public class KhachHangController {
 	SessionFactory factory;
 	public List<VeXe> dsve;
 	public ChuyenXe cx = new ChuyenXe();
-	
-	
 
 	@ModelAttribute("chuyenxe")
 	public ChuyenXe chuyenxe() {
@@ -66,34 +62,34 @@ public class KhachHangController {
 
 		return list;
 	}
+
 	@ModelAttribute("tuyenrandom")
 	public List<TuyenXe> gettuyenrandom() {
 		Session session = factory.getCurrentSession();
 		String hql = "from TuyenXe order by newid()";
 		Query query = session.createQuery(hql);
 		List<TuyenXe> list = query.list();
-		
+
 		List<TuyenXe> res = new ArrayList<TuyenXe>();
-		if(list.size() >0) {
-			for(int i=0; i<list.size() ; i++) {
-				if(i == 6) {
+		if (list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
+				if (i == 6) {
 					break;
 				}
-				
+
 				res.add(list.get(i));
 			}
 		}
-		
-		
+
 		return res;
 	}
-	
+
 	@RequestMapping("trangchu")
 	public String index(ModelMap model) {
-		
+
 		return "KhachHang/trangchu";
 	}
-	
+
 //tìm chuyến
 	@RequestMapping("timchuyen")
 	public String timchuyen(ModelMap model) {
@@ -101,39 +97,52 @@ public class KhachHangController {
 		return "KhachHang/timchuyen";
 	}
 
-	@RequestMapping(value="timchuyen.html",params="chon") 
-	public String timchuyenget(@RequestParam("di") String di,@RequestParam("den") String den,ModelMap model){
-		
+	@RequestMapping(value = "timchuyen.html", params = "chon")
+	public String timchuyenget(@RequestParam("di") String di, @RequestParam("den") String den, ModelMap model) {
+
 		Session session = factory.getCurrentSession();
 		String hql = "from TuyenXe where diemDi.maDD=:diemdi and diemDen.maDD=:diemden";
 		Query query = session.createQuery(hql);
 		query.setParameter("diemdi", di);
 		query.setParameter("diemden", den);
-		TuyenXe tx = (TuyenXe)query.list().get(0);
-		ChuyenXe chuyenxe= new ChuyenXe();
+		TuyenXe tx = (TuyenXe) query.list().get(0);
+		ChuyenXe chuyenxe = new ChuyenXe();
 		chuyenxe.setTuyen(tx);
 		model.addAttribute("chuyenxe", chuyenxe);
-		
+
 		return "KhachHang/timchuyen";
 	}
-//chọn chuyến
-	@RequestMapping(value = "chonchuyen")
-	public String chonchuyen(@ModelAttribute("chuyenxe") ChuyenXe cx, ModelMap model,HttpServletRequest request,RedirectAttributes redirectAttributes) {
-System.out.println("ihi");
-System.out.println(cx.getTuyen().getDiemDi().getMaDD());
-System.out.println(cx.getTuyen().getDiemDen().getMaDD());
-		String referer = request.getHeader("Referer");
+
+	ChuyenXe cc = null;
+	String refer = "";
+
+	@RequestMapping(value = "chonchuyen", method = RequestMethod.GET)
+	public String getChonChuyen(ModelMap model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+
+		//String referer = request.getHeader("Referer");
+		
+		String referer = refer.trim();
+		if (cc == null) {
+			redirectAttributes.addFlashAttribute("message",
+					new Message("error", "Không tìm thấy bất kì chuyến xe nào mà bạn muốn tìm kiếm!"));
+			return "redirect:" + refer ;
+
+		}
+		ChuyenXe cx = cc;
 		String r = referer.substring(referer.lastIndexOf("/") + 1);
+
 		System.out.println(r);
-		if(!r.equals("chonghe.html")) {
+		if (!r.equals("chonghe.html")) {
 			System.out.println("hihih");
-			
+
 			List<ChuyenXe> list = this.getdsChuyenXe(cx.getTuyen().getDiemDi().getMaDD(),
 					cx.getTuyen().getDiemDen().getMaDD(), cx.getNgKH());
 			List<ChuyenXe> listcx = list;
-			if(listcx.size()==0) {
-				
-				redirectAttributes.addFlashAttribute("message", new Message("error", "Không tìm thấy bất kì chuyến xe nào mà bạn muốn tìm kiếm!"));
+			listcx = list;
+			if (listcx.size() == 0) {
+
+				redirectAttributes.addFlashAttribute("message",
+						new Message("error", "Không tìm thấy bất kì chuyến xe nào mà bạn muốn tìm kiếm!"));
 				return "redirect:" + referer;
 			}
 			model.addAttribute("dschuyenxe", list);
@@ -145,21 +154,65 @@ System.out.println(cx.getTuyen().getDiemDen().getMaDD());
 			model.addAttribute("diemdi", dden.getDiaDiem());
 			model.addAttribute("diemden", ddi.getDiaDiem());
 
-		}else {
-			
+		} else {
+
 		}
-		
-	
+		return "KhachHang/chonchuyen";
+	}
+
+//chọn chuyến
+	@RequestMapping(value = "chonchuyen")
+	public String chonchuyen(@ModelAttribute("chuyenxe") ChuyenXe cx, ModelMap model, HttpServletRequest request,
+			RedirectAttributes redirectAttributes) {
+		System.out.println(cx.getMaChuyen());
+		System.out.println("ihi");
+		System.out.println(cx.getTuyen().getDiemDi().getMaDD());
+		System.out.println(cx.getTuyen().getDiemDen().getMaDD());
+		cc = cx;
+		String referer = request.getHeader("Referer");
+		refer = referer;
+		String r = referer.substring(referer.lastIndexOf("/") + 1);
+		System.out.println(r);
+		if (!r.equals("chonghe.html")) {
+			System.out.println("hihih");
+
+			List<ChuyenXe> list = this.getdsChuyenXe(cx.getTuyen().getDiemDi().getMaDD(),
+					cx.getTuyen().getDiemDen().getMaDD(), cx.getNgKH());
+			List<ChuyenXe> listcx = list;
+			listcx = list;
+			if (listcx.size() == 0) {
+
+				redirectAttributes.addFlashAttribute("message",
+						new Message("error", "Không tìm thấy bất kì chuyến xe nào mà bạn muốn tìm kiếm!"));
+				return "redirect:" + referer;
+			}
+			model.addAttribute("dschuyenxe", list);
+			Session session = factory.getCurrentSession();
+			DiaDiem ddi = (DiaDiem) session.get(DiaDiem.class, cx.getTuyen().getDiemDi().getMaDD());
+			DiaDiem dden = (DiaDiem) session.get(DiaDiem.class, cx.getTuyen().getDiemDen().getMaDD());
+			System.out.println(dden.getDiaDiem());
+			System.out.println(ddi.getDiaDiem());
+			model.addAttribute("diemdi", dden.getDiaDiem());
+			model.addAttribute("diemden", ddi.getDiaDiem());
+
+		} else {
+
+		}
+
 		return "KhachHang/chonchuyen";
 	}
 
 //chọn ghế
 	@RequestMapping(value = "chonghe")
 	public String chonghe(HttpServletRequest request, HttpSession ss, ModelMap model,
-			@ModelAttribute("dschuyenxe") List<ChuyenXe> dscx,RedirectAttributes redirectAttributes,
-			@ModelAttribute("diemdi") String diemdi,@ModelAttribute("diemden") String diemden) {
+			@ModelAttribute("dschuyenxe") List<ChuyenXe> dscx, RedirectAttributes redirectAttributes,
+			@ModelAttribute("diemdi") String diemdi, @ModelAttribute("diemden") String diemden) {
 
 		String referer = request.getHeader("Referer");
+		System.out.println(referer);
+		if (referer == null) {
+			return "KhachHang/chonghe";
+		}
 		String r = referer.substring(referer.lastIndexOf("/") + 1);
 
 		if (r.equals("chonchuyen.html")) {
@@ -170,19 +223,19 @@ System.out.println(cx.getTuyen().getDiemDen().getMaDD());
 			KhachHang kh = (KhachHang) ss.getAttribute("user");
 			pd.setKH(kh);
 			String machuyen = request.getParameter("machuyen");
-			if(machuyen==null) {
-				redirectAttributes.addFlashAttribute("message","Vui lòng chọn chuyến xe!");
-				redirectAttributes.addFlashAttribute("dschuyenxe",dscx);
-				redirectAttributes.addFlashAttribute("diemdi",diemdi);
-				redirectAttributes.addFlashAttribute("diemden",diemden);
+			if (machuyen == null) {
+				redirectAttributes.addFlashAttribute("message", "Vui lòng chọn chuyến xe!");
+				redirectAttributes.addFlashAttribute("dschuyenxe", dscx);
+				redirectAttributes.addFlashAttribute("diemdi", diemdi);
+				redirectAttributes.addFlashAttribute("diemden", diemden);
 				return "redirect:chonchuyen.html";
 			}
 			Session session = factory.getCurrentSession();
 			ChuyenXe cx = (ChuyenXe) session.get(ChuyenXe.class, machuyen);
 			this.cx = cx;
-			Integer socho = 47/*cx.getXekhach().getLx().getSeat()*/;
-			Integer phannguyen = socho/6;
-			Integer phandu = socho%6;
+			Integer socho = 47/* cx.getXekhach().getLx().getSeat() */;
+			Integer phannguyen = socho / 6;
+			Integer phandu = socho % 6;
 			request.setAttribute("phannguyen", phannguyen.toString());
 			request.setAttribute("phandu", phandu.toString());
 			pd.setChuyen(this.cx);
@@ -216,8 +269,7 @@ System.out.println(cx.getTuyen().getDiemDen().getMaDD());
 		if (r.equals("chonghe.html")) {
 			String[] dsghe = request.getParameterValues("ghe");
 			if (dsghe == null) {
-				redirectAttributes.addFlashAttribute("message",
-						new Message("error", "Vui lòng chọn ghế!"));
+				redirectAttributes.addFlashAttribute("message", new Message("error", "Vui lòng chọn ghế!"));
 
 				return "redirect:chonghe.html";
 			}
@@ -281,7 +333,7 @@ System.out.println(cx.getTuyen().getDiemDen().getMaDD());
 		if (check) {
 
 			redirectAttributes.addFlashAttribute("phieudat", pd);
-			redirectAttributes.addFlashAttribute("message",new Message("error", "Vui lòng đồng ý với điều khoản!"));
+			redirectAttributes.addFlashAttribute("message", new Message("error", "Vui lòng đồng ý với điều khoản!"));
 			return "redirect:dienthongtin.html";
 		}
 		PhieuDat pdss = (PhieuDat) ss.getAttribute("PhieuDat");
@@ -314,11 +366,10 @@ System.out.println(cx.getTuyen().getDiemDen().getMaDD());
 				session.save(ve);
 			}
 			t.commit();
-			model.addAttribute("message",
-					new Message("success","Đặt vé thành công!"));
+			model.addAttribute("message", new Message("success", "Đặt vé thành công!"));
 		} catch (Exception e) {
 			t.rollback();
-			model.addAttribute("message",new Message("error", "Đặt vé thất bại!"));
+			model.addAttribute("message", new Message("error", "Đặt vé thất bại!"));
 			System.out.println(e.getCause());
 		} finally {
 			session.close();
@@ -336,10 +387,11 @@ System.out.println(cx.getTuyen().getDiemDen().getMaDD());
 	}
 
 	@RequestMapping(value = "thongtincanhan", method = RequestMethod.POST)
-	public String ttcanhan(HttpSession sess, @ModelAttribute("khachhang") KhachHang khachhang, BindingResult errors,ModelMap model) {
+	public String ttcanhan(HttpSession sess, @ModelAttribute("khachhang") KhachHang khachhang, BindingResult errors,
+			ModelMap model) {
 		System.out.println(khachhang.getMaKH());
 		if (khachhang.getHoKH().isEmpty()) {
-			 errors.rejectValue("hoKH", "KhachHang", "Dữ liệu không được để trống!"); 
+			errors.rejectValue("hoKH", "KhachHang", "Dữ liệu không được để trống!");
 		}
 		if (khachhang.getTenKH().isEmpty()) {
 			errors.rejectValue("tenKH", "KhachHang", "Dữ liệu không được để trống!");
@@ -365,7 +417,6 @@ System.out.println(cx.getTuyen().getDiemDen().getMaDD());
 			errors.rejectValue("ngSinh", "KhachHang", "Ngày sinh phải bé hơn ngày hiện tại!");
 		}
 
-		
 		if (!errors.hasErrors()) {
 			Session ss = factory.getCurrentSession();
 
@@ -389,12 +440,12 @@ System.out.println(cx.getTuyen().getDiemDen().getMaDD());
 				t.commit();
 				sess.setAttribute("user", khachhang);
 				sess.setAttribute("tkdn", tk);
-				model.addAttribute("message",new Message("success", "Cập nhật thông tin thành công"));
+				model.addAttribute("message", new Message("success", "Cập nhật thông tin thành công"));
 			} catch (Exception e) {
 				System.out.println(e);
 				System.out.println(e.getCause());
 				t.rollback();
-				model.addAttribute("message",new Message("error", "Cập nhật thông tin thất bại!"));
+				model.addAttribute("message", new Message("error", "Cập nhật thông tin thất bại!"));
 			} finally {
 				session.close();
 			}
@@ -408,7 +459,7 @@ System.out.println(cx.getTuyen().getDiemDen().getMaDD());
 //đổi mật khẩu
 	@RequestMapping("matkhau")
 	public String doimk() {
-		return "KhachHang/doimatkhau"; 
+		return "KhachHang/doimatkhau";
 	}
 
 	@RequestMapping(value = "matkhau", method = RequestMethod.POST)
@@ -451,13 +502,13 @@ System.out.println(cx.getTuyen().getDiemDen().getMaDD());
 				try {
 					session2.update(tkkh);
 					t.commit();
-					model.addAttribute("message",new Message("success", "Đổi mật khẩu thành công!"));
+					model.addAttribute("message", new Message("success", "Đổi mật khẩu thành công!"));
 					kh.setTkkh(tkkh);
 					ss.setAttribute("user", kh);
 					ss.setAttribute("tkdn", tkkh);
 				} catch (Exception e) {
 					t.rollback();
-					model.addAttribute("message",new Message("error", "Đổi mật khẩu thất bại!"));
+					model.addAttribute("message", new Message("error", "Đổi mật khẩu thất bại!"));
 				} finally {
 					session2.close();
 				}
@@ -480,12 +531,13 @@ System.out.println(cx.getTuyen().getDiemDen().getMaDD());
 		KhachHang kh = (KhachHang) ss.getAttribute("user");
 		model.addAttribute("dsphieudat", this.getds_pdkh(kh.getMaKH()));
 		model.addAttribute("idModal", "modalHuy");
-		
+
 		return "KhachHang/phieudat";
 	}
 
 	@RequestMapping(value = "phieudat/huy/{id}.html", params = "btnHuyPhieu")
-	public String huyPhieudat(@PathVariable("id") String maPD, ModelMap model, HttpSession ss,RedirectAttributes redirectAttributes) {
+	public String huyPhieudat(@PathVariable("id") String maPD, ModelMap model, HttpSession ss,
+			RedirectAttributes redirectAttributes) {
 		System.out.println("ok");
 		Session session = factory.getCurrentSession();
 		PhieuDat pd = (PhieuDat) session.get(PhieuDat.class, maPD);
@@ -497,11 +549,11 @@ System.out.println(cx.getTuyen().getDiemDen().getMaDD());
 			session2.merge(pdm);
 			t.commit();
 			System.out.println("hihivi");
-			redirectAttributes.addFlashAttribute("message",new Message("success", "Hủy vé thành công!"));
+			redirectAttributes.addFlashAttribute("message", new Message("success", "Hủy vé thành công!"));
 		} catch (Exception e) {
 			t.rollback();
 			System.out.println(e);
-			redirectAttributes.addFlashAttribute("message",new Message("error", "Hủy vé thất bại!"));
+			redirectAttributes.addFlashAttribute("message", new Message("error", "Hủy vé thất bại!"));
 		} finally {
 			session2.close();
 		}
@@ -604,6 +656,7 @@ System.out.println(cx.getTuyen().getDiemDen().getMaDD());
 
 		return list;
 	}
+
 	public String hashPass(String matKhau) {
 		String hashpw = DigestUtils.md5Hex(matKhau).toUpperCase();
 		return hashpw;
