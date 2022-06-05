@@ -245,14 +245,21 @@
       class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
-  <script src="../assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="../assets/vendor/chart.js/chart.min.js"></script>
-  <script src="../assets/vendor/echarts/echarts.min.js"></script>
-  <script src="../assets/vendor/quill/quill.min.js"></script>
-  <script src="../assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="../assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="../assets/vendor/php-email-form/validate.js"></script>
+  <script src="resources/assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="resources/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="resources/assets/vendor/chart.js/chart.min.js"></script>
+  <script src="resources/assets/vendor/echarts/echarts.min.js"></script>
+  <script src="resources/assets/vendor/quill/quill.min.js"></script>
+  <script src="resources/assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="resources/assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="resources/assets/vendor/php-email-form/validate.js"></script>
+  <script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script
+
+	src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+<script
+	src="<c:url value='/resources/KhachHang/assets/js/showMessage.js'/>"></script>	
 
   <!-- Template Main JS File -->
 <script src="<c:url value='/resources/assets/js/main.js'/>"></script>
