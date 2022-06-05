@@ -5,7 +5,8 @@
 <%@ include file="head.jsp"%>
 <%@ include file="header.jsp"%>
 <%@ include file="slidebar.jsp"%>
-
+<div class="alert-flag" aType='${message.type}'
+	aMessage="${message.message }"></div>
 <main id="main" class="main">
         <div class="pagetitle">
             <h1>Loại xe</h1>
@@ -160,6 +161,15 @@
 	src="<c:url value='/resources/assets/vendor/php-email-form/validate.js'/>"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script
+		src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+	<script
+		src="<c:url value='/resources/KhachHang/assets/js/showMessage.js'/>"></script>
+
+
+	<!-- Template Main JS File -->
+	<script src="<c:url value='/resources/assets/js/main.js'/>"></script>
+	<script src="<c:url value='/resources/assets/js/my-main.js'/>"></script>
 <script>
 	$(document).ready(function() {
 		console.log($(".modal_flag").attr("idModal"));
@@ -170,5 +180,3 @@
 		}
 	})
 </script>
-<!-- Template Main JS File -->
-<script src="<c:url value='/resources/assets/js/main.js'/>"></script>

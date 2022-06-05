@@ -68,7 +68,7 @@
 													<a
 														href="/CNPM/quanly/chuyenxe/${u.maChuyen}.html?trangthai"><i
 														class="bi bi-pencil-square v-icon-modal"
-														data-bs-toggle="modal" data-bs-target="#Edittrangthai"></i></a></span>
+														data-bs-toggle="modal" data-bs-target="#Edittrangthai"></i></a>
 											</c:if> </span></td>
 									</tr>
 								</c:forEach>
