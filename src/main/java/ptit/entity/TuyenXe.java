@@ -1,6 +1,6 @@
 package ptit.entity;
 
-import java.sql.Time;
+import java.math.BigDecimal;
 import java.util.Collection;
 
 import javax.persistence.Column;
@@ -30,8 +30,8 @@ public class TuyenXe {
 	private int tgchay;
 	@OneToMany(mappedBy = "tuyen", fetch = FetchType.EAGER)
 	private Collection<ChuyenXe> chuyen;
-	@OneToMany(mappedBy = "tuyen", fetch = FetchType.EAGER)
-	private Collection<BangGia> banggia;
+	@Column(name = "GiaTuyen")
+	private BigDecimal giatuyen;
 	public String getMaTuyen() {
 		return maTuyen;
 	}
@@ -62,11 +62,12 @@ public class TuyenXe {
 	public void setChuyen(Collection<ChuyenXe> chuyen) {
 		this.chuyen = chuyen;
 	}
-	public Collection<BangGia> getBanggia() {
-		return banggia;
+	
+	public BigDecimal getGiatuyen() {
+		return giatuyen;
 	}
-	public void setBanggia(Collection<BangGia> banggia) {
-		this.banggia = banggia;
+	public void setGiatuyen(BigDecimal giatuyen) {
+		this.giatuyen = giatuyen;
 	}
 	public int getTgchay() {
 		return tgchay;
@@ -75,3 +76,10 @@ public class TuyenXe {
 		this.tgchay = tgchay;
 	}
 }
+
+
+
+
+
+
+

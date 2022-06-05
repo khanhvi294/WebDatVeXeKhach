@@ -2,6 +2,7 @@
 	pageEncoding="utf-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -68,7 +69,7 @@
 													<a href="quanly/chuyenxe/trangthai/${u.maChuyen}.html"><i
 														class="bi bi-pencil-square v-icon-modal"
 														data-bs-toggle="modal" data-bs-target="#Edittrangthai"></i></a>
-											</c:if> </span></td>
+												</c:if> </span></td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -129,7 +130,7 @@
 
 													<div class="row">
 														<div class="col-lg-3 col-md-4 label v-label">Giá</div>
-														<div class="col-lg-8 col-md-5">${chuyen.gia}</div>
+														<div class="col-lg-8 col-md-5">${gia}</div>
 													</div>
 
 													<div class="row">
@@ -172,21 +173,18 @@
 							<label for="machuyen"
 								class="col-md-4 col-lg-3 col-form-label v-label">Mã
 								chuyến</label>
-							<div class="col-md-8 col-lg-9">${chuyenxe.maChuyen }</div>
+							<div class="col-md-8 col-lg-9">
+								<input type="text" class="form-control v-form-control"
+									readonly="true" value="${chuyenxe.maChuyen }" />
+							</div>
 						</div>
 
 						<div class="row mb-3">
 							<label class="col-md-4 col-lg-3 col-form-label v-label">Tuyến</label>
 							<div class="col-md-8 col-lg-9">
-								<select class="form-select v-form-control"
-									aria-label=" select example" name="tuyenxe" id="tuyen">
-									<option selected value="${chuyenxe.tuyen.maTuyen }">${chuyenxe.tuyen.diemDi.diaDiem}
-										- ${chuyenxe.tuyen.diemDen.diaDiem}</option>
-									<c:forEach var="tx" items="${listtx}">
-										<option value="${tx.maTuyen}">${tx.diemDi.diaDiem}-
-											${tx.diemDen.diaDiem}</option>
-									</c:forEach>
-								</select>
+								<input type="text" class="form-control v-form-control"
+									readonly="true"
+									value="${chuyenxe.tuyen.diemDi.diaDiem} - ${chuyenxe.tuyen.diemDen.diaDiem}" />
 							</div>
 						</div>
 
@@ -217,6 +215,15 @@
 										<option value="${xk.bienXe}">${xk.bienXe}</option>
 									</c:forEach>
 								</select>
+							</div>
+						</div>
+
+						<div class="row mb-3">
+							<label class="col-md-4 col-lg-3 col-form-label v-label">Giá
+								Tiền</label>
+							<div class="col-md-8 col-lg-9">
+								<input type="text" class="form-control v-form-control"
+									name="gia" value="${gia }" />
 							</div>
 						</div>
 
@@ -347,17 +354,14 @@
 									<div class="form-check form-check-inline ">
 										<form:radiobutton
 											class="form-check-input v-check-input shadow-none" value="1"
-											path="trangthai" id="1" />
-										<label for="1" class="form-check-label"> Đã Khởi Hành
-										</label>
+											path="trangthai" />
+										<label class="form-check-label"> Đã Khởi Hành </label>
 									</div>
-
 									<div class="form-check form-check-inline ">
 										<form:radiobutton
 											class="form-check-input v-check-input shadow-none" value="0"
-											path="trangthai" id="0" />
-										<label class="form-check-label" for="0"> Chưa Khởi
-											Hành </label>
+											path="trangthai" />
+										<label class="form-check-label"> Chưa Khởi Hành </label>
 									</div>
 								</div>
 							</div>
@@ -400,9 +404,11 @@
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script
-		src="<c:url value='/resources/KhachHang/assets/js/alertify.min.js'/>"></script>
+		src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 	<script
 		src="<c:url value='/resources/KhachHang/assets/js/showMessage.js'/>"></script>
+
+
 	<!-- Template Main JS File -->
 	<script src="<c:url value='/resources/assets/js/main.js'/>"></script>
 	<script src="<c:url value='/resources/assets/js/my-main.js'/>"></script>
@@ -432,3 +438,5 @@
 
 </body>
 </html>
+
+

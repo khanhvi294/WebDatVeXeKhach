@@ -149,9 +149,15 @@
 																<span class="badge rounded-pill bg-success v-bg-tt">Hoạt
 																	động</span>
 															</c:when>
+															<c:when test="${nv.tknv.trangThai == 2}">
+																<span class="badge rounded-pill bg-success v-bg-tt">Chưa đổi mật khẩu</span>
+															</c:when>
 														</c:choose>
 													</div>
 												</div>
+
+
+
 												<div class="row">
 													<div class="col-lg-3 col-md-4 label v-label">CMND/CCCD</div>
 													<div class="col-lg-9 col-md-8">${ nv.cccd }</div>
@@ -401,7 +407,7 @@
 </div>
 
 <!-- Vertically centered Modal -->
-<div class="modal fade" id="verticalycentered" tabindex="-1">
+<div class="modal fade" id="themnhanvien" tabindex="-1">
 	<div class="modal-dialog modal-dialog-centered v-modal-add">
 		<div class="modal-content border-0">
 			<div class="modal-header v-modal-header">
@@ -561,7 +567,7 @@
 		
 		console.log($(".modal_flag").attr("idModal"));
 		if ($(".modal_flag").attr("idModal") === "modalCreate") {
-			$("#verticalycentered").modal("show");
+			$("#themnhanvien").modal("show");
 		} else if ($(".modal_flag").attr("idModal") === "modalShow") {
 			$("#ProfileViewModal").modal("show");
 		} else if ($(".modal_flag").attr("idModal") === "modalUpdate") {

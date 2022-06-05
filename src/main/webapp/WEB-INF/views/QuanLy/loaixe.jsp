@@ -76,6 +76,15 @@
                             <label for="inputDate" class="col-md-4 col-lg-3 col-form-label v-label">Loại xe </label>
                             <div class="col-md-8 col-lg-9">
                                 <form:input path="tenLX" type="text" class="form-control v-form-control" id="sdiadiem" />
+                                <form:errors style="color:red" path="tenLX" />
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label for="inputDate" class="col-md-4 col-lg-3 col-form-label v-label">Giá loại xe </label>
+                            <div class="col-md-8 col-lg-9">
+                                <form:input path="giaLX" type="text" class="form-control v-form-control" id="sdiadiem" />
+                                <form:errors style="color:red" path="giaLX" />
                             </div>
                         </div>
 
@@ -121,6 +130,14 @@
                             <div class="col-md-8 col-lg-9">
                                 <form:input path="tenLX" type="text" class="form-control v-form-control" id="diadiem" />
                                 <form:errors style = "color:red" path="tenLX"/>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label for="inputDate" class="col-md-4 col-lg-3 col-form-label v-label">Giá loại xe </label>
+                            <div class="col-md-8 col-lg-9">
+                                <form:input path="giaLX" type="text" class="form-control v-form-control" id="diadiem" />
+                                <form:errors style = "color:red" path="seat"/>
                             </div>
                         </div>
 
@@ -180,3 +197,5 @@
 		}
 	})
 </script>
+
+

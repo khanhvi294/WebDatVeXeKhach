@@ -1,13 +1,12 @@
 package ptit.entity;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -23,8 +22,8 @@ public class LoaiXe {
 	private int seat;
 	@OneToMany(mappedBy = "lx", fetch = FetchType.EAGER)
 	private Collection<XeKhach> xe;
-	@OneToMany(mappedBy = "loaixe", fetch = FetchType.EAGER)
-	private Collection<BangGia> banggia;
+	@Column(name = "GiaLX")
+	private BigDecimal giaLX;
 	public String getMaLX() {
 		return maLX;
 	}
@@ -49,12 +48,18 @@ public class LoaiXe {
 	public void setXe(Collection<XeKhach> xe) {
 		this.xe = xe;
 	}
-	public Collection<BangGia> getBanggia() {
-		return banggia;
+	public BigDecimal getGiaLX() {
+		return giaLX;
 	}
-	public void setBanggia(Collection<BangGia> banggia) {
-		this.banggia = banggia;
+	public void setGiaLX(BigDecimal giaLX) {
+		this.giaLX = giaLX;
 	}
+	
 	
 	
 }
+
+
+
+
+
