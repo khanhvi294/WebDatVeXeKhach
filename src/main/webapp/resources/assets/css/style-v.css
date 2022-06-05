@@ -50,7 +50,9 @@
     /* border-color:#f16541; */
 }
 .add-new:hover,
-.btn-main-color:hover
+.btn-main-color:hover,
+.btn-main-color:active,
+.btn-main-color:focus
  {
     color: #000;
     background-color:#f78366;

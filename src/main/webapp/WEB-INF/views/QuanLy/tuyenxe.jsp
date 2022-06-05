@@ -17,13 +17,6 @@
 	<main id="main" class="main">
 		<div class="pagetitle">
 			<h1>Tuyến Xe</h1>
-			<nav>
-				<ol class="breadcrumb">
-					<li class="breadcrumb-item"><a href="index.html">Home</a></li>
-					<li class="breadcrumb-item">Pages</li>
-					<li class="breadcrumb-item active">Blank</li>
-				</ol>
-			</nav>
 		</div>
 		<!-- End Page Title -->
 		<a href="/CNPM/quanly/tuyenxe/insert.html"><button type="button"
@@ -44,7 +37,7 @@
 									<th scope="col">Điểm đến</th>
 									<th scope="col">Thời Gian Chạy Tuyến</th>
 									<th scope="col">Trạng Thái</th>
-									<th scope="col" class="text-center">Option</th>
+									<th scope="col" class="text-center">Thao tác</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -245,7 +238,7 @@
 								<form:select class="form-select v-form-control"
 									aria-label=" select example" path="trangThai">
 									<form:option value="true">Hoạt Động</form:option>
-									<form:option value="false">Không Hoạt Động</form:option>
+									<form:option value="false">Ngừng Hoạt Động</form:option>
 								</form:select>
 							</div>
 						</div>
@@ -293,7 +286,7 @@
 										<form:radiobutton
 											class="form-check-input v-check-input shadow-none" value="0"
 											path="trangThai" />
-										<label class="form-check-label"> Khóa </label>
+										<label class="form-check-label"> Ngừng Hoạt Động </label>
 									</div>
 								</div>
 								</div>

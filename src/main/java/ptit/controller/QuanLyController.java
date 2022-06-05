@@ -146,13 +146,6 @@ public class QuanLyController {
 		return list;
 	}
 
-	public List<BangGia> dsbg() {
-		Session session = factory.getCurrentSession();
-		String hql = "FROM BangGia";
-		Query query = session.createQuery(hql);
-		List<BangGia> list = query.list();
-		return list;
-	}
 
 	public List<PhieuDat> dspd() {
 		Session session = factory.getCurrentSession();
@@ -162,13 +155,6 @@ public class QuanLyController {
 		return list;
 	}
 
-	public BangGia bgtheoid(String matuyen, String LoaiXe) {
-		Session session = factory.getCurrentSession();
-		String hql = "from BangGia where Tuyen = '" + matuyen + "' and loaixe = '" + LoaiXe + "'";
-		Query query = session.createQuery(hql);
-		List<BangGia> list = query.list();
-		return list.get(0);
-	}
 
 	public ChuyenXe xetheoid(String machuyen) {
 		Session session = factory.getCurrentSession();
@@ -753,22 +739,23 @@ public class QuanLyController {
 	}
 
 	@RequestMapping(value = "/nhanvien/{manv}.html", params = "trangthai", method = RequestMethod.POST)
-	public String NhanVienTrangThai( @PathVariable("manv") String ma,@ModelAttribute("nv") NhanVien nv, HttpServletRequest request) {
+	public String NhanVienTrangThai( @PathVariable("manv") String ma,@ModelAttribute("nv") NhanVien nv,
+			HttpServletRequest request,RedirectAttributes redirectAttributes) {
 		Session session = factory.openSession();
 		Transaction transaction = session.beginTransaction();
 
-		nv = nvtheoid(ma);
-		TaiKhoan tk = tktheousername(nv.getTknv().getUserName());
+		NhanVien nvien = nvtheoid(ma);
+		nvien.getTknv().setTrangThai(nv.getTknv().getTrangThai());
+
 		try {
-		
-			nv.setTknv(tk);
-			session.update(tk);
-			session.update(nv);
+			session.merge(nvien);
 			transaction.commit();
+			redirectAttributes.addFlashAttribute("message", new Message("success", "Thay đổi trạng thái thành công!"));
 		
 		} catch (Exception e) {
 			System.out.println(e.toString());
 			transaction.rollback();
+			redirectAttributes.addFlashAttribute("message", new Message("error", "Thay đổi trạng thái thất bại!"));
 		} finally {
 			session.close();
 		}
@@ -994,24 +981,27 @@ public class QuanLyController {
 		model.addAttribute("list", list);
 		KhachHang kh = khtheoid(ma);
 		model.addAttribute("kh", kh);
+		List<KhachHang> khachhangs = dskh();
+		model.addAttribute("dskh", khachhangs);
 		return "QuanLy/khachhang";
 	}
 
 	@RequestMapping(value = "/khachhang/{makh}.html", params = "trangthai", method = RequestMethod.POST)
-	public String KhachHangTrangThai( @PathVariable("makh") String ma,@ModelAttribute("kh") KhachHang kh, HttpServletRequest request) {
+	public String KhachHangTrangThai( @PathVariable("makh") String ma,@ModelAttribute("kh") KhachHang kh,
+			HttpServletRequest request,RedirectAttributes redirectAttributes) {
 		Session session = factory.openSession();
 		Transaction transaction = session.beginTransaction();
-		System.out.println("vô");
-		kh = khtheoid(ma);
-		TaiKhoan tk = tktheousername(kh.getTkkh().getUserName());
+		KhachHang khang = khtheoid(ma);
+		khang.getTkkh().setTrangThai(kh.getTkkh().getTrangThai());
 		try {
-			System.out.println("vô1");
-			session.update(tk);
+			
+			session.merge(khang);
 			transaction.commit();
-			System.out.println("vô2");
+			redirectAttributes.addFlashAttribute("message", new Message("success", "Thay đổi trạng thái thành công!"));
 		} catch (Exception e) {
 			System.out.println(e.toString());
 			transaction.rollback();
+			redirectAttributes.addFlashAttribute("message", new Message("error", "Thay đổi trạng thái thất bại!"));
 		} finally {
 			session.close();
 		}
@@ -1392,154 +1382,6 @@ public class QuanLyController {
 		}
 
 
-
-	@RequestMapping("/banggia")
-	public String BangGia(ModelMap model) {
-		List<BangGia> dsbg = dsbg();
-		model.addAttribute("dsbg", dsbg);
-		model.addAttribute("bg", new BangGia());
-		System.out.println(dsbg.get(0).getId());
-		return "QuanLy/banggia";
-	}
-
-	@RequestMapping(value = "/banggia/{tuyen}/{loaixe}", params = "update", method = RequestMethod.GET)
-	public String BangGiaupdate(ModelMap model, @PathVariable("tuyen") String tuyen,
-			@PathVariable("loaixe") String loaixe) {
-		model.addAttribute("idModal", "modalUpdate");
-		List<BangGia> dsbg = dsbg();
-		model.addAttribute("dsbg", dsbg);
-		List<LoaiXe> dslx = dslx();
-		List<TuyenXe> dstx = dstx();
-		Map<String, String> tenXK = new HashMap<>();
-		for (int i = 0; i < dstx.size(); i++) {
-			tenXK.put(dstx.get(i).getMaTuyen(),
-					dstx.get(i).getDiemDi().getDiaDiem() + " - " + dstx.get(i).getDiemDen().getDiaDiem());
-		}
-		model.addAttribute("listtemp", tenXK);
-		model.addAttribute("dslx", dslx);
-		model.addAttribute("dstx", dstx);
-		BangGia bg = bgtheoid(tuyen, loaixe);
-		model.addAttribute("bg", bg);
-		return "QuanLy/banggia";
-	}
-
-	@RequestMapping(value = "/banggia/{tuyen}/{loaixe}", params = "update", method = RequestMethod.POST)
-	public String BangGiaupdate(ModelMap model, @PathVariable("tuyen") String tuyen,
-			@PathVariable("loaixe") String loaixe, HttpServletRequest request, RedirectAttributes redirectAttributes) {
-		String s = "";
-		int count = 0;
-		if (Double.parseDouble(request.getParameter("gia")) < 0) {
-			s = "GiÃ¡ KhÃ´ng Ä�Æ°á»£c Nhá»� HÆ¡n 0";
-			count = 1;
-		} else if (Pattern.matches("[a-zA-Z]+", request.getParameter("gia")) == true) {
-			s = "Má»¥c KhÃ´ng Ä�Æ°á»£c Chá»©a Chá»¯";
-			count = 1;
-		}
-		if (count == 1) {
-			model.addAttribute("idModal", "modalUpdate");
-			List<BangGia> dsbg = dsbg();
-			model.addAttribute("dsbg", dsbg);
-			List<LoaiXe> dslx = dslx();
-			List<TuyenXe> dstx = dstx();
-			Map<String, String> tenXK = new HashMap<>();
-			for (int i = 0; i < dstx.size(); i++) {
-				tenXK.put(dstx.get(i).getMaTuyen(),
-						dstx.get(i).getDiemDi().getDiaDiem() + " - " + dstx.get(i).getDiemDen().getDiaDiem());
-			}
-			model.addAttribute("listtemp", tenXK);
-			model.addAttribute("dslx", dslx);
-			model.addAttribute("dstx", dstx);
-			BangGia bg = bgtheoid(tuyen, loaixe);
-			model.addAttribute("bg", bg);
-			model.addAttribute("message", s);
-			return "QuanLy/banggia";
-		} else {
-			Session session = factory.openSession();
-			Transaction transaction = session.beginTransaction();
-			try {
-				BangGia bg = bgtheoid(tuyen, loaixe);
-				bg.setGia(new BigDecimal(request.getParameter("gia")));
-				session.update(bg);
-				transaction.commit();
-				redirectAttributes.addFlashAttribute("message", new Message("success", "Cập nhật thành công!"));
-			} catch (Exception e) {
-				System.out.println(e.toString());
-				transaction.rollback();
-				redirectAttributes.addFlashAttribute("message", new Message("error", "Cập nhật thất bại!"));
-			} finally {
-				session.close();
-			}
-
-			return "redirect:/quanly/banggia.html";
-		}
-
-	}
-
-	@RequestMapping(value = "/banggia/insert", method = RequestMethod.GET)
-	public String BangGiaInsert(ModelMap model) {
-		model.addAttribute("idModal", "modalCreate");
-		List<BangGia> dsbg = dsbg();
-		model.addAttribute("dsbg", dsbg);
-		List<LoaiXe> dslx = dslx();
-		List<TuyenXe> dstx = dstx();
-		model.addAttribute("dslx", dslx);
-		model.addAttribute("dstx", dstx);
-		return "QuanLy/banggia";
-	}
-
-	// bat loi nhap so thap phan
-	@RequestMapping(value = "/banggia/insert", method = RequestMethod.POST)
-	public String BangGiaInsert(ModelMap model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
-		String s = "";
-		int count = 0;
-
-		if (Double.parseDouble(request.getParameter("gia")) <= 0) {
-			s = "Giá Không Được Nhỏ Hơn 0";
-
-			count = 1;
-		} else if (Pattern.matches("[a-zA-Z]+", request.getParameter("gia")) == true) {
-			s = "Má»¥c KhÃ´ng Ä�Æ°á»£c Chá»©a Chá»¯";
-			count = 1;
-		}
-		if (count == 1) {
-			model.addAttribute("idModal", "modalCreate");
-			List<BangGia> dsbg = dsbg();
-			model.addAttribute("dsbg", dsbg);
-			List<LoaiXe> dslx = dslx();
-			List<TuyenXe> dstx = dstx();
-			model.addAttribute("dslx", dslx);
-			model.addAttribute("dstx", dstx);
-			model.addAttribute("message", s);
-			return "QuanLy/banggia";
-		} else {
-			Session session = factory.openSession();
-			Transaction transaction = session.beginTransaction();
-			try {
-				BangGiaPK bgpk = new BangGiaPK();
-				bgpk.setLoaixe(request.getParameter("loaixe"));
-				bgpk.setTuyen(request.getParameter("tuyenxe"));
-				BangGia bg = new BangGia();
-				bg.setId(bgpk);
-				bg.setLoaixe(lxtheoid(request.getParameter("loaixe")));
-				bg.setTuyen(tuyentheoid(request.getParameter("tuyenxe")));
-				bg.setGia(new BigDecimal(request.getParameter("gia")));
-				session.save(bg);
-				transaction.commit();
-				redirectAttributes.addFlashAttribute("message", new Message("success", "Thêm mới thành công!"));
-			} catch (Exception e) {
-				System.out.println(e.toString());
-				transaction.rollback();
-				redirectAttributes.addFlashAttribute("message", new Message("error", "Thêm mới thất bại!"));
-			} finally {
-				session.close();
-			}
-
-			return "redirect:/quanly/banggia.html";
-
-		}
-
-	}
-
 	@RequestMapping("/phieudat")
 	public String PhieuDat(ModelMap model) {
 		List<PhieuDat> ds = dspd();
@@ -1567,26 +1409,26 @@ public class QuanLyController {
 
 	@RequestMapping(value = "/phieudat/{mapd}", params = "update", method = RequestMethod.GET)
 	public String PhieuDatupdate(ModelMap model, @PathVariable("mapd") String ma) {
+		System.out.println("vitester");
 		model.addAttribute("idModal", "modalUpdate");
 		List<PhieuDat> ds = dspd();
 		model.addAttribute("dspd", ds);
-		PhieuDat pd = new PhieuDat();
-		pd = phieudattheoma(ma);
+		PhieuDat pd = phieudattheoma(ma);
 		model.addAttribute("pd", pd);
 		return "QuanLy/phieudat";
 	}
 
 	@RequestMapping(value = "/phieudat/{mapd}", params = "update", method = RequestMethod.POST)
-	public String PhieuDatupdate(@PathVariable("mapd") String ma, HttpServletRequest request, RedirectAttributes redirectAttributes) {
-
+	public String PhieuDatupdate(@PathVariable("mapd") String ma,@ModelAttribute("pd") PhieuDat pd, RedirectAttributes redirectAttributes) {
+System.out.println("khanhvi");
 		Session session = factory.openSession();
 		Transaction transaction = session.beginTransaction();
 		try {
-			PhieuDat pd = phieudattheoma(ma);
-			pd.setTrangThai(Integer.parseInt(request.getParameter("trangthai")));
-			session.merge(pd);
-			transaction.commit();
-			redirectAttributes.addFlashAttribute("message", new Message("success", "Cập nhật thành công!"));
+			PhieuDat pdat = phieudattheoma(ma);
+			pdat.setTrangThai(pd.getTrangThai());
+			session.merge(pdat);
+			
+			redirectAttributes.addFlashAttribute("message", new Message("success", "Cập nhật trạng thái thành công!"));
 			MimeMessage mail = mailer.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(mail);
 
@@ -1611,13 +1453,14 @@ public class QuanLyController {
 				} catch (MessagingException e) {
 					e.printStackTrace();
 				}
-				mailer.send(mail);
+				 mailer.send(mail);
 			}
-
+			transaction.commit();
+			redirectAttributes.addFlashAttribute("message",new Message("success", "Thay đổi trạng thái thành công!"));
 		} catch (Exception e) {
 			System.out.println(e.toString());
 			transaction.rollback();
-			redirectAttributes.addFlashAttribute("message", new Message("error", "Thêm mới thất bại!"));
+			redirectAttributes.addFlashAttribute("message",new Message("error", "Thay đổi trạng thái thất bại!"));
 		} finally {
 			session.close();
 		}
