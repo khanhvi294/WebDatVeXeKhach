@@ -12,6 +12,8 @@
 	<%@ include file="header.jsp"%>
 	<!-- End Header -->
 	<%@ include file="slidebar.jsp"%>
+	<div class="alert-flag" aType='${message.type}'
+		aMessage="${message.message }"></div>
 	<main id="main" class="main">
 		<div class="pagetitle">
 			<h1>Tuyến Xe</h1>
@@ -24,11 +26,11 @@
 			</nav>
 		</div>
 		<!-- End Page Title -->
-		<a href = "/CNPM/quanly/tuyenxe/insert.html"><button type="button"
-			class="btn add-new btn-outline-danger shadow-none"
-			data-bs-toggle="modal" data-bs-target="#verticalycentered">
-			Thêm mới <i class="bi bi-plus-circle"></i>
-		</button></a>
+		<a href="/CNPM/quanly/tuyenxe/insert.html"><button type="button"
+				class="btn add-new btn-outline-danger shadow-none"
+				data-bs-toggle="modal" data-bs-target="#verticalycentered">
+				Thêm mới <i class="bi bi-plus-circle"></i>
+			</button></a>
 		<section class="section">
 			<div class="row">
 				<div class="col-lg-12">
@@ -62,9 +64,13 @@
 														động</span>
 												</c:when>
 											</c:choose></td>
-										<td class="text-center"><span><a href = "/CNPM/quanly/tuyenxe/${u.maTuyen}.html?update"> <i
-												class="bi bi-pencil-square v-icon-modal"
-												data-bs-toggle="modal" data-bs-target="#ProfileEditModal"></i></a>
+										<td class="text-center"><span><a
+												href="/CNPM/quanly/tuyenxe/${u.maTuyen}.html?update"> <i
+													class="bi bi-pencil-square v-icon-modal"
+													data-bs-toggle="modal" data-bs-target="#ProfileEditModal"></i></a>
+												<a href="/CNPM/quanly/tuyenxe/${u.maTuyen}.html?trangthai"><i
+													class="bi bi-pencil-square v-icon-modal"
+													data-bs-toggle="modal" data-bs-target="#Edittrangthai"></i></a>
 										</span></td>
 									</tr>
 								</c:forEach>
@@ -92,14 +98,15 @@
 				</div>
 				<div class="modal-body modal-add">
 					<!-- Profile Edit Form -->
-					<form method = "post">
+					<form method="post">
 						<div class="row mb-3">
 							<label for="machuyen"
 								class="col-md-4 col-lg-3 col-form-label v-label">Mã
 								tuyến</label>
 							<div class="col-md-8 col-lg-9">
 								<input name="matuyen" type="text"
-									class="form-control v-form-control" id="matuyen" readonly="true" value = "${tuyen.maTuyen }"/>
+									class="form-control v-form-control" id="matuyen"
+									readonly="true" value="${tuyen.maTuyen }" />
 							</div>
 						</div>
 
@@ -108,35 +115,39 @@
 								đi </label>
 							<div class="col-md-3">
 								<input name="matuyen" type="text"
-									class="form-control v-form-control" id="matuyen" readonly="true" value = "${tuyen.diemDi.diaDiem }"/>
+									class="form-control v-form-control" id="matuyen"
+									readonly="true" value="${tuyen.diemDi.diaDiem }" />
 							</div>
 							<label for="inputDate"
 								class="col-md-3 col-lg-3 col-form-label v-label">Điểm
 								đến</label>
 							<div class="col-md-3">
 								<input name="matuyen" type="text"
-									class="form-control v-form-control" id="matuyen" readonly="true" value = "${tuyen.diemDen.diaDiem }"/>
+									class="form-control v-form-control" id="matuyen"
+									readonly="true" value="${tuyen.diemDen.diaDiem }" />
 							</div>
 						</div>
 						<div class="row mb-3">
 							<label for="machuyen"
-								class="col-md-4 col-lg-3 col-form-label v-label">Thời gian chạy tuyến</label>
+								class="col-md-4 col-lg-3 col-form-label v-label">Thời
+								gian chạy tuyến</label>
 							<div class="col-md-8 col-lg-9">
 								<input name="tgchay" type="text"
-									class="form-control v-form-control" id="matuyen" value = "${tuyen.tgchay }"/>
+									class="form-control v-form-control" id="matuyen"
+									value="${tuyen.tgchay }" />
 							</div>
 						</div>
-						<div class="row mb-3">
-							<label class="col-md-4 col-lg-3 col-form-label v-label">Trạng
-								thái</label>
-							<div class="col-md-8 col-lg-9">
-								<select class="form-select v-form-control"
-									aria-label=" select example" name= "trangthai">
-									<option selected value="true">Hoạt Động</option>
-									<option value="false">Không Hoạt Động</option>
-								</select>
-							</div>
-						</div>
+						<!-- 						<div class="row mb-3"> -->
+						<!-- 							<label class="col-md-4 col-lg-3 col-form-label v-label">Trạng -->
+						<!-- 								thái</label> -->
+						<!-- 							<div class="col-md-8 col-lg-9"> -->
+						<!-- 								<select class="form-select v-form-control" -->
+						<!-- 									aria-label=" select example" name= "trangthai"> -->
+						<!-- 									<option selected value="true">Hoạt Động</option> -->
+						<!-- 									<option value="false">Không Hoạt Động</option> -->
+						<!-- 								</select> -->
+						<!-- 							</div> -->
+						<!-- 						</div> -->
 
 						<div class="text-center">
 							<button type="submit"
@@ -163,7 +174,7 @@
 				</div>
 				<div class="modal-body modal-add">
 					<!-- Profile Edit Form -->
-					<form:form method = "post" modelAttribute = "tuyen">
+					<form:form method="post" modelAttribute="tuyen">
 						<div class="row mb-3">
 							<label for="machuyen"
 								class="col-md-4 col-lg-3 col-form-label v-label">Mã
@@ -171,7 +182,7 @@
 							<div class="col-md-8 col-lg-9">
 								<form:input path="maTuyen" type="text"
 									class="form-control v-form-control" id="matuyen" />
-								<form:errors style = "color:red" path="maTuyen"/>
+								<form:errors style="color:red" path="maTuyen" />
 							</div>
 						</div>
 
@@ -181,7 +192,8 @@
 							<div class="col-md-3">
 								<form:select class="form-select v-form-control"
 									aria-label=" select example" path="diemDi.maDD">
-									<form:options items="${listdd}" itemValue="maDD" itemLabel="diaDiem"/>
+									<form:options items="${listdd}" itemValue="maDD"
+										itemLabel="diaDiem" />
 								</form:select>
 							</div>
 							<label for="inputDate"
@@ -190,14 +202,16 @@
 							<div class="col-md-3">
 								<form:select class="form-select v-form-control"
 									aria-label=" select example" path="diemDen.maDD">
-									<form:options items="${listdd}" itemValue="maDD" itemLabel="diaDiem"/>
+									<form:options items="${listdd}" itemValue="maDD"
+										itemLabel="diaDiem" />
 								</form:select>
 							</div>
-							<form:errors style = "color:red" path="diemDen"/>
+							<form:errors style="color:red" path="diemDen" />
 						</div>
 						<div class="row mb-3">
 							<label for="machuyen"
-								class="col-md-4 col-lg-3 col-form-label v-label">Thời gian chạy tuyến</label>
+								class="col-md-4 col-lg-3 col-form-label v-label">Thời
+								gian chạy tuyến</label>
 							<div class="col-md-8 col-lg-9">
 								<form:input type="text" class="form-control v-form-control"
 									path="tgchay" />
@@ -210,7 +224,7 @@
 								<form:select class="form-select v-form-control"
 									aria-label=" select example" path="trangThai">
 									<form:option value="true">Hoạt Động</form:option>
-               						 <form:option value="false">Không Hoạt Động</form:option>	
+									<form:option value="false">Không Hoạt Động</form:option>
 								</form:select>
 							</div>
 						</div>
@@ -220,6 +234,61 @@
 						</div>
 					</form:form>
 					<!-- End Profile Edit Form -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="Edittrangthai" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog v-modal-container">
+			<div class="modal-content border-0">
+				<div class="modal-header v-modal-header">
+					<h5 class="modal-title v-modal-title">Thay đổi trạng thái</h5>
+					<button type="button" class="btn shadow-none"
+						data-bs-dismiss="modal" aria-label="Close"
+						style="font-weight: 700">
+						<i class="bi bi-x v-icon-close"></i>
+					</button>
+				</div>
+				<div class="modal-body row">
+					<!-- profile -->
+					<!-- Profile Edit Form -->
+					<div class="col-12 v-edit-form">
+						<form:form method="post" modelAttribute="tuyen">
+
+							<div class="row mb-3">
+								<label for="Email"
+									class="col-md-4 col-lg-3 col-form-label v-label">Trạng
+									thái</label>
+								<div class="col-md-8">
+									<div class="col-md-8">
+									<div class="form-check form-check-inline ">
+										<form:radiobutton
+											class="form-check-input v-check-input shadow-none" value="1"
+											path="trangThai" />
+										<label class="form-check-label"> Đang Hoạt Động </label>
+									</div>
+									<div class="form-check form-check-inline ">
+										<form:radiobutton
+											class="form-check-input v-check-input shadow-none" value="0"
+											path="trangThai" />
+										<label class="form-check-label"> Khóa </label>
+									</div>
+								</div>
+								</div>
+							</div>
+
+
+							<div class="text-center">
+
+								<button type="submit" id="btn-change-state"
+									class="btn btn-primary btn-main-color border-0 shadow-none"
+									style="padding: 8px 20px">Lưu</button>
+							</div>
+						</form:form>
+						<!-- End Profile Edit Form -->
+					</div>
+					<!-- end profile -->
 				</div>
 			</div>
 		</div>
@@ -244,17 +313,32 @@
 		src="<c:url value='/resources/assets/vendor/php-email-form/validate.js'/>"></script>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	<script>
-		$(document).ready(function() {
-			console.log($(".modal_flag").attr("idModal"));
-			if ($(".modal_flag").attr("idModal") === "modalCreate") {
-				$("#verticalycentered").modal("show");
-			} else if ($(".modal_flag").attr("idModal") === "modalUpdate") {
-				$("#ProfileEditModal").modal("show");
-			}
-		})
-	</script>
+	<script
+		src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+	<script
+		src="<c:url value='/resources/KhachHang/assets/js/showMessage.js'/>"></script>
+
+
 	<!-- Template Main JS File -->
 	<script src="<c:url value='/resources/assets/js/main.js'/>"></script>
+	<script src="<c:url value='/resources/assets/js/my-main.js'/>"></script>
+	<script>
+		$(document)
+				.ready(
+						function() {
+							showModalConfirm("#btn-change-state",
+									"Bạn có chắc chắn muốn thực hiện?",
+									"Xác nhận", "Hủy");
+							console.log($(".modal_flag").attr("idModal"));
+							if ($(".modal_flag").attr("idModal") === "modalCreate") {
+								$("#verticalycentered").modal("show");
+							} else if ($(".modal_flag").attr("idModal") === "modalUpdate") {
+								$("#ProfileEditModal").modal("show");
+							} else if ($(".modal_flag").attr("idModal") === "modalTT") {
+								$("#Edittrangthai").modal("show");
+							}
+						})
+	</script>
+	<!-- Template Main JS File -->
 </body>
 </html>

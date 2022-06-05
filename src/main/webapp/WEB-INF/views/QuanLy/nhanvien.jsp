@@ -61,8 +61,8 @@
 										</a> <a href="/CNPM/quanly/nhanvien/${u.maNV}.html?update"><i
 												class="bi bi-pencil-square v-icon-modal"
 												data-bs-toggle="modal" data-bs-target="#ProfileEditModal"></i></a>
-											<i class="bi bi-pencil-square v-icon-modal"
-											data-bs-toggle="modal" data-bs-target="#Edittrangthai"></i> </span></td>
+											 <a href="/CNPM/quanly/nhanvien/${u.maNV}.html?trangthai"><i class="bi bi-pencil-square v-icon-modal"
+												data-bs-toggle="modal" data-bs-target="#Edittrangthai"></i></a> </span></td>
 
 								</tr>
 							</c:forEach>
@@ -360,7 +360,7 @@
 				<!-- profile -->
 				<!-- Profile Edit Form -->
 				<div class="col-12 v-edit-form">
-					<form>
+					<form:form method = "post" modelAttribute="nv">
 
 
 						<div class="row mb-3">
@@ -368,19 +368,20 @@
 								class="col-md-4 col-lg-3 col-form-label v-label">Trạng
 								thái</label>
 							<div class="col-md-8">
-								<div class="form-check form-check-inline ">
-									<input class="form-check-input v-check-input shadow-none"
-										type="radio" name="gridRadios" id="gtnam" value="option1"
-										checked> <label class="form-check-label"
-										for="gridRadios1"> Đang hoạt động </label>
+									<div class="col-md-8">
+									<div class="form-check form-check-inline ">
+										<form:radiobutton
+											class="form-check-input v-check-input shadow-none" value="1"
+											path="tknv.trangThai" />
+										<label class="form-check-label"> Đang Hoạt Động </label>
+									</div>
+									<div class="form-check form-check-inline ">
+										<form:radiobutton
+											class="form-check-input v-check-input shadow-none" value="0"
+											path="tknv.trangThai" />
+										<label class="form-check-label"> Khóa </label>
+									</div>
 								</div>
-								<div class="form-check form-check-inline ">
-									<input class="form-check-input v-check-input shadow-none"
-										type="radio" name="gridRadios" id="gtnu" value="option2">
-									<label class="form-check-label" for="gridRadios2"> Khóa
-									</label>
-								</div>
-							</div>
 						</div>
 
 
@@ -390,7 +391,7 @@
 								class="btn btn-primary btn-main-color border-0 shadow-none"
 								style="padding: 8px 20px">Lưu</button>
 						</div>
-					</form>
+					</form:form>
 					<!-- End Profile Edit Form -->
 				</div>
 				<!-- end profile -->
@@ -565,6 +566,8 @@
 			$("#ProfileViewModal").modal("show");
 		} else if ($(".modal_flag").attr("idModal") === "modalUpdate") {
 			$("#ProfileEditModal").modal("show");
+		}else if ($(".modal_flag").attr("idModal") === "modalTT") {
+			$("#Edittrangthai").modal("show");
 		}
 	})
 </script>

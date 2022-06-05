@@ -516,6 +516,7 @@ public class QuanLyController {
 
 	}
 
+	
 	@RequestMapping("/tuyenxe")
 	public String TuyenXe(ModelMap model) {
 		List<TuyenXe> list = dstx();
@@ -523,7 +524,39 @@ public class QuanLyController {
 		model.addAttribute("tuyen", new TuyenXe());
 		return "QuanLy/tuyenxe";
 	}
+	
+	@RequestMapping(value = "tuyenxe/{matuyen}.html", params = "trangthai", method = RequestMethod.GET)
+	public String TuyenXeTrangThai(ModelMap model, @PathVariable("matuyen") String ma) {
+		model.addAttribute("idModal", "modalTT");
+		List<TuyenXe> list = dstx();
+		model.addAttribute("list", list);
+		TuyenXe tuyen = tuyentheoid(ma);
+		model.addAttribute("tuyen", tuyen);
+		return "QuanLy/tuyenxe";
+	}
 
+	@RequestMapping(value = "tuyenxe/{matuyen}.html", params = "trangthai", method = RequestMethod.POST)
+	public String TuyenXeTrangThai( @PathVariable("matuyen") String ma,@ModelAttribute("tuyen") TuyenXe tuyen, HttpServletRequest request) {
+		Session session = factory.openSession();
+		Transaction transaction = session.beginTransaction();
+		System.out.println("vô");
+		tuyen = tuyentheoid(ma);
+		System.out.println(tuyen.isTrangThai());
+		try {
+			System.out.println("vô1");
+			session.update(tuyen);
+			transaction.commit();
+			System.out.println("vô2");
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			transaction.rollback();
+		} finally {
+			session.close();
+		}
+		return "redirect:/quanly/tuyenxe.html";
+
+	}
+	
 	@RequestMapping(value = "/tuyenxe/insert", method = RequestMethod.GET)
 	public String TuyenXeInsert(ModelMap model) {
 		List<TuyenXe> list = dstx();
@@ -545,10 +578,10 @@ public class QuanLyController {
 		}
 		return 0;
 	}
-
+	
 	@RequestMapping(value = "/tuyenxe/insert", method = RequestMethod.POST)
 	public String TuyenXeInsert(ModelMap model, HttpServletRequest request, @ModelAttribute("tuyen") TuyenXe tuyen,
-			BindingResult errors) {
+			BindingResult errors,RedirectAttributes redirectAttributes) {
 		int count = 0;
 		if (tuyen.getMaTuyen().trim().length() == 0) {
 			errors.rejectValue("maTuyen", "tuyen", "MÃ£ Tuyáº¿n KhÃ´ng Ä�Æ°á»£c Ä�á»ƒ Trá»‘ng");
@@ -581,7 +614,9 @@ public class QuanLyController {
 				tuyen.setTgchay(Integer.parseInt(request.getParameter("tgchay")));
 				session.save(tuyen);
 				transaction.commit();
+				redirectAttributes.addFlashAttribute("message", new Message("success", "Thêm tuyến thành công!"));
 			} catch (Exception e) {
+				redirectAttributes.addFlashAttribute("message", new Message("error", "Thêm tuyến thất bại!"));
 				System.out.println(e.toString());
 				transaction.rollback();
 			} finally {
@@ -616,17 +651,19 @@ public class QuanLyController {
 	}
 
 	@RequestMapping(value = "/tuyenxe/{matuyen}", params = "update", method = RequestMethod.POST)
-	public String TuyenXeUpdate(@PathVariable("matuyen") String ma, HttpServletRequest request) {
+	public String TuyenXeUpdate(@PathVariable("matuyen") String ma, HttpServletRequest request,RedirectAttributes redirectAttributes) {
 		Session session = factory.openSession();
 		Transaction transaction = session.beginTransaction();
 		try {
 			TuyenXe tuyen = tuyentheoid(ma);
-			tuyen.setTrangThai(Boolean.parseBoolean(request.getParameter("trangthai")));
+//			tuyen.setTrangThai(Boolean.parseBoolean(request.getParameter("trangthai")));
 			tuyen.setTgchay(Integer.parseInt(request.getParameter("tgchay")));
 			session.save(tuyen);
 			transaction.commit();
+			redirectAttributes.addFlashAttribute("message", new Message("success", "Thêm tuyến thành công!"));
 		} catch (Exception e) {
 			System.out.println(e.toString());
+			redirectAttributes.addFlashAttribute("message", new Message("error", "Thêm tuyến thất bại!"));
 			transaction.rollback();
 		} finally {
 			session.close();
@@ -651,7 +688,41 @@ public class QuanLyController {
 		model.addAttribute("nv", nv);
 		return "QuanLy/nhanvien";
 	}
+	
+	@RequestMapping(value = "/nhanvien/{manv}.html", params = "trangthai", method = RequestMethod.GET)
+	public String NhanVienTrangThai(ModelMap model, @PathVariable("manv") String ma) {
+		model.addAttribute("idModal", "modalTT");
+		List<NhanVien> nhanviens = dsnv();
+		model.addAttribute("nhanvien", nhanviens);
+		NhanVien nv = nvtheoid(ma);
+		model.addAttribute("nv", nv);
+		return "QuanLy/nhanvien";
+	}
 
+	@RequestMapping(value = "/nhanvien/{manv}.html", params = "trangthai", method = RequestMethod.POST)
+	public String NhanVienTrangThai( @PathVariable("manv") String ma,@ModelAttribute("nv") NhanVien nv, HttpServletRequest request) {
+		Session session = factory.openSession();
+		Transaction transaction = session.beginTransaction();
+		System.out.println("vô");
+		nv = nvtheoid(ma);
+		TaiKhoan tk = tktheousername(nv.getTknv().getUserName());
+		try {
+			System.out.println("vô1");
+			nv.setTknv(tk);
+			session.update(tk);
+			session.update(nv);
+			transaction.commit();
+			System.out.println("vô2");
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			transaction.rollback();
+		} finally {
+			session.close();
+		}
+		return "redirect:/quanly/nhanvien.html";
+
+	}
+	
 	@RequestMapping(value = "/nhanvien/{manv}", params = "update", method = RequestMethod.GET)
 	public String NhanVienupdate(ModelMap model, @PathVariable("manv") String ma) {
 		model.addAttribute("idModal", "modalUpdate");
@@ -862,7 +933,39 @@ public class QuanLyController {
 		model.addAttribute("kh", new KhachHang());
 		return "QuanLy/khachhang";
 	}
+	
+	@RequestMapping(value = "/khachhang/{makh}.html", params = "trangthai", method = RequestMethod.GET)
+	public String KhachHangTrangThai(ModelMap model, @PathVariable("makh") String ma) {
+		model.addAttribute("idModal", "modalTT");
+		List<KhachHang> list = dskh();
+		model.addAttribute("list", list);
+		KhachHang kh = khtheoid(ma);
+		model.addAttribute("kh", kh);
+		return "QuanLy/khachhang";
+	}
 
+	@RequestMapping(value = "/khachhang/{makh}.html", params = "trangthai", method = RequestMethod.POST)
+	public String KhachHangTrangThai( @PathVariable("makh") String ma,@ModelAttribute("kh") KhachHang kh, HttpServletRequest request) {
+		Session session = factory.openSession();
+		Transaction transaction = session.beginTransaction();
+		System.out.println("vô");
+		kh = khtheoid(ma);
+		TaiKhoan tk = tktheousername(kh.getTkkh().getUserName());
+		try {
+			System.out.println("vô1");
+			session.update(tk);
+			transaction.commit();
+			System.out.println("vô2");
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			transaction.rollback();
+		} finally {
+			session.close();
+		}
+		return "redirect:/quanly/khachhang.html";
+
+	}
+	
 	@RequestMapping(value = "/khachhang/{makh}", params = "update", method = RequestMethod.GET)
 	public String KhachHangupdate(ModelMap model, @PathVariable("makh") String ma) {
 		model.addAttribute("idModal", "modalUpdate");
@@ -875,7 +978,7 @@ public class QuanLyController {
 
 	@RequestMapping(value = "/khachhang/{makh}", params = "update", method = RequestMethod.POST)
 	public String KhachHangupdate(ModelMap model, @PathVariable("makh") String ma, @ModelAttribute("kh") KhachHang kh,
-			HttpServletRequest request, BindingResult errors) {
+			HttpServletRequest request, BindingResult errors, RedirectAttributes redirectAttributes) {
 		Session ss = factory.getCurrentSession();
 		NhanVien nv = (NhanVien) ss.get(NhanVien.class, ma);
 
@@ -932,14 +1035,16 @@ public class QuanLyController {
 					kh.setNgSinh(sql);
 					kh.setPhai(Boolean.parseBoolean(request.getParameter("gridRadios")));
 					tk.setEmail(request.getParameter("email"));
-					tk.setTrangThai(Integer.parseInt(request.getParameter("trangthai")));
+//					tk.setTrangThai(Integer.parseInt(request.getParameter("trangthai")));
 
 					session.update(tk);
 					session.update(kh);
 					transaction.commit();
+					redirectAttributes.addFlashAttribute("message", new Message("success", "Cập nhật thành công!"));
 				} catch (Exception e) {
 					System.out.println(e.toString());
 					transaction.rollback();
+					redirectAttributes.addFlashAttribute("message", new Message("error", "Cập nhật thất bại!"));
 				} finally {
 					session.close();
 				}
@@ -983,7 +1088,7 @@ public class QuanLyController {
 	// check trung ten địa điểm
 	@RequestMapping(value = "/diadiem/{madd}", params = "update", method = RequestMethod.POST)
 	public String DDupdate(ModelMap model, @PathVariable("madd") String ma, @ModelAttribute("dd") DiaDiem dd,
-			HttpServletRequest request, BindingResult errors) {
+			HttpServletRequest request, BindingResult errors, RedirectAttributes redirectAttributes) {
 		if (dd.getDiaDiem().equals("")) {
 			errors.rejectValue("diaDiem", "dd", "KhÃ´ng Ä�Æ°á»£c Ä�á»ƒ Trá»‘ng");
 
@@ -1003,9 +1108,11 @@ public class QuanLyController {
 			try {
 				session.update(dd);
 				transaction.commit();
+				redirectAttributes.addFlashAttribute("message", new Message("success", "Cập nhật thành công!"));
 			} catch (Exception e) {
 				System.out.println(e.toString());
 				transaction.rollback();
+				redirectAttributes.addFlashAttribute("message", new Message("error", "Cập nhật thất bại!"));
 			} finally {
 				session.close();
 			}
@@ -1039,7 +1146,7 @@ public class QuanLyController {
 	// Tên địa điểm là duy nhất + mã địa điểm không trùng
 	@RequestMapping(value = "/diadiem/insert", method = RequestMethod.POST)
 	public String DDInsert(ModelMap model, @ModelAttribute("dd") DiaDiem dd, HttpServletRequest request,
-			BindingResult errors) {
+			BindingResult errors, RedirectAttributes redirectAttributes) {
 		if (dd.getDiaDiem().equals("")) {
 			errors.rejectValue("diaDiem", "dd", "KhÃ´ng Ä�Æ°á»£c Ä�á»ƒ Trá»‘ng");
 
@@ -1063,13 +1170,15 @@ public class QuanLyController {
 			try {
 				session.save(dd);
 				transaction.commit();
+				redirectAttributes.addFlashAttribute("message", new Message("success", "Thêm mới thành công!"));
 			} catch (Exception e) {
 				System.out.println(e.toString());
 				transaction.rollback();
+				redirectAttributes.addFlashAttribute("message", new Message("error", "Thêm mới thất bại!"));
 			} finally {
 				session.close();
 			}
-			return "redirect: /CNPM/quanly/diadiem.html";
+			return "redirect:/quanly/diadiem.html";
 		}
 
 	}
@@ -1116,17 +1225,21 @@ public class QuanLyController {
 
 	@RequestMapping(value = "/loaixe/{malx}", params = "update", method = RequestMethod.POST)
 	public String LXupdate(ModelMap model, @PathVariable("malx") String ma, @ModelAttribute("lx") LoaiXe lx,
-			HttpServletRequest request, BindingResult errors) {
+			HttpServletRequest request, BindingResult errors, RedirectAttributes redirectAttributes) {
+		int count = 0;
 		if (lx.getSeat() <= 0) {
 			errors.rejectValue("seat", "lx", "sá»‘ gháº¿ > 0");
+			count = 1;
 		} else if (Pattern.matches("[a-zA-Z]+", Integer.toString(lx.getSeat())) == true) {
 			errors.rejectValue("seat", "lx", "sá»‘ Gháº¿ KhÃ´ng Chá»©a KÃ­ Tá»± Chá»¯");
+			count = 1;
 		}
 		if (checktenlxtrung(lx.getTenLX()) == 0) {
 			errors.rejectValue("tenLX", "lx", "Tên Loại Xe Đã Tồn Tại");
+			count = 1;
 		}
 
-		if (errors.hasErrors()) {
+		if (count ==1) {
 			model.addAttribute("idModal", "modalUpdate");
 			List<LoaiXe> dslx = dslx();
 			model.addAttribute("dslx", dslx);
@@ -1138,9 +1251,11 @@ public class QuanLyController {
 			try {
 				session.update(lx);
 				transaction.commit();
+				redirectAttributes.addFlashAttribute("message", new Message("success", "Cập nhật thành công!"));
 			} catch (Exception e) {
 				System.out.println(e.toString());
 				transaction.rollback();
+				redirectAttributes.addFlashAttribute("message", new Message("error", "Cập nhật thất bại!"));
 			} finally {
 				session.close();
 			}
@@ -1173,21 +1288,27 @@ public class QuanLyController {
 	// so ghe = 36 auto
 	@RequestMapping(value = "/loaixe/insert", method = RequestMethod.POST)
 	public String LXInsert(ModelMap model, @ModelAttribute("lx") LoaiXe lx, HttpServletRequest request,
-			BindingResult errors) {
+			BindingResult errors, RedirectAttributes redirectAttributes) {
+		int count = 0;
 		if (lx.getMaLX().trim().length() == 0) {
 			errors.rejectValue("maLX", "lx", "KhÃ´ng Ä�Æ°á»£c Ä�á»ƒ Trá»‘ng");
+			count = 1;
 		} else if (checkmalxtrung(lx.getMaLX()) == 0) {
 			errors.rejectValue("maLX", "lx", "MÃ£ Loáº¡i Xe Ä�Ã£ Tá»“n Táº¡i");
+			count = 1;
 		}
 		if (lx.getTenLX().trim().length() == 0) {
 			errors.rejectValue("tenLX", "lx", "KhÃ´ng Ä�Æ°á»£c Ä�á»ƒ Trá»‘ng");
+			count = 1;
 		}
 		if (lx.getSeat() <= 0) {
 			errors.rejectValue("seat", "lx", "sá»‘ gháº¿ > 0");
+			count = 1;
 		} else if (Pattern.matches("[a-zA-Z]+", Integer.toString(lx.getSeat())) == true) {
 			errors.rejectValue("seat", "lx", "sá»‘ Gháº¿ KhÃ´ng Chá»©a KÃ­ Tá»± Chá»¯");
+			count = 1;
 		}
-		if (errors.hasErrors()) {
+		if (count == 0) {
 			model.addAttribute("idModal", "modalCreate");
 			List<LoaiXe> dslx = dslx();
 			model.addAttribute("dslx", dslx);
@@ -1199,9 +1320,11 @@ public class QuanLyController {
 				lx.setSeat(36);
 				session.save(lx);
 				transaction.commit();
+				redirectAttributes.addFlashAttribute("message", new Message("success", "Thêm mới thành công!"));
 			} catch (Exception e) {
 				System.out.println(e.toString());
 				transaction.rollback();
+				redirectAttributes.addFlashAttribute("message", new Message("error", "Thêm mới thất bại!"));
 			} finally {
 				session.close();
 			}
@@ -1244,7 +1367,7 @@ public class QuanLyController {
 
 	@RequestMapping(value = "/banggia/{tuyen}/{loaixe}", params = "update", method = RequestMethod.POST)
 	public String BangGiaupdate(ModelMap model, @PathVariable("tuyen") String tuyen,
-			@PathVariable("loaixe") String loaixe, HttpServletRequest request) {
+			@PathVariable("loaixe") String loaixe, HttpServletRequest request, RedirectAttributes redirectAttributes) {
 		String s = "";
 		int count = 0;
 		if (Double.parseDouble(request.getParameter("gia")) < 0) {
@@ -1280,9 +1403,11 @@ public class QuanLyController {
 				bg.setGia(new BigDecimal(request.getParameter("gia")));
 				session.update(bg);
 				transaction.commit();
+				redirectAttributes.addFlashAttribute("message", new Message("success", "Cập nhật thành công!"));
 			} catch (Exception e) {
 				System.out.println(e.toString());
 				transaction.rollback();
+				redirectAttributes.addFlashAttribute("message", new Message("error", "Cập nhật thất bại!"));
 			} finally {
 				session.close();
 			}
@@ -1306,7 +1431,7 @@ public class QuanLyController {
 
 	// bat loi nhap so thap phan
 	@RequestMapping(value = "/banggia/insert", method = RequestMethod.POST)
-	public String BangGiaInsert(ModelMap model, HttpServletRequest request) {
+	public String BangGiaInsert(ModelMap model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
 		String s = "";
 		int count = 0;
 
@@ -1342,9 +1467,11 @@ public class QuanLyController {
 				bg.setGia(new BigDecimal(request.getParameter("gia")));
 				session.save(bg);
 				transaction.commit();
+				redirectAttributes.addFlashAttribute("message", new Message("success", "Thêm mới thành công!"));
 			} catch (Exception e) {
 				System.out.println(e.toString());
 				transaction.rollback();
+				redirectAttributes.addFlashAttribute("message", new Message("error", "Thêm mới thất bại!"));
 			} finally {
 				session.close();
 			}
@@ -1392,7 +1519,7 @@ public class QuanLyController {
 	}
 
 	@RequestMapping(value = "/phieudat/{mapd}", params = "update", method = RequestMethod.POST)
-	public String PhieuDatupdate(@PathVariable("mapd") String ma, HttpServletRequest request) {
+	public String PhieuDatupdate(@PathVariable("mapd") String ma, HttpServletRequest request, RedirectAttributes redirectAttributes) {
 
 		Session session = factory.openSession();
 		Transaction transaction = session.beginTransaction();
@@ -1401,7 +1528,7 @@ public class QuanLyController {
 			pd.setTrangThai(Integer.parseInt(request.getParameter("trangthai")));
 			session.merge(pd);
 			transaction.commit();
-
+			redirectAttributes.addFlashAttribute("message", new Message("success", "Cập nhật thành công!"));
 			MimeMessage mail = mailer.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(mail);
 
@@ -1432,6 +1559,7 @@ public class QuanLyController {
 		} catch (Exception e) {
 			System.out.println(e.toString());
 			transaction.rollback();
+			redirectAttributes.addFlashAttribute("message", new Message("error", "Thêm mới thất bại!"));
 		} finally {
 			session.close();
 		}
@@ -1561,6 +1689,12 @@ public class QuanLyController {
 //	}
 	
 //////////////////////////////////////////////////////////////////
+	
+	@RequestMapping(value = "/trangcanhan/changepw", method = RequestMethod.GET)
+	public String doimatkhau(ModelMap model, HttpSession ss) {
+		return "QuanLy/profile";
+	}
+	
 	@RequestMapping(value = "/trangcanhan/changepw", method = RequestMethod.POST)
 	public String doimatkhau(@RequestParam("pw") String pw,@RequestParam("rpw") String rpw,@RequestParam("password") String password,
 			ModelMap model,HttpServletRequest request,RedirectAttributes redirectAttributes){
