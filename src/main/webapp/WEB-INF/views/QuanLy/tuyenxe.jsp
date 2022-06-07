@@ -33,11 +33,11 @@
 							<thead>
 								<tr class="v-table-tr-color">
 									<th scope="col">Mã Tuyến</th>
-									<th scope="col">Điểm đi</th>
-									<th scope="col">Điểm đến</th>
-									<th scope="col">Thời Gian Chạy Tuyến</th>
+									<th scope="col">Điểm Đi</th>
+									<th scope="col">Điểm Đến</th>
+									<th scope="col">Thời Gian Di Chuyển</th>
 									<th scope="col">Trạng Thái</th>
-									<th scope="col" class="text-center">Thao tác</th>
+									<th scope="col" class="text-center">Thao Tác</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -122,7 +122,7 @@
 						<div class="row mb-3">
 							<label for="machuyen"
 								class="col-md-4 col-lg-3 col-form-label v-label">Thời
-								gian chạy tuyến</label>
+								gian di chuyển</label>
 							<div class="col-md-8 col-lg-9">
 								<input name="tgchay" type="text"
 									class="form-control v-form-control" id="matuyen"
@@ -199,6 +199,7 @@
 									<form:options items="${listdd}" itemValue="maDD"
 										itemLabel="diaDiem" />
 								</form:select>
+								<form:errors style="color:red" path="diemDen" />
 							</div>
 							<label for="inputDate"
 								class="col-md-3 col-lg-3 col-form-label v-label">Điểm
@@ -210,12 +211,12 @@
 										itemLabel="diaDiem" />
 								</form:select>
 							</div>
-							<form:errors style="color:red" path="diemDen" />
+							
 						</div>
 						<div class="row mb-3">
 							<label for="machuyen"
 								class="col-md-4 col-lg-3 col-form-label v-label">Thời
-								gian đi hết tuyến</label>
+								gian di chuyển</label>
 							<div class="col-md-8 col-lg-9">
 								<form:input type="text" class="form-control v-form-control"
 									path="tgchay" />
@@ -256,8 +257,9 @@
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog v-modal-container">
 			<div class="modal-content border-0">
+			<form:form method="post" modelAttribute="tuyen">
 				<div class="modal-header v-modal-header">
-					<h5 class="modal-title v-modal-title">Thay đổi trạng thái</h5>
+					<h5 class="modal-title v-modal-title">Thay đổi trạng thái cho tuyến xe ${tuyen.maTuyen }</h5>
 					<button type="button" class="btn shadow-none"
 						data-bs-dismiss="modal" aria-label="Close"
 						style="font-weight: 700">
@@ -268,7 +270,7 @@
 					<!-- profile -->
 					<!-- Profile Edit Form -->
 					<div class="col-12 v-edit-form">
-						<form:form method="post" modelAttribute="tuyen">
+						
 
 							<div class="row mb-3">
 								<label for="Email"
@@ -299,12 +301,13 @@
 									class="btn btn-primary btn-main-color border-0 shadow-none"
 									style="padding: 8px 20px">Lưu</button>
 							</div>
-						</form:form>
+						
 						<!-- End Profile Edit Form -->
 					</div>
 					<!-- end profile -->
 				</div>
 			</div>
+			</form:form>
 		</div>
 	</div>
 	<!-- End Vertically centered Modal-->

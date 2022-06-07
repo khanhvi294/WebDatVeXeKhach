@@ -62,7 +62,7 @@
     margin: 1rem;
 } 
 .v-bg-tt {
-    color: #000;
+    font-weight: 600 !important;
     font-size: small;
 }
 .v-icon-modal:hover,

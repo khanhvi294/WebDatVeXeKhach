@@ -199,6 +199,8 @@
 
 <!-- End ProfileViewModal-->
 <!-- ProfileEditModal -->
+<!-- End ProfileViewModal-->
+<!-- ProfileEditModal -->
 <div class="modal fade" id="ProfileEditModal" tabindex="-1">
 	<div class="modal-dialog v-modal-container">
 		<div class="modal-content border-0">
@@ -219,9 +221,9 @@
 								class="col-md-4 col-lg-3 col-form-label v-label">Mã nhân
 								viên</label>
 							<div class="col-md-8 col-lg-9">
-								<form:input path="maNV" type="text" readonly="true"
+								<form:input path = "maNV" type="text" readonly="true"
 									class="form-control v-form-control" id="fullName"
-									value="${nv.maNV }" />
+									value="${nv.maNV }"/>
 							</div>
 						</div>
 
@@ -229,17 +231,17 @@
 							<label for="company" class="col-md-3 col-form-label v-label">Họ</label>
 							<div class="col-md-3">
 								<form:input path="hoNV" type="text"
-									class="form-control v-form-control" id="company"
-									value="${nv.hoNV }" />
-								<form:errors style="color:red" path="hoNV" />
+									class="form-control v-form-control"
+									id="company" value="${nv.hoNV }"/>
+								 <form:errors style = "color:red" path="hoNV"/> 
 							</div>
 
 							<label for="Job" class="col-md-1 col-form-label v-label">Tên</label>
 							<div class="col-md-5">
 								<form:input path="tenNV" type="text"
 									class="form-control  v-form-control" id="Job"
-									value="${nv.tenNV }" />
-								<form:errors style="color:red" path="tenNV" />
+									value="${nv.tenNV }"/>
+								<form:errors style = "color:red" path="tenNV"/> 
 
 							</div>
 						</div>
@@ -248,10 +250,9 @@
 								class="col-md-4 col-lg-3 col-form-label v-label">Email</label>
 							<div class="col-md-8 col-lg-9">
 								<form:input path="tknv.email" type="text"
-									class="form-control v-form-control" readonly="true"
-									id="Country" value="${nv.tknv.email }" />
+									class="form-control v-form-control" readonly = "true"
+									id="Country" value="${nv.tknv.email }"/>
 
-								<form:errors style="color:red" path="cccd" />
 							</div>
 						</div>
 						<div class="row mb-3">
@@ -259,22 +260,21 @@
 								class="col-md-4 col-lg-3 col-form-label v-label">Username</label>
 							<div class="col-md-8 col-lg-9">
 								<form:input path="tknv.userName" type="text"
-									class="form-control v-form-control" readonly="true"
-									id="Country" value="${nv.tknv.userName }" />
+									class="form-control v-form-control" readonly = "true"
+									id="Country" value="${nv.tknv.userName }"/>
 
-								<form:errors style="color:red" path="cccd" />
 							</div>
 						</div>
-
+						
 						<div class="row mb-3">
 							<label for="Country"
 								class="col-md-4 col-lg-3 col-form-label v-label">CMND/CCCD</label>
 							<div class="col-md-8 col-lg-9">
 								<form:input path="cccd" type="text"
-									class="form-control v-form-control" id="Country"
-									value="${nv.cccd }" />
+									class="form-control v-form-control"
+									id="Country" value="${nv.cccd }"/>
 
-								<form:errors style="color:red" path="cccd" />
+								<form:errors style = "color:red" path="cccd"/>
 							</div>
 						</div>
 
@@ -284,8 +284,8 @@
 							<div class="col-md-8 col-lg-9">
 								<form:input path="sdt" type="text"
 									class="form-control v-form-control" id="Address"
-									value="${nv.sdt }" />
-								<form:errors style="color:red" path="sdt" />
+									value="${nv.sdt }"/>
+							<form:errors style = "color:red" path="sdt"/> 
 							</div>
 						</div>
 
@@ -295,7 +295,7 @@
 								sinh</label>
 							<div class="col-md-8 col-lg-9">
 								<input type="date" class="form-control v-form-control"
-									name="ngSinh" value="${ngaysinh }" />
+									 name="ngSinh" value="${ngaysinh }" />
 							</div>
 						</div>
 
@@ -305,7 +305,7 @@
 							<div class="col-md-8 col-lg-9">
 
 								<select class="form-select v-form-control"
-									aria-label=" select example" name="gridRadios">
+									aria-label=" select example" name = "gridRadios">
 									<c:if test="${nv.phai eq false}">
 										<option selected value="false">Nữ</option>
 										<option value="true">Nam</option>
@@ -318,24 +318,24 @@
 
 							</div>
 						</div>
-						<!-- 						<div class="row mb-3"> -->
-						<!-- 							<label for="Twitter" -->
-						<!-- 								class="col-md-4 col-lg-3 col-form-label v-label">Trạng -->
-						<!-- 								thái</label> -->
-						<!-- 							<div class="col-md-8 col-lg-9"> -->
-						<!-- 								<select class="form-select v-form-control" -->
-						<!-- 									aria-label=" select example" name = "trangthai"> -->
-						<%-- 									<c:if test="${nv.tknv.trangThai eq 0}"> --%>
-						<!-- 										<option selected value="0">Khóa</option> -->
-						<!-- 										<option value="1">Đang Hoạt Động</option> -->
-						<%-- 									</c:if> --%>
-						<%-- 									<c:if test="${nv.tknv.trangThai eq 1}"> --%>
-						<!-- 										<option value="0">Khóa</option> -->
-						<!-- 										<option selected value="1">Đang Hoạt Động</option> -->
-						<%-- 									</c:if> --%>
-						<!-- 								</select> -->
-						<!-- 							</div> -->
-						<!-- 						</div> -->
+<!-- 						<div class="row mb-3"> -->
+<!-- 							<label for="Twitter" -->
+<!-- 								class="col-md-4 col-lg-3 col-form-label v-label">Trạng -->
+<!-- 								thái</label> -->
+<!-- 							<div class="col-md-8 col-lg-9"> -->
+<!-- 								<select class="form-select v-form-control" -->
+<!-- 									aria-label=" select example" name = "trangthai"> -->
+<%-- 									<c:if test="${nv.tknv.trangThai eq 0}"> --%>
+<!-- 										<option selected value="0">Khóa</option> -->
+<!-- 										<option value="1">Đang Hoạt Động</option> -->
+<%-- 									</c:if> --%>
+<%-- 									<c:if test="${nv.tknv.trangThai eq 1}"> --%>
+<!-- 										<option value="0">Khóa</option> -->
+<!-- 										<option selected value="1">Đang Hoạt Động</option> -->
+<%-- 									</c:if> --%>
+<!-- 								</select> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
 
 						<div class="text-center">
 							<button type="submit"
@@ -351,64 +351,12 @@
 	</div>
 </div>
 
+
 <!-- End ProfileEditModal-->
 
 
 <!-- model sửa trạng thái -->
-<div class="modal fade" id="Edittrangthai" tabindex="-1"
-	aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog v-modal-container">
-		<div class="modal-content border-0">
-			<div class="modal-header v-modal-header">
-				<h5 class="modal-title v-modal-title">Thay đổi trạng thái</h5>
-				<button type="button" class="btn shadow-none"
-					data-bs-dismiss="modal" aria-label="Close" style="font-weight: 700">
-					<i class="bi bi-x v-icon-close"></i>
-				</button>
-			</div>
-			<div class="modal-body row">
-				<!-- profile -->
-				<!-- Profile Edit Form -->
-				<div class="col-12 v-edit-form">
-					<form:form method="post" modelAttribute="nv">
 
-
-						<div class="row mb-3">
-							<label for="Email"
-								class="col-md-4 col-lg-3 col-form-label v-label">Trạng
-								thái</label>
-							<div class="col-md-8">
-								<div class="col-md-8">
-									<div class="form-check form-check-inline ">
-										<form:radiobutton
-											class="form-check-input v-check-input shadow-none" value="1"
-											path="tknv.trangThai" />
-										<label class="form-check-label"> Đang Hoạt Động </label>
-									</div>
-									<div class="form-check form-check-inline ">
-										<form:radiobutton
-											class="form-check-input v-check-input shadow-none" value="0"
-											path="tknv.trangThai" />
-										<label class="form-check-label"> Khóa </label>
-									</div>
-								</div>
-							</div>
-
-
-							<div class="text-center">
-
-								<button id="btn-change-state"
-									class="btn btn-primary btn-main-color border-0 shadow-none"
-									style="padding: 8px 20px">Lưu</button>
-							</div>
-					</form:form>
-					<!-- End Profile Edit Form -->
-				</div>
-				<!-- end profile -->
-			</div>
-		</div>
-	</div>
-</div>
 
 <!-- Vertically centered Modal -->
 <div class="modal fade" id="themnhanvien" tabindex="-1">
@@ -465,7 +413,7 @@
 						<label for="Twitter"
 							class="col-md-4 col-lg-3 col-form-label v-label">Email</label>
 						<div class="col-md-8 col-lg-9">
-							<input name="email" type="email"
+							<input name="email" type="text"
 								class="form-control v-form-control">
 							<form:errors style="color:red" path="phai" />
 						</div>
@@ -535,6 +483,62 @@
 	</div>
 </div>
 <!-- End Vertically centered Modal-->
+<div class="modal fade" id="Edittrangthai" tabindex="-1"
+	aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog v-modal-container">
+		<div class="modal-content border-0">
+		<form:form method="post" modelAttribute="nv">
+			<div class="modal-header v-modal-header">
+				<h5 class="modal-title v-modal-title">Thay đổi trạng thái cho nhân viên mã số&nbsp; ${nv.maNV }</h5>
+				<button type="button" class="btn shadow-none"
+					data-bs-dismiss="modal" aria-label="Close" style="font-weight: 700">
+					<i class="bi bi-x v-icon-close"></i>
+				</button>
+			</div>
+			<div class="modal-body row">
+				<!-- profile -->
+				<!-- Profile Edit Form -->
+				<div class="col-12 v-edit-form">
+					
+
+
+						<div class="row mb-3">
+							<label for="Email"
+								class="col-md-4 col-lg-3 col-form-label v-label">Trạng
+								thái</label>
+							<div class="col-md-8">
+								<div class="col-md-8">
+									<div class="form-check form-check-inline ">
+										<form:radiobutton
+											class="form-check-input v-check-input shadow-none" value="1"
+											path="tknv.trangThai" />
+										<label class="form-check-label"> Đang Hoạt Động </label>
+									</div>
+									<div class="form-check form-check-inline ">
+										<form:radiobutton
+											class="form-check-input v-check-input shadow-none" value="0"
+											path="tknv.trangThai" />
+										<label class="form-check-label"> Khóa </label>
+									</div>
+								</div>
+							</div>
+
+
+							<div class="text-center">
+
+								<button id="btn-change-state"
+									class="btn btn-primary btn-main-color border-0 shadow-none"
+									style="padding: 8px 20px">Lưu</button>
+							</div>
+					
+					<!-- End Profile Edit Form -->
+				</div>
+				<!-- end profile -->
+			</div>
+		</div>
+		</form:form>
+	</div>
+</div>
 <!-- Vendor JS Files -->
 <script
 	src="<c:url value='/resources/assets/vendor/apexcharts/apexcharts.min.js'/>"></script>

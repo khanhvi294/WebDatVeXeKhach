@@ -4,9 +4,9 @@
 <!-- ======= Header ======= -->
 <header id="header" class="header fixed-top d-flex align-items-center">
 	<div class="d-flex align-items-center justify-content-between">
-		<a href="index.html" class="logo d-flex align-items-center"> <img
-			src="<c:url value='/resources/assets/img/logo.png'/>" alt="" /> <span
-			class="d-none d-lg-block">NiceAdmin</span>
+		<a href="quanly/trangchu.html" class="logo d-flex align-items-center"> <img
+			src="https://futabus.vn/_nuxt/img/logo-img.c178602.png" alt="" /> <span
+			class="d-none d-lg-block">Phương Trang</span>
 		</a> <i class="bi bi-list toggle-sidebar-btn"></i>
 	</div>
 	<!-- End Logo -->

@@ -28,6 +28,7 @@
 		<mvc:interceptor>
 			<mvc:mapping path="/dangnhap.html" />
 			<mvc:mapping path="/dangki.html" />
+			<mvc:mapping path="/quenmatkhau.html"/>
 
 			<bean class="ptit.interceptor.DangNhapInterceptor" />
 		</mvc:interceptor>
@@ -35,7 +36,7 @@
 		<bean class="ptit.interceptor.DoiMatKhauInterceptor" />
 
 		<mvc:interceptor>
-			<mvc:mapping path="/timchuyen.html" />
+		
 			<mvc:mapping path="/chonghe.html" />
 			<mvc:mapping path="/thongtincanhan.html" />
 			<mvc:mapping path="/phieudat/**" />
@@ -43,7 +44,7 @@
 			<mvc:mapping path="/dienthongtin.html" />
 			<mvc:mapping path="/hoadon.html" />
 			<mvc:mapping path="/thanhtoan.html" />
-			<mvc:mapping path="/doimatkhau.html" />
+			<mvc:mapping path="/matkhau.html" />
 			<bean class="ptit.interceptor.KhachHangInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>

@@ -7,7 +7,8 @@
 <%@ include file="slidebar.jsp"%>
 
 <main id="main" class="main">
-
+	<div class="alert-flag" aType='${message.type}'
+		aMessage="${message.message }"></div>
 	<div class="pagetitle">
 		<h1>Trang cá nhân</h1>
 	</div>
@@ -23,16 +24,15 @@
 						<!-- Bordered Tabs -->
 						<ul class="nav nav-tabs nav-tabs-bordered">
 							<li class="nav-item "><a
-								href="/CNPM/quanly/trangcanhan.html"></a><button data-bs-toggle="tab"
-										data-bs-target="#profile-edit"
-										class="nav-link v-nav-link active v-active">Chỉnh sửa
-										thông tin</button></li>
+								href="/CNPM/quanly/trangcanhan.html"></a>
+							<button data-bs-toggle="tab" data-bs-target="#profile-edit"
+									class="nav-link v-nav-link active v-active" isChoose="${tabEditProfile }">Chỉnh sửa
+									thông tin</button></li>
 
 							<li class="nav-item"><a
-								href="/CNPM/quanly/trangcanhan/changepw.html"></a><button
-										class="nav-link v-nav-link v-active" data-bs-toggle="tab"
-										data-bs-target="#profile-change-password">Đổi mật
-										khẩu</button></li>
+								href="/CNPM/quanly/trangcanhan/changepw.html"></a>
+							<button class="nav-link v-nav-link v-active" data-bs-toggle="tab"
+									data-bs-target="#profile-change-password" isChoose="${tabEditPassword }">Đổi mật khẩu</button></li>
 						</ul>
 						<div class="tab-content pt-2">
 							<div class="tab-pane fade show active profile-edit pt-3"
@@ -53,20 +53,21 @@
 									</div>
 
 									<div class="row mb-3">
-										<label for="company" class="col-md-3 col-form-label v-label">Họ</label>
-										<div class="col-md-3">
-											<form:input path="hoNV" type="text"
-												class="form-control v-form-control" id="company"
-												value="${nv.hoNV }" />
-										</div>
+                                            <label for="company" class="col-md-3 col-form-label v-label">Họ</label>
+                                            <div class="col-md-3">
+                                                <form:input path="hoNV" type="text" class="form-control v-form-control"
+                                                    id="company" value="${nv.hoNV }"/>
+                                                    <form:errors style = "color:red" path="hoNV"/>
+                                            </div>
 
-										<label for="Job" class="col-md-1 col-form-label v-label">Tên</label>
-										<div class="col-md-5">
-											<form:input path="tenNV" type="text"
-												class="form-control  v-form-control" id="Job"
-												value="${nv.tenNV }" />
-										</div>
-									</div>
+                                            <label for="Job" class="col-md-1 col-form-label v-label">Tên</label>
+                                            <div class="col-md-5">
+                                                <form:input path="tenNV" type="text" class="form-control  v-form-control"
+                                                    id="Job" value="${nv.tenNV }"/>
+                                                    <form:errors style = "color:red" path="tenNV"/>
+                                            </div>
+                                        </div>
+
 
 									<div class="row mb-3">
 										<label for="Twitter"
@@ -82,23 +83,13 @@
 										<label for="Twitter"
 											class="col-md-4 col-lg-3 col-form-label v-label">Email</label>
 										<div class="col-md-8 col-lg-9">
-											<form:input path="tknv.email" type="email"
+											<form:input path="tknv.email" type="text"
 												class="form-control v-form-control"
 												value="${nv.tknv.email }" />
 											<form:errors style="color:red" path="maNV" />
 										</div>
 									</div>
 
-									<div class="row mb-3">
-										<label for="Twitter"
-											class="col-md-4 col-lg-3 col-form-label v-label">Vai
-											trò</label>
-										<div class="col-md-8 col-lg-9">
-											<form:input path="tknv.vaiTro.tenVT" type="text"
-												class="form-control v-form-control" readonly="true"
-												value="${nv.tknv.vaiTro.tenVT }" />
-										</div>
-									</div>
 
 									<div class="row mb-3">
 										<label for="Country"
@@ -122,15 +113,15 @@
 									</div>
 
 									<div class="row mb-3">
-										<label for="Phone"
-											class="col-md-4 col-lg-3 col-form-label v-label">Ngày
-											sinh</label>
-										<div class="col-md-8 col-lg-9">
-											<input name="ngaysinh" type="date"
-												class="form-control v-form-control" id="Phone"
-												value="${ngaysinh }" />
-										</div>
-									</div>
+                                            <label for="Phone" class="col-md-4 col-lg-3 col-form-label v-label">Ngày
+                                                sinh</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <input name="ngaysinh" type="date" class="form-control v-form-control"
+                                                    id="Phone" value="${ngaysinh }"/>
+                                                   <form:errors style = "color:red" path="ngaySinh"/> 
+                                            </div>
+                                        </div>
+
 
 									<div class="row mb-3">
 										<label for="Email"
@@ -191,16 +182,17 @@
 									<div class="text-center">
 										<button type="submit"
 											class="btn btn-primary btn-main-color border-0 shadow-none"
-											style="padding: 8px 20px">Lưu</button>
+											name="doithongtin" style="padding: 8px 20px">Lưu</button>
 									</div>
 								</form:form>
 								<!-- End Profile Edit Form -->
 
 							</div>
 							<div class="modal_flag" idModal="${idModal }"></div>
+
 							<div class="tab-pane fade pt-3" id="profile-change-password">
 								<!-- Change Password Form -->
-								<form method="post" action="trangcanhan/changepw.html">
+								<form method="post">
 
 									<div class="row mb-3">
 										<label for="currentPassword"
@@ -236,14 +228,15 @@
 									</div>
 
 									<div class="text-center">
-										<button type="submit"
-											class="btn btn-primary btn-main-color border-0 shadow-none">Save
-											Changes</button>
+										<button type="submit" name="doimatkhau"
+											class="btn btn-primary btn-main-color border-0 shadow-none">Lưu</button>
 									</div>
 								</form>
 								<!-- End Change Password Form -->
 
 							</div>
+
+
 
 						</div>
 						<!-- End Bordered Tabs -->
@@ -274,13 +267,29 @@
 	src="<c:url value='/resources/assets/vendor/tinymce/tinymce.min.js'/>"></script>
 <script
 	src="<c:url value='/resources/assets/vendor/php-email-form/validate.js'/>"></script>
-<!-- Template Main JS File -->
-<script src="<c:url value='/resources/assets/js/main.js'/>"></script>
-
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script
+	src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+<script
+	src="<c:url value='/resources/KhachHang/assets/js/showMessage.js'/>"></script>
+<script
+	src="<c:url value='/resources/KhachHang/assets/js/alertify.min.js'/>"></script>
+	<script src="<c:url value='/resources/assets/js/my-main.js'/>"></script>
 <script>
+
+function isChooseTab(){
+	let chooseTab = $(".nav-link[isChoose=true]")
+	
+	if(chooseTab){
+		let tab =  new bootstrap.Tab(chooseTab)
+		tab.show()
+	}
+}
 	$(document).ready(function() {
+		
+		isChooseTab();
+		
 		console.log($(".modal_flag").attr("idModal"));
 		if ($(".modal_flag").attr("idModal") === "modalCreate") {
 			$("#profile-change-password").modal("show");

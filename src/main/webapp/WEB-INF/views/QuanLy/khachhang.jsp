@@ -60,10 +60,7 @@
 													động</span>
 											</c:when>
 										</c:choose></td>
-									<td><span><a
-											href="/CNPM/quanly/khachhang/${u.maKH}.html?update"><i
-												class="bi bi-pencil-square v-icon-modal"
-												data-bs-toggle="modal" data-bs-target="#ProfileEditModal"></i></a>
+									<td><span>
 											<a href="/CNPM/quanly/khachhang/${u.maKH}.html?trangthai"><i
 													class="bi bi-pencil-square v-icon-modal"
 													data-bs-toggle="modal" data-bs-target="#Edittrangthai"></i></a>
@@ -86,8 +83,10 @@
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog v-modal-container">
 			<div class="modal-content border-0">
+				<form:form method="post" modelAttribute="kh">
+			
 				<div class="modal-header v-modal-header">
-					<h5 class="modal-title v-modal-title">Thay đổi trạng thái</h5>
+					<h5 class="modal-title v-modal-title">Thay đổi trạng thái cho khách hàng mã&nbsp;${kh.maKH }</h5>
 					<button type="button" class="btn shadow-none"
 						data-bs-dismiss="modal" aria-label="Close"
 						style="font-weight: 700">
@@ -98,8 +97,7 @@
 					<!-- profile -->
 					<!-- Profile Edit Form -->
 					<div class="col-12 v-edit-form">
-						<form:form method="post" modelAttribute="kh">
-
+					
 							<div class="row mb-3">
 								<label for="Email"
 									class="col-md-4 col-lg-3 col-form-label v-label">Trạng
@@ -129,11 +127,12 @@
 									class="btn btn-primary btn-main-color border-0 shadow-none"
 									style="padding: 8px 20px">Lưu</button>
 							</div>
-						</form:form>
+						
 						<!-- End Profile Edit Form -->
 					</div>
 					<!-- end profile -->
 				</div>
+				</form:form>
 			</div>
 		</div>
 	</div>

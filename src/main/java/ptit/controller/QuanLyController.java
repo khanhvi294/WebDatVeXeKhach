@@ -70,6 +70,34 @@ public class QuanLyController {
 		}
 		return id;
 	}
+	public List<PhieuDat> getdspdbymachuyen(String machuyen) {
+		Session session = factory.getCurrentSession();
+		String hql = "from PhieuDat pd where pd.chuyen.maChuyen =:machuyen";
+		Query query = session.createQuery(hql);
+		query.setParameter("machuyen", machuyen);
+		List<PhieuDat> list = query.list();
+		if(list.size()==0) {
+			return null;
+		}
+		
+		return list;
+	}
+	public int tangchotrong(String machuyen,int sl) {
+		Session session = factory.getCurrentSession();
+		String hql = "from ChuyenXe where maChuyen=:machuyen";
+		Query query = session.createQuery(hql);
+		query.setParameter("machuyen", machuyen);
+		int sochotrong=0;
+		List<ChuyenXe> dscx = query.list();
+		if(dscx!=null) {
+			ChuyenXe chuyenxe = dscx.get(0);
+			int sct = chuyenxe.getSochotrong();
+			chuyenxe.setSochotrong(sct+sl);
+			sochotrong = chuyenxe.getSochotrong();
+			System.out.println(sochotrong);
+		}
+		return sochotrong;
+	}
 	public BigDecimal layGia(String matuyen, String LoaiXe) {
 		Session session = factory.getCurrentSession();
 		String hql = "from TuyenXe where maTuyen = '" + matuyen + "'";
@@ -145,16 +173,21 @@ public class QuanLyController {
 		List<KhachHang> list = query.list();
 		return list;
 	}
-
-
+	public int getslvebypd(String mapd){
+		Session session = factory.getCurrentSession();
+		String hql = "from VeXe where id.pd=:mapd";
+		Query query = session.createQuery(hql);
+		query.setParameter("mapd", mapd);
+		List<VeXe> list = query.list();
+		return list.size();
+	}
 	public List<PhieuDat> dspd() {
 		Session session = factory.getCurrentSession();
-		String hql = "FROM PhieuDat";
+		String hql = "FROM PhieuDat as pd order by pd.maPD desc";
 		Query query = session.createQuery(hql);
 		List<PhieuDat> list = query.list();
 		return list;
 	}
-
 
 	public ChuyenXe xetheoid(String machuyen) {
 		Session session = factory.getCurrentSession();
@@ -241,30 +274,28 @@ public class QuanLyController {
 		return "QuanLy/chuyenxe";
 	}
 
-	//controller show info 
+	// controller show info
 	@RequestMapping(value = "chuyenxe/{machuyen}", params = "info")
-		public String ChuyenXeInfo(ModelMap model, @PathVariable("machuyen") String ma) {
-			model.addAttribute("idModal", "modalShow");
-			List<ChuyenXe> list = dscx();
-			ChuyenXe chuyen = xetheoid(ma);
-			String s = chuyen.getTgKh().toString().substring(0, 5);
-			if(chuyen.isTrangthai() == true) {
-				model.addAttribute("gia", chuyen.getGia());
-			}else {
-				XeKhach xk = xekhachtheoid(chuyen.getXekhach().getBienXe());
-				LoaiXe lx = lxtheoid(xk.getLx().getMaLX());
-				BigDecimal gia = layGia(chuyen.getTuyen().getMaTuyen(), lx.getMaLX());
-				model.addAttribute("gia", gia);
-			}
-			model.addAttribute("list", list);
-			model.addAttribute("chuyen", chuyen);
-			model.addAttribute("chuyenxe", new ChuyenXe());
-			model.addAttribute("time", s);
-			return "QuanLy/chuyenxe";
+	public String ChuyenXeInfo(ModelMap model, @PathVariable("machuyen") String ma) {
+		model.addAttribute("idModal", "modalShow");
+		List<ChuyenXe> list = dscx();
+		ChuyenXe chuyen = xetheoid(ma);
+		String s = chuyen.getTgKh().toString().substring(0, 5);
+		if (chuyen.getTrangthai() == 1) {
+			model.addAttribute("gia", chuyen.getGia());
+		} else {
+			XeKhach xk = xekhachtheoid(chuyen.getXekhach().getBienXe());
+			LoaiXe lx = lxtheoid(xk.getLx().getMaLX());
+			BigDecimal gia = layGia(chuyen.getTuyen().getMaTuyen(), lx.getMaLX());
+			model.addAttribute("gia", gia);
 		}
+		model.addAttribute("list", list);
+		model.addAttribute("chuyen", chuyen);
+		model.addAttribute("chuyenxe", new ChuyenXe());
+		model.addAttribute("time", s);
+		return "QuanLy/chuyenxe";
+	}
 
-
-	
 	@RequestMapping(value = "chuyenxe/trangthai/{machuyen}.html")
 	public String ChuyenXeTrangThai(ModelMap model, @PathVariable("machuyen") String ma) {
 		System.out.println("test");
@@ -277,21 +308,46 @@ public class QuanLyController {
 	}
 
 	@RequestMapping(value = "chuyenxe/trangthai/{machuyen}.html", params = "btnDoitrangthai")
-	public String ChuyenXetrangThai( @PathVariable("machuyen") String ma, @ModelAttribute("chuyenxe") ChuyenXe chuyen, HttpServletRequest request,RedirectAttributes redirectAttributes) {
+	public String ChuyenXetrangThai(@PathVariable("machuyen") String ma, @ModelAttribute("chuyenxe") ChuyenXe chuyen,
+			HttpServletRequest request, RedirectAttributes redirectAttributes) {
 		Session session = factory.openSession();
 		Transaction transaction = session.beginTransaction();
-		System.out.println(chuyen.isTrangthai());
+		System.out.println(chuyen.getTrangthai());
 		ChuyenXe chuyenxe = xetheoid(ma);
-		chuyenxe.setTrangthai(chuyen.isTrangthai());
-	
+		chuyenxe.setTrangthai(chuyen.getTrangthai());
+		
 		try {
+			if(chuyenxe.getTrangthai()==2) {
+				List<PhieuDat> dspd = getdspdbymachuyen(ma);
+				if(dspd!=null) {
+					for (PhieuDat phieudat : dspd) {
+						phieudat.setTrangThai(2);
+						try {
+							MimeMessage mail = mailer.createMimeMessage();
+							MimeMessageHelper helper = new MimeMessageHelper(mail);
+							helper.setFrom("no-reply-email");
+							helper.setTo(/* email */"n19dccn223@student.ptithcm.edu.vn");
+							helper.setSubject("Hủy vé");
+							helper.setText("Mã đặt chỗ " + phieudat.getMaPD() + " của quý khách đã bị hủy");
+							mailer.send(mail);
+						} catch (MessagingException e) {
+							System.out.println("thất bại");
+							e.printStackTrace();
+						}
+						
+						session.merge(phieudat);
+					}
+
+				}
+			}
+			
 			session.merge(chuyenxe);
 			transaction.commit();
-			redirectAttributes.addFlashAttribute("message",new Message("success", "Thay đổi trạng thái thành công!"));
+			redirectAttributes.addFlashAttribute("message", new Message("success", "Thay đổi trạng thái thành công!"));
 		} catch (Exception e) {
 			System.out.println(e.toString());
 			transaction.rollback();
-			redirectAttributes.addFlashAttribute("message",new Message("error", "Thay đổi trạng thái thất bại!"));
+			redirectAttributes.addFlashAttribute("message", new Message("error", "Thay đổi trạng thái thất bại!"));
 		} finally {
 			session.close();
 		}
@@ -299,49 +355,45 @@ public class QuanLyController {
 
 	}
 
-
-	//controller update chuyenxe get
+	// controller update chuyenxe get
 	@RequestMapping(value = "chuyenxe/{machuyen}", params = "update", method = RequestMethod.GET)
-		public String ChuyenXeUpdate(ModelMap model, @PathVariable("machuyen") String ma) {
-			ChuyenXe chuyen = xetheoid(ma);
-			model.addAttribute("idModal", "modalUpdate");
-			List<ChuyenXe> listcx = dscx();
-			model.addAttribute("list", listcx);
-			List<TuyenXe> listtx = dstxhd();
-			for (int i = 0; i < listtx.size(); i++) {
-				if (listtx.get(i).getMaTuyen().equals(chuyen.getTuyen().getMaTuyen())) {
-					listtx.remove(i);
-					break;
-				}
+	public String ChuyenXeUpdate(ModelMap model, @PathVariable("machuyen") String ma) {
+		ChuyenXe chuyen = xetheoid(ma);
+		model.addAttribute("idModal", "modalUpdate");
+		List<ChuyenXe> listcx = dscx();
+		model.addAttribute("list", listcx);
+		List<TuyenXe> listtx = dstxhd();
+		for (int i = 0; i < listtx.size(); i++) {
+			if (listtx.get(i).getMaTuyen().equals(chuyen.getTuyen().getMaTuyen())) {
+				listtx.remove(i);
+				break;
 			}
-
-			List<XeKhach> listxk = dsxk();
-			for (int i = 0; i < listxk.size(); i++) {
-				if (listxk.get(i).getBienXe().equals(chuyen.getXekhach().getBienXe())) {
-					listxk.remove(i);
-					break;
-				}
-			}
-			if(chuyen.isTrangthai() == true) {
-				model.addAttribute("gia", chuyen.getGia());
-			}else {
-				XeKhach xk = xekhachtheoid(chuyen.getXekhach().getBienXe());
-				LoaiXe lx = lxtheoid(xk.getLx().getMaLX());
-				BigDecimal gia = layGia(chuyen.getTuyen().getMaTuyen(), lx.getMaLX());
-				model.addAttribute("gia", gia);
-			}
-			model.addAttribute("listxk", listxk);
-			model.addAttribute("listtx", listtx);
-			model.addAttribute("chuyenxe", chuyen);
-			return "QuanLy/chuyenxe";
 		}
 
-
-
-
+		List<XeKhach> listxk = dsxk();
+		for (int i = 0; i < listxk.size(); i++) {
+			if (listxk.get(i).getBienXe().equals(chuyen.getXekhach().getBienXe())) {
+				listxk.remove(i);
+				break;
+			}
+		}
+		if (chuyen.getTrangthai() == 1) {
+			model.addAttribute("gia", chuyen.getGia());
+		} else {
+			XeKhach xk = xekhachtheoid(chuyen.getXekhach().getBienXe());
+			LoaiXe lx = lxtheoid(xk.getLx().getMaLX());
+			BigDecimal gia = layGia(chuyen.getTuyen().getMaTuyen(), lx.getMaLX());
+			model.addAttribute("gia", gia);
+		}
+		model.addAttribute("listxk", listxk);
+		model.addAttribute("listtx", listtx);
+		model.addAttribute("chuyenxe", chuyen);
+		return "QuanLy/chuyenxe";
+	}
 
 	@RequestMapping(value = "/chuyenxe/{machuyen}", params = "update", method = RequestMethod.POST)
-	public String ChuyenXeUpdate(ModelMap model, @PathVariable("machuyen") String ma, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+	public String ChuyenXeUpdate(ModelMap model, @PathVariable("machuyen") String ma, HttpServletRequest request,
+			RedirectAttributes redirectAttributes) {
 //		if (request.getParameter("ngKH") == "") {
 //			errors.rejectValue("ngKH", "chuyen", "Ngày Tháng Không Được Để Trống");
 //		}
@@ -373,35 +425,35 @@ public class QuanLyController {
 //			model.addAttribute("listtx", listtx);
 //			return "QuanLy/chuyenxe";
 //		} else {
-			Session session = factory.openSession();
-			Transaction transaction = session.beginTransaction();
-			try {
-				ChuyenXe chuyen = xetheoid(ma);
-				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-				Date parsed = format.parse(request.getParameter("ngKH"));
-				java.sql.Date sql = new java.sql.Date(parsed.getTime());
-				chuyen.setNgKH(sql);
-				SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
-				Date d1 = sdf.parse(request.getParameter("tgKH"));
-				chuyen.setTgKh(new Time(d1.getTime()));
-				System.out.println(chuyen.getTgKh());
-				chuyen.setTuyen(tuyentheoid(request.getParameter("tuyenxe")));
-				chuyen.setXekhach(xekhachtheoid(request.getParameter("xekhach")));
-				chuyen.setTrangthai(Boolean.parseBoolean(request.getParameter("trangthai")));
-				XeKhach xk = xekhachtheoid(chuyen.getXekhach().getBienXe());
-				BigDecimal gia = layGia(chuyen.getTuyen().getMaTuyen(), xk.getLx().getMaLX());
-				session.merge(chuyen);
-				transaction.commit();
-				redirectAttributes.addFlashAttribute("message", new Message("success", "Cập nhật chuyến thành công!"));
-			} catch (Exception e) {
-				redirectAttributes.addFlashAttribute("message", new Message("error", "Cập nhật chuyến thất bại!"));
-				System.out.println(e.toString());
-				transaction.rollback();
-			} finally {
-				session.close();
-			}
+		Session session = factory.openSession();
+		Transaction transaction = session.beginTransaction();
+		try {
+			ChuyenXe chuyen = xetheoid(ma);
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			Date parsed = format.parse(request.getParameter("ngKH"));
+			java.sql.Date sql = new java.sql.Date(parsed.getTime());
+			chuyen.setNgKH(sql);
+			SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
+			Date d1 = sdf.parse(request.getParameter("tgKH"));
+			chuyen.setTgKh(new Time(d1.getTime()));
+			System.out.println(chuyen.getTgKh());
+			chuyen.setTuyen(tuyentheoid(request.getParameter("tuyenxe")));
+			chuyen.setXekhach(xekhachtheoid(request.getParameter("xekhach")));
+			chuyen.setTrangthai(Integer.parseInt(request.getParameter("trangthai")));
+			XeKhach xk = xekhachtheoid(chuyen.getXekhach().getBienXe());
+			BigDecimal gia = layGia(chuyen.getTuyen().getMaTuyen(), xk.getLx().getMaLX());
+			session.merge(chuyen);
+			transaction.commit();
+			redirectAttributes.addFlashAttribute("message", new Message("success", "Cập nhật chuyến thành công!"));
+		} catch (Exception e) {
+			redirectAttributes.addFlashAttribute("message", new Message("error", "Cập nhật chuyến thất bại!"));
+			System.out.println(e.toString());
+			transaction.rollback();
+		} finally {
+			session.close();
+		}
 
-			return "redirect:/quanly/chuyenxe.html";
+		return "redirect:/quanly/chuyenxe.html";
 //		}
 
 	}
@@ -436,7 +488,7 @@ public class QuanLyController {
 		String hql = "from ChuyenXe where xekhach.bienXe = '" + bienso + "' and ngKH <= '" + ngkh
 				+ "' ORDER BY ngKH DESC,tgKh DESC";
 		Query query = session.createQuery(hql);
-		
+
 		List<ChuyenXe> list = query.list();
 		System.out.println(list.size());
 		if (list.size() != 0) {
@@ -449,7 +501,7 @@ public class QuanLyController {
 			}
 		}
 		return 0;
-		
+
 	}
 
 	@RequestMapping(value = "chuyenxe/insert", method = RequestMethod.POST)
@@ -460,14 +512,14 @@ public class QuanLyController {
 
 			errors.rejectValue("ngKH", "chuyen", "Ngày Tháng Không Được Để Trống");
 		}
-		if (chuyen.getNgKH()!=null && chuyen.getNgKH().before(new Date())) {
+		if (chuyen.getNgKH() != null && chuyen.getNgKH().before(new Date())) {
 			errors.rejectValue("ngKH", "chuyen", "Ngày Tháng Không Được Để Nhỏ Hơn Ngày Hiện Tại");
 
 		} else if (checkchuyenxe(chuyen.getXekhach().getBienXe(), request.getParameter("ngKH"), chuyen) == 1) {
 			errors.rejectValue("maChuyen", "chuyen", "Xe Không ở vị trí hiện tại");
 		}
 		if (request.getParameter("thoigian") == "") {
-			errors.rejectValue("tgKh", "chuyen", "Thá»�i Gian KhÃ´ng Ä�Æ°á»£c Ä�á»ƒ Trá»‘ng");
+			errors.rejectValue("tgKh", "chuyen", "Thời gian không được để trống");
 		}
 
 		if (errors.hasErrors()) {
@@ -509,7 +561,7 @@ public class QuanLyController {
 //				xe.setNv(nvtheoid(request.getParameter("nhanvien")));
 //				xe.setGia(Float.parseFloat(request.getParameter("money")));
 				chuyen.setMaChuyen(taoMa("CX", "ChuyenXe", "maChuyen"));
-				chuyen.setTrangthai(false);
+				chuyen.setTrangthai(0);
 				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 				Date parsed = format.parse(request.getParameter("ngKH"));
 				java.sql.Date sql = new java.sql.Date(parsed.getTime());
@@ -539,7 +591,6 @@ public class QuanLyController {
 
 	}
 
-	
 	@RequestMapping("/tuyenxe")
 	public String TuyenXe(ModelMap model) {
 		List<TuyenXe> list = dstx();
@@ -547,7 +598,7 @@ public class QuanLyController {
 		model.addAttribute("tuyen", new TuyenXe());
 		return "QuanLy/tuyenxe";
 	}
-	
+
 	@RequestMapping(value = "tuyenxe/{matuyen}.html", params = "trangthai", method = RequestMethod.GET)
 	public String TuyenXeTrangThai(ModelMap model, @PathVariable("matuyen") String ma) {
 		System.out.println("kvi29");
@@ -560,11 +611,11 @@ public class QuanLyController {
 	}
 
 	@RequestMapping(value = "tuyenxe/{matuyen}.html", params = "trangthai", method = RequestMethod.POST)
-	public String TuyenXeTrangThai( @PathVariable("matuyen") String ma,
-			@ModelAttribute("tuyen") TuyenXe tuyen, HttpServletRequest request,RedirectAttributes redirectAttributes) {
-		
+	public String TuyenXeTrangThai(@PathVariable("matuyen") String ma, @ModelAttribute("tuyen") TuyenXe tuyen,
+			HttpServletRequest request, RedirectAttributes redirectAttributes) {
+
 		Session session = factory.openSession();
-		Transaction t= session.beginTransaction();
+		Transaction t = session.beginTransaction();
 		System.out.println("kvi4");
 		TuyenXe tuyenxe = tuyentheoid(ma);
 		tuyenxe.setTrangThai(tuyen.isTrangThai());
@@ -572,21 +623,20 @@ public class QuanLyController {
 		try {
 			session.merge(tuyenxe);
 			t.commit();
-			redirectAttributes.addFlashAttribute("message",new Message("success", "Thay đổi trạng thái thành công!"));
-		
-			
+			redirectAttributes.addFlashAttribute("message", new Message("success", "Thay đổi trạng thái thành công!"));
+
 		} catch (Exception e) {
 			System.out.println(e.toString());
 			t.rollback();
-			redirectAttributes.addFlashAttribute("message",new Message("error", "Thay đổi trạng thái thất bại!"));
-		
+			redirectAttributes.addFlashAttribute("message", new Message("error", "Thay đổi trạng thái thất bại!"));
+
 		} finally {
 			session.close();
 		}
 		return "redirect:/quanly/tuyenxe.html";
 
 	}
-	
+
 	@RequestMapping(value = "/tuyenxe/insert", method = RequestMethod.GET)
 	public String TuyenXeInsert(ModelMap model) {
 		List<TuyenXe> list = dstx();
@@ -608,62 +658,68 @@ public class QuanLyController {
 		}
 		return 0;
 	}
-	
+
 	// Thêm tuyến xe POST
 	@RequestMapping(value = "/tuyenxe/insert", method = RequestMethod.POST)
-		public String TuyenXeInsert(ModelMap model, HttpServletRequest request, @ModelAttribute("tuyen") TuyenXe tuyen,
-				BindingResult errors,RedirectAttributes redirectAttributes) {
-			int count = 0;
-			if (tuyen.getMaTuyen().trim().length() == 0) {
-				errors.rejectValue("maTuyen", "tuyen", "MÃ£ Tuyáº¿n KhÃ´ng Ä Æ°á»£c Ä á»ƒ Trá»‘ng");
-				count = 1;
-			} else if (checkmatuyentrung(tuyen.getMaTuyen()) == 0) {
-				errors.rejectValue("maTuyen", "tuyen", "MÃ£ Tuyáº¿n Ä Ã£ Tá»“n Táº¡i");
-				count = 1;
-			}
-			if(tuyen.getDiemDen().getMaDD().equals(tuyen.getDiemDi().getMaDD())) {
-				errors.rejectValue("diemDen", "tuyen", "Điểm đi và đến không được trùng nhau");
-				count = 1;
-			}
-			if (Double.parseDouble(tuyen.getGiatuyen().toString()) <= 0) {
-				errors.rejectValue("giatuyen", "tuyen", "Giá tuyến không được nhỏ hơn 0");
-				count = 1;
-			} else if (Pattern.matches("[a-zA-Z]+", tuyen.getGiatuyen().toString()) == true) {
-				errors.rejectValue("giatuyen", "tuyen", "Sai định dạng");
-				count = 1;
-			}
-			if (count == 1) {
-				List<TuyenXe> list = dstx();
-				model.addAttribute("list", list);
-				model.addAttribute("idModal", "modalCreate");
-				List<DiaDiem> listdd = dsdd();
-				model.addAttribute("listdd", listdd);
-				System.out.println("vÃ´ Ä‘Ã¢y");
-				return "QuanLy/tuyenxe";
-			} else {
-				Session session = factory.openSession();
-				Transaction transaction = session.beginTransaction();
-				try {
+	public String TuyenXeInsert(ModelMap model, HttpServletRequest request, @ModelAttribute("tuyen") TuyenXe tuyen,
+			BindingResult errors, RedirectAttributes redirectAttributes) {
+		int count = 0;
+		if (tuyen.getMaTuyen().trim().length() == 0) {
+			errors.rejectValue("maTuyen", "tuyen", "Mã tuyến không được để trống");
+			count = 1;
+		} else if (checkmatuyentrung(tuyen.getMaTuyen()) == 0) {
+			errors.rejectValue("maTuyen", "tuyen", "Mã tuyến đã tồn tại");
+			count = 1;
+		}
+		if (tuyen.getDiemDen().getMaDD().equals(tuyen.getDiemDi().getMaDD())) {
+			errors.rejectValue("diemDen", "tuyen", "Điểm đi và đến không được trùng nhau");
+			count = 1;
+		} else if (checkddtuyentrung(tuyen.getDiemDi().getMaDD(), tuyen.getDiemDen().getMaDD()) == 0) {
+			errors.rejectValue("diemDen", "tuyen", "Tuyến đã tồn tại");
+		}
+		if(tuyen.getGiatuyen() == null) {
+			errors.rejectValue("giatuyen", "tuyen", "Giá tuyến không được để trống");
+			count = 1;
+		}else if (Double.parseDouble(tuyen.getGiatuyen().toString()) <= 0) {
+			errors.rejectValue("giatuyen", "tuyen", "Giá tuyến không được nhỏ hơn 0");
+			count = 1;
+		} else if (Pattern.matches("[a-zA-Z]+", tuyen.getGiatuyen().toString()) == true) {
+			errors.rejectValue("giatuyen", "tuyen", "Sai định dạng");
+			count = 1;
+		}
+		
+		
+		if (count == 1) {
+			List<TuyenXe> list = dstx();
+			model.addAttribute("list", list);
+			model.addAttribute("idModal", "modalCreate");
+			List<DiaDiem> listdd = dsdd();
+			model.addAttribute("listdd", listdd);
+			System.out.println("vÃ´ Ä‘Ã¢y");
+			return "QuanLy/tuyenxe";
+		} else {
+			Session session = factory.openSession();
+			Transaction transaction = session.beginTransaction();
+			try {
 //					tuyen = new TuyenXe();
 //					tuyen.setMaTuyen(request.getParameter("matuyen"));
 //					tuyen.setDiemDi(diadiemtheoid(request.getParameter("ddi")));
 //					tuyen.setDiemDen(diadiemtheoid(request.getParameter("dden")));
 //					tuyen.setTrangThai(Boolean.parseBoolean(request.getParameter("trangthai")));
-					tuyen.setTgchay(Integer.parseInt(request.getParameter("tgchay")));
-					session.save(tuyen);
-					transaction.commit();
-					redirectAttributes.addFlashAttribute("message", new Message("success", "Thêm tuyến thành công!"));
-				} catch (Exception e) {
-					redirectAttributes.addFlashAttribute("message", new Message("error", "Thêm tuyến thất bại!"));
-					System.out.println(e.toString());
-					transaction.rollback();
-				} finally {
-					session.close();
-				}
-				return "redirect:/quanly/tuyenxe.html";
+				tuyen.setTgchay(Integer.parseInt(request.getParameter("tgchay")));
+				session.save(tuyen);
+				transaction.commit();
+				redirectAttributes.addFlashAttribute("message", new Message("success", "Thêm tuyến thành công!"));
+			} catch (Exception e) {
+				redirectAttributes.addFlashAttribute("message", new Message("error", "Thêm tuyến thất bại!"));
+				System.out.println(e.toString());
+				transaction.rollback();
+			} finally {
+				session.close();
 			}
+			return "redirect:/quanly/tuyenxe.html";
 		}
-
+	}
 
 	@RequestMapping(value = "/tuyenxe/{matuyen}", params = "update", method = RequestMethod.GET)
 	public String TuyenXeUpdate(ModelMap model, @PathVariable("matuyen") String ma) {
@@ -690,28 +746,67 @@ public class QuanLyController {
 	}
 
 	@RequestMapping(value = "/tuyenxe/{matuyen}", params = "update", method = RequestMethod.POST)
-	public String TuyenXeUpdate(@PathVariable("matuyen") String ma, HttpServletRequest request,RedirectAttributes redirectAttributes) {
-		Session session = factory.openSession();
-		Transaction transaction = session.beginTransaction();
-		try {
-			TuyenXe tuyen = tuyentheoid(ma);
-//			tuyen.setTrangThai(Boolean.parseBoolean(request.getParameter("trangthai")));
-			tuyen.setTgchay(Integer.parseInt(request.getParameter("tgchay")));
-			session.save(tuyen);
-			transaction.commit();
-			redirectAttributes.addFlashAttribute("message", new Message("success", "Thêm tuyến thành công!"));
-		} catch (Exception e) {
-			System.out.println(e.toString());
-			redirectAttributes.addFlashAttribute("message", new Message("error", "Thêm tuyến thất bại!"));
-			transaction.rollback();
-		} finally {
-			session.close();
+	public String TuyenXeUpdate(ModelMap model,@PathVariable("matuyen") String ma, HttpServletRequest request,
+			RedirectAttributes redirectAttributes) {
+		TuyenXe tuyen = tuyentheoid(ma); 
+		int count = 0;
+		if(request.getParameter("tgchay").trim().length() == 0) {
+			model.addAttribute("messagegia", "thời gian chạy tuyến không được nhỏ hơn 0");
+			count = 1;
+		}else if (Integer.parseInt(request.getParameter("tgchay")) <= 0) {
+			model.addAttribute("messagegia", "thời gian chạy tuyến không được nhỏ hơn 0");
+			count = 1;
+		} else if (Pattern.matches("[a-zA-Z]+", request.getParameter("tgchay")) == true) {
+			model.addAttribute("messagegia", "Sai Định Dạng");
+			count = 1;
 		}
-		return "redirect:/quanly/tuyenxe.html";
+		if(request.getParameter("giatuyen").trim().length() == 0) {
+			model.addAttribute("messagetgchay", "thời gian chạy tuyến không được nhỏ hơn 0");
+			count = 1;
+		}else if (Double.parseDouble(request.getParameter("giatuyen")) <= 0) {
+			model.addAttribute("messagetgchay", "Giá trị không được nhỏ hơn 0");
+			count = 1;
+		} else if (Pattern.matches("[a-zA-Z]+", request.getParameter("giatuyen")) == true) {
+			model.addAttribute("messagetgchay", "Sai định dạng");
+			count = 1;
+		}
+		
+		if (count == 1) {
+			model.addAttribute("idModal", "modalUpdate");
+			List<TuyenXe> list = dstx();
+			model.addAttribute("list", list);
+			model.addAttribute("tuyen", tuyen);
+			return "QuanLy/tuyenxe";
+		}else {
+			Session session = factory.openSession();
+			Transaction transaction = session.beginTransaction();
+			try {
+				 tuyen = tuyentheoid(ma);
+	//			tuyen.setTrangThai(Boolean.parseBoolean(request.getParameter("trangthai")));
+				tuyen.setTgchay(Integer.parseInt(request.getParameter("tgchay")));
+				session.save(tuyen);
+				transaction.commit();
+				redirectAttributes.addFlashAttribute("message", new Message("success", "Thêm tuyến thành công!"));
+			} catch (Exception e) {
+				System.out.println(e.toString());
+				redirectAttributes.addFlashAttribute("message", new Message("error", "Thêm tuyến thất bại!"));
+				transaction.rollback();
+			} finally {
+				session.close();
+			}
+			return "redirect:/quanly/tuyenxe.html";
+		}
 	}
 
 	@RequestMapping("/nhanvien")
-	public String NhanVien(ModelMap model) {
+	public String NhanVien(ModelMap model, HttpSession ss) {
+		TaiKhoan tk = (TaiKhoan) ss.getAttribute("tkdn");
+		if(tk!= null) {
+			if(!tk.getVaiTro().getMaVT().equals("QL")) {
+				return "redirect:/quanly/trangchu.html";
+			}
+		}
+		
 		List<NhanVien> nhanviens = dsnv();
 		model.addAttribute("nhanvien", nhanviens);
 		model.addAttribute("nv", new NhanVien());
@@ -727,7 +822,7 @@ public class QuanLyController {
 		model.addAttribute("nv", nv);
 		return "QuanLy/nhanvien";
 	}
-	
+
 	@RequestMapping(value = "/nhanvien/{manv}.html", params = "trangthai", method = RequestMethod.GET)
 	public String NhanVienTrangThai(ModelMap model, @PathVariable("manv") String ma) {
 		model.addAttribute("idModal", "modalTT");
@@ -739,8 +834,8 @@ public class QuanLyController {
 	}
 
 	@RequestMapping(value = "/nhanvien/{manv}.html", params = "trangthai", method = RequestMethod.POST)
-	public String NhanVienTrangThai( @PathVariable("manv") String ma,@ModelAttribute("nv") NhanVien nv,
-			HttpServletRequest request,RedirectAttributes redirectAttributes) {
+	public String NhanVienTrangThai(@PathVariable("manv") String ma, @ModelAttribute("nv") NhanVien nv,
+			HttpServletRequest request, RedirectAttributes redirectAttributes) {
 		Session session = factory.openSession();
 		Transaction transaction = session.beginTransaction();
 
@@ -751,7 +846,7 @@ public class QuanLyController {
 			session.merge(nvien);
 			transaction.commit();
 			redirectAttributes.addFlashAttribute("message", new Message("success", "Thay đổi trạng thái thành công!"));
-		
+
 		} catch (Exception e) {
 			System.out.println(e.toString());
 			transaction.rollback();
@@ -762,7 +857,7 @@ public class QuanLyController {
 		return "redirect:/quanly/nhanvien.html";
 
 	}
-	
+
 	@RequestMapping(value = "/nhanvien/{manv}", params = "update", method = RequestMethod.GET)
 	public String NhanVienupdate(ModelMap model, @PathVariable("manv") String ma) {
 		model.addAttribute("idModal", "modalUpdate");
@@ -876,12 +971,12 @@ public class QuanLyController {
 		return "QuanLy/nhanvien";
 	}
 
-	public int checkemail(String email) {
+	public int checkemail(String email, String username) {
 		Session session = factory.getCurrentSession();
 		String hql = "from TaiKhoan where email = '" + email + "'";
 		Query query = session.createQuery(hql);
-		List<NhanVien> list = query.list();
-		if (list.size() == 0) {
+		List<TaiKhoan> list = query.list();
+		if (list.size() == 0 || list.size() != 0 && list.get(0).getUserName().equals(username) == true) {
 			return 1;
 		}
 		return 0;
@@ -892,10 +987,10 @@ public class QuanLyController {
 	public String NhanVienInsert(ModelMap model, @ModelAttribute("nv") NhanVien nv, HttpServletRequest request,
 			BindingResult errors, RedirectAttributes redirectAttributes) {
 		if (nv.getHoNV().trim().length() == 0) {
-			errors.rejectValue("hoNV", "nv", "KhÃ´ng Ä�Æ°á»£c Ä�á»ƒ Trá»‘ng");
+			errors.rejectValue("hoNV", "nv", "Họ nhân viên không được để trống");
 		}
 		if (nv.getTenNV().trim().length() == 0) {
-			errors.rejectValue("tenNV", "nv", "KhÃ´ng Ä�Æ°á»£c Ä�á»ƒ Trá»‘ng");
+			errors.rejectValue("tenNV", "nv", "Tên nhân viên không được để trống");
 		}
 		if (!nv.getSdt().trim().matches("^[0-9]*$") || nv.getSdt().length() != 10) {
 			errors.rejectValue("sdt", "nv", "Vui lòng nhập đúng định dạng sdt");
@@ -908,17 +1003,17 @@ public class QuanLyController {
 			errors.rejectValue("cccd", "nv", "CCCD Đã Tồn Tại");
 		}
 		if (request.getParameter("username").trim().length() == 0) {
-			errors.rejectValue("maNV", "nv", "KhÃ´ng Ä�Æ°á»£c Ä�á»ƒ Trá»‘ng");
+			errors.rejectValue("maNV", "nv", "Username không để trống");
 		}
 
 		if (request.getParameter("email").trim().length() == 0) {
-			errors.rejectValue("phai", "nv", "KhÃ´ng Ä�Æ°á»£c Ä�á»ƒ Trá»‘ng");
-		} else if (checkemail(request.getParameter("email")) == 0) {
+			errors.rejectValue("phai", "nv", "Email không được để trống");
+		} else if (checkemail(request.getParameter("email"), nv.getMaNV()) == 0) {
 			errors.rejectValue("phai", "nv", "Email đã tồn tại");
 
 		}
 		if (request.getParameter("ngaysinh") == "") {
-			errors.rejectValue("ngaySinh", "nv", "KhÃ´ng Ä�Æ°á»£c Ä�á»ƒ Trá»‘ng");
+			errors.rejectValue("ngaySinh", "nv", "Ngày sinh không được để trống");
 		}
 		if (errors.hasErrors()) {
 			model.addAttribute("idModal", "modalCreate");
@@ -958,9 +1053,7 @@ public class QuanLyController {
 				session.close();
 			}
 
-
 			return "redirect:/quanly/nhanvien.html";
-
 
 		}
 
@@ -973,7 +1066,7 @@ public class QuanLyController {
 		model.addAttribute("kh", new KhachHang());
 		return "QuanLy/khachhang";
 	}
-	
+
 	@RequestMapping(value = "/khachhang/{makh}.html", params = "trangthai", method = RequestMethod.GET)
 	public String KhachHangTrangThai(ModelMap model, @PathVariable("makh") String ma) {
 		model.addAttribute("idModal", "modalTT");
@@ -987,14 +1080,14 @@ public class QuanLyController {
 	}
 
 	@RequestMapping(value = "/khachhang/{makh}.html", params = "trangthai", method = RequestMethod.POST)
-	public String KhachHangTrangThai( @PathVariable("makh") String ma,@ModelAttribute("kh") KhachHang kh,
-			HttpServletRequest request,RedirectAttributes redirectAttributes) {
+	public String KhachHangTrangThai(@PathVariable("makh") String ma, @ModelAttribute("kh") KhachHang kh,
+			HttpServletRequest request, RedirectAttributes redirectAttributes) {
 		Session session = factory.openSession();
 		Transaction transaction = session.beginTransaction();
 		KhachHang khang = khtheoid(ma);
 		khang.getTkkh().setTrangThai(kh.getTkkh().getTrangThai());
 		try {
-			
+
 			session.merge(khang);
 			transaction.commit();
 			redirectAttributes.addFlashAttribute("message", new Message("success", "Thay đổi trạng thái thành công!"));
@@ -1008,7 +1101,7 @@ public class QuanLyController {
 		return "redirect:/quanly/khachhang.html";
 
 	}
-	
+
 	@RequestMapping(value = "/khachhang/{makh}", params = "update", method = RequestMethod.GET)
 	public String KhachHangupdate(ModelMap model, @PathVariable("makh") String ma) {
 		model.addAttribute("idModal", "modalUpdate");
@@ -1032,7 +1125,6 @@ public class QuanLyController {
 		if (request.getParameter("tenKH").trim().length() == 0) {
 			errors.rejectValue("tenKH", "kh", "Không Được Để Trống");
 		}
-
 
 		if (Pattern.matches("[a-zA-Z]+", request.getParameter("sdt")) == true) {
 			errors.rejectValue("sdt", "kh", "Số Điện Thoại Không Có Kí Tự Chữ");
@@ -1117,12 +1209,13 @@ public class QuanLyController {
 		return "QuanLy/diadiem";
 	}
 
-	public int checktrungtendd(String diadiem) {
+	public int checktrungtendd(String diadiem, String madd) {
 		Session session = factory.getCurrentSession();
-		String hql = "from DiaDiem where diaDiem = '" + diadiem + "'";
+		String hql = "from DiaDiem where diaDiem = :diadiem";
 		Query query = session.createQuery(hql);
+		query.setParameter("diadiem", diadiem);
 		List<DiaDiem> list = query.list();
-		if (list.size() == 0) {
+		if (list.size() == 0 || list.get(0).getMaDD().equals(madd) == true && list.size() != 0) {
 			return 1;
 		}
 		return 0;
@@ -1133,9 +1226,9 @@ public class QuanLyController {
 	public String DDupdate(ModelMap model, @PathVariable("madd") String ma, @ModelAttribute("dd") DiaDiem dd,
 			HttpServletRequest request, BindingResult errors, RedirectAttributes redirectAttributes) {
 		if (dd.getDiaDiem().equals("")) {
-			errors.rejectValue("diaDiem", "dd", "KhÃ´ng Ä�Æ°á»£c Ä�á»ƒ Trá»‘ng");
+			errors.rejectValue("diaDiem", "dd", "Không được để trống");
 
-		} else if (checktrungtendd(dd.getDiaDiem()) == 0) {
+		} else if (checktrungtendd(dd.getDiaDiem(), dd.getMaDD()) == 0) {
 			errors.rejectValue("diaDiem", "dd", "Tên Địa Điểm Đã Trùng");
 
 		}
@@ -1191,13 +1284,13 @@ public class QuanLyController {
 	public String DDInsert(ModelMap model, @ModelAttribute("dd") DiaDiem dd, HttpServletRequest request,
 			BindingResult errors, RedirectAttributes redirectAttributes) {
 		if (dd.getDiaDiem().equals("")) {
-			errors.rejectValue("diaDiem", "dd", "KhÃ´ng Ä�Æ°á»£c Ä�á»ƒ Trá»‘ng");
+			errors.rejectValue("diaDiem", "dd", "Không được để trống");
 
-		} else if (checktrungtendd(dd.getDiaDiem()) == 0) {
+		} else if (checktrungtendd(dd.getDiaDiem(), dd.getMaDD()) == 0) {
 			errors.rejectValue("diaDiem", "dd", "Tên Địa Điểm Đã Tồn Tại");
 		}
 		if (dd.getMaDD().equals("")) {
-			errors.rejectValue("maDD", "dd", "KhÃ´ng Ä�Æ°á»£c Ä�á»ƒ Trá»‘ng");
+			errors.rejectValue("maDD", "dd", "Không được để trống");
 		} else if (checktrungmadd(dd.getMaDD()) == 0) {
 			errors.rejectValue("maDD", "dd", "Mã Địa Điểm Đã Tồn Tại");
 
@@ -1224,6 +1317,18 @@ public class QuanLyController {
 			return "redirect:/quanly/diadiem.html";
 		}
 
+	}
+	public int checkddtuyentrung(String diemdi, String diemDen) {
+		Session session = factory.getCurrentSession();
+		String hql = "from TuyenXe t where t.diemDi.maDD = :diemdi and t.diemDen .maDD = :diemden";
+		Query query = session.createQuery(hql);
+		query.setParameter("diemden", diemDen);
+		query.setParameter("diemdi", diemdi);
+		List<TuyenXe> list = query.list();
+		if (list.size() == 0) {
+			return 1;
+		}
+		return 0;
 	}
 
 	@RequestMapping("/loaixe")
@@ -1255,59 +1360,68 @@ public class QuanLyController {
 		return "QuanLy/loaixe";
 	}
 
-	public int checktenlxtrung(String ma) {
+	public int checktenlxtrung(String ma, String malx) {
 		Session session = factory.getCurrentSession();
-		String hql1 = "from LoaiXe where tenLX = '" + ma + "'";
+		String hql1 = "from LoaiXe where tenLX = :id";
 		Query query1 = session.createQuery(hql1);
+		query1.setParameter("id", ma);
 		List<LoaiXe> list1 = query1.list();
-		if (list1.size() == 0) {
+		if (list1.size() == 0 || list1.get(0).getMaLX().equals(malx) && list1.size() != 0) {
 			return 1;
 		}
 		return 0;
 	}
 
-	//update Loại xe post
+
+	// update Loại xe post
 	@RequestMapping(value = "/loaixe/{malx}", params = "update", method = RequestMethod.POST)
-		public String LXupdate(ModelMap model, @PathVariable("malx") String ma, @ModelAttribute("lx") LoaiXe lx,
-				HttpServletRequest request, BindingResult errors, RedirectAttributes redirectAttributes) {
-			int count = 0;
-			if (Double.parseDouble(lx.getGiaLX().toString()) <= 0) {
-				errors.rejectValue("giaLX", "lx", "Giá phải lớn hơn 0");
-				count = 1;
-			} else if (Pattern.matches("[a-zA-Z]+", lx.getGiaLX().toString()) == true) {
-				errors.rejectValue("giaLX", "lx", "Sai định dạng");
-				count = 1;
-			}
-			if (checktenlxtrung(lx.getTenLX()) == 0) {
-				errors.rejectValue("tenLX", "lx", "Tên Loại Xe Đã Tồn Tại");
-				count = 1;
-			}
-
-			if (count ==1) {
-				model.addAttribute("idModal", "modalUpdate");
-				List<LoaiXe> dslx = dslx();
-				model.addAttribute("dslx", dslx);
-				lx = lxtheoid(ma);
-				return "QuanLy/loaixe";
-			} else {
-				Session session = factory.openSession();
-				Transaction transaction = session.beginTransaction();
-				try {
-					lx.setSeat(36);
-					session.update(lx);
-					transaction.commit();
-					redirectAttributes.addFlashAttribute("message", new Message("success", "Cập nhật thành công!"));
-				} catch (Exception e) {
-					System.out.println(e.toString());
-					transaction.rollback();
-					redirectAttributes.addFlashAttribute("message", new Message("error", "Cập nhật thất bại!"));
-				} finally {
-					session.close();
-				}
-				return "redirect:/quanly/loaixe.html";
-
-			}
+	public String LXupdate(ModelMap model, @PathVariable("malx") String ma, @ModelAttribute("lx") LoaiXe lx,
+			HttpServletRequest request, BindingResult errors, RedirectAttributes redirectAttributes) {
+		int count = 0;
+		if(lx.getGiaLX() == null) {
+			errors.rejectValue("giaLX", "lx", "Không được để trống");
+			count = 1;
+		}else if (Double.parseDouble(lx.getGiaLX().toString()) <= 0) {
+			errors.rejectValue("giaLX", "lx", "Giá phải lớn hơn 0");
+			count = 1;
+		} else if (Pattern.matches("[a-zA-Z]+", lx.getGiaLX().toString()) == true) {
+			errors.rejectValue("giaLX", "lx", "Sai định dạng");
+			count = 1;
 		}
+		if(lx.getTenLX().trim().length() == 0) {
+			errors.rejectValue("tenLX", "lx", "Không được để trống");
+			count = 1;
+		}else if (checktenlxtrung(lx.getTenLX(), lx.getMaLX()) == 0) {
+			errors.rejectValue("tenLX", "lx", "Tên Loại Xe Đã Tồn Tại");
+			count = 1;
+		}
+
+
+		if (count == 1) {
+			model.addAttribute("idModal", "modalUpdate");
+			List<LoaiXe> dslx = dslx();
+			model.addAttribute("dslx", dslx);
+			lx = lxtheoid(ma);
+			return "QuanLy/loaixe";
+		} else {
+			Session session = factory.openSession();
+			Transaction transaction = session.beginTransaction();
+			try {
+				lx.setSeat(36);
+				session.update(lx);
+				transaction.commit();
+				redirectAttributes.addFlashAttribute("message", new Message("success", "Cập nhật thành công!"));
+			} catch (Exception e) {
+				System.out.println(e.toString());
+				transaction.rollback();
+				redirectAttributes.addFlashAttribute("message", new Message("error", "Cập nhật thất bại!"));
+			} finally {
+				session.close();
+			}
+			return "redirect:/quanly/loaixe.html";
+
+		}
+	}
 
 	@RequestMapping(value = "/loaixe/insert", method = RequestMethod.GET)
 	public String LXInsert(ModelMap model) {
@@ -1331,56 +1445,62 @@ public class QuanLyController {
 	}
 
 	// so ghe = 36 auto
-	//Them loai xe post
+	// Them loai xe post
 	@RequestMapping(value = "/loaixe/insert", method = RequestMethod.POST)
-		public String LXInsert(ModelMap model, @ModelAttribute("lx") LoaiXe lx, HttpServletRequest request,
-				BindingResult errors, RedirectAttributes redirectAttributes) {
-			int count = 0;
-			if (lx.getMaLX().trim().length() == 0) {
-				errors.rejectValue("maLX", "lx", "KhÃ´ng Ä Æ°á»£c Ä á»ƒ Trá»‘ng");
-				count = 1;
-			} else if (checkmalxtrung(lx.getMaLX()) == 0) {
-				errors.rejectValue("maLX", "lx", "MÃ£ Loáº¡i Xe Ä Ã£ Tá»“n Táº¡i");
-				count = 1;
-			}
-			if (lx.getTenLX().trim().length() == 0) {
-				errors.rejectValue("tenLX", "lx", "KhÃ´ng Ä Æ°á»£c Ä á»ƒ Trá»‘ng");
-				count = 1;
-			}
-			if (Double.parseDouble(lx.getGiaLX().toString()) <= 0) {
-				errors.rejectValue("seat", "lx", "Giá Loại Xe > 0");
-				count = 1;
-			} else if (Pattern.matches("[a-zA-Z]+", lx.getGiaLX().toString()) == true) {
-				errors.rejectValue("seat", "lx", "Sai định dạng");
-				count = 1;
-			}
-			if (count == 1) {
-				model.addAttribute("idModal", "modalCreate");
-				List<LoaiXe> dslx = dslx();
-				model.addAttribute("dslx", dslx);
-				return "QuanLy/loaixe";
-			} else {
-				Session session = factory.openSession();
-				Transaction transaction = session.beginTransaction();
-				try {
-					lx.setSeat(36);
-					session.save(lx);
-					transaction.commit();
-					redirectAttributes.addFlashAttribute("message", new Message("success", "Thêm mới thành công!"));
-				} catch (Exception e) {
-					System.out.println(e.toString());
-					transaction.rollback();
-					redirectAttributes.addFlashAttribute("message", new Message("error", "Thêm mới thất bại!"));
-				} finally {
-					session.close();
-				}
+	public String LXInsert(ModelMap model, @ModelAttribute("lx") LoaiXe lx, HttpServletRequest request,
+			BindingResult errors, RedirectAttributes redirectAttributes) {
+		int count = 0;
+		if (lx.getMaLX().trim().length() == 0) {
+			errors.rejectValue("maLX", "lx", "Không được để trống");
+			count = 1;
+		} else if (checkmalxtrung(lx.getMaLX()) == 0) {
+			errors.rejectValue("maLX", "lx", "Mã loại xe đã tồn tại");
+			count = 1;
+		}
+		if (lx.getTenLX().trim().length() == 0) {
+			errors.rejectValue("tenLX", "lx", "Không được để trống");
+			count = 1;
+		} else if(checktenlxtrung(lx.getTenLX(),lx.getMaLX())==0) {
+			errors.rejectValue("tenLX", "lx", "Tên loại xe đã tồn tại");
+			count = 1;
+		}
+		if(lx.getGiaLX() == null) {
+			errors.rejectValue("seat", "lx", "Không được để trống");
+			count = 1;
+		}else if (Double.parseDouble(lx.getGiaLX().toString()) <= 0) {
+			errors.rejectValue("seat", "lx", "Giá Loại Xe > 0");
+			count = 1;
+		} else if (Pattern.matches("[a-zA-Z]+", lx.getGiaLX().toString()) == true) {
+			errors.rejectValue("seat", "lx", "Sai định dạng");
+			count = 1;
+		}
 
-				return "redirect:/quanly/loaixe.html";
-
+		if (count == 1) {
+			model.addAttribute("idModal", "modalCreate");
+			List<LoaiXe> dslx = dslx();
+			model.addAttribute("dslx", dslx);
+			return "QuanLy/loaixe";
+		} else {
+			Session session = factory.openSession();
+			Transaction transaction = session.beginTransaction();
+			try {
+				lx.setSeat(36);
+				session.save(lx);
+				transaction.commit();
+				redirectAttributes.addFlashAttribute("message", new Message("success", "Thêm mới thành công!"));
+			} catch (Exception e) {
+				System.out.println(e.toString());
+				transaction.rollback();
+				redirectAttributes.addFlashAttribute("message", new Message("error", "Thêm mới thất bại!"));
+			} finally {
+				session.close();
 			}
+
+			return "redirect:/quanly/loaixe.html";
 
 		}
 
+	}
 
 	@RequestMapping("/phieudat")
 	public String PhieuDat(ModelMap model) {
@@ -1419,15 +1539,19 @@ public class QuanLyController {
 	}
 
 	@RequestMapping(value = "/phieudat/{mapd}", params = "update", method = RequestMethod.POST)
-	public String PhieuDatupdate(@PathVariable("mapd") String ma,@ModelAttribute("pd") PhieuDat pd, RedirectAttributes redirectAttributes) {
-System.out.println("khanhvi");
+	public String PhieuDatupdate(@PathVariable("mapd") String ma, @ModelAttribute("pd") PhieuDat pd,
+			RedirectAttributes redirectAttributes, HttpSession ss) {
+
 		Session session = factory.openSession();
 		Transaction transaction = session.beginTransaction();
+		NhanVien nv = (NhanVien) ss.getAttribute("user");
+		System.out.println(nv.getMaNV());
 		try {
 			PhieuDat pdat = phieudattheoma(ma);
 			pdat.setTrangThai(pd.getTrangThai());
+			pdat.setNV(nv);
 			session.merge(pdat);
-			
+
 			redirectAttributes.addFlashAttribute("message", new Message("success", "Cập nhật trạng thái thành công!"));
 			MimeMessage mail = mailer.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(mail);
@@ -1444,8 +1568,8 @@ System.out.println("khanhvi");
 				}
 				mailer.send(mail);
 			} else if (pd.getTrangThai() == 2) {
+				tangchotrong(pdat.getChuyen().getMaChuyen(), getslvebypd(pdat.getMaPD()));
 				try {
-
 					helper.setFrom("no-reply-email");
 					helper.setTo(/* email */"n19dccn223@student.ptithcm.edu.vn");
 					helper.setSubject("Hủy vé");
@@ -1453,18 +1577,18 @@ System.out.println("khanhvi");
 				} catch (MessagingException e) {
 					e.printStackTrace();
 				}
-				 mailer.send(mail);
+				mailer.send(mail);
 			}
 			transaction.commit();
-			redirectAttributes.addFlashAttribute("message",new Message("success", "Thay đổi trạng thái thành công!"));
+			redirectAttributes.addFlashAttribute("message", new Message("success", "Thay đổi trạng thái thành công!"));
 		} catch (Exception e) {
 			System.out.println(e.toString());
 			transaction.rollback();
-			redirectAttributes.addFlashAttribute("message",new Message("error", "Thay đổi trạng thái thất bại!"));
+			redirectAttributes.addFlashAttribute("message", new Message("error", "Thay đổi trạng thái thất bại!"));
 		} finally {
 			session.close();
 		}
-		return "redirect: /CNPM/quanly/phieudat.html";
+		return "redirect:/quanly/phieudat.html";
 
 	}
 
@@ -1503,34 +1627,69 @@ System.out.println("khanhvi");
 
 	@RequestMapping(value = "/trangcanhan", method = RequestMethod.GET)
 	public String Profile(ModelMap model, HttpSession ss) {
-		NhanVien nv = (NhanVien)ss.getAttribute("user");
+		NhanVien nv = (NhanVien) ss.getAttribute("user");
 		model.addAttribute("nv", nv);
 		model.addAttribute("ngaysinh", nv.getNgaySinh());
 		return "QuanLy/profile";
 	}
 
-	@RequestMapping(value = "/trangcanhan", method = RequestMethod.POST)
-	public String ProfileUpdate(ModelMap model, @ModelAttribute("nv") NhanVien nv,HttpSession ss, HttpServletRequest request, BindingResult errors) {
-		if (!nv.getSdt().trim().matches("^[0-9]*$") || nv.getSdt().length() != 10) {
+
+	@RequestMapping(value = "/trangcanhan",params="doithongtin", method = RequestMethod.POST)
+	public String ProfileUpdate(ModelMap model, @ModelAttribute("nv") NhanVien nv, HttpSession ss,
+			HttpServletRequest request, BindingResult errors) {
+		if(nv.getCccd().trim().length() == 0) {
+			errors.rejectValue("sdt", "nv", "SDT không để trống");
+		}
+		else if (!nv.getSdt().trim().matches("^[0-9]*$") || nv.getSdt().length() != 10) {
 			errors.rejectValue("sdt", "nv", "Vui lòng nhập đúng định dạng sdt");
 		} else if (checksdt(nv.getSdt(), nv.getMaNV()) == 0) {
 			errors.rejectValue("sdt", "nv", "sdt bị trùng");
 		}
-		if (!nv.getCccd().trim().matches("^[0-9]*$") || nv.getCccd().length() != 10) {
+		if(nv.getCccd().trim().length() == 0) {
+			errors.rejectValue("cccd", "nv", "CCCD không để trống");
+		}
+		else if (!nv.getCccd().trim().matches("^[0-9]*$") || nv.getCccd().length() != 10) {
 			errors.rejectValue("cccd", "nv", "Vui lòng nhập đúng định dạng cccd");
 		} else if (checktrungcccd(nv.getCccd(), nv.getMaNV()) == 0) {
 			errors.rejectValue("cccd", "nv", "CCCD Đã Tồn Tại");
-		}
-		if (checkemail(nv.getTknv().getEmail()) == 0) {
+		} 
+		if(nv.getTknv().getEmail().trim().length() == 0) {
+			errors.rejectValue("maNV", "nv", "Email không được để trống");
+		}else if (checkemail(nv.getTknv().getEmail(),nv.getTknv().getUserName()) == 0) {
 			errors.rejectValue("maNV", "nv", "Email đã tồn tại");
 
+		}else if (!nv.getTknv().getEmail().trim().matches(
+				"^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")) {
+			errors.rejectValue("maNV", "nv", "Chưa đúng định dạng email");
+			}
+		if(nv.getHoNV().trim().length() ==0) {
+			errors.rejectValue("hoNV", "nv", "Họ nhân viên không để trống");
 		}
-		if(errors.hasErrors()) {
-			nv = (NhanVien)ss.getAttribute("user");
+		if(nv.getTenNV().trim().length() ==0) {
+			errors.rejectValue("tenNV", "nv", "Tên nhân viên không để trống");
+		}
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+		Date parsed1 = null;
+		try {
+			parsed1 = format1.parse(request.getParameter("ngaysinh"));
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		java.sql.Date sql1 = new java.sql.Date(parsed1.getTime());
+		if (sql1.after(new Date())) {
+			errors.rejectValue("ngaySinh", "nv", "Ngày Tháng Không Được Để Lớn Hơn Ngày Hiện Tại");
+
+		}
+
+
+		if (errors.hasErrors()) {
+			nv = (NhanVien) ss.getAttribute("user");
 			model.addAttribute("ngaysinh", nv.getNgaySinh());
 			System.out.println("vô đya");
+			model.addAttribute("tabEditProfile", true);
 			return "QuanLy/profile";
-		}else {
+		} else {
 			Session session = factory.openSession();
 			Transaction transaction = session.beginTransaction();
 			try {
@@ -1588,46 +1747,45 @@ System.out.println("khanhvi");
 //		}
 //
 //	}
-	
+
 //////////////////////////////////////////////////////////////////
+
 	
-	@RequestMapping(value = "/trangcanhan/changepw", method = RequestMethod.GET)
-	public String doimatkhau(ModelMap model, HttpSession ss) {
-		NhanVien nv = (NhanVien)ss.getAttribute("user");
-		model.addAttribute("nv",nv);
-		model.addAttribute("ngaysinh",nv.getNgaySinh());
-		return "QuanLy/profile";
-	}
-	
-	@RequestMapping(value = "/trangcanhan/changepw", method = RequestMethod.POST)
-	public String doimatkhau(@RequestParam("pw") String pw,@RequestParam("rpw") String rpw,@RequestParam("password") String password,
-			ModelMap model,HttpServletRequest request,RedirectAttributes redirectAttributes){
-		
+
+	@RequestMapping(value = "trangcanhan.html",params ="doimatkhau", method = RequestMethod.POST)
+	public String doimatkhau(@RequestParam("pw") String pw, @RequestParam("rpw") String rpw,
+			@RequestParam("password") String password, ModelMap model, HttpServletRequest request,
+			RedirectAttributes redirectAttributes) {
+
 		boolean check = false;
 		HttpSession ss = request.getSession();
-		TaiKhoan tk = (TaiKhoan)ss.getAttribute("tkdn");
-		if(!hashPass(password).equals(tk.getMatKhau())) {
-			model.addAttribute("messpassword","Mật khẩu không trùng khớp!");
+		TaiKhoan tk = (TaiKhoan) ss.getAttribute("tkdn");
+		if (!hashPass(password).equals(tk.getMatKhau())) {
+			model.addAttribute("messpassword", "Mật khẩu không trùng khớp!");
 			check = true;
 		}
-		if(!rpw.equals(pw)) {
-			model.addAttribute("messrpw","Mật khẩu và nhập mật khẩu lại không trùng khớp!");
+		if (!rpw.equals(pw)) {
+			model.addAttribute("messrpw", "Mật khẩu và nhập mật khẩu lại không trùng khớp!");
 			check = true;
 		}
-		if(rpw.length()<6) {
-			model.addAttribute("messpw","Mật khẩu không được bé hơn 6 kí tự!");
-			check=true;
-		}
-		
-		if(rpw.isEmpty()) {
-			model.addAttribute("messrpw","Dữ liệu không được để trống!");
+		if (rpw.length() < 6) {
+			model.addAttribute("messpw", "Mật khẩu không được bé hơn 6 kí tự!");
 			check = true;
 		}
-		if(pw.isEmpty()) {
-			model.addAttribute("messpw","Dữ liệu không được để trống!");
+
+		if (rpw.isEmpty()) {
+			model.addAttribute("messrpw", "Dữ liệu không được để trống!");
 			check = true;
 		}
-		if(check) {
+		if (pw.isEmpty()) {
+			model.addAttribute("messpw", "Dữ liệu không được để trống!");
+			check = true;
+		}
+		if (check) {
+			NhanVien nv = (NhanVien) ss.getAttribute("user");
+			model.addAttribute("nv", nv);
+			model.addAttribute("ngaysinh", nv.getNgaySinh());
+			model.addAttribute("tabEditPassword", true);
 			return "QuanLy/profile";
 		}
 		String matkhaumoi = hashPass(pw);
@@ -1639,16 +1797,19 @@ System.out.println("khanhvi");
 			session.update(tk);
 			t.commit();
 			redirectAttributes.addFlashAttribute("message", new Message("success", "Đổi mật khẩu thành công"));
-		}catch(Exception e) {
+			redirectAttributes.addFlashAttribute("tabEditPassword", true);
+		} catch (Exception e) {
 			System.out.println(e.getCause());
 			t.rollback();
-			model.addAttribute("message",new Message("error", "Đổi mật khẩu thất bại!"));
+			model.addAttribute("message", new Message("error", "Đổi mật khẩu thất bại!"));
+			model.addAttribute("tabEditPassword", true);
 			return "QuanLy/profile";
-		}finally {
+		} finally {
 			session.close();
 		}
 		return "redirect:/quanly/trangcanhan.html";
 	}
+
 	public String hashPass(String matKhau) {
 		String hashpw = DigestUtils.md5Hex(matKhau).toUpperCase();
 		return hashpw;

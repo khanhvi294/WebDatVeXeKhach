@@ -85,9 +85,22 @@ public class KhachHangController {
 	}
 
 	@RequestMapping("trangchu")
-	public String index(ModelMap model) {
-
+	public String index(ModelMap model, HttpSession ss) {
+		
+		TaiKhoan tk = (TaiKhoan) ss.getAttribute("tkdn");
+		if(tk != null) {
+			if(!tk.getVaiTro().getMaVT().equals("KH")) {
+				return "redirect:/quanly/trangchu.html";
+			}
+			
+		}
+		
 		return "KhachHang/trangchu";
+	}
+	
+	@RequestMapping("403")
+	public String get403(ModelMap model) {
+		return "KhachHang/403";
 	}
 
 //tìm chuyến
@@ -120,7 +133,10 @@ public class KhachHangController {
 	public String getChonChuyen(ModelMap model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
 
 		//String referer = request.getHeader("Referer");
-		
+		if(refer.trim().isEmpty()) {
+			System.out.println("null chon chuyen");
+			return "redirect:/";
+		}
 		String referer = refer.trim();
 		if (cc == null) {
 			redirectAttributes.addFlashAttribute("message",
@@ -151,8 +167,8 @@ public class KhachHangController {
 			DiaDiem dden = (DiaDiem) session.get(DiaDiem.class, cx.getTuyen().getDiemDen().getMaDD());
 			System.out.println(dden.getDiaDiem());
 			System.out.println(ddi.getDiaDiem());
-			model.addAttribute("diemdi", dden.getDiaDiem());
-			model.addAttribute("diemden", ddi.getDiaDiem());
+			model.addAttribute("diemdi", ddi.getDiaDiem());
+			model.addAttribute("diemden", dden.getDiaDiem());
 
 		} else {
 
@@ -170,6 +186,7 @@ public class KhachHangController {
 		System.out.println(cx.getTuyen().getDiemDen().getMaDD());
 		cc = cx;
 		String referer = request.getHeader("Referer");
+		System.out.println("chon chuyen " + referer);
 		refer = referer;
 		String r = referer.substring(referer.lastIndexOf("/") + 1);
 		System.out.println(r);
@@ -192,8 +209,8 @@ public class KhachHangController {
 			DiaDiem dden = (DiaDiem) session.get(DiaDiem.class, cx.getTuyen().getDiemDen().getMaDD());
 			System.out.println(dden.getDiaDiem());
 			System.out.println(ddi.getDiaDiem());
-			model.addAttribute("diemdi", dden.getDiaDiem());
-			model.addAttribute("diemden", ddi.getDiaDiem());
+			model.addAttribute("diemdi", ddi.getDiaDiem());
+			model.addAttribute("diemden", dden.getDiaDiem());
 
 		} else {
 
@@ -208,8 +225,9 @@ public class KhachHangController {
 			@ModelAttribute("dschuyenxe") List<ChuyenXe> dscx, RedirectAttributes redirectAttributes,
 			@ModelAttribute("diemdi") String diemdi, @ModelAttribute("diemden") String diemden) {
 
+		
 		String referer = request.getHeader("Referer");
-		System.out.println(referer);
+		System.out.println("chon ghe " + referer);
 		if (referer == null) {
 			return "KhachHang/chonghe";
 		}
@@ -233,28 +251,35 @@ public class KhachHangController {
 			Session session = factory.getCurrentSession();
 			ChuyenXe cx = (ChuyenXe) session.get(ChuyenXe.class, machuyen);
 			this.cx = cx;
-			Integer socho = 47/* cx.getXekhach().getLx().getSeat() */;
-			Integer phannguyen = socho / 6;
-			Integer phandu = socho % 6;
-			request.setAttribute("phannguyen", phannguyen.toString());
-			request.setAttribute("phandu", phandu.toString());
+			/*
+			 * Integer socho = cx.getXekhach().getLx().getSeat(); Integer phannguyen = socho
+			 * / 6; Integer phandu = socho % 6; request.setAttribute("phannguyen",
+			 * phannguyen.toString()); request.setAttribute("phandu", phandu.toString());
+			 */
 			pd.setChuyen(this.cx);
 			pd.setTongtien(new BigDecimal(0));
 			ss.setAttribute("PhieuDat", pd);
 		}
+	
+		Integer socho =  this.cx.getXekhach().getLx().getSeat();
+		Integer phannguyen = socho / 6;
+		Integer phandu = socho % 6;
+		request.setAttribute("phannguyen", phannguyen.toString());
+		request.setAttribute("phandu", phandu.toString());
 		Map<String, String> map = new HashMap<String, String>();
 		System.out.println(this.cx.getMaChuyen());
 		List<PhieuDat> dspd = getdsphieudatbycx(this.cx.getMaChuyen());
-
+		System.out.println("s1");
 		for (PhieuDat phieudat : dspd) {
 			for (VeXe ve : phieudat.getVexe()) {
 				String soghe = ve.getId().getSoGhe();
 				map.put(soghe, "disabled");
 			}
 		}
+	
 
 		model.addAttribute("map", map);
-
+		System.out.println("s2");
 		return "KhachHang/chonghe";
 
 	}
@@ -265,6 +290,8 @@ public class KhachHangController {
 			RedirectAttributes redirectAttributes) {
 
 		String referer = request.getHeader("Referer");
+		System.out.println("dien thong tin " + referer);
+		
 		String r = referer.substring(referer.lastIndexOf("/") + 1);
 		if (r.equals("chonghe.html")) {
 			String[] dsghe = request.getParameterValues("ghe");
@@ -351,12 +378,16 @@ public class KhachHangController {
 		return "KhachHang/thanhtoan";
 	}
 
+	
 	@RequestMapping(value = "trangchu", params = "btnDatVe", method = RequestMethod.POST)
 	public String datve(HttpSession ss, HttpServletRequest request, ModelMap model) {
 		PhieuDat pd = (PhieuDat) ss.getAttribute("PhieuDat");
 
 		pd.setPttt(Boolean.valueOf(request.getParameter("pttt")));
 		pd.setNgaydat(new Date());
+		double d = pd.getChuyen().getGia().doubleValue();
+		
+		pd.setTongtien(new BigDecimal((dsve.size())*d));
 		Session session = factory.openSession();
 		Transaction t = session.beginTransaction();
 
@@ -365,7 +396,10 @@ public class KhachHangController {
 			for (VeXe ve : dsve) {
 				session.save(ve);
 			}
+			System.out.println(dsve.size());
 			t.commit();
+			giamchotrong(pd.getChuyen().getMaChuyen(),dsve.size());
+			
 			model.addAttribute("message", new Message("success", "Đặt vé thành công!"));
 		} catch (Exception e) {
 			t.rollback();
@@ -548,7 +582,7 @@ public class KhachHangController {
 		try {
 			session2.merge(pdm);
 			t.commit();
-			System.out.println("hihivi");
+			tangchotrong(pdm.getChuyen().getMaChuyen(),getslvebypd(pdm.getMaPD()));
 			redirectAttributes.addFlashAttribute("message", new Message("success", "Hủy vé thành công!"));
 		} catch (Exception e) {
 			t.rollback();
@@ -577,7 +611,7 @@ public class KhachHangController {
 
 	public List<PhieuDat> getds_pdkh(String maKH) {
 		Session session = factory.getCurrentSession();
-		String hql = "from PhieuDat where KH.maKH=:maKH";
+		String hql = "from PhieuDat as pd where pd.KH.maKH=:maKH order by pd.maPD desc";
 		Query query = session.createQuery(hql);
 		query.setParameter("maKH", maKH);
 		List<PhieuDat> list = query.list();
@@ -637,7 +671,7 @@ public class KhachHangController {
 
 	public List<ChuyenXe> getdsChuyenXe(String ddi, String dden, Date ngaykh) {
 		Session session = factory.getCurrentSession();
-		String hql = "from ChuyenXe where tuyen.diemDi.maDD=:ddi and tuyen.diemDen.maDD=:dden and ngKH=:ngaykh and trangthai=false and sochotrong!=0";
+		String hql = "from ChuyenXe where tuyen.diemDi.maDD=:ddi and tuyen.diemDen.maDD=:dden and ngKH=:ngaykh and trangthai=0 and sochotrong!=0";
 		Query query = session.createQuery(hql);
 		query.setParameter("ddi", ddi);
 		query.setParameter("dden", dden);
@@ -657,6 +691,46 @@ public class KhachHangController {
 		return list;
 	}
 
+	public int giamchotrong(String machuyen,int sl) {
+		Session session = factory.getCurrentSession();
+		String hql = "from ChuyenXe where maChuyen=:machuyen";
+		Query query = session.createQuery(hql);
+		query.setParameter("machuyen", machuyen);
+		int sochotrong=0;
+		List<ChuyenXe> dscx = query.list();
+		if(dscx!=null) {
+			ChuyenXe chuyenxe = dscx.get(0);
+			int sct = chuyenxe.getSochotrong();
+			chuyenxe.setSochotrong(sct-sl);
+			sochotrong = chuyenxe.getSochotrong();
+			System.out.println(sochotrong);
+		}
+		return sochotrong;
+	}
+	public int tangchotrong(String machuyen,int sl) {
+		Session session = factory.getCurrentSession();
+		String hql = "from ChuyenXe where maChuyen=:machuyen";
+		Query query = session.createQuery(hql);
+		query.setParameter("machuyen", machuyen);
+		int sochotrong=0;
+		List<ChuyenXe> dscx = query.list();
+		if(dscx!=null) {
+			ChuyenXe chuyenxe = dscx.get(0);
+			int sct = chuyenxe.getSochotrong();
+			chuyenxe.setSochotrong(sct+sl);
+			sochotrong = chuyenxe.getSochotrong();
+			System.out.println(sochotrong);
+		}
+		return sochotrong;
+	}
+	public int getslvebypd(String mapd){
+		Session session = factory.getCurrentSession();
+		String hql = "from VeXe where id.pd=:mapd";
+		Query query = session.createQuery(hql);
+		query.setParameter("mapd", mapd);
+		List<VeXe> list = query.list();
+		return list.size();
+	}
 	public String hashPass(String matKhau) {
 		String hashpw = DigestUtils.md5Hex(matKhau).toUpperCase();
 		return hashpw;

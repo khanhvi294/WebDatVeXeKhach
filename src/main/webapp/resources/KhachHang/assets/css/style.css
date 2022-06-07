@@ -2285,7 +2285,7 @@ label.fa.fa-calendar::after {
 	margin: 20px;
 }
 
-.wheel-news-item:hover {
+.trans:hover {
 	transform: scale(1.1);
 }
 
@@ -2307,4 +2307,7 @@ label.fa.fa-calendar::after {
 	max-height: 100%;
 	margin: auto;
 	display: block
+}
+.step-wrap {
+	    padding: 50px 0 80px;
 }

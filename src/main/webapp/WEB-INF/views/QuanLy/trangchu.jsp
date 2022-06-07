@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
+ <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
     <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     <%@ include file="head.jsp"%>
@@ -25,13 +25,12 @@
                     <i class="ri-bus-line"></i>
                   </div>
                   <div class="ps-3">
-                    <h6>145</h6>
-                    <span class="text-success small pt-1 fw-bold">12%</span> <span
-                      class="text-muted small pt-2 ps-1">increase</span>
+                   
+             
                   </div>
                 </div>
               </div>
-              <a href="QL_ChuyenXe.html">
+              <a href="quanly/chuyenxe.html">
                 <div class="trangchu-link rounded-bottom shadow-sm">
                   Chi tiết
                   <i class="bi bi-arrow-right-circle-fill"> </i>
@@ -52,13 +51,12 @@
                     <i class="ri-arrow-left-right-line"></i>
                   </div>
                   <div class="ps-3">
-                    <h6>$3,264</h6>
-                    <span class="text-success small pt-1 fw-bold">8%</span> <span
-                      class="text-muted small pt-2 ps-1">increase</span>
+                    <h6></h6>
+                    
                   </div>
                 </div>
               </div>
-              <a href="QL_TuyenXe.html">
+              <a href="quanly/tuyenxe.html">
                 <div class="trangchu-link rounded-bottom shadow-sm">
                   Chi tiết
                   <i class="bi bi-arrow-right-circle-fill"> </i>
@@ -79,13 +77,11 @@
                     <i class="ri-contacts-line"></i>
                   </div>
                   <div class="ps-3">
-                    <h6>1244</h6>
-                    <span class="text-danger small pt-1 fw-bold">12%</span> <span
-                      class="text-muted small pt-2 ps-1">decrease</span>
+                  
                   </div>
                 </div>
               </div>
-              <a href="QL_NhanVien.html">
+              <a href="quanly/nhanvien.html">
                 <div class="trangchu-link rounded-bottom shadow-sm">
                   Chi tiết
                   <i class="bi bi-arrow-right-circle-fill"> </i>
@@ -109,13 +105,11 @@
                     <i class="bi bi-people"></i>
                   </div>
                   <div class="ps-3">
-                    <h6>1244</h6>
-                    <span class="text-danger small pt-1 fw-bold">12%</span> <span
-                      class="text-muted small pt-2 ps-1">decrease</span>
+                    
                   </div>
                 </div>
               </div>
-              <a href="QL_KhachHang.html">
+              <a href="quanly/khachhang.html">
                 <div class="trangchu-link rounded-bottom shadow-sm">
                   Chi tiết
                   <i class="bi bi-arrow-right-circle-fill"> </i>
@@ -136,13 +130,11 @@
                     <i class="bi bi-pin-map-fill"></i>
                   </div>
                   <div class="ps-3">
-                    <h6>145</h6>
-                    <span class="text-success small pt-1 fw-bold">12%</span> <span
-                      class="text-muted small pt-2 ps-1">increase</span>
+                
                   </div>
                 </div>
               </div>
-              <a href="QL_DiaDiem.html">
+              <a href="quanly/diadiem.html">
                 <div class="trangchu-link rounded-bottom shadow-sm">
                   Chi tiết
                   <i class="bi bi-arrow-right-circle-fill"> </i>
@@ -163,13 +155,10 @@
                     <i class="ri-align-justify"></i>
                   </div>
                   <div class="ps-3">
-                    <h6>$3,264</h6>
-                    <span class="text-success small pt-1 fw-bold">8%</span> <span
-                      class="text-muted small pt-2 ps-1">increase</span>
-                  </div>
+                                      </div>
                 </div>
               </div>
-              <a href="QL_LoaiXe.html">
+              <a href="quanly/loaixe.html">
                 <div class="trangchu-link rounded-bottom shadow-sm">
                   Chi tiết
                   <i class="bi bi-arrow-right-circle-fill"> </i>
@@ -193,13 +182,11 @@
                     <i class="bi bi-currency-dollar"></i>
                   </div>
                   <div class="ps-3">
-                    <h6>1244</h6>
-                    <span class="text-danger small pt-1 fw-bold">12%</span> <span
-                      class="text-muted small pt-2 ps-1">decrease</span>
+                    
                   </div>
                 </div>
               </div>
-              <a href="QL_BangGia.html">
+              <a href="banggia.html">
                 <div class="trangchu-link rounded-bottom shadow-sm">
                   Chi tiết
                   <i class="bi bi-arrow-right-circle-fill"> </i>
@@ -218,13 +205,11 @@
                     <i class="bi bi-clipboard"></i>
                   </div>
                   <div class="ps-3">
-                    <h6>1244</h6>
-                    <span class="text-danger small pt-1 fw-bold">12%</span> <span
-                      class="text-muted small pt-2 ps-1">decrease</span>
+                    
                   </div>
                 </div>
               </div>
-              <a href="QL_PhieuDat.html">
+              <a href="quanly/phieudat.html">
                 <div class="trangchu-link rounded-bottom shadow-sm">
                   Chi tiết
                   <i class="bi bi-arrow-right-circle-fill"> </i>
@@ -245,21 +230,32 @@
       class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
-  <script src="resources/assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="resources/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="resources/assets/vendor/chart.js/chart.min.js"></script>
-  <script src="resources/assets/vendor/echarts/echarts.min.js"></script>
-  <script src="resources/assets/vendor/quill/quill.min.js"></script>
-  <script src="resources/assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="resources/assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="resources/assets/vendor/php-email-form/validate.js"></script>
-  <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script
+ <script
+		src="<c:url value='/resources/assets/vendor/apexcharts/apexcharts.min.js'/>"></script>
+	<script
+		src="<c:url value='/resources/assets/vendor/bootstrap/js/bootstrap.bundle.min.js'/>"></script>
+	<script
+		src="<c:url value='/resources/assets/vendor/chart.js/chart.min.js'/>"></script>
+	<script
+		src="<c:url value='/resources/assets/vendor/echarts/echarts.min.js'/>"></script>
+	<script
+		src="<c:url value='/resources/assets/vendor/quill/quill.min.js'/>"></script>
+	<script
+		src="<c:url value='/resources/assets/vendor/simple-datatables/simple-datatables.js'/>"></script>
+	<script
+		src="<c:url value='/resources/assets/vendor/tinymce/tinymce.min.js'/>"></script>
+	<script
+		src="<c:url value='/resources/assets/vendor/php-email-form/validate.js'/>"></script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script
+		src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+	<script
+		src="<c:url value='/resources/KhachHang/assets/js/showMessage.js'/>"></script>
 
-	src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
-<script
-	src="<c:url value='/resources/KhachHang/assets/js/showMessage.js'/>"></script>	
 
   <!-- Template Main JS File -->
 <script src="<c:url value='/resources/assets/js/main.js'/>"></script>
+<script src="<c:url value='/resources/assets/js/my-main.js'/>"></script>
+
+

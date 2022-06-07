@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javassist.expr.NewArray;
 import ptit.entity.KhachHang;
 import ptit.entity.NhanVien;
 import ptit.entity.TaiKhoan;
@@ -39,15 +40,18 @@ public class TaiKhoanController {
 	@Autowired
 	JavaMailSender mailer;
 	
+	String referer = "";
 	@RequestMapping(value="dangnhap.html",method = RequestMethod.GET) 
-	public String getDangNhap(ModelMap model,HttpSession ss) {
+	public String getDangNhap(ModelMap model,HttpSession ss, HttpServletRequest request) {
 
 		System.out.println("ihihihi");
 		model.addAttribute("taikhoan",new TaiKhoan());
+		
+		referer = request.getHeader("Referer");
 		return "TaiKhoan/dangnhap";
 	}
 	@RequestMapping(value="dangnhap.html",method = RequestMethod.POST)
-	public String postDangNhap(HttpSession ss,ModelMap model,
+	public String postDangNhap(HttpSession ss,ModelMap model, HttpServletRequest request,
 			@ModelAttribute("taikhoan") TaiKhoan tk, BindingResult errors) {
 		System.out.println("vitesst");
 		//b1: ktra lỗi
@@ -65,7 +69,7 @@ public class TaiKhoanController {
 		String matkhau = hashPass(tk.getMatKhau());
 		TaiKhoan tkdn = this.KTtaikhoan(tk.getUserName(),matkhau);
 		if(tkdn == null){
-			model.addAttribute("message", "Sai thÃ´ng tin Ä‘Äƒng nháº­p!");
+			model.addAttribute("message",new Message("error", "Sai thông tin đăng nhập!"));
 			
 			return "TaiKhoan/dangnhap";
 		}
@@ -88,9 +92,16 @@ public class TaiKhoanController {
 				ss.setAttribute("user", kh);
 				
 				
+				if(referer != null) {
+					System.out.println("refer " + referer);
+					if(referer.contains("chonchuyen.html")) {
+						return "redirect:" + referer;
+					}
+					
+				}
 				return "redirect:/trangchu.html";
 			}else {
-				model.addAttribute("message", "TÃ i khoáº£n khÃ´ng tá»“n táº¡i!");
+				model.addAttribute("message", new Message("error", "Tài khoản không tồn tại!"));
 				return "TaiKhoan/dangnhap";
 			}
 		} 
@@ -102,7 +113,7 @@ public class TaiKhoanController {
 				return "redirect:quanly/trangchu.html";
 			}
 			else {
-				model.addAttribute("message","TÃ i khoáº£n khÃ´ng tá»“n táº¡i!");
+				model.addAttribute("message","Tài khoản không!");
 				return "TaiKhoan/dangnhap";
 			}
 		}
@@ -113,7 +124,7 @@ public class TaiKhoanController {
 				return "redirect:quanly/trangchu.html";
 			}
 			else {
-				model.addAttribute("message","TÃ i khoáº£n khÃ´ng tá»“n táº¡i!");
+				model.addAttribute("message", new Message("error", "Tài khoản không tồn tại!"));
 				return "TaiKhoan/dangnhap";
 			}
 		}
@@ -186,7 +197,7 @@ public class TaiKhoanController {
 	@RequestMapping(value="dangki.html",method= RequestMethod.POST)
 	public String dangki(HttpServletRequest request,ModelMap model,
 			@RequestParam("pw") String pw,@RequestParam("rpw") String rpw,
-			@ModelAttribute("khachhang") KhachHang kh,BindingResult errors){
+			@ModelAttribute("khachhang") KhachHang kh,BindingResult errors,RedirectAttributes redirectAttributes){
 		
 		
 		  if(kh.getHoKH().isEmpty()) { 
@@ -231,6 +242,9 @@ public class TaiKhoanController {
 		  if(rpw.equals("")) {
 			model.addAttribute("messageer","Dữ liệu không được để trống!");
 		}
+		  if(!rpw.equals(pw)){
+			  model.addAttribute("messageer","Mật khẩu không trùng khớp!");
+		  }
 		if(!errors.hasErrors()) {
 			Session session = factory.getCurrentSession();
 			VaiTro vt = (VaiTro)session.get(VaiTro.class,"KH");
@@ -246,14 +260,16 @@ public class TaiKhoanController {
 				session2.save(kh.getTkkh());
 				session2.save(kh);
 				t.commit();
+				redirectAttributes.addFlashAttribute("message",new Message("success", "Đăng kí thành công!"));
 			}catch(Exception e) {
 				System.out.println(e);
 				System.out.println(e.getCause());
 				t.rollback();
+				return "TaiKhoan/dangki";
 			}finally {
 				session2.close();
 			}
-			return "redirect: trangchu.html";
+			return "redirect:dangnhap.html";
 		}
 		
 		
@@ -267,15 +283,20 @@ public class TaiKhoanController {
 	}
 	
 	@RequestMapping(value="dangnhap.html",method=RequestMethod.POST,params="btnlaymatkhau")
-	public String quenmatkhau(@RequestParam("email") String email,ModelMap model) {
+	public String quenmatkhau(@RequestParam("email") String email,ModelMap model,RedirectAttributes redirectAttributes) {
 	
+		if(email.isEmpty()) {
+			redirectAttributes.addFlashAttribute("ms1","Email không được để trống!");
+			return "redirect:quenmatkhau.html";
+		 }
+		
 		TaiKhoan tk = gettkbyemail(email);
 		
 		if(tk == null) {
-			
+			redirectAttributes.addFlashAttribute("ms1","Email không tồn tại.Vui lòng kiểm tra lại!");
 			return "redirect:quenmatkhau.html";
 		}
-		
+		 
 		Random random = new Random();
 		int ranNum = random.nextInt(999999)+100000;
 		String matkhaumoi = Integer.toString(ranNum);
@@ -304,12 +325,13 @@ public class TaiKhoanController {
 			}
 			mailer.send(mail);
 
-			model.addAttribute("message", "Mật khẩu mới đã được gửi vào Email");
+			model.addAttribute("message", new Message("success", "Mật khẩu mới đã được gửi vào Email"));
 			
 		}catch(Exception e) {
 			t.rollback();
-			System.out.println(e.getCause());
-			System.out.println("huhu");
+			redirectAttributes.addFlashAttribute("message", new Message("error", "Lấy lại mật khẩu thất bại!"));
+			return "redirect:quenmatkhau.html";
+		
 		}finally {
 			session.close();
 		}
@@ -357,6 +379,11 @@ public class TaiKhoanController {
 			session.update(tk);
 			t.commit();
 			redirectAttributes.addFlashAttribute("message", new Message("success", "Đổi mật khẩu thành công"));
+			
+			if(!tk.getVaiTro().getMaVT().equals("KH")) {
+				return "redirect:quanly/trangchu.html";
+				
+			}
 		}catch(Exception e) {
 			System.out.println(e.getCause());
 			t.rollback();

@@ -277,7 +277,7 @@
 						</div>
 
 						<label for="input-val27" class="promo promo2">
-							<button class="wheel-btn" id="Re2">Tiếp theo</button>
+							<button class="wheel-btn" style="line-height:65px !important;" id="Re2">Tiếp theo</button>
 						</label>
 
 
@@ -292,7 +292,7 @@
 
 	<!-- FOOTER -->
 	<!-- ///////////////// -->
-	<footer class="wheel-footer">
+	<footer class="wheel-footer" style="margin-top: 200px;">
 		<img src="images/bg4.jpg" alt="" class="wheel-img">
 		<div class="container">
 			<div class="row">

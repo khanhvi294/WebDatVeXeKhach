@@ -27,7 +27,7 @@
                                     <th scope="col">Mã loại xe</th>
                                     <th scope="col">Tên loại xe</th>
                                     <th scope="col">Số chỗ</th>
-                                    <th scope="col" class="text-center">Option</th>
+                                    <th scope="col" class="text-center">Thao tác</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -57,14 +57,15 @@
     <div class="modal fade" id="ProfileEditModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered v-modal-add">
             <div class="modal-content border-0">
+             <form:form method = "post" modelAttribute="lx">
                 <div class="modal-header v-modal-header">
-                    <h5 class="modal-title v-modal-title">Chỉnh sửa</h5>
+                    <h5 class="modal-title v-modal-title">Chỉnh sửa cho loại xe mã&nbsp;${lx.maLX }</h5>
                     <button type="button" class="btn shadow-none" data-bs-dismiss="modal" aria-label="Close"
                         style="font-weight: 700;"><i class="bi bi-x v-icon-close"></i></button>
                 </div>
                 <div class="modal-body modal-add">
                     <!-- Profile Edit Form -->
-                    <form:form method = "post" modelAttribute="lx">
+                   
                         <div class="row mb-3">
                             <label for="machuyen" class="col-md-4 col-lg-3 col-form-label v-label">Mã loại xe</label>
                             <div class="col-md-8 col-lg-9">
@@ -98,11 +99,12 @@
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary btn-main-color border-0 mt-3">Lưu</button>
                         </div>
-                    </form:form>
+                   
                     <!-- End Profile Edit Form -->
                     <!-- End Profile Edit Form -->
                 </div>
             </div>
+             </form:form>
         </div>
     </div>
 
