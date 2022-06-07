@@ -20,7 +20,7 @@ public class QuanLyInterceptor extends HandlerInterceptorAdapter {
 			TaiKhoan quanly = (TaiKhoan) session.getAttribute("tkdn");
 			if(quanly != null) {
 				
-				if(!quanly.getVaiTro().getMaVT().trim().equals("QL")) {
+				if(!quanly.getVaiTro().getMaVT().trim().equals("QL") && !quanly.getVaiTro().getMaVT().trim().equals("NV")) {
 					response.sendRedirect(request.getContextPath() + "/dangnhap.html");
 					return false;
 				}

@@ -30,7 +30,7 @@ public class ChuyenXe {
 	@Column(name = "TG_KH")
 	private Time tgKh;
 	@Column(name = "TrangThai")
-	private boolean trangthai;
+	private int trangthai;
 	@ManyToOne
 	@JoinColumn(name = "MaXe")
 	private XeKhach xekhach;
@@ -62,14 +62,15 @@ public class ChuyenXe {
 	public void setTgKh(Time tgKh) {
 		this.tgKh = tgKh;
 	}
-	public boolean isTrangthai() {
-		return trangthai;
-	}
-	public void setTrangthai(boolean trangthai) {
-		this.trangthai = trangthai;
-	}
+
 	public XeKhach getXekhach() {
 		return xekhach;
+	}
+	public int getTrangthai() {
+		return trangthai;
+	}
+	public void setTrangthai(int trangthai) {
+		this.trangthai = trangthai;
 	}
 	public void setXekhach(XeKhach xekhach) {
 		this.xekhach = xekhach;

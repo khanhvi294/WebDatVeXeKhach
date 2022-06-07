@@ -6,20 +6,23 @@
 <html lang="en">
 <%@include file="../KhachHang/head.jsp"%>
     <body class="">
+    <div class="alert-flag" aType='${message.type}'
+		aMessage="${message.message }"></div>
         <!-- MAIN -->
         
    <%@include file="../KhachHang/navbar.jsp"%>
         <!-- /////////////////////////////// -->
   
         <!-- /////////////////////////////////// -->
-          ${message}
+         
         <div class="wheel-register-block">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6 " style="margin-left: 300px">
+                    <div class="col-md-6 marg-lg-t50" style="margin-left: 300px">
                         <div class="wheel-register-log marg-lg-b150 marg-sm-t100 marg-sm-b100">
                             <div class="wheel-header">
                                 <h5>Đăng Nhập</h5>
+                                <p> </p>
                             </div>
                             <form:form action="dangnhap.html"  method="post" modelAttribute="taikhoan" >
                                 <label for="userName" class="fa fa-user">

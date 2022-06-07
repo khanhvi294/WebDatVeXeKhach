@@ -26,7 +26,7 @@ public class TuyenXe {
 	private DiaDiem diemDen;
 	@Column(name = "TrangThai")
 	private boolean trangThai;
-	@Column(name = "tgchaytuyen")
+	@Column(name = "tgdichuyen")
 	private int tgchay;
 	@OneToMany(mappedBy = "tuyen", fetch = FetchType.EAGER)
 	private Collection<ChuyenXe> chuyen;
