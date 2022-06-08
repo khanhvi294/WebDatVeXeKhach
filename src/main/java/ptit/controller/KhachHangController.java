@@ -1,8 +1,9 @@
 package ptit.controller;
 
 import java.math.BigDecimal;
-
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -135,7 +136,7 @@ public class KhachHangController {
 		//String referer = request.getHeader("Referer");
 		if(refer.trim().isEmpty()) {
 			System.out.println("null chon chuyen");
-			return "redirect:/";
+			return "redirect:/trangchu.html";
 		}
 		String referer = refer.trim();
 		if (cc == null) {
@@ -156,7 +157,7 @@ public class KhachHangController {
 			List<ChuyenXe> listcx = list;
 			listcx = list;
 			if (listcx.size() == 0) {
-
+				
 				redirectAttributes.addFlashAttribute("message",
 						new Message("error", "Không tìm thấy bất kì chuyến xe nào mà bạn muốn tìm kiếm!"));
 				return "redirect:" + referer;
@@ -165,14 +166,22 @@ public class KhachHangController {
 			Session session = factory.getCurrentSession();
 			DiaDiem ddi = (DiaDiem) session.get(DiaDiem.class, cx.getTuyen().getDiemDi().getMaDD());
 			DiaDiem dden = (DiaDiem) session.get(DiaDiem.class, cx.getTuyen().getDiemDen().getMaDD());
+	
 			System.out.println(dden.getDiaDiem());
 			System.out.println(ddi.getDiaDiem());
 			model.addAttribute("diemdi", ddi.getDiaDiem());
 			model.addAttribute("diemden", dden.getDiaDiem());
+			/*
+			 * final DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy"); String dateString2
+			 * = df2.format(cx.getNgKH());
+			 */
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			String dateString2 = dateFormat.format(cx.getNgKH());
+			System.out.println(dateString2);
+			
+			model.addAttribute("ngkh",dateString2);
 
-		} else {
-
-		}
+		} 
 		return "KhachHang/chonchuyen";
 	}
 
@@ -198,7 +207,7 @@ public class KhachHangController {
 			List<ChuyenXe> listcx = list;
 			listcx = list;
 			if (listcx.size() == 0) {
-
+				redirectAttributes.addFlashAttribute("chuyenxe",cx);
 				redirectAttributes.addFlashAttribute("message",
 						new Message("error", "Không tìm thấy bất kì chuyến xe nào mà bạn muốn tìm kiếm!"));
 				return "redirect:" + referer;
@@ -211,6 +220,9 @@ public class KhachHangController {
 			System.out.println(ddi.getDiaDiem());
 			model.addAttribute("diemdi", ddi.getDiaDiem());
 			model.addAttribute("diemden", dden.getDiaDiem());
+			final DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy");
+			 String dateString2 = df2.format(cx.getNgKH());
+			model.addAttribute("ngkh", dateString2);
 
 		} else {
 

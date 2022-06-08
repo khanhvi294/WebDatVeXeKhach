@@ -7,10 +7,12 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import ptit.entity.*;
@@ -70,34 +72,37 @@ public class QuanLyController {
 		}
 		return id;
 	}
+
 	public List<PhieuDat> getdspdbymachuyen(String machuyen) {
 		Session session = factory.getCurrentSession();
 		String hql = "from PhieuDat pd where pd.chuyen.maChuyen =:machuyen";
 		Query query = session.createQuery(hql);
 		query.setParameter("machuyen", machuyen);
 		List<PhieuDat> list = query.list();
-		if(list.size()==0) {
+		if (list.size() == 0) {
 			return null;
 		}
-		
+
 		return list;
 	}
-	public int tangchotrong(String machuyen,int sl) {
+
+	public int tangchotrong(String machuyen, int sl) {
 		Session session = factory.getCurrentSession();
 		String hql = "from ChuyenXe where maChuyen=:machuyen";
 		Query query = session.createQuery(hql);
 		query.setParameter("machuyen", machuyen);
-		int sochotrong=0;
+		int sochotrong = 0;
 		List<ChuyenXe> dscx = query.list();
-		if(dscx!=null) {
+		if (dscx != null) {
 			ChuyenXe chuyenxe = dscx.get(0);
 			int sct = chuyenxe.getSochotrong();
-			chuyenxe.setSochotrong(sct+sl);
+			chuyenxe.setSochotrong(sct + sl);
 			sochotrong = chuyenxe.getSochotrong();
 			System.out.println(sochotrong);
 		}
 		return sochotrong;
 	}
+
 	public BigDecimal layGia(String matuyen, String LoaiXe) {
 		Session session = factory.getCurrentSession();
 		String hql = "from TuyenXe where maTuyen = '" + matuyen + "'";
@@ -173,7 +178,8 @@ public class QuanLyController {
 		List<KhachHang> list = query.list();
 		return list;
 	}
-	public int getslvebypd(String mapd){
+
+	public int getslvebypd(String mapd) {
 		Session session = factory.getCurrentSession();
 		String hql = "from VeXe where id.pd=:mapd";
 		Query query = session.createQuery(hql);
@@ -181,6 +187,7 @@ public class QuanLyController {
 		List<VeXe> list = query.list();
 		return list.size();
 	}
+
 	public List<PhieuDat> dspd() {
 		Session session = factory.getCurrentSession();
 		String hql = "FROM PhieuDat as pd order by pd.maPD desc";
@@ -315,11 +322,11 @@ public class QuanLyController {
 		System.out.println(chuyen.getTrangthai());
 		ChuyenXe chuyenxe = xetheoid(ma);
 		chuyenxe.setTrangthai(chuyen.getTrangthai());
-		
+
 		try {
-			if(chuyenxe.getTrangthai()==2) {
+			if (chuyenxe.getTrangthai() == 2) {
 				List<PhieuDat> dspd = getdspdbymachuyen(ma);
-				if(dspd!=null) {
+				if (dspd != null) {
 					for (PhieuDat phieudat : dspd) {
 						phieudat.setTrangThai(2);
 						try {
@@ -334,13 +341,13 @@ public class QuanLyController {
 							System.out.println("thất bại");
 							e.printStackTrace();
 						}
-						
+
 						session.merge(phieudat);
 					}
 
 				}
 			}
-			
+
 			session.merge(chuyenxe);
 			transaction.commit();
 			redirectAttributes.addFlashAttribute("message", new Message("success", "Thay đổi trạng thái thành công!"));
@@ -482,25 +489,22 @@ public class QuanLyController {
 		return "QuanLy/chuyenxe";
 	}
 
-	public int checkchuyenxe(String bienso, String ngkh, ChuyenXe chuyen) {
-		System.out.println("vào nè");
+	public ChuyenXe getchuyenxecuoi(String bienso, String ngkh, ChuyenXe chuyen) {
+
 		Session session = factory.getCurrentSession();
 		String hql = "from ChuyenXe where xekhach.bienXe = '" + bienso + "' and ngKH <= '" + ngkh
-				+ "' ORDER BY ngKH DESC,tgKh DESC";
+				+ "' and trangthai!=2 ORDER BY ngKH DESC,tgKh DESC";
 		Query query = session.createQuery(hql);
 
 		List<ChuyenXe> list = query.list();
-		System.out.println(list.size());
+
 		if (list.size() != 0) {
 			ChuyenXe cx = list.get(0);
-			System.out.println(cx.getMaChuyen());
-			TuyenXe tx = tuyentheoid(chuyen.getTuyen().getMaTuyen());
-			TuyenXe tx1 = tuyentheoid(cx.getTuyen().getMaTuyen());
-			if (tx.getDiemDi().getMaDD().equals(tx1.getDiemDen().getMaDD()) == false) {
-				return 1;
-			}
+System.out.println("chuyenx " +cx.getMaChuyen());
+			return cx;
+
 		}
-		return 0;
+		return null;
 
 	}
 
@@ -512,16 +516,70 @@ public class QuanLyController {
 
 			errors.rejectValue("ngKH", "chuyen", "Ngày Tháng Không Được Để Trống");
 		}
-		if (chuyen.getNgKH() != null && chuyen.getNgKH().before(new Date())) {
-			errors.rejectValue("ngKH", "chuyen", "Ngày Tháng Không Được Để Nhỏ Hơn Ngày Hiện Tại");
-
-		} else if (checkchuyenxe(chuyen.getXekhach().getBienXe(), request.getParameter("ngKH"), chuyen) == 1) {
-			errors.rejectValue("maChuyen", "chuyen", "Xe Không ở vị trí hiện tại");
-		}
 		if (request.getParameter("thoigian") == "") {
 			errors.rejectValue("tgKh", "chuyen", "Thời gian không được để trống");
 		}
 
+		if (chuyen.getNgKH() != null && chuyen.getNgKH().before(new Date())) {
+			errors.rejectValue("ngKH", "chuyen", "Ngày Tháng Không Được Để Nhỏ Hơn Ngày Hiện Tại");
+
+		} else {
+			ChuyenXe cxc = getchuyenxecuoi(chuyen.getXekhach().getBienXe(), request.getParameter("ngKH"), chuyen);
+			if (cxc != null) {
+				TuyenXe tx = tuyentheoid(chuyen.getTuyen().getMaTuyen());
+				
+				if(tx.getDiemDi().getMaDD().equals(cxc.getTuyen().getDiemDen().getMaDD()) == false) {
+					errors.rejectValue("maChuyen", "chuyen", "Xe ở " + cxc.getTuyen().getDiemDen().getDiaDiem() + ". Vui lòng chọn tuyến xe phù hợp.");
+				}else {
+					try {
+					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+					Date parsed = format.parse(request.getParameter("ngKH"));
+					java.sql.Date sql = new java.sql.Date(parsed.getTime());
+					chuyen.setNgKH(sql);
+					SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
+					Date d1 = sdf.parse(request.getParameter("thoigian"));
+					chuyen.setTgKh(new Time(d1.getTime()));
+					
+//					test thử
+					SimpleDateFormat dateformat = new SimpleDateFormat("dd-MM-yyyy");
+					String dateString2 = dateformat.format(chuyen.getNgKH());
+					String dateString = dateformat.format(cxc.getNgKH());
+					
+					String s = cxc.getTgKh().toString().substring(0,5);
+					String s1 = chuyen.getTgKh().toString().substring(0, 5);
+					SimpleDateFormat formatter = new SimpleDateFormat("dd-M-yyyy hh:mm");
+					Date date = null;
+					Date datebf = null;
+					try {
+						date = formatter.parse(dateString2 + " " + s1);
+						datebf = formatter.parse(dateString+" " +s);
+						System.out.println("ngay1 "+date);
+						System.out.println("ngaytrc"+date);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} 
+					 Calendar c = Calendar.getInstance();
+				        c.setTime(datebf);
+				        c.add(Calendar.MINUTE, 30);
+				        Date datecp = c.getTime();
+				        
+					long getDiff = date.getTime() - datecp.getTime();
+					long getDaysDiff = TimeUnit.MILLISECONDS.toMinutes(getDiff);
+					int minute = (int) getDaysDiff;
+					System.out.println("thoi gian2 " +minute);
+					if(minute < 4*60) {
+						errors.rejectValue("tgKh", "chuyen", "Thời gian khỏi hanh cần cách thời gian đến của xe 4 tiếng!");
+					}
+					}catch(Exception e) {
+						
+					}
+					
+//					kết thúc test
+				}
+			}}
+		
+		
 		if (errors.hasErrors()) {
 			System.out.println("l3333oi");
 			model.addAttribute("idModal", "modalCreate");
@@ -573,6 +631,28 @@ public class QuanLyController {
 				chuyen.setTgKh(new Time(d1.getTime()));
 				chuyen.setGia(gia);
 				chuyen.setSochotrong(36);
+//				test thử
+				SimpleDateFormat dateformat = new SimpleDateFormat("dd-MM-yyyy");
+				String dateString2 = dateformat.format(chuyen.getNgKH());
+				String s1 = chuyen.getTgKh().toString().substring(0, 5);
+				SimpleDateFormat formatter = new SimpleDateFormat("dd-M-yyyy hh:mm");
+				Date date = null;
+				Date datebf = null;
+				try {
+					date = formatter.parse(dateString2 + " " + s1);
+				
+					System.out.println("ngay "+date);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+				Date now = new Date();
+				long getDiff = date.getTime() - now.getTime();
+				long getDaysDiff = TimeUnit.MILLISECONDS.toMinutes(getDiff);
+				int minute = (int) getDaysDiff;
+				System.out.println("thoi gian " +minute);
+				
+//				kết thúc test
 				session.save(chuyen);
 				transaction.commit();
 				redirectAttributes.addFlashAttribute("message", new Message("success", "Thêm chuyến thành công!"));
@@ -677,18 +757,17 @@ public class QuanLyController {
 		} else if (checkddtuyentrung(tuyen.getDiemDi().getMaDD(), tuyen.getDiemDen().getMaDD()) == 0) {
 			errors.rejectValue("diemDen", "tuyen", "Tuyến đã tồn tại");
 		}
-		if(tuyen.getGiatuyen() == null) {
+		if (tuyen.getGiatuyen() == null) {
 			errors.rejectValue("giatuyen", "tuyen", "Giá tuyến không được để trống");
 			count = 1;
-		}else if (Double.parseDouble(tuyen.getGiatuyen().toString()) <= 0) {
+		} else if (Double.parseDouble(tuyen.getGiatuyen().toString()) <= 0) {
 			errors.rejectValue("giatuyen", "tuyen", "Giá tuyến không được nhỏ hơn 0");
 			count = 1;
 		} else if (Pattern.matches("[a-zA-Z]+", tuyen.getGiatuyen().toString()) == true) {
 			errors.rejectValue("giatuyen", "tuyen", "Sai định dạng");
 			count = 1;
 		}
-		
-		
+
 		if (count == 1) {
 			List<TuyenXe> list = dstx();
 			model.addAttribute("list", list);
@@ -746,43 +825,43 @@ public class QuanLyController {
 	}
 
 	@RequestMapping(value = "/tuyenxe/{matuyen}", params = "update", method = RequestMethod.POST)
-	public String TuyenXeUpdate(ModelMap model,@PathVariable("matuyen") String ma, HttpServletRequest request,
+	public String TuyenXeUpdate(ModelMap model, @PathVariable("matuyen") String ma, HttpServletRequest request,
 			RedirectAttributes redirectAttributes) {
-		TuyenXe tuyen = tuyentheoid(ma); 
+		TuyenXe tuyen = tuyentheoid(ma);
 		int count = 0;
-		if(request.getParameter("tgchay").trim().length() == 0) {
+		if (request.getParameter("tgchay").trim().length() == 0) {
 			model.addAttribute("messagegia", "thời gian chạy tuyến không được nhỏ hơn 0");
 			count = 1;
-		}else if (Integer.parseInt(request.getParameter("tgchay")) <= 0) {
+		} else if (Integer.parseInt(request.getParameter("tgchay")) <= 0) {
 			model.addAttribute("messagegia", "thời gian chạy tuyến không được nhỏ hơn 0");
 			count = 1;
 		} else if (Pattern.matches("[a-zA-Z]+", request.getParameter("tgchay")) == true) {
 			model.addAttribute("messagegia", "Sai Định Dạng");
 			count = 1;
 		}
-		if(request.getParameter("giatuyen").trim().length() == 0) {
+		if (request.getParameter("giatuyen").trim().length() == 0) {
 			model.addAttribute("messagetgchay", "thời gian chạy tuyến không được nhỏ hơn 0");
 			count = 1;
-		}else if (Double.parseDouble(request.getParameter("giatuyen")) <= 0) {
+		} else if (Double.parseDouble(request.getParameter("giatuyen")) <= 0) {
 			model.addAttribute("messagetgchay", "Giá trị không được nhỏ hơn 0");
 			count = 1;
 		} else if (Pattern.matches("[a-zA-Z]+", request.getParameter("giatuyen")) == true) {
 			model.addAttribute("messagetgchay", "Sai định dạng");
 			count = 1;
 		}
-		
+
 		if (count == 1) {
 			model.addAttribute("idModal", "modalUpdate");
 			List<TuyenXe> list = dstx();
 			model.addAttribute("list", list);
 			model.addAttribute("tuyen", tuyen);
 			return "QuanLy/tuyenxe";
-		}else {
+		} else {
 			Session session = factory.openSession();
 			Transaction transaction = session.beginTransaction();
 			try {
-				 tuyen = tuyentheoid(ma);
-	//			tuyen.setTrangThai(Boolean.parseBoolean(request.getParameter("trangthai")));
+				tuyen = tuyentheoid(ma);
+				// tuyen.setTrangThai(Boolean.parseBoolean(request.getParameter("trangthai")));
 				tuyen.setTgchay(Integer.parseInt(request.getParameter("tgchay")));
 				session.save(tuyen);
 				transaction.commit();
@@ -801,12 +880,12 @@ public class QuanLyController {
 	@RequestMapping("/nhanvien")
 	public String NhanVien(ModelMap model, HttpSession ss) {
 		TaiKhoan tk = (TaiKhoan) ss.getAttribute("tkdn");
-		if(tk!= null) {
-			if(!tk.getVaiTro().getMaVT().equals("QL")) {
+		if (tk != null) {
+			if (!tk.getVaiTro().getMaVT().equals("QL")) {
 				return "redirect:/quanly/trangchu.html";
 			}
 		}
-		
+
 		List<NhanVien> nhanviens = dsnv();
 		model.addAttribute("nhanvien", nhanviens);
 		model.addAttribute("nv", new NhanVien());
@@ -1318,6 +1397,7 @@ public class QuanLyController {
 		}
 
 	}
+
 	public int checkddtuyentrung(String diemdi, String diemDen) {
 		Session session = factory.getCurrentSession();
 		String hql = "from TuyenXe t where t.diemDi.maDD = :diemdi and t.diemDen .maDD = :diemden";
@@ -1372,30 +1452,28 @@ public class QuanLyController {
 		return 0;
 	}
 
-
 	// update Loại xe post
 	@RequestMapping(value = "/loaixe/{malx}", params = "update", method = RequestMethod.POST)
 	public String LXupdate(ModelMap model, @PathVariable("malx") String ma, @ModelAttribute("lx") LoaiXe lx,
 			HttpServletRequest request, BindingResult errors, RedirectAttributes redirectAttributes) {
 		int count = 0;
-		if(lx.getGiaLX() == null) {
+		if (lx.getGiaLX() == null) {
 			errors.rejectValue("giaLX", "lx", "Không được để trống");
 			count = 1;
-		}else if (Double.parseDouble(lx.getGiaLX().toString()) <= 0) {
+		} else if (Double.parseDouble(lx.getGiaLX().toString()) <= 0) {
 			errors.rejectValue("giaLX", "lx", "Giá phải lớn hơn 0");
 			count = 1;
 		} else if (Pattern.matches("[a-zA-Z]+", lx.getGiaLX().toString()) == true) {
 			errors.rejectValue("giaLX", "lx", "Sai định dạng");
 			count = 1;
 		}
-		if(lx.getTenLX().trim().length() == 0) {
+		if (lx.getTenLX().trim().length() == 0) {
 			errors.rejectValue("tenLX", "lx", "Không được để trống");
 			count = 1;
-		}else if (checktenlxtrung(lx.getTenLX(), lx.getMaLX()) == 0) {
+		} else if (checktenlxtrung(lx.getTenLX(), lx.getMaLX()) == 0) {
 			errors.rejectValue("tenLX", "lx", "Tên Loại Xe Đã Tồn Tại");
 			count = 1;
 		}
-
 
 		if (count == 1) {
 			model.addAttribute("idModal", "modalUpdate");
@@ -1460,14 +1538,14 @@ public class QuanLyController {
 		if (lx.getTenLX().trim().length() == 0) {
 			errors.rejectValue("tenLX", "lx", "Không được để trống");
 			count = 1;
-		} else if(checktenlxtrung(lx.getTenLX(),lx.getMaLX())==0) {
+		} else if (checktenlxtrung(lx.getTenLX(), lx.getMaLX()) == 0) {
 			errors.rejectValue("tenLX", "lx", "Tên loại xe đã tồn tại");
 			count = 1;
 		}
-		if(lx.getGiaLX() == null) {
+		if (lx.getGiaLX() == null) {
 			errors.rejectValue("seat", "lx", "Không được để trống");
 			count = 1;
-		}else if (Double.parseDouble(lx.getGiaLX().toString()) <= 0) {
+		} else if (Double.parseDouble(lx.getGiaLX().toString()) <= 0) {
 			errors.rejectValue("seat", "lx", "Giá Loại Xe > 0");
 			count = 1;
 		} else if (Pattern.matches("[a-zA-Z]+", lx.getGiaLX().toString()) == true) {
@@ -1633,39 +1711,36 @@ public class QuanLyController {
 		return "QuanLy/profile";
 	}
 
-
-	@RequestMapping(value = "/trangcanhan",params="doithongtin", method = RequestMethod.POST)
+	@RequestMapping(value = "/trangcanhan", params = "doithongtin", method = RequestMethod.POST)
 	public String ProfileUpdate(ModelMap model, @ModelAttribute("nv") NhanVien nv, HttpSession ss,
 			HttpServletRequest request, BindingResult errors) {
-		if(nv.getCccd().trim().length() == 0) {
+		if (nv.getCccd().trim().length() == 0) {
 			errors.rejectValue("sdt", "nv", "SDT không để trống");
-		}
-		else if (!nv.getSdt().trim().matches("^[0-9]*$") || nv.getSdt().length() != 10) {
+		} else if (!nv.getSdt().trim().matches("^[0-9]*$") || nv.getSdt().length() != 10) {
 			errors.rejectValue("sdt", "nv", "Vui lòng nhập đúng định dạng sdt");
 		} else if (checksdt(nv.getSdt(), nv.getMaNV()) == 0) {
 			errors.rejectValue("sdt", "nv", "sdt bị trùng");
 		}
-		if(nv.getCccd().trim().length() == 0) {
+		if (nv.getCccd().trim().length() == 0) {
 			errors.rejectValue("cccd", "nv", "CCCD không để trống");
-		}
-		else if (!nv.getCccd().trim().matches("^[0-9]*$") || nv.getCccd().length() != 10) {
+		} else if (!nv.getCccd().trim().matches("^[0-9]*$") || nv.getCccd().length() != 10) {
 			errors.rejectValue("cccd", "nv", "Vui lòng nhập đúng định dạng cccd");
 		} else if (checktrungcccd(nv.getCccd(), nv.getMaNV()) == 0) {
 			errors.rejectValue("cccd", "nv", "CCCD Đã Tồn Tại");
-		} 
-		if(nv.getTknv().getEmail().trim().length() == 0) {
+		}
+		if (nv.getTknv().getEmail().trim().length() == 0) {
 			errors.rejectValue("maNV", "nv", "Email không được để trống");
-		}else if (checkemail(nv.getTknv().getEmail(),nv.getTknv().getUserName()) == 0) {
+		} else if (checkemail(nv.getTknv().getEmail(), nv.getTknv().getUserName()) == 0) {
 			errors.rejectValue("maNV", "nv", "Email đã tồn tại");
 
-		}else if (!nv.getTknv().getEmail().trim().matches(
+		} else if (!nv.getTknv().getEmail().trim().matches(
 				"^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")) {
 			errors.rejectValue("maNV", "nv", "Chưa đúng định dạng email");
-			}
-		if(nv.getHoNV().trim().length() ==0) {
+		}
+		if (nv.getHoNV().trim().length() == 0) {
 			errors.rejectValue("hoNV", "nv", "Họ nhân viên không để trống");
 		}
-		if(nv.getTenNV().trim().length() ==0) {
+		if (nv.getTenNV().trim().length() == 0) {
 			errors.rejectValue("tenNV", "nv", "Tên nhân viên không để trống");
 		}
 		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
@@ -1681,7 +1756,6 @@ public class QuanLyController {
 			errors.rejectValue("ngaySinh", "nv", "Ngày Tháng Không Được Để Lớn Hơn Ngày Hiện Tại");
 
 		}
-
 
 		if (errors.hasErrors()) {
 			nv = (NhanVien) ss.getAttribute("user");
@@ -1750,9 +1824,7 @@ public class QuanLyController {
 
 //////////////////////////////////////////////////////////////////
 
-	
-
-	@RequestMapping(value = "trangcanhan.html",params ="doimatkhau", method = RequestMethod.POST)
+	@RequestMapping(value = "trangcanhan.html", params = "doimatkhau", method = RequestMethod.POST)
 	public String doimatkhau(@RequestParam("pw") String pw, @RequestParam("rpw") String rpw,
 			@RequestParam("password") String password, ModelMap model, HttpServletRequest request,
 			RedirectAttributes redirectAttributes) {

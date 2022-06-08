@@ -18,7 +18,7 @@
                        
                             </div>
                             <form action="dangnhap.html" method="post">
-                                <label for="email" class="fa fa-user"><input type="text" name="email" id="email" placeholder='Nhập email'></label>
+                                <label for="email" class="fa fa-user"><input type="text" value="${email }" name="email" id="email" placeholder='Nhập email'></label>
                                   <p style="color:red">${ms1 }</p>
                                 <button name="btnlaymatkhau" type="submit" class="wheel-btn">Tiếp tục</button>
                             </form>
