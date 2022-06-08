@@ -22,13 +22,17 @@
 						</div>
 
 						<form:form action="dangki.html" modelAttribute="khachhang"
-							method="post">
+							method="post" id="form-dangki">
+							<label for="inputName5" class="form-label">Họ</label>
 							<form:input path="hoKH" placeholder="Họ" />
 							<form:errors class="text-er" path="hoKH"></form:errors>
+							<label for="inputName5" class="form-label">Tên</label>
 							<form:input path="tenKH" placeholder="Tên" />
 							<form:errors class="text-er" path="tenKH"></form:errors>
+							<label for="inputName5" class="form-label">Ngày sinh</label>
 							<form:input path="ngSinh" type="date" placeholder="Ngày sinh" />
 							<form:errors class="text-er" path="ngSinh"></form:errors>
+							<label for="inputName5" class="form-label">Giới tính</label>
 							<div  style="display: flex; gap: 30px;">
 								<div  >
 									<label>Nam</label>
@@ -39,18 +43,26 @@
 								<form:radiobutton path="phai" value="true" />
 								</div>
 							</div>
+							<label for="inputName5" class="form-label">Email</label>
 							<form:input path="tkkh.email" placeholder="Email" />
 							<form:errors class="text-er" path="tkkh.email"></form:errors>
-							<form:input path="sdt" placeholder="Số điện thoại" />
+							<label for="inputName5" class="form-label">Số điện thoại</label>
+							<form:input id="sdt" path="sdt" placeholder="Số điện thoại" />
 							<form:errors class="text-er" path="sdt"></form:errors>
-							<form:input path="tkkh.userName" placeholder="Tên đăng nhập" />
-							<form:errors class="text-er" path="tkkh.userName"></form:errors>
-							<input name="pw" type="password" placeholder="Mật khẩu" />
+							<p id="sdt-error" class="text-er"> </p>
+							<label for="inputName5" class="form-label">Username</label>
+							<form:input id="username" path="tkkh.userName" placeholder="Username" />
+							<form:errors  class="text-er" path="tkkh.userName"></form:errors>
+							<p id="username-error" class="text-er"> </p>
+							<label for="inputName5" class="form-label">Mật khẩu</label>
+							<input name="pw" id="password" type="password" placeholder="Mật khẩu" />
 							<form:errors class="text-er" path="tkkh.matKhau"></form:errors>
+							<p id="mk-error" class="text-er"> </p>
+							<label for="inputName5" class="form-label">Xác Nhận mật khẩu</label>
 							<input name="rpw" type="password" placeholder="Xác Nhận mật khẩu" />
 							<span class="text-er"> ${messageer}</span>
 
-							<button type="submit" class="wheel-btn">Đăng kí</button>
+							<button id="btn-dangki" type="submit" class="wheel-btn">Đăng kí</button>
 						</form:form>
 					</div>
 				</div>
@@ -124,6 +136,72 @@
 		</div>
 	</div>
 	<%@include file="../KhachHang/script.jsp"%>
+	<script src="resources/KhachHang/assets/js/auth.js"></script>
+	<script>
+	let check = true;
+	let dataCheck = "";
+	function checkInputRegister() {
+		check = true;
+		
+		$("#username").bind("change", function() {
+			
+			let dataCheck = $(this).val();
+			let regexUsername = new RegExp(/^[0-9a-zA-Z_]+$/);
+			
+			if (!regexUsername.test(dataCheck) || dataCheck.length < 3 || dataCheck.length > 17) {
+				check = false;
+				$("#username-error").text("Username giới hạn trong khoảng 3-17 ký tự, và không được có ký tự đặc biệt.");
+				
+				return false;
+			} else {
+				check = true;
+				dataCheck = dataCheck.trim().replace(/\s+/g, '');
+				$("#username-error").text("");
+				console.log(dataCheck.length)
+				$("#username").val(dataCheck.trim());
+			}
+		});
+		
+		$("#sdt").bind("change",function() {
+			let sdt = $("#sdt").val();
+			let regexSdt = new RegExp(/(((\+|)84)|0)(3|5|7|8|9)+([0-9]{8})\b/);
+			if(!regexSdt.test(sdt)){
+				check = false;
+				$("#sdt-error").text("Số điện thoại phải hợp lệ");
+			}else {
+				$("#sdt-error").text("");
+			}
+		});
+		
+		$("password").bind("change",function() {
+			let pw = $("#password").val();
+			if(pw && pw.length >= 6){
+				$("#mk-error").text("")
+			}else{
+				check = false;
+				$("#mk-error").text("Mật khẩu không được bỏ trống và tổi thiểu 6 kí tự");
+			}
+		});
+		
+		
+		
+		check = true;
+		$("#btn-dangki").click(function(e) {
+			e.preventDefault();
+
+			if (check) {
+				$("#form-dangki").submit();
+			}
+		})
+	}
+	
+
+	$(document).ready(function() {
+		checkInputRegister();
+
+	})
+	
+	</script>
 	<!-- sixth block end -->
 </body>
 

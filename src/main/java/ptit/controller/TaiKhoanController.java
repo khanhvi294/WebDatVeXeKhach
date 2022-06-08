@@ -287,13 +287,21 @@ public class TaiKhoanController {
 	
 		if(email.isEmpty()) {
 			redirectAttributes.addFlashAttribute("ms1","Email không được để trống!");
+			
 			return "redirect:quenmatkhau.html";
 		 }
+		 if (!email.trim().matches(
+					"^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")) {
+			 redirectAttributes.addFlashAttribute("ms1","Email không hợp lệ!");
+			 return "redirect:quenmatkhau.html";
+
+		  }
 		
 		TaiKhoan tk = gettkbyemail(email);
 		
 		if(tk == null) {
 			redirectAttributes.addFlashAttribute("ms1","Email không tồn tại.Vui lòng kiểm tra lại!");
+			redirectAttributes.addFlashAttribute("email", email);
 			return "redirect:quenmatkhau.html";
 		}
 		 

@@ -56,7 +56,7 @@
 					<header class="wheel-header marg-lg-t25 marg-lg-b65">
 						<h3>
 							Danh sách chuyến xe từ <span>${diemdi} </span> đến <span>
-								${diemden} </span>
+								${diemden} </span> ngày <span>${ngkh}</span>
 						</h3>
 					</header>
 				</div>
