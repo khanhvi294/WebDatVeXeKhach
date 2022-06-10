@@ -27,28 +27,31 @@
                                 <h5>Đổi Mật Khẩu</h5>
                          
                             </div>
-                           <form class="row g-3" method="post">
+                           <form id="form-doimk" class="row g-3" method="post">
 								<div class="col-md-12">
 									<label for="inputName5" class="form-label">Mật khẩu cũ</label>
-									<input name="cpassword" type="password" 
-										id="inputName5"> <span class="text-er">${message1 }</span>
+									<input name="cpassword" id="cpassword" type="password" 
+										> <span class="text-er">${message1 }</span>
+									 <p id="cmk-error" class="text-er"> </p>
 								</div>
 
 								<div class="col-md-12">
 									<label for="inputName5" class="form-label">Mật khẩu mới</label>
-									<input name="npassword" type="password" 
-										id="inputName5"> <span class="text-er">${message2 }</span>
+									<input name="npassword" id="password" type="password" 
+										> <span class="text-er">${message2 }</span>
+										<p id="mk-error" class="text-er"> </p>
 								</div>
 
 								<div class="col-md-12">
 									<label for="inputName5" class="form-label">Xác nhận mật
-										khẩu</label> <input name="rnpassword" type="password"
-										 id="inputName5"> <span
+										khẩu</label> <input id="confirmPassword" name="rnpassword" type="password"
+										 > <span
 										class="text-er">${message3 }</span>
+										<p id="remk-error" class="text-er"> </p>
 								</div>
 
 								<div class="text-center ">
-									<button type="submit" class="btn btn-primary marg-lg-t20">Lưu</button>
+									<button type="submit" id="btn-doimk" class="btn btn-primary marg-lg-t20">Lưu</button>
 									
 								</div>
 							</form>
@@ -93,6 +96,106 @@
 		src="resources/KhachHang/assets/js/alertify.min.js"></script>
 	<script type="text/javascript"
 		src="resources/KhachHang/assets/js/showMessage.js"></script>
+	<script>
+	let check = true;
+	let dataCheck = "";
+	function checkInputRegister() {
+		check = true;
+		
+		
+		$("#cpassword").bind("change",function() {
+			let pw = $("#cpassword").val();
+			if(pw){
+				$("#cmk-error").text("")
+			}else{
+				check = false;
+				$("#cmk-error").text("Mật khẩu không được bỏ trống");
+				return false;
+
+			}
+		});
+		
+		$("#password").bind("change",function() {
+			let pw = $("#password").val();
+			if(pw && pw.length >= 6){
+				$("#mk-error").text("")
+			}else{
+				check = false;
+				$("#mk-error").text("Mật khẩu không được bỏ trống và tổi thiểu 6 kí tự");
+				return false;
+
+			}
+		});
+		
+	
+		$("#confirmPassword").bind("change",function(){
+			let repw = $("#confirmPassword").val();
+			let pw = $("#password").val();
+			if(pw && pw != repw){
+				check = false;
+				return false;
+
+				$("#remk-error").text("Mật khẩu nhập lại không trùng");
+			}else {
+				$("#remk-error").text("");
+			}
+		});
+		
+		
+	}
+	
+	function checkPasswordSubmit() {
+		let check = true;
+		$("#btn-doimk").click(function (e) {
+			
+			check = true;
+			e.preventDefault();
+			
+			let cpassword = $("#cpassword").val();
+			if(cpassword){
+				$("#cmk-error").text("")
+			}else{
+				check = false;
+				$("#cmk-error").text("Mật khẩu không được bỏ trống");
+				
+
+			}
+			
+			let password = $("#password").val();
+			if(password && password.length >= 6){
+				$("#mk-error").text("")
+			}else{
+				check = false;
+				$("#mk-error").text("Mật khẩu không được bỏ trống và tổi thiểu 6 kí tự");
+				
+
+			}
+			
+			let confirmPassword = $("#confirmPassword").val();
+			let repw = $("#confirmPassword").val();
+			let pw = $("#password").val();
+			if(pw && pw != repw){
+				check = false;
+				
+
+				$("#remk-error").text("Mật khẩu nhập lại không trùng");
+			}else {
+				$("#remk-error").text("");
+			}
+			
+			if(check){
+				$("#form-doimk").submit();
+			}
+			
+		})
+	}
+
+	$(document).ready(function() {
+		checkInputRegister();
+		checkPasswordSubmit();
+	})
+	
+	</script>
 	<!-- sixth block end -->
 </body>
 

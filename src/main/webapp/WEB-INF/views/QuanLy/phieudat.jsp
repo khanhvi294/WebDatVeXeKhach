@@ -12,6 +12,24 @@
 	<div class="pagetitle">
 		<h1>Phiếu Đặt</h1>
 	</div>
+	<div>
+       		<form action = "quanly/phieudat/search.html" method = "post">
+       			 <select name = "xekhach">
+					<option value="all">Tất cả</option>
+					<c:forEach var="xk" items="${xe}">
+						<option value="${xk.maChuyen}">${xk.maChuyen}</option>
+					</c:forEach>
+				</select>
+				<select name = "trangthai">
+					<option value="3">Tất cả</option>
+					<option value="0">Chờ thanh toán</option>
+					<option value="1">Đã thanh toán</option>
+					<option value="2">Hủy</option>
+				</select>
+				<button>submit</button>
+			</form>
+		
+        </div>
 	<section class="section">
 		<div class="row">
 			<div class="col-lg-12">

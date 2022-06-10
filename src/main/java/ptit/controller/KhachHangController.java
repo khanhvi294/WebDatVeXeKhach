@@ -171,15 +171,12 @@ public class KhachHangController {
 			System.out.println(ddi.getDiaDiem());
 			model.addAttribute("diemdi", ddi.getDiaDiem());
 			model.addAttribute("diemden", dden.getDiaDiem());
-			/*
-			 * final DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy"); String dateString2
-			 * = df2.format(cx.getNgKH());
-			 */
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-			String dateString2 = dateFormat.format(cx.getNgKH());
-			System.out.println(dateString2);
 			
-			model.addAttribute("ngkh",dateString2);
+			  final DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy"); 
+			  String dateString2 = df2.format(cx.getNgKH());
+			
+			  model.addAttribute("ngkh",dateString2);
+			
 
 		} 
 		return "KhachHang/chonchuyen";
@@ -208,6 +205,7 @@ public class KhachHangController {
 			listcx = list;
 			if (listcx.size() == 0) {
 				redirectAttributes.addFlashAttribute("chuyenxe",cx);
+				System.out.println("chuyenxe k thấy");
 				redirectAttributes.addFlashAttribute("message",
 						new Message("error", "Không tìm thấy bất kì chuyến xe nào mà bạn muốn tìm kiếm!"));
 				return "redirect:" + referer;
@@ -224,9 +222,7 @@ public class KhachHangController {
 			 String dateString2 = df2.format(cx.getNgKH());
 			model.addAttribute("ngkh", dateString2);
 
-		} else {
-
-		}
+		} 
 
 		return "KhachHang/chonchuyen";
 	}
@@ -241,7 +237,7 @@ public class KhachHangController {
 		String referer = request.getHeader("Referer");
 		System.out.println("chon ghe " + referer);
 		if (referer == null) {
-			return "KhachHang/chonghe";
+			return "redirect:/chonchuyen.html";
 		}
 		String r = referer.substring(referer.lastIndexOf("/") + 1);
 
@@ -300,9 +296,14 @@ public class KhachHangController {
 	@RequestMapping(value = "dienthongtin")
 	public String dienthongtin(ModelMap model, HttpServletRequest request, HttpSession ss,
 			RedirectAttributes redirectAttributes) {
-
+		
+		
+		
 		String referer = request.getHeader("Referer");
 		System.out.println("dien thong tin " + referer);
+		if(referer == null) {
+			return "redirect:/chonghe.html";
+		}
 		
 		String r = referer.substring(referer.lastIndexOf("/") + 1);
 		if (r.equals("chonghe.html")) {
@@ -336,10 +337,15 @@ public class KhachHangController {
 
 //thanh toán
 
-	@RequestMapping(value = "thanhtoan", method = RequestMethod.POST)
+	@RequestMapping(value = "thanhtoan")
 	public String thanhtoan(@ModelAttribute("phieudat") PhieuDat pd, HttpSession ss, ModelMap model,
 			RedirectAttributes redirectAttributes, HttpServletRequest request) {
 
+		String referer = request.getHeader("Referer");
+		
+		if(referer == null) {
+			return "redirect:/chonghe.html";
+		}
 		boolean check = false;
 
 		if (pd.getSdt().length() != 10) {
@@ -424,6 +430,40 @@ public class KhachHangController {
 		return "KhachHang/trangchu";
 	}
 
+	public List<TuyenXe> getdstuyenbyddi(String ddi) {
+		Session session = factory.getCurrentSession();
+		String hql ="from TuyenXe as tuyen where tuyen.diemDi.maDD =:ddi";
+		Query query = session.createQuery(hql);
+		query.setParameter("ddi", ddi);
+		List<TuyenXe> list = query.list();
+		if(list.size()==0) {
+			return null;
+		}
+		return list;
+		
+	}
+	public List<DiaDiem> getdsmadiadiem(){
+		Session session = factory.getCurrentSession();
+		String hql ="from DiaDiem";
+		Query query = session.createQuery(hql);
+		List<DiaDiem> list = query.list();
+		if(list.size()==0) {
+			return null;
+		}
+		return list;
+	}
+	//cactuyen
+	@RequestMapping("danhsachtuyen")
+	public String cactuyen(ModelMap model) {
+		
+		List<DiaDiem> dsdd = getdsmadiadiem();
+		model.addAttribute("diadiem",dsdd);
+		
+		return "KhachHang/danhsachtuyen";
+		
+	}
+	
+	
 	/// account
 	@RequestMapping("thongtincanhan")
 	public String canhan(ModelMap model, HttpSession ss) {
@@ -617,6 +657,8 @@ public class KhachHangController {
 		PhieuDat pd = (PhieuDat) query.list().get(0); /* (PhieuDat)session.get(PhieuDat.class, id); */
 		System.out.println(pd.getMaPD() + pd.getEmail());
 		model.addAttribute("phieudat", pd);
+		System.out.println(pd.getVexe().size());
+		model.addAttribute("soluong", pd.getVexe().size());
 
 		return "KhachHang/hoadon";
 	}

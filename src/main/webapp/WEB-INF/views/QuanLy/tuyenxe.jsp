@@ -179,7 +179,7 @@
 				<div class="modal-body modal-add">
 					<!-- Profile Edit Form -->
 					<form:form method="post" modelAttribute="tuyen">
-						<div class="row mb-3">
+						<%-- <div class="row mb-3">
 							<label for="machuyen"
 								class="col-md-4 col-lg-3 col-form-label v-label">Mã
 								tuyến</label>
@@ -188,7 +188,7 @@
 									class="form-control v-form-control" id="matuyen" />
 								<form:errors style="color:red" path="maTuyen" />
 							</div>
-						</div>
+						</div> --%>
 
 						<div class="row mb-3">
 							<label for="inputDate" class="col-md-3 col-form-label v-label">Điểm
@@ -232,7 +232,7 @@
 								<form:errors style="color:red" path="giatuyen" />
 							</div>
 						</div>
-						<div class="row mb-3">
+						<%-- <div class="row mb-3">
 							<label class="col-md-4 col-lg-3 col-form-label v-label">Trạng
 								thái</label>
 							<div class="col-md-8 col-lg-9">
@@ -242,7 +242,7 @@
 									<form:option value="false">Ngừng Hoạt Động</form:option>
 								</form:select>
 							</div>
-						</div>
+						</div> --%>
 						<div class="text-center">
 							<button type="submit"
 								class="btn btn-primary btn-main-color border-0 mt-3">Lưu</button>

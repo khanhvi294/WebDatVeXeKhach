@@ -117,7 +117,7 @@ public class QuanLyController {
 
 	public List<ChuyenXe> dscx() {
 		Session session = factory.getCurrentSession();
-		String hql = "from ChuyenXe";
+		String hql = "from ChuyenXe as cx order by cx.maChuyen DESC";
 		Query query = session.createQuery(hql);
 		List<ChuyenXe> list = query.list();
 		return list;
@@ -529,7 +529,7 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 				TuyenXe tx = tuyentheoid(chuyen.getTuyen().getMaTuyen());
 				
 				if(tx.getDiemDi().getMaDD().equals(cxc.getTuyen().getDiemDen().getMaDD()) == false) {
-					errors.rejectValue("maChuyen", "chuyen", "Xe ở " + cxc.getTuyen().getDiemDen().getDiaDiem() + ". Vui lòng chọn tuyến xe phù hợp.");
+					errors.rejectValue("maChuyen", "chuyen", "Thời điểm này xe ở " + cxc.getTuyen().getDiemDen().getDiaDiem() + ". Vui lòng chọn tuyến xe phù hợp.");
 				}else {
 					try {
 					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -561,7 +561,7 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 					} 
 					 Calendar c = Calendar.getInstance();
 				        c.setTime(datebf);
-				        c.add(Calendar.MINUTE, 30);
+				        c.add(Calendar.MINUTE, cxc.getTuyen().getTgchay());
 				        Date datecp = c.getTime();
 				        
 					long getDiff = date.getTime() - datecp.getTime();
@@ -569,7 +569,7 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 					int minute = (int) getDaysDiff;
 					System.out.println("thoi gian2 " +minute);
 					if(minute < 4*60) {
-						errors.rejectValue("tgKh", "chuyen", "Thời gian khỏi hanh cần cách thời gian đến của xe 4 tiếng!");
+						errors.rejectValue("tgKh", "chuyen", "Thời gian khởi hành cần cách thời gian đến của xe 4 tiếng!");
 					}
 					}catch(Exception e) {
 						
@@ -744,13 +744,13 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 	public String TuyenXeInsert(ModelMap model, HttpServletRequest request, @ModelAttribute("tuyen") TuyenXe tuyen,
 			BindingResult errors, RedirectAttributes redirectAttributes) {
 		int count = 0;
-		if (tuyen.getMaTuyen().trim().length() == 0) {
+		/*if (tuyen.getMaTuyen().trim().length() == 0) {
 			errors.rejectValue("maTuyen", "tuyen", "Mã tuyến không được để trống");
 			count = 1;
 		} else if (checkmatuyentrung(tuyen.getMaTuyen()) == 0) {
 			errors.rejectValue("maTuyen", "tuyen", "Mã tuyến đã tồn tại");
 			count = 1;
-		}
+		}*/
 		if (tuyen.getDiemDen().getMaDD().equals(tuyen.getDiemDi().getMaDD())) {
 			errors.rejectValue("diemDen", "tuyen", "Điểm đi và đến không được trùng nhau");
 			count = 1;
@@ -760,13 +760,19 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 		if (tuyen.getGiatuyen() == null) {
 			errors.rejectValue("giatuyen", "tuyen", "Giá tuyến không được để trống");
 			count = 1;
-		} else if (Double.parseDouble(tuyen.getGiatuyen().toString()) <= 0) {
+		}else if(tuyen.getGiatuyen().compareTo(new BigDecimal("0.00")) <= 0) {
 			errors.rejectValue("giatuyen", "tuyen", "Giá tuyến không được nhỏ hơn 0");
 			count = 1;
 		} else if (Pattern.matches("[a-zA-Z]+", tuyen.getGiatuyen().toString()) == true) {
 			errors.rejectValue("giatuyen", "tuyen", "Sai định dạng");
 			count = 1;
 		}
+		if (tuyen.getTgchay() <= 0) {
+			errors.rejectValue("tgchay", "tuyen", "Thời gian di chuyển không hợp lệ");
+			count = 1;
+		}
+		
+		
 
 		if (count == 1) {
 			List<TuyenXe> list = dstx();
@@ -779,6 +785,8 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 		} else {
 			Session session = factory.openSession();
 			Transaction transaction = session.beginTransaction();
+			String matuyen = tuyen.getDiemDi().getMaDD()+"-"+tuyen.getDiemDen().getMaDD();
+			System.out.println(tuyen.getMaTuyen());
 			try {
 //					tuyen = new TuyenXe();
 //					tuyen.setMaTuyen(request.getParameter("matuyen"));
@@ -786,6 +794,8 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 //					tuyen.setDiemDen(diadiemtheoid(request.getParameter("dden")));
 //					tuyen.setTrangThai(Boolean.parseBoolean(request.getParameter("trangthai")));
 				tuyen.setTgchay(Integer.parseInt(request.getParameter("tgchay")));
+				tuyen.setMaTuyen(matuyen);
+				tuyen.setTrangThai(true);
 				session.save(tuyen);
 				transaction.commit();
 				redirectAttributes.addFlashAttribute("message", new Message("success", "Thêm tuyến thành công!"));
@@ -840,13 +850,13 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 			count = 1;
 		}
 		if (request.getParameter("giatuyen").trim().length() == 0) {
-			model.addAttribute("messagetgchay", "thời gian chạy tuyến không được nhỏ hơn 0");
+			model.addAttribute("messagetgchay", "thời gian chạy tuyến không được để trống");
 			count = 1;
-		} else if (Double.parseDouble(request.getParameter("giatuyen")) <= 0) {
-			model.addAttribute("messagetgchay", "Giá trị không được nhỏ hơn 0");
-			count = 1;
-		} else if (Pattern.matches("[a-zA-Z]+", request.getParameter("giatuyen")) == true) {
+		} else if(!request.getParameter("giatuyen").trim().matches("^[0-9]*$")) {
 			model.addAttribute("messagetgchay", "Sai định dạng");
+			count = 1;
+		}else if (Double.parseDouble(request.getParameter("giatuyen")) <= 0) {
+			model.addAttribute("messagetgchay", "Giá trị không được nhỏ hơn 0");
 			count = 1;
 		}
 
@@ -996,7 +1006,9 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 		} else if (checksdt(nv.getSdt(), ma) == 0) {
 			errors.rejectValue("sdt", "nv", "sdt bị trùng");
 		}
-		if (!nv.getCccd().trim().matches("^[0-9]*$") || request.getParameter("cccd").length() != 10) {
+		if(nv.getCccd().trim().length() == 0) {
+			errors.rejectValue("cccd", "nv", "Không được để trống");
+		}else if (!nv.getCccd().trim().matches("^[0-9]*$") || request.getParameter("cccd").length() != 10) {
 			errors.rejectValue("cccd", "nv", "Vui lòng nhập đúng định dạng cccd");
 		} else if (checktrungcccd(nv.getCccd(), ma) == 0) {
 			errors.rejectValue("cccd", "nv", "CCCD Đã Tồn Tại");
@@ -1076,7 +1088,9 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 		} else if (checksdt(nv.getSdt(), nv.getMaNV()) == 0) {
 			errors.rejectValue("sdt", "nv", "sdt bị trùng");
 		}
-		if (!nv.getCccd().trim().matches("^[0-9]*$") || nv.getCccd().length() != 10) {
+		if(nv.getCccd().trim().length() == 0) {
+			errors.rejectValue("cccd", "nv", "Không được để trống");
+		}else if (!nv.getCccd().trim().matches("^[0-9]*$") || nv.getCccd().length() != 10) {
 			errors.rejectValue("cccd", "nv", "Vui lòng nhập đúng định dạng cccd");
 		} else if (checktrungcccd(nv.getCccd(), nv.getMaNV()) == 0) {
 			errors.rejectValue("cccd", "nv", "CCCD Đã Tồn Tại");
@@ -1091,7 +1105,7 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 			errors.rejectValue("phai", "nv", "Email đã tồn tại");
 
 		}
-		if (request.getParameter("ngaysinh") == "") {
+		if (request.getParameter("ngaysinh").trim().length() == 0) {
 			errors.rejectValue("ngaySinh", "nv", "Ngày sinh không được để trống");
 		}
 		if (errors.hasErrors()) {
@@ -1463,7 +1477,7 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 		} else if (Double.parseDouble(lx.getGiaLX().toString()) <= 0) {
 			errors.rejectValue("giaLX", "lx", "Giá phải lớn hơn 0");
 			count = 1;
-		} else if (Pattern.matches("[a-zA-Z]+", lx.getGiaLX().toString()) == true) {
+		} else if (!lx.getGiaLX().toString().trim().matches("^[0-9]*$")) {
 			errors.rejectValue("giaLX", "lx", "Sai định dạng");
 			count = 1;
 		}
@@ -1579,20 +1593,86 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 		}
 
 	}
+	
 
+	public List<PhieuDat> dspds(String macx,int trangthai){
+		Session session = factory.getCurrentSession();
+		String hql = "from PhieuDat pd where pd.chuyen.maChuyen = :macx and pd.trangThai = :TT";
+		Query query = session.createQuery(hql);
+		query.setParameter("macx", macx);
+		query.setParameter("TT", trangthai);
+		List<PhieuDat> list = query.list();
+		return list;
+	}
+	
+	public List<PhieuDat> dspdcx(String macx){
+		Session session = factory.getCurrentSession();
+		String hql = "from PhieuDat pd where pd.chuyen.maChuyen = :macx";
+		Query query = session.createQuery(hql);
+		query.setParameter("macx", macx);
+		List<PhieuDat> list = query.list();
+		return list;
+	}
+	
+	public List<PhieuDat> dspdtt(int trangthai){
+		Session session = factory.getCurrentSession();
+		String hql = "from PhieuDat pd where pd.trangThai = :TT";
+		Query query = session.createQuery(hql);
+		query.setParameter("TT", trangthai);
+		List<PhieuDat> list = query.list();
+		return list;
+	}
+	
 	@RequestMapping("/phieudat")
 	public String PhieuDat(ModelMap model) {
 		List<PhieuDat> ds = dspd();
 		model.addAttribute("dspd", ds);
 		model.addAttribute("pd", new PhieuDat());
+		List<ChuyenXe> dsc = dscx();
+		model.addAttribute("xe", dsc);
+		return "QuanLy/phieudat";
+	}
+	String xekhach = "all", trangthai = "3";
+	@RequestMapping(value = "/phieudat/search",method = RequestMethod.POST)
+	public String PhieuDatSearch(ModelMap model, HttpServletRequest request,RedirectAttributes redirectAttributes) {
+		model.addAttribute("pd", new PhieuDat());
+		if(request.getParameter("xekhach").equals("all") && request.getParameter("trangthai").equals("3")) {
+			List<PhieuDat> ds = dspd();
+			model.addAttribute("dspd", ds);
+		}else if(request.getParameter("xekhach").equals("all")) {
+			List<PhieuDat> ds = dspdtt(Integer.parseInt(request.getParameter("trangthai")));
+			model.addAttribute("dspd", ds);
+		}else if(request.getParameter("trangthai").equals("3")) {
+			List<PhieuDat> ds = dspdcx(request.getParameter("xekhach"));
+			model.addAttribute("dspd", ds);
+		}else {
+			List<PhieuDat> ds = dspds(request.getParameter("xekhach"),Integer.parseInt(request.getParameter("trangthai")));
+			model.addAttribute("dspd", ds);
+		}
+		xekhach = request.getParameter("xekhach"); trangthai = request.getParameter("trangthai");
+		List<ChuyenXe> dsc = dscx();
+		model.addAttribute("xe", dsc);
+		System.out.println(request.getParameter("xekhach"));
+		
 		return "QuanLy/phieudat";
 	}
 
 	@RequestMapping(value = "/phieudat/{mapd}", params = "info")
 	public String PhieuDatInfo(ModelMap model, @PathVariable("mapd") String ma, @ModelAttribute("pd") PhieuDat pd) {
 		model.addAttribute("idModal", "modalShow");
-		List<PhieuDat> ds = dspd();
-		model.addAttribute("dspd", ds);
+		if(xekhach.equals("all") && trangthai.equals("3")) {
+			List<PhieuDat> ds = dspd();
+			model.addAttribute("dspd", ds);
+		}else if(xekhach.equals("all")) {
+			List<PhieuDat> ds = dspdtt(Integer.parseInt(trangthai));
+			model.addAttribute("dspd", ds);
+		}else if(trangthai.equals("3")) {
+			List<PhieuDat> ds = dspdcx(xekhach);
+			model.addAttribute("dspd", ds);
+		}else {
+			List<PhieuDat> ds = dspds(xekhach,Integer.parseInt(trangthai));
+			model.addAttribute("dspd", ds);
+		}
 		pd = phieudattheoma(ma);
 		List<VeXe> dsvx = vexetheomapd(ma);
 		model.addAttribute("pd", pd);
@@ -1602,6 +1682,8 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 			vx.put(k, dsvx.get(i).getId().getSoGhe());
 		}
 		model.addAttribute("vx", vx);
+		List<ChuyenXe> dsc = dscx();
+		model.addAttribute("xe", dsc);
 		return "QuanLy/phieudat";
 	}
 
@@ -1609,10 +1691,23 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 	public String PhieuDatupdate(ModelMap model, @PathVariable("mapd") String ma) {
 		System.out.println("vitester");
 		model.addAttribute("idModal", "modalUpdate");
-		List<PhieuDat> ds = dspd();
-		model.addAttribute("dspd", ds);
+		if(xekhach.equals("all") && trangthai.equals("3")) {
+			List<PhieuDat> ds = dspd();
+			model.addAttribute("dspd", ds);
+		}else if(xekhach.equals("all")) {
+			List<PhieuDat> ds = dspdtt(Integer.parseInt(trangthai));
+			model.addAttribute("dspd", ds);
+		}else if(trangthai.equals("3")) {
+			List<PhieuDat> ds = dspdcx(xekhach);
+			model.addAttribute("dspd", ds);
+		}else {
+			List<PhieuDat> ds = dspds(xekhach,Integer.parseInt(trangthai));
+			model.addAttribute("dspd", ds);
+		}
 		PhieuDat pd = phieudattheoma(ma);
 		model.addAttribute("pd", pd);
+		List<ChuyenXe> dsc = dscx();
+		model.addAttribute("xe", dsc);
 		return "QuanLy/phieudat";
 	}
 

@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="en">
 <%@include file="head.jsp"%>
@@ -68,7 +69,7 @@
 				<div class="product-list product-list2 wheel-bgt clearfix">
 					<c:forEach var="cx" items="${dschuyenxe}">
 						<div class="row" style="display: flex; justify-content: center;">
-							<div class="col-xs-9" >
+							<div class="col-xs-9">
 								<div
 									class="product-elem-style1 product-elem-style wheel-bg1 clearfix"
 									style="border-radius: 10px; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
@@ -101,8 +102,16 @@
 													${cx.tuyen.diemDi.diaDiem }
 
 												</div>
-												<div style="margin-left: 32px; color: green;">Xe
-													tuyến: 305km - 8 tiếng</div>
+
+
+												<div style="margin-left: 32px; color: green;">
+													Xe tuyến: 305km -
+													<fmt:formatNumber type="number"
+														value="${(cx.tuyen.tgchay/60) }" maxFractionDigits="0" />
+													giờ <fmt:formatNumber type="number" value="${(cx.tuyen.tgchay % 60) }" maxFractionDigits="0"/> phút
+												</div>
+
+
 												<div class="route-line bold" style="font-weight: 600;">
 													<img alt="destination-bold"
 														src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAmCAMAAACS/WnbAAAA51BMVEUAAAD/AAD/ZjPmTRrvUCDwWh7yTSbzUSP2VSbwUiXwUCT4VSPxUyLyUSLwVSPxVSbyVSTtUSTzUiHuVCPvVSPxUyPxVCPxUyPvUyPwUyLwUyPxUyPwUyPwUiLxUiLvUyPwUiLwVCLvVCLwUyLvUyLvUiLwUyPwUiLvUyPvUyLwUiPwUyLvUiLvUiLwUiLvUyLwUiLvUiPxUyLwUiLwUyLvUiLwUiLvUyLvUyLwUyLvUiLwUiPvUiPvUiL////++ff83tX71sv1knTxZjzwXC70VCPyUyLxUyLwUiLvUiLvUSHvTx/vTh3N/rktAAAAPnRSTlMAAQUKEBEUFhsiIyQlJjM2OTk+SWBsbW5ueHuEhIiPk56rrra8xcfJ1dXW2Nna3OHi5efo6u3v9Pb5+vv7/K+Q08cAAAFUSURBVHjafdPllsIwEAXgu8YKrOHu7u5umQHe/3kWerophabfz9w5k2RyAunxwxPPlobDUjbu+XjEne9shwQRM5GgTvYbZp+pHZvsUp+44m0JviFaXki+CVuY+KDzT9nS1A+Ne8AKAzcuKsQKVMFZWLCSCAOOKhsOx9PpeGBD1YHfsRFv16vFYrXeGiXjX0SFzDfLuWa5kRUiijyxbqvlWsWWdZRHWzZYz6W1bNHGiHXH1VxaHVk3Qp91p8VcWpxY10eF7AqogjTZbUFpBPd2h9wH8TO2u+b4B46a3aBqDiBJ6lFTEoBrpn6smQtnCcEKIoGL9y4rdN+hiQlFgxh0RWILVMS/rx5b6H1BCrCFAAwPkfufFXnAlZccsQnlXmDyWiZTXn7FDVedWKK6C3ecDZJ5wwkLzqpgjag6YemtILS88AaF54wgEplnKD2Fms3Qk2npDzuS7aPkEDnLAAAAAElFTkSuQmCC"
@@ -119,7 +128,7 @@
 
 
 
-									<div style=" height: 250px; display: flex;">
+									<div style="height: 250px; display: flex;">
 										<div
 											style="display: flex; align-items: center; height: 50px; gap: 10px; position: relative; top: 74%; left: 57%;">
 											<label for="ip-cx" style="position: relative; top: 10%;">Chọn</label>

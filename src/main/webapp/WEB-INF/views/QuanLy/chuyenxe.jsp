@@ -471,7 +471,7 @@
 						})
 	</script>
 	<script>
-		suangaykh.min = new Date().toISOString().split("T")[0];
+		suangaykh.min = (new Date()+2).toISOString().split("T")[0];
 	</script>
 	<script>
 		themngkh.min = new Date().toISOString().split("T")[0];
