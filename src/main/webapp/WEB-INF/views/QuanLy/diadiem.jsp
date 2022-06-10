@@ -100,25 +100,27 @@
                 </div>
                 <div class="modal-body modal-add">
                     <!-- Profile Edit Form -->
-                    <form:form method = "post" modelAttribute="dd">
+                    <form:form method = "post" modelAttribute="dd" id="form-dd">
                         <div class="row mb-3">
                             <label for="machuyen" class="col-md-4 col-lg-3 col-form-label v-label">Mã địa điểm</label>
                             <div class="col-md-8 col-lg-9">
                                 <form:input path="maDD" type="text" class="form-control v-form-control" id="madd" />
                                 <form:errors style = "color:red" path="maDD"/>
+                                <p id="madd-error" class="text-danger"> </p>
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <label for="inputDate" class="col-md-4 col-lg-3 col-form-label v-label">Địa điểm </label>
                             <div class="col-md-8 col-lg-9">
-                                <form:input path="diaDiem" type="text" class="form-control v-form-control" id="diadiem" />
+                                <form:input path="diaDiem"  type="text" class="form-control v-form-control" id="tendiadiem" />
                                 <form:errors style = "color:red" path="diaDiem"/>
+                                <p id="tendd-error" class="text-danger"> </p>
                             </div>
                         </div>
 
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary btn-main-color border-0 mt-3">Lưu</button>
+                            <button type="submit" name="add-diadiem" class="btn btn-primary btn-main-color border-0 mt-3">Lưu</button>
                         </div>
                     </form:form>
                     <!-- End Profile Edit Form -->
@@ -156,7 +158,55 @@
 	<script src="<c:url value='/resources/assets/js/main.js'/>"></script>
 	<script src="<c:url value='/resources/assets/js/my-main.js'/>"></script>
 <script>
+/* 	function checkInput() {
+		let check = true;
+		$("button[name=add-diadiem]").click(function (e){
+			check = true;
+			e.preventDefault();
+			
+			let maDD = $("#madd").val()
+			let regexMaDD = new RegExp(/^[0-9a-zA-Z]+$/);
+		
+			if (!regexMaDD.test(maDD) || maDD.length > 8) {
+				check = false;
+				$("#madd-error").text("Mã địa điểm giới hạn trong khoảng 8 ký tự, và không được có ký tự đặc biệt.");
+				
+				
+			} else {
+				check = true;
+				maDD = maDD.trim().replace(/\s+/g, '');
+				$("#madd-error").text("");
+				$("#madd-error").val(maDD.trim());
+			}
+			
+			let tenDD = $("#tendiadiem").val();
+			let regexTenDD = new RegExp(/^[\sa-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹếẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ ]+$/);
+	
+			if(!regexTenDD.test(tenDD)){
+				check = false;
+				$("#tendd-error").text("Tên địa điểm không được để trống và không được có kí tự đặc biệt!")
+			}else {
+				$("#tendd-error").text("")
+				let namearr = tenDD.split(" ")
+				tenDD = "";
+				namearr.forEach((item) => {
+					item = item.trim().replace(/\s+/g, '')
+					if(item.length > 0){
+						tenDD += item + " " 
+					}
+				})
+				tenDD = tenDD.trim()
+				$("#tendiadiem").val(tenDD);
+			}
+			
+			if(check){
+				$("#form-dd").submit();
+			}
+		})
+	} */
+	
 	$(document).ready(function() {
+		checkInput();
 		console.log($(".modal_flag").attr("idModal"));
 		if ($(".modal_flag").attr("idModal") === "modalCreate") {
 			$("#verticalycentered").modal("show");

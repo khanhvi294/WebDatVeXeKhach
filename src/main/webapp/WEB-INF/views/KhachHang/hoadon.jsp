@@ -5,38 +5,10 @@
 <!DOCTYPE html>
 <html lang="en">
     
-<head>
-        <meta charset="UTF-8">
-        <base href="${pageContext.servletContext.contextPath}/">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="author" content="Jewel Theme">
-        <meta name="description" content="Wheel - Responsive and Modern Car Rental Website Template">
-        <meta name="keywords" content="">
-        <title>Wheel - Trang web đặt xe khách tốt nhất hiện nay</title>
-        <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
-        <!-- reset css -->
-        <link rel="stylesheet" type="text/css" href="resources/KhachHang/assets/css/css_reset.css">
-        <!-- bootstrap -->
-        <link rel="stylesheet" type="text/css" href="resources/KhachHang/assets/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-        <link rel="stylesheet" type="text/css" href="resources/KhachHang/assets/css/jquery.datetimepicker.min.css">
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="resources/KhachHang/assets/css/bootstrap-select.min.css">
-        <!-- preload -->
-        <link rel="stylesheet" type="text/css" href="resources/KhachHang/assets/css/loaders.min.css">
-        <link rel="stylesheet" type="text/css" href="resources/KhachHang/assets/css/index.css">
-        <!--[if lt IE 9]>
-        <script src="resources/KhachHang/assets/js/html5shiv.min.js"></script>
-        <script src="resources/KhachHang/assets/js/respond.min.js"></script>
-        <![endif]-->
-    </head>
+<%@include file="head.jsp"%>
     <body class="">
         <!-- MAIN -->
-        <div class="load-wrap">
-            <div class="wheel-load">
-                <img src="images/loader.gif" alt="" class="image">
-            </div>
-        </div>
+        
          <%@include file="navbar.jsp"%>
     <!--/////////////////////////////////////////-->
     <div class="wheel-start3">
@@ -84,14 +56,14 @@
                                 <tbody>
                                     <tr>
                                         <td colspan="2" class="col-md-3">
-                                            <br> Thời gian lên xe : ${phieudat.chuyen.tgKh} ngày ${phieudat.chuyen.ngKH}
-                                            <br> Số lượng ghế : .....
+                                            <br> Thời gian khởi hành : ${phieudat.chuyen.tgKh} ngày ${phieudat.chuyen.ngKH}
+                                            <br> Số lượng ghế : ${soluong }
                                             <br> Số ghế:
                                             <c:forEach var="ve" items="${ phieudat.vexe}"> 
                                             <br>
                                             ${ve.id.soGhe }
                                             </c:forEach>
-                                            <br> Điểm lên xe: ........
+                                          
                                         </td>
 
                                     </tr>
@@ -113,12 +85,12 @@
                             <div class="receipt-header receipt-header-mid receipt-footer">
                                 <div class="col-xs-8 col-sm-8 col-md-8 ">
                                     <div class="receipt-right">
-                                        <p><b>Ngày :</b> ..... </p>
+                                        <p><b>Ngày đặt:</b> ${phieudat.ngaydat} </p>
                                         <h5 style="color: rgb(140, 140, 140);">Cảm ơn vì đã tin tưởng hãng xe của chúng tôi
                                         </h5>
-                                        <form action="#">
+                                        <form action="phieudat.html">
                                             <label for="input-val27" class="promo promo2">
-                                                <button class="wheel-btn" id="Re4">Quay lại</button>
+                                                <button class="btn btn-primary" id="Re4">Quay lại</button>
                                             </label>
                                         </form>
                                     </div>
@@ -133,64 +105,7 @@
     
         <!-- FOOTER -->
         <!-- ///////////////// -->
-        <footer class="wheel-footer">
-            <img src="images/bg4.jpg" alt="" class="wheel-img">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-3  col-sm-6  padd-lr0">
-                        <div class="wheel-address">
-                            <div class="wheel-footer-logo"><a href="#"><img src="images/logo.png" alt=""></a></div>
-                            <ul>
-                                <li><span><i class="fa fa-map-marker"></i>97 Man Thiện, Phường Hiệp Phú <br>
-                                    TP Thủ Đức, TP Hồ Chí Minh 
-                                </li>
-                                <li><a href="#"><span><i class="fa fa-phone"></i> 0912345678</span></a></li>
-                                <li><a href="#"><span><i class="fa fa-envelope"></i>p.h.n.phuong1812@gmail.com</span></a></li>
-                            </ul>
-                            <div class="wheel-soc">
-                                <a href="#" class="fa fa-twitter"></a>
-                                <a href="#" class="fa fa-facebook"></a>
-                                <a href="#" class="fa fa-linkedin"></a>
-                                <a href="#" class="fa fa-instagram"></a>
-                                <a href="#" class="fa fa-share-alt"></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6  padd-lr0">
-                        <div class="wheel-footer-item">
-                            <h3>Whell</h3>
-                            <ul>
-                                <li><a href="about.html" class="">Về chúng tôi</a></li>
-                                <li><a href="news.html" class="">Tin tức</a></li>
-                                <li><a href="about.html" class="">Giới thiệu</a></li>
-                                <li><a href="contact.html" class="">Liên hệ</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-2 col-sm-6  padd-lr0">
-                        <div class="wheel-footer-item ">
-                            <h3><span>Chăm sóc khách hàng</span> 1900 6886 </h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <div class="wheel-footer-info wheel-bg6">
-            <div class="container">
-                <div class="row">
-                   <div class="col-lg-8 col-sm-6  padd-lr0"><span>&#169; WHEEL 2021</span></div>
-                    <div class="col-lg-4 col-sm-6 padd-lr0">
-                        <ul>
-                            <li><a href="index.html">Trang chủ</a></li>
-                            <li><a href="reservation.html"> Đặt vé</a></li>
-                            <li><a href="contact.html"> Liên hệ</a></li>
-                            <li><a href="about.html"> Giới thiệu</a></li>
-                            <li><a href="news.html">Tin tức</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+      	<%@include file="footer.jsp"%>
         <!-- Scripts project -->
         <script type="text/javascript" src="resources/KhachHang/assets/js/jquery-2.2.4.min.js"></script>
         <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>

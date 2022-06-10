@@ -86,13 +86,14 @@
 								<a href="trangchu.html">Trang chủ</a>
 							</li>
 							<li class="menu-item   "><a href="timchuyen.html">Đặt vé</a>
+							<li class="menu-item   "><a href="danhsachtuyen.html">Danh sách tuyến</a>
 							</li>
 							<li class="menu-item menu-item-has-children  "><a
 								href="contact.html">Liên hệ</a></li>
 							<li class="menu-item menu-item-has-children  "><a
 								href="about.html">Giới Thiệu</a></li>
-							<li class="menu-item menu-item-has-children  "><a
-								href="news.html">Tin tức</a></li>
+							<!-- <li class="menu-item menu-item-has-children  "><a
+								href="news.html">Tin tức</a></li> -->
 						</ul>
 						<div class="nav-menu-icon">
 							<i></i>

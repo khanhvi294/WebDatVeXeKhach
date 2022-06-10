@@ -8,6 +8,9 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 @Entity
 @Table(name = "DiaDiem")
 public class DiaDiem {
@@ -16,9 +19,11 @@ public class DiaDiem {
 	private String maDD;
 	@Column(name = "DiaDiem")
 	private String diaDiem;
-	@OneToMany(mappedBy = "diemDi", fetch = FetchType.EAGER)
+	
+	@OneToMany(mappedBy = "diemDi")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private Collection<TuyenXe> tuyenxedi;
-	@OneToMany(mappedBy = "diemDen", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "diemDen", fetch = FetchType.EAGER )
 	private Collection<TuyenXe> tuyenxeden;
 	public String getMaDD() {
 		return maDD;
