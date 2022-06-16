@@ -18,7 +18,7 @@
 			</button></a>
         <section class="section">
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-12 card">
                     <div class="card-body">
                         <!-- Table with stripped rows -->
                         <table class="table datatable table-striped table-bordered">

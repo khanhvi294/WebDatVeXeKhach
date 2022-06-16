@@ -98,7 +98,8 @@
                                 
                                   <form:input path="ngSinh" type="date"/>
                                    <form:errors  class="text-er" path="ngSinh"></form:errors>
-                               
+                               	<p id="ngsinh-error" class="text-er"> 
+                               	 </p>
                               </div>
                               <div class="col-md-12">
                                 <label for="inputName5" class="form-label">Email</label>
@@ -176,7 +177,7 @@
 		
 		$("#firstName").bind("change",function(){
 			let firstName = $("#firstName").val();
-			let regexFirstname = new RegExp(/^[\sa-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹếẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+$/);
+			let regexFirstname = new RegExp(/^[\sa-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹếẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵýỷỹ]+$/);
 			if(!regexFirstname.test(firstName)){
 				check = false;
 				$("#ten-error").text("Tên không được để trống và không được có kí tự đặc biệt!")
@@ -192,7 +193,7 @@
 		
 		$("#lastName").bind("change",function(){
 		let lastName  = $("#lastName").val();
-   		let regexLastname = new RegExp(/^[\sa-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹếẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ ]+$/);
+   		let regexLastname = new RegExp(/^[\sa-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹếẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵýỷỹ ]+$/);
 		if(!regexLastname.test(lastName)){
 			check = false;
 			
@@ -240,7 +241,7 @@
 			e.preventDefault();
 
 			let lastName  = $("#lastName").val();
-	   		let regexLastname = new RegExp(/^[\sa-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹếẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ ]+$/);
+	   		let regexLastname = new RegExp(/^[\sa-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹếẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵýỷỹ ]+$/);
 			if(!regexLastname.test(lastName)){
 				check = false;
 				$("#ho-error").text("Họ không được để trống và không được có kí tự đặc biệt!")
@@ -259,7 +260,7 @@
 			}
 			
 			let firstName = $("#firstName").val();
-			let regexFirstname = new RegExp(/^[\sa-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹếẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+$/);
+			let regexFirstname = new RegExp(/^[\sa-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹếẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵýỷỹ]+$/);
 			if(!regexFirstname.test(firstName)){
 				check = false;
 				$("#ten-error").text("Tên không được để trống và không được có kí tự đặc biệt!")
@@ -282,9 +283,9 @@
 			let ngaysinh = $("input[name=ngSinh]").val()
 			if(!ngaysinh){
 				check = false;
-				$("#ngaysinh-error").text("Ngày sinh không được để trống");
+				$("#ngsinh-error").text("Ngày sinh không được để trống");
 			}else {
-				$("#ngaysinh-error").text("");
+				$("#ngsinh-error").text("");
 			}
 			
 			let phai = $("input[name=phai]").val()

@@ -75,7 +75,7 @@ public class TaiKhoanController {
 		}
 		
 		if(tkdn.getTrangThai() == 0) {
-			model.addAttribute("message", "Tài khoản đang bị khóa!");
+			model.addAttribute("message", new Message("error","Tài khoản đang bị khóa!"));
 
 			
 			return "TaiKhoan/dangnhap";
@@ -326,7 +326,45 @@ public class TaiKhoanController {
 				helper.setTo(/* email */"n19dccn223@student.ptithcm.edu.vn");
 
 				helper.setSubject("Đặt lại mật khẩu");
-				helper.setText("Mật khẩu mới của quý khách là: " + matkhaumoi);
+				helper.setText(" <div style=\"padding-bottom: 10rem;background-color: #f1f1f1; font-family: 'Roboto', sans-serif;\r\n"
+						+ "    box-sizing: border-box;\">\r\n"
+						+ "        <div style=\" width: 100%;\r\n"
+						+ "        padding: 1rem 0;\">\r\n"
+						+ "            <div style=\"margin: 0 auto;\r\n"
+						+ "            width: 200px;\r\n"
+						+ "            height: 100px;\r\n"
+						+ "            background-image: url('https://futabus.vn/_nuxt/img/logo-img.c178602.png');\r\n"
+						+ "            background-position: center center;\r\n"
+						+ "            background-size: contain;\r\n"
+						+ "            background-repeat: no-repeat;\"></div>\r\n"
+						+ "        </div>\r\n"
+						+ "        <div style=\"  margin: 0 auto;\r\n"
+						+ "        border-radius: 0.2rem;\r\n"
+						+ "        border: 2px solid rgba(175, 168, 168, 0.473);\r\n"
+						+ "        max-width: 40rem;\r\n"
+						+ "        background-color: #fff;\r\n"
+						+ "        padding: 4rem;\">\r\n"
+						+ "            <p style=\"margin: 1rem 0;\">Xin chào Vi!</p>\r\n"
+						+ "            <p style=\"margin: 1rem 0 0.3rem 0;\">Bạn nhận được email này vì lí do quên mật khẩu. </p>\r\n"
+						+ "            <p> Mật khẩu mới của bạn là:\r\n"
+						+                 matkhaumoi+". Click vào nút bên dưới để quay lại trang web\r\n"
+						+ "            </p>\r\n"
+						+ "            <div style=\"margin-top: 30px; width: 100%;\r\n"
+						+ "            margin-bottom: 3rem;\r\n"
+						+ "            text-align: center;\"><a href=\"http://localhost:8080/CNPM/dangnhap.html\" style=\" display: inline-block;\r\n"
+						+ "            padding: 18px 20px;\r\n"
+						+ "            background-color: #1890ff;\r\n"
+						+ "            border-radius: 3px;\r\n"
+						+ "            text-decoration: none;\r\n"
+						+ "            color: #fff;\r\n"
+						+ "            font-weight: 600;\r\n"
+						+ "            font-size: 16px;\" target=\"_blank\">Trang\r\n"
+						+ "                    chủ</a></div>\r\n"
+						+ "\r\n"
+						+ "            <p style=\"font-size: 14px;margin: 1rem 0;\"> Chúc bạn một ngày tốt lành!</p>\r\n"
+						+ "\r\n"
+						+ "        </div>\r\n"
+						+ "    </div>", true);
 
 			} catch (MessagingException e) {
 				e.printStackTrace();

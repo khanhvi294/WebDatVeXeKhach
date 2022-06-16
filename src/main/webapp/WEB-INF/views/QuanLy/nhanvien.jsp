@@ -7,8 +7,7 @@
 <%@ include file="slidebar.jsp"%>
 
 <main id="main" class="main">
-	<div class="alert-flag" aType='${message.type}'
-		aMessage="${message.message }"></div>
+	<div class="alert-flag" aType='${message.type}' aMessage="${message.message }"></div>
 	<div class="pagetitle">
 		<h1>Nhân Viên</h1>
 	</div>
@@ -22,10 +21,10 @@
 
 			<div class="col-lg-12">
 
-				<div class="card-body">
+				<div class="card-body card">
 
 					<!-- Table with stripped rows -->
-					<table class="table datatable table-striped table-bordered">
+					<table id="bangnhanvien" class="table  table-striped table-bordered">
 						<thead>
 							<tr class="v-table-tr-color">
 								<th scope="col">Mã nhân viên</th>
@@ -43,7 +42,8 @@
 									<td>${u.hoNV}</td>
 									<td>${u.tenNV}</td>
 									<td>${u.tknv.userName}</td>
-									<td><c:choose>
+									<td>
+										<c:choose>
 											<c:when test="${u.tknv.trangThai == 0}">
 												<span class="badge rounded-pill bg-danger v-bg-tt">Khóa</span>
 											</c:when>
@@ -52,20 +52,20 @@
 													động</span>
 											</c:when>
 											<c:when test="${u.tknv.trangThai == 2}">
-												<span class="badge rounded-pill bg-danger v-bg-tt">Chờ
+												<span class="badge rounded-pill bg-warning v-bg-tt">Chờ
 													đổi mật khẩu</span>
 											</c:when>
-										</c:choose></td>
-									<td><span><a
-											href="/CNPM/quanly/nhanvien/${u.maNV}.html?info"> <i
-												class="bi bi-info-circle-fill v-icon-modal"></i>
-										</a> <a href="/CNPM/quanly/nhanvien/${u.maNV}.html?update"><i
-												class="bi bi-pencil-square v-icon-modal"
-												data-bs-toggle="modal" data-bs-target="#ProfileEditModal"></i></a>
+										</c:choose>
+									</td>
+									<td><span><a href="/CNPM/quanly/nhanvien/${u.maNV}.html?info"> <i
+													class="bi bi-info-circle-fill v-icon-modal"></i>
+											</a> <a href="/CNPM/quanly/nhanvien/${u.maNV}.html?update"><i
+													class="bi bi-pencil-square v-icon-modal" data-bs-toggle="modal"
+													data-bs-target="#ProfileEditModal"></i></a>
 											<a href="/CNPM/quanly/nhanvien/${u.maNV}.html?trangthai"><i
-												class="bi bi-pencil-square v-icon-modal"
-												data-bs-toggle="modal" data-bs-target="#Edittrangthai"></i></a>
-									</span></td>
+													class="bi bi-arrow-repeat v-icon-modal" data-bs-toggle="modal"
+													data-bs-target="#Edittrangthai"></i></a>
+										</span></td>
 
 								</tr>
 							</c:forEach>
@@ -88,8 +88,8 @@
 		<div class="modal-content border-0">
 			<div class="modal-header v-modal-header">
 				<h5 class="modal-title v-modal-title">Thông tin</h5>
-				<button type="button" class="btn shadow-none"
-					data-bs-dismiss="modal" aria-label="Close" style="font-weight: 700">
+				<button type="button" class="btn shadow-none" data-bs-dismiss="modal" aria-label="Close"
+					style="font-weight: 700">
 					<i class="bi bi-x v-icon-close"></i>
 				</button>
 			</div>
@@ -132,10 +132,12 @@
 													<div class="col-lg-9 col-md-8">
 														<c:choose>
 															<c:when test="${nv.phai eq true}">
-																<span class="badge rounded-pill bg-danger v-bg-tt">Nam</span>
+																<span
+																	class="">Nam</span>
 															</c:when>
 															<c:when test="${nv.phai eq false}">
-																<span class="badge rounded-pill bg-success v-bg-tt">Nữ</span>
+																<span
+																	class="">Nữ</span>
 															</c:when>
 														</c:choose>
 													</div>
@@ -146,14 +148,15 @@
 													<div class="col-lg-9 col-md-8">
 														<c:choose>
 															<c:when test="${nv.tknv.trangThai == 0}">
-																<span class="badge rounded-pill bg-danger v-bg-tt">Khóa</span>
+																<span
+																	class="badge rounded-pill bg-danger v-bg-tt">Khóa</span>
 															</c:when>
 															<c:when test="${nv.tknv.trangThai == 1}">
 																<span class="badge rounded-pill bg-success v-bg-tt">Hoạt
 																	động</span>
 															</c:when>
 															<c:when test="${nv.tknv.trangThai == 2}">
-																<span class="badge rounded-pill bg-success v-bg-tt">Chờ
+																<span class="badge rounded-pill bg-warning v-bg-tt">Chờ
 																	đổi mật khẩu</span>
 															</c:when>
 														</c:choose>
@@ -206,8 +209,8 @@
 		<div class="modal-content border-0">
 			<div class="modal-header v-modal-header">
 				<h5 class="modal-title v-modal-title">Chỉnh sửa</h5>
-				<button type="button" class="btn shadow-none"
-					data-bs-dismiss="modal" aria-label="Close" style="font-weight: 700">
+				<button type="button" class="btn shadow-none" data-bs-dismiss="modal" aria-label="Close"
+					style="font-weight: 700">
 					<i class="bi bi-x v-icon-close"></i>
 				</button>
 			</div>
@@ -217,95 +220,81 @@
 				<div class="col-12 v-edit-form">
 					<form:form method="post" modelAttribute="nv">
 						<div class="row mb-3">
-							<label for="fullName"
-								class="col-md-4 col-lg-3 col-form-label v-label">Mã nhân
+							<label for="fullName" class="col-md-4 col-lg-3 col-form-label v-label">Mã nhân
 								viên</label>
 							<div class="col-md-8 col-lg-9">
-								<form:input path = "maNV" type="text" readonly="true"
-									class="form-control v-form-control" id="fullName"
-									value="${nv.maNV }"/>
+								<form:input path="maNV" type="text" readonly="true" class="form-control v-form-control"
+									id="fullName" value="${nv.maNV }" />
 							</div>
 						</div>
 
 						<div class="row mb-3">
 							<label for="company" class="col-md-3 col-form-label v-label">Họ</label>
 							<div class="col-md-3">
-								<form:input path="hoNV" type="text"
-									class="form-control v-form-control"
-									id="company" value="${nv.hoNV }"/>
-								 <form:errors style = "color:red" path="hoNV"/> 
+								<form:input path="hoNV" type="text" class="form-control v-form-control" id="company"
+									value="${nv.hoNV }" />
+								<form:errors style="color:red" path="hoNV" />
 							</div>
 
 							<label for="Job" class="col-md-1 col-form-label v-label">Tên</label>
 							<div class="col-md-5">
-								<form:input path="tenNV" type="text"
-									class="form-control  v-form-control" id="Job"
-									value="${nv.tenNV }"/>
-								<form:errors style = "color:red" path="tenNV"/> 
+								<form:input path="tenNV" type="text" class="form-control  v-form-control" id="Job"
+									value="${nv.tenNV }" />
+								<form:errors style="color:red" path="tenNV" />
 
 							</div>
 						</div>
 						<div class="row mb-3">
-							<label for="Country"
-								class="col-md-4 col-lg-3 col-form-label v-label">Email</label>
+							<label for="Country" class="col-md-4 col-lg-3 col-form-label v-label">Email</label>
 							<div class="col-md-8 col-lg-9">
-								<form:input path="tknv.email" type="text"
-									class="form-control v-form-control" readonly = "true"
-									id="Country" value="${nv.tknv.email }"/>
+								<form:input path="tknv.email" type="text" class="form-control v-form-control"
+									readonly="true" id="Country" value="${nv.tknv.email }" />
 
 							</div>
 						</div>
 						<div class="row mb-3">
-							<label for="Country"
-								class="col-md-4 col-lg-3 col-form-label v-label">Username</label>
+							<label for="Country" class="col-md-4 col-lg-3 col-form-label v-label">Username</label>
 							<div class="col-md-8 col-lg-9">
-								<form:input path="tknv.userName" type="text"
-									class="form-control v-form-control" readonly = "true"
-									id="Country" value="${nv.tknv.userName }"/>
+								<form:input path="tknv.userName" type="text" class="form-control v-form-control"
+									readonly="true" id="Country" value="${nv.tknv.userName }" />
 
 							</div>
 						</div>
-						
+
 						<div class="row mb-3">
-							<label for="Country"
-								class="col-md-4 col-lg-3 col-form-label v-label">CMND/CCCD</label>
+							<label for="Country" class="col-md-4 col-lg-3 col-form-label v-label">CMND/CCCD</label>
 							<div class="col-md-8 col-lg-9">
-								<form:input path="cccd" type="text"
-									class="form-control v-form-control"
-									id="Country" value="${nv.cccd }"/>
+								<form:input path="cccd" type="text" class="form-control v-form-control" id="Country"
+									value="${nv.cccd }" />
 
-								<form:errors style = "color:red" path="cccd"/>
+								<form:errors style="color:red" path="cccd" />
 							</div>
 						</div>
 
 						<div class="row mb-3">
-							<label for="Address"
-								class="col-md-4 col-lg-3 col-form-label v-label">SĐT</label>
+							<label for="Address" class="col-md-4 col-lg-3 col-form-label v-label">SĐT</label>
 							<div class="col-md-8 col-lg-9">
-								<form:input path="sdt" type="text"
-									class="form-control v-form-control" id="Address"
-									value="${nv.sdt }"/>
-							<form:errors style = "color:red" path="sdt"/> 
+								<form:input path="sdt" type="text" class="form-control v-form-control" id="Address"
+									value="${nv.sdt }" />
+								<form:errors style="color:red" path="sdt" />
 							</div>
 						</div>
 
 						<div class="row mb-3">
-							<label for="Phone"
-								class="col-md-4 col-lg-3 col-form-label v-label">Ngày
+							<label for="Phone" class="col-md-4 col-lg-3 col-form-label v-label">Ngày
 								sinh</label>
 							<div class="col-md-8 col-lg-9">
-								<input type="date" class="form-control v-form-control"
-									 name="ngSinh" value="${ngaysinh }" />
+								<input type="date" class="form-control v-form-control" name="ngSinh" id="ngsinh"
+									value="${ngaysinh }" />
 							</div>
 						</div>
 
 						<div class="row mb-3">
-							<label for="Email"
-								class="col-md-4 col-lg-3 col-form-label v-label">Phái</label>
+							<label for="Email" class="col-md-4 col-lg-3 col-form-label v-label">Phái</label>
 							<div class="col-md-8 col-lg-9">
 
-								<select class="form-select v-form-control"
-									aria-label=" select example" name = "gridRadios">
+								<select class="form-select v-form-control" aria-label=" select example"
+									name="gridRadios">
 									<c:if test="${nv.phai eq false}">
 										<option selected value="false">Nữ</option>
 										<option value="true">Nam</option>
@@ -318,28 +307,27 @@
 
 							</div>
 						</div>
-<!-- 						<div class="row mb-3"> -->
-<!-- 							<label for="Twitter" -->
-<!-- 								class="col-md-4 col-lg-3 col-form-label v-label">Trạng -->
-<!-- 								thái</label> -->
-<!-- 							<div class="col-md-8 col-lg-9"> -->
-<!-- 								<select class="form-select v-form-control" -->
-<!-- 									aria-label=" select example" name = "trangthai"> -->
-<%-- 									<c:if test="${nv.tknv.trangThai eq 0}"> --%>
-<!-- 										<option selected value="0">Khóa</option> -->
-<!-- 										<option value="1">Đang Hoạt Động</option> -->
-<%-- 									</c:if> --%>
-<%-- 									<c:if test="${nv.tknv.trangThai eq 1}"> --%>
-<!-- 										<option value="0">Khóa</option> -->
-<!-- 										<option selected value="1">Đang Hoạt Động</option> -->
-<%-- 									</c:if> --%>
-<!-- 								</select> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
+						<!-- 						<div class="row mb-3"> -->
+						<!-- 							<label for="Twitter" -->
+						<!-- 								class="col-md-4 col-lg-3 col-form-label v-label">Trạng -->
+						<!-- 								thái</label> -->
+						<!-- 							<div class="col-md-8 col-lg-9"> -->
+						<!-- 								<select class="form-select v-form-control" -->
+						<!-- 									aria-label=" select example" name = "trangthai"> -->
+						<%-- 									<c:if test="${nv.tknv.trangThai eq 0}"> --%>
+						<!-- 										<option selected value="0">Khóa</option> -->
+						<!-- 										<option value="1">Đang Hoạt Động</option> -->
+						<%-- 									</c:if> --%>
+						<%-- 									<c:if test="${nv.tknv.trangThai eq 1}"> --%>
+						<!-- 										<option value="0">Khóa</option> -->
+						<!-- 										<option selected value="1">Đang Hoạt Động</option> -->
+						<%-- 									</c:if> --%>
+						<!-- 								</select> -->
+						<!-- 							</div> -->
+						<!-- 						</div> -->
 
 						<div class="text-center">
-							<button type="submit"
-								class="btn btn-primary btn-main-color border-0 shadow-none"
+							<button type="submit" class="btn btn-primary btn-main-color border-0 shadow-none"
 								style="padding: 8px 20px">Lưu</button>
 						</div>
 					</form:form>
@@ -364,8 +352,8 @@
 		<div class="modal-content border-0">
 			<div class="modal-header v-modal-header">
 				<h5 class="modal-title v-modal-title">Thêm</h5>
-				<button type="button" class="btn shadow-none"
-					data-bs-dismiss="modal" aria-label="Close" style="font-weight: 700">
+				<button type="button" class="btn shadow-none" data-bs-dismiss="modal" aria-label="Close"
+					style="font-weight: 700">
 					<i class="bi bi-x v-icon-close"></i>
 				</button>
 			</div>
@@ -373,97 +361,84 @@
 				<!-- Profile Edit Form -->
 				<form:form method="post" modelAttribute="nv">
 					<div class="row mb-3">
-						<label for="fullName"
-							class="col-md-4 col-lg-3 col-form-label v-label">Mã nhân
+						<label for="fullName" class="col-md-4 col-lg-3 col-form-label v-label">Mã nhân
 							viên</label>
 						<div class="col-md-8 col-lg-9">
-							<form:input path="maNV" type="text" readonly="true"
-								class="form-control v-form-control" id="fullName"
-								value="${nv.maNV }" />
+							<form:input path="maNV" type="text" readonly="true" class="form-control v-form-control"
+								id="fullName" value="${nv.maNV }" />
 						</div>
 					</div>
 
 					<div class="row mb-3">
 						<label for="company" class="col-md-3 col-form-label v-label">Họ</label>
 						<div class="col-md-3">
-							<form:input path="hoNV" type="text"
-								class="form-control v-form-control" id="company" value="" />
+							<form:input path="hoNV" type="text" class="form-control v-form-control" id="company"
+								value="" />
 							<form:errors style="color:red" path="hoNV" />
 						</div>
 
 						<label for="Job" class="col-md-1 col-form-label v-label">Tên</label>
 						<div class="col-md-5">
-							<form:input path="tenNV" type="text"
-								class="form-control  v-form-control" id="Job" value="" />
+							<form:input path="tenNV" type="text" class="form-control  v-form-control" id="Job"
+								value="" />
 							<form:errors style="color:red" path="tenNV" />
 						</div>
 					</div>
 
 					<div class="row mb-3">
-						<label for="Twitter"
-							class="col-md-4 col-lg-3 col-form-label v-label">Username</label>
+						<label for="Twitter" class="col-md-4 col-lg-3 col-form-label v-label">Username</label>
 						<div class="col-md-8 col-lg-9">
-							<input name="username" type="text"
-								class="form-control v-form-control" id="Twitter" readonly="true"
-								value="${nv.maNV }" />
+							<input name="username" type="text" class="form-control v-form-control" id="Twitter"
+								readonly="true" value="${nv.maNV }" />
 						</div>
 					</div>
 
 					<div class="row mb-3">
-						<label for="Twitter"
-							class="col-md-4 col-lg-3 col-form-label v-label">Email</label>
+						<label for="Twitter" class="col-md-4 col-lg-3 col-form-label v-label">Email</label>
 						<div class="col-md-8 col-lg-9">
-							<input name="email" type="text"
-								class="form-control v-form-control">
+							<input name="email" type="text" class="form-control v-form-control">
 							<form:errors style="color:red" path="phai" />
 						</div>
 					</div>
 
 
 					<div class="row mb-3">
-						<label for="Country"
-							class="col-md-4 col-lg-3 col-form-label v-label">CMND/CCCD</label>
+						<label for="Country" class="col-md-4 col-lg-3 col-form-label v-label">CMND/CCCD</label>
 						<div class="col-md-8 col-lg-9">
-							<form:input path="cccd" type="text"
-								class="form-control v-form-control" id="Country" value="" />
+							<form:input path="cccd" type="text" class="form-control v-form-control" id="Country"
+								value="" />
 							<form:errors style="color:red" path="cccd" />
 						</div>
 					</div>
 
 					<div class="row mb-3">
-						<label for="Address"
-							class="col-md-4 col-lg-3 col-form-label v-label">SĐT</label>
+						<label for="Address" class="col-md-4 col-lg-3 col-form-label v-label">SĐT</label>
 						<div class="col-md-8 col-lg-9">
-							<form:input path="sdt" type="text"
-								class="form-control v-form-control" id="Address" value="" />
+							<form:input path="sdt" type="text" class="form-control v-form-control" id="Address"
+								value="" />
 							<form:errors style="color:red" path="sdt" />
 						</div>
 					</div>
 
 					<div class="row mb-3">
-						<label for="Phone"
-							class="col-md-4 col-lg-3 col-form-label v-label">Ngày
+						<label for="Phone" class="col-md-4 col-lg-3 col-form-label v-label">Ngày
 							sinh</label>
 						<div class="col-md-8 col-lg-9">
-							<input type="date" class="form-control v-form-control"
-								name="ngaysinh" value="" />
+							<input type="date" class="form-control v-form-control" name="ngaysinh" value="" id="ngsinh1"/>
 							<form:errors style="color:red" path="ngaySinh" />
 						</div>
 					</div>
 
 					<div class="row mb-3">
-						<label for="Email"
-							class="col-md-4 col-lg-3 col-form-label v-label">Phái</label>
+						<label for="Email" class="col-md-4 col-lg-3 col-form-label v-label">Phái</label>
 						<div class="col-md-8">
 							<div class="form-check form-check-inline ">
-								<form:radiobutton
-									class="form-check-input v-check-input shadow-none" value="1"
+								<form:radiobutton class="form-check-input v-check-input shadow-none" value="1"
 									path="phai" />
 								<label class="form-check-label">Nam</label>
 							</div>
 							<div class="form-check form-check-inline ">
-								<form:radiobutton
-									class="form-check-input v-check-input shadow-none" value="0"
+								<form:radiobutton class="form-check-input v-check-input shadow-none" value="0"
 									path="phai" />
 								<label class="form-check-label" for="gridRadios2"> Nữ </label>
 							</div>
@@ -472,8 +447,7 @@
 
 
 					<div class="text-center">
-						<button type="submit"
-							class="btn btn-primary btn-main-color border-0 shadow-none"
+						<button type="submit" class="btn btn-primary btn-main-color border-0 shadow-none"
 							style="padding: 8px 20px">Lưu</button>
 					</div>
 				</form:form>
@@ -483,40 +457,37 @@
 	</div>
 </div>
 <!-- End Vertically centered Modal-->
-<div class="modal fade" id="Edittrangthai" tabindex="-1"
-	aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="Edittrangthai" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog v-modal-container">
 		<div class="modal-content border-0">
-		<form:form method="post" modelAttribute="nv">
-			<div class="modal-header v-modal-header">
-				<h5 class="modal-title v-modal-title">Thay đổi trạng thái cho nhân viên mã số&nbsp; ${nv.maNV }</h5>
-				<button type="button" class="btn shadow-none"
-					data-bs-dismiss="modal" aria-label="Close" style="font-weight: 700">
-					<i class="bi bi-x v-icon-close"></i>
-				</button>
-			</div>
-			<div class="modal-body row">
-				<!-- profile -->
-				<!-- Profile Edit Form -->
-				<div class="col-12 v-edit-form">
-					
+			<form:form method="post" modelAttribute="nv">
+				<div class="modal-header v-modal-header">
+					<h5 class="modal-title v-modal-title">Thay đổi trạng thái cho nhân viên</h5>
+					<button type="button" class="btn shadow-none" data-bs-dismiss="modal" aria-label="Close"
+						style="font-weight: 700">
+						<i class="bi bi-x v-icon-close"></i>
+					</button>
+				</div>
+				<div class="modal-body row">
+					<!-- profile -->
+					<!-- Profile Edit Form -->
+					<div class="col-12 v-edit-form">
+
 
 
 						<div class="row mb-3">
-							<label for="Email"
-								class="col-md-4 col-lg-3 col-form-label v-label">Trạng
+							<h6 class="mb-3">Mã nhân viên:&nbsp; ${nv.maNV }</h6>
+							<label for="Email" class="col-md-4 col-lg-3 col-form-label v-label">Trạng
 								thái</label>
 							<div class="col-md-8">
 								<div class="col-md-8">
 									<div class="form-check form-check-inline ">
-										<form:radiobutton
-											class="form-check-input v-check-input shadow-none" value="1"
+										<form:radiobutton class="form-check-input v-check-input shadow-none" value="1"
 											path="tknv.trangThai" />
 										<label class="form-check-label"> Đang Hoạt Động </label>
 									</div>
 									<div class="form-check form-check-inline ">
-										<form:radiobutton
-											class="form-check-input v-check-input shadow-none" value="0"
+										<form:radiobutton class="form-check-input v-check-input shadow-none" value="0"
 											path="tknv.trangThai" />
 										<label class="form-check-label"> Khóa </label>
 									</div>
@@ -530,51 +501,49 @@
 									class="btn btn-primary btn-main-color border-0 shadow-none"
 									style="padding: 8px 20px">Lưu</button>
 							</div>
-					
-					<!-- End Profile Edit Form -->
+
+							<!-- End Profile Edit Form -->
+						</div>
+						<!-- end profile -->
+					</div>
 				</div>
-				<!-- end profile -->
-			</div>
+			</form:form>
 		</div>
-		</form:form>
 	</div>
-</div>
-<!-- Vendor JS Files -->
-<script
-	src="<c:url value='/resources/assets/vendor/apexcharts/apexcharts.min.js'/>"></script>
-<script
-	src="<c:url value='/resources/assets/vendor/bootstrap/js/bootstrap.bundle.min.js'/>"></script>
-<script
-	src="<c:url value='/resources/assets/vendor/chart.js/chart.min.js'/>"></script>
-<script
-	src="<c:url value='/resources/assets/vendor/echarts/echarts.min.js'/>"></script>
-<script
-	src="<c:url value='/resources/assets/vendor/quill/quill.min.js'/>"></script>
-<script
-	src="<c:url value='/resources/assets/vendor/simple-datatables/simple-datatables.js'/>"></script>
-<script
-	src="<c:url value='/resources/assets/vendor/tinymce/tinymce.min.js'/>"></script>
-<script
-	src="<c:url value='/resources/assets/vendor/php-email-form/validate.js'/>"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script
-	src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
-<script
-	src="<c:url value='/resources/KhachHang/assets/js/showMessage.js'/>"></script>
-<script
-	src="<c:url value='/resources/KhachHang/assets/js/alertify.min.js'/>"></script>
+	<!-- Vendor JS Files -->
+	<script src="<c:url value='/resources/assets/vendor/apexcharts/apexcharts.min.js'/>"></script>
+	<script src="<c:url value='/resources/assets/vendor/bootstrap/js/bootstrap.bundle.min.js'/>"></script>
+	<script src="<c:url value='/resources/assets/vendor/chart.js/chart.min.js'/>"></script>
+	<script src="<c:url value='/resources/assets/vendor/echarts/echarts.min.js'/>"></script>
+	<script src="<c:url value='/resources/assets/vendor/quill/quill.min.js'/>"></script>
+	<script src="<c:url value='/resources/assets/vendor/simple-datatables/simple-datatables.js'/>"></script>
+	<script src="<c:url value='/resources/assets/vendor/tinymce/tinymce.min.js'/>"></script>
+	<script src="<c:url value='/resources/assets/vendor/php-email-form/validate.js'/>"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+	<script src="<c:url value='/resources/KhachHang/assets/js/showMessage.js'/>"></script>
+	<script src="<c:url value='/resources/KhachHang/assets/js/alertify.min.js'/>"></script>
 
 
-<!-- Template Main JS File -->
-<script src="<c:url value='/resources/assets/js/main.js'/>"></script>
-<script src="<c:url value='/resources/assets/js/my-main.js'/>"></script>
-<script>
-	$(document).ready(
-			function() {
-
+	<!-- Template Main JS File -->
+	<script src="<c:url value='/resources/assets/js/main.js'/>"></script>
+	<script src="<c:url value='/resources/assets/js/my-main.js'/>"></script>
+	<script>
+	ngsinh.max = new Date().toISOString().split("T")[0];
+	ngsinh1.max = new Date().toISOString().split("T")[0];
+		$(document).ready(
+			function () {
+				
+				const datatbl = new simpleDatatables.DataTable("#bangnhanvien", {
+					labels: {
+					    placeholder: "Tìm kiếm...",
+					    perPage: "{select} dòng mỗi trang",
+					    noRows: "Không tìm thấy dữ liệu",
+					    info: "{page} / {pages}",
+					}})
+				
 				showModalConfirm("#btn-change-state",
-						"Bạn có chắc chắn muốn thực hiện?", "Xác nhận", "Hủy");
+					"Bạn có chắc chắn muốn thực hiện?", "Xác nhận", "Hủy");
 
 				console.log($(".modal_flag").attr("idModal"));
 				if ($(".modal_flag").attr("idModal") === "modalCreate") {
@@ -587,8 +556,4 @@
 					$("#Edittrangthai").modal("show");
 				}
 			})
-</script>
-
-
-
-
+	</script>

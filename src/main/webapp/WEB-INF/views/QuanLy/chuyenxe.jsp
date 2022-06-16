@@ -28,13 +28,14 @@
 
 		<section class="section">
 			<div class="row">
-				<div class="col-lg-12">
+				<div class="col-lg-12 card">
 					<div class="card-body">
 						<!-- Table with stripped rows -->
-						<table class="table datatable table-striped table-bordered">
+						<table id="bangchuyenxe" class="table table-striped table-bordered">
 							<thead>
 								<tr class="v-table-tr-color">
 									<th scope="col">Mã chuyến</th>
+									<th scope="col">Tuyến</th>
 									<th scope="col">Ngày khỏi hành</th>
 									<th scope="col">Thời gian đi</th>
 									<th scope="col">Biển xe</th>
@@ -46,6 +47,7 @@
 								<c:forEach var="u" items="${list}">
 									<tr>
 										<th scope="row">${u.maChuyen }</th>
+										<td>${u.tuyen.maTuyen}</td>
 										<td>${u.ngKH}</td>
 										<td>${u.tgKh}</td>
 										<td>${u.xekhach.bienXe}</td>
@@ -71,7 +73,7 @@
 														class="bi bi-pencil-square v-icon-modal"
 														data-bs-toggle="modal" data-bs-target="#ProfileEditModal"></i></a>
 													<a href="quanly/chuyenxe/trangthai/${u.maChuyen}.html"><i
-														class="bi bi-pencil-square v-icon-modal"
+														class="bi bi-arrow-repeat v-icon-modal"
 														data-bs-toggle="modal" data-bs-target="#Edittrangthai"></i></a>
 												</c:if> </span></td>
 									</tr>
@@ -283,7 +285,7 @@
 				<form:form method="post" modelAttribute="chuyenxe">
 					<div class="modal-header v-modal-header">
 						<h5 class="modal-title v-modal-title">Thay đổi trạng thái cho
-							chuyến xe&nbsp; ${chuyenxe.maChuyen }</h5>
+							chuyến xe</h5>
 						<button type="button" class="btn shadow-none"
 							data-bs-dismiss="modal" aria-label="Close"
 							style="font-weight: 700">
@@ -298,6 +300,7 @@
 
 
 							<div class="row mb-3">
+							<h6 class="mb-3">Mã chuyến xe:&nbsp; ${chuyenxe.maChuyen }</h6>
 								<label for="Email"
 									class="col-md-4 col-lg-3 col-form-label v-label">Trạng
 									thái</label>
@@ -453,6 +456,14 @@
 		$(document)
 				.ready(
 						function() {
+							const datatbl = new simpleDatatables.DataTable("#bangchuyenxe", {
+								labels: {
+								    placeholder: "Tìm kiếm...",
+								    perPage: "{select} dòng mỗi trang",
+								    noRows: "Không tìm thấy dữ liệu",
+								    info: "{page} / {pages}",
+								}})
+							
 							showModalConfirm("#btn-change-state",
 									"Bạn có chắc chắn muốn thực hiện?",
 									"Xác nhận", "Hủy");

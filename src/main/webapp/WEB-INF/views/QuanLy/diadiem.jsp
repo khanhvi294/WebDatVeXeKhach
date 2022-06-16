@@ -18,10 +18,10 @@
 			</button></a>
         <section class="section">
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-12 card">
                     <div class="card-body">
                         <!-- Table with stripped rows -->
-                        <table class="table datatable table-striped table-bordered">
+                        <table id="bangdiadiem" class="table  table-striped table-bordered">
                             <thead>
                                 <tr class="v-table-tr-color">
                                     <th scope="col">Mã địa điểm</th>
@@ -55,9 +55,9 @@
     <div class="modal fade" id="ProfileEditModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered v-modal-add">
             <div class="modal-content border-0">
-             <form:form method = "post" modelAttribute="dd">
+             <form:form id="form-suadd" method = "post" modelAttribute="dd">
                 <div class="modal-header v-modal-header">
-                    <h5 class="modal-title v-modal-title">Chỉnh sửa cho địa điểm mã ${dd.maDD }</h5>
+                    <h5 class="modal-title v-modal-title">Chỉnh sửa cho địa điểm</h5>
                     <button type="button" class="btn shadow-none" data-bs-dismiss="modal" aria-label="Close"
                         style="font-weight: 700;"><i class="bi bi-x v-icon-close"></i></button>
                 </div>
@@ -74,12 +74,13 @@
                         <div class="row mb-3">
                             <label for="inputDate" class="col-md-4 col-lg-3 col-form-label v-label">Địa điểm </label>
                             <div class="col-md-8 col-lg-9">
-                                <form:input path="diaDiem" type="text" class="form-control v-form-control" id="sdiadiem" />
+                                <form:input  path="diaDiem" type="text" class="form-control v-form-control" id="sdiadiem" />
                                 <form:errors style = "color:red" path="diaDiem"/>
+                                 <p id="stendd-error" class="text-danger"> </p>
                             </div>
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary btn-main-color border-0 mt-3">Lưu</button>
+                            <button type="submit" name="btn-suadd" class="btn btn-primary btn-main-color border-0 mt-3">Lưu</button>
                         </div>
                   
                     <!-- End Profile Edit Form -->
@@ -158,7 +159,7 @@
 	<script src="<c:url value='/resources/assets/js/main.js'/>"></script>
 	<script src="<c:url value='/resources/assets/js/my-main.js'/>"></script>
 <script>
-/* 	function checkInput() {
+ 	function checkInput() {
 		let check = true;
 		$("button[name=add-diadiem]").click(function (e){
 			check = true;
@@ -203,10 +204,54 @@
 				$("#form-dd").submit();
 			}
 		})
-	} */
+	} 
 	
+	function checkEdit() {
+		let check = true;
+		$("button[name=btn-suadd]").click(function (e){
+			check = true;
+			e.preventDefault();
+			
+			
+			
+			let tenDD = $("#sdiadiem").val();
+			let regexTenDD = new RegExp(/^[\sa-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹếẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ ]+$/);
+	
+			if(!regexTenDD.test(tenDD)){
+				check = false;
+				$("#stendd-error").text("Tên địa điểm không được để trống và không được có kí tự đặc biệt!")
+			}else {
+				$("#stendd-error").text("")
+				let namearr = tenDD.split(" ")
+				tenDD = "";
+				namearr.forEach((item) => {
+					item = item.trim().replace(/\s+/g, '')
+					if(item.length > 0){
+						tenDD += item + " " 
+					}
+				})
+				tenDD = tenDD.trim()
+				$("#sdiadiem").val(tenDD);
+			}
+			
+			if(check){
+				$("#form-suadd").submit();
+			}
+		})
+	} 
+	
+ 	
 	$(document).ready(function() {
+		const datatbl = new simpleDatatables.DataTable("#bangdiadiem", {
+			labels: {
+			    placeholder: "Tìm kiếm...",
+			    perPage: "{select} dòng mỗi trang",
+			    noRows: "Không tìm thấy dữ liệu",
+			    info: "{page} / {pages}",
+			}})
+		
 		checkInput();
+		checkEdit();
 		console.log($(".modal_flag").attr("idModal"));
 		if ($(".modal_flag").attr("idModal") === "modalCreate") {
 			$("#verticalycentered").modal("show");

@@ -29,6 +29,19 @@ window.addEventListener( "pageshow", function ( event ) {
         <script type="text/javascript" src="resources/KhachHang/assets/js/alertify.min.js"></script>
         <script type="text/javascript" src="resources/KhachHang/assets/js/showMessage.js"></script>
         <script type="text/javascript" src="resources/KhachHang/assets/vendor/slick/slick/slick.min.js"></script>
+               <script type="text/javascript" src="resources/KhachHang/assets/js/custom.js"></script>
               
              
+     <script>
+     function activeSidebarItem(){
+    		$(".menu-item").each(function() {
+    			 if($(location).attr("pathname").includes($(this).attr("id"))){
+    				 $(this).addClass("active-color");
+    			 }
+    		 })
+    	}
      
+     $(document).ready(function () {
+    		activeSidebarItem();
+    	})
+     </script>

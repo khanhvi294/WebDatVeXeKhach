@@ -61,7 +61,7 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	   <link rel="stylesheet" type="text/css" href="resources/KhachHang/assets/css/alertify.min.css">
-
+<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
 </head>
 <body class="">
 	<div class="modal-flag" idModal="${idModal}"></div>
@@ -83,7 +83,7 @@
 					<div class="card">
 						<div class="card-body">
 							<h4 class="card-title">Thông tin vé xe của bạn</h4>
-							<table class="table datatable ">
+							<table class="table  " id="bangphieudat">
 								<thead>
 									<tr>
 										<th scope="col">Mã vé</th>
@@ -207,8 +207,8 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<div class="modal-body">Bạn có chắc chắn muốn hủy vé không?</div>
-				<div class="modal-footer">
+				<div class="modal-body">Bạn có chắc chắn muốn hủy vé cho phiếu đặt <strong>&nbsp;${idhuy }&nbsp;</strong> không?</div>
+				<div class="modal-footer float-right" style="display: flex; gap: 10px; justify-content: flex-end; ">
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Hủy bỏ thao tác</button>
 					<form method="post">
@@ -259,10 +259,21 @@
 	<script src="resources/KhachHang/assets/js/main.js"></script>
 	  <script type="text/javascript" src="resources/KhachHang/assets/js/alertify.min.js"></script>
         <script type="text/javascript" src="resources/KhachHang/assets/js/showMessage.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
 	<script>
 		if ($(".modal-flag").attr("idModal") === "modalHuy") {
 			$("#exampleModal").modal("show");
 		}
+		
+		const datatbl = new simpleDatatables.DataTable("#bangphieudat", {
+			labels: {
+			    placeholder: "Tìm kiếm...",
+			    perPage: "{select} dòng mỗi trang",
+			    noRows: "Không tìm thấy dữ liệu",
+			    info: "{page} / {pages}",
+			}})
+		
+		
 	</script>
 </body>
 

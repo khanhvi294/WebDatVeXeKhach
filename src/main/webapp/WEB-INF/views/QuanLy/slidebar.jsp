@@ -52,6 +52,9 @@
 				href="quanly/loaixe.html"> <i class="ri-align-justify"></i> <span>Loại
 						Xe</span>
 			</a></li>
+			<li class="nav-item" id="xekhach"><a class="nav-link collapsed"
+				href="quanly/xekhach.html"> <i class="ri-align-justify"></i> <span>Xe Khách</span>
+			</a></li>
 			<!-- End Error 404 Page Nav -->
 			<!-- End Blank Page Nav -->
 			<li class="nav-item" id="phieudat"><a class="nav-link collapsed"

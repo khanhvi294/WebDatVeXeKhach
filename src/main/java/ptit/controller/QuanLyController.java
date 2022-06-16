@@ -334,8 +334,49 @@ public class QuanLyController {
 							MimeMessageHelper helper = new MimeMessageHelper(mail);
 							helper.setFrom("no-reply-email");
 							helper.setTo(/* email */"n19dccn223@student.ptithcm.edu.vn");
-							helper.setSubject("Hủy vé");
-							helper.setText("Mã đặt chỗ " + phieudat.getMaPD() + " của quý khách đã bị hủy");
+							helper.setSubject("Hủy Chuyến");
+							helper.setText("  <div style=\"padding-bottom: 10rem;background-color: #f1f1f1; font-family: 'Roboto', sans-serif;\r\n"
+									+ "    box-sizing: border-box;\">\r\n"
+									+ "        <div style=\" width: 100%;\r\n"
+									+ "        padding: 1rem 0;\">\r\n"
+									+ "            <div style=\"margin: 0 auto;\r\n"
+									+ "            width: 200px;\r\n"
+									+ "            height: 100px;\r\n"
+									+ "            background-image: url('https://futabus.vn/_nuxt/img/logo-img.c178602.png');\r\n"
+									+ "            background-position: center center;\r\n"
+									+ "            background-size: contain;\r\n"
+									+ "            background-repeat: no-repeat;\"></div>\r\n"
+									+ "        </div>\r\n"
+									+ "        <div style=\"  margin: 0 auto;\r\n"
+									+ "        border-radius: 0.2rem;\r\n"
+									+ "        border: 2px solid rgba(175, 168, 168, 0.473);\r\n"
+									+ "        max-width: 40rem;\r\n"
+									+ "        background-color: #fff;\r\n"
+									+ "        padding: 4rem;\">\r\n"
+									+ "            <p style=\"margin: 1rem 0;\">Xin chào,</p>\r\n"
+									+ "            <p style=\"margin: 1rem 0 0.3rem 0;\">Vé xe "+phieudat.getMaPD()+" đã bị hủy do chuyến xe <span style=\"color: red;\">"+phieudat.getChuyen().getMaChuyen()+"</span>\r\n"
+									+ "                bị hủy\r\n"
+									+ "            </p>\r\n"
+									+ "            <p> Nếu có sự bất tiện nào, vui lòng liên hệ bộ phận hỗ trợ của chúng tôi qua email hotro@gmail.com hoặc\r\n"
+									+ "                012344343\r\n"
+									+ "            </p>\r\n"
+									+ "            <p>Click vào nút bên dưới để quay lại trang web</p>\r\n"
+									+ "            <div style=\"margin-top: 30px; width: 100%;\r\n"
+									+ "            margin-bottom: 3rem;\r\n"
+									+ "            text-align: center;\"><a href=\"http://localhost:8080/CNPM/dangnhap.html\" style=\" display: inline-block;\r\n"
+									+ "            padding: 18px 20px;\r\n"
+									+ "            background-color: #1890ff;\r\n"
+									+ "            border-radius: 3px;\r\n"
+									+ "            text-decoration: none;\r\n"
+									+ "            color: #fff;\r\n"
+									+ "            font-weight: 600;\r\n"
+									+ "            font-size: 16px;\" target=\"_blank\">Trang\r\n"
+									+ "                    chủ</a></div>\r\n"
+									+ "\r\n"
+									+ "            <p style=\"font-size: 14px;margin: 1rem 0;\"> Chúc bạn một ngày tốt lành!</p>\r\n"
+									+ "\r\n"
+									+ "        </div>\r\n"
+									+ "    </div>",true);
 							mailer.send(mail);
 						} catch (MessagingException e) {
 							System.out.println("thất bại");
@@ -435,20 +476,92 @@ public class QuanLyController {
 		Session session = factory.openSession();
 		Transaction transaction = session.beginTransaction();
 		try {
+			System.out.println(ma);
 			ChuyenXe chuyen = xetheoid(ma);
+			
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			Date parsed = format.parse(request.getParameter("ngKH"));
 			java.sql.Date sql = new java.sql.Date(parsed.getTime());
-			chuyen.setNgKH(sql);
+			
 			SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
+			
 			Date d1 = sdf.parse(request.getParameter("tgKH"));
-			chuyen.setTgKh(new Time(d1.getTime()));
+			if(chuyen.getNgKH() != sql || chuyen.getTgKh() != new Time(d1.getTime())) {
+				System.out.println(ma);
+				List<PhieuDat> dspd = getdspdbymachuyen(ma);
+				if (dspd != null) {
+					for (PhieuDat phieudat : dspd) {
+						
+						try {
+							MimeMessage mail = mailer.createMimeMessage();
+							MimeMessageHelper helper = new MimeMessageHelper(mail);
+							helper.setFrom("no-reply-email");
+							helper.setTo(/* email */"n19dccn223@student.ptithcm.edu.vn");
+							helper.setSubject("Thông báo thay đổi thời gian khởi hành");
+							helper.setText("    <div style=\"padding-bottom: 10rem;background-color: #f1f1f1; font-family: 'Roboto', sans-serif;\r\n"
+									+ "    box-sizing: border-box;\">\r\n"
+									+ "        <div style=\" width: 100%;\r\n"
+									+ "        padding: 1rem 0;\">\r\n"
+									+ "            <div style=\"margin: 0 auto;\r\n"
+									+ "            width: 200px;\r\n"
+									+ "            height: 100px;\r\n"
+									+ "            background-image: url('https://futabus.vn/_nuxt/img/logo-img.c178602.png');\r\n"
+									+ "            background-position: center center;\r\n"
+									+ "            background-size: contain;\r\n"
+									+ "            background-repeat: no-repeat;\"></div>\r\n"
+									+ "        </div>\r\n"
+									+ "        <div style=\"  margin: 0 auto;\r\n"
+									+ "        border-radius: 0.2rem;\r\n"
+									+ "        border: 2px solid rgba(175, 168, 168, 0.473);\r\n"
+									+ "        max-width: 40rem;\r\n"
+									+ "        background-color: #fff;\r\n"
+									+ "        padding: 4rem;\">\r\n"
+									+ "            <p style=\"margin: 1rem 0;\">Xin chào,</p>\r\n"
+									+ "            <p style=\"margin: 1rem 0 0.3rem 0;\">Bạn nhận được email này vì chuyến xe <span\r\n"
+									+ "                    style=\"color: red;\">"+phieudat.getChuyen().getMaChuyen()+"</span> đã được cập nhật các thông\r\n"
+									+ "                tin mới, vui lòng kiểm tra lại thông tin</p>\r\n"
+			         
+									+ "            <p> Nếu có sự bất tiện nào, vui lòng liên hệ bộ phận hỗ trọ của chúng tôi qua email hotro@gmail.com hoặc\r\n"
+									+ "                012344343\r để được hoàn trả vé\n"
+									+ "            </p>\r\n"
+									+ "            <p>Click vào nút bên dưới để quay lại trang web</p>\r\n"
+									+ "            <div style=\"margin-top: 30px; width: 100%;\r\n"
+									+ "            margin-bottom: 3rem;\r\n"
+									+ "            text-align: center;\"><a href=\"http://localhost:8080/CNPM/dangnhap.html\" style=\" display: inline-block;\r\n"
+									+ "            padding: 18px 20px;\r\n"
+									+ "            background-color: #1890ff;\r\n"
+									+ "            border-radius: 3px;\r\n"
+									+ "            text-decoration: none;\r\n"
+									+ "            color: #fff;\r\n"
+									+ "            font-weight: 600;\r\n"
+									+ "            font-size: 16px;\" target=\"_blank\">Trang\r\n"
+									+ "                    chủ</a></div>\r\n"
+									+ "\r\n"
+									+ "            <p style=\"font-size: 14px;margin: 1rem 0;\"> Chúc bạn một ngày tốt lành!</p>\r\n"
+									+ "\r\n"
+									+ "        </div>\r\n"
+									+ "    </div>", true);
+							mailer.send(mail);
+						} catch (MessagingException e) {
+							System.out.println("thất bại");
+							e.printStackTrace();
+						}
+
+						
+					}
+
+				}
+			}
 			System.out.println(chuyen.getTgKh());
-			chuyen.setTuyen(tuyentheoid(request.getParameter("tuyenxe")));
+			chuyen.setNgKH(sql);
+			chuyen.setTgKh(new Time(d1.getTime()));
+			/* chuyen.setTuyen(tuyentheoid(request.getParameter("tuyenxe"))); */ 
 			chuyen.setXekhach(xekhachtheoid(request.getParameter("xekhach")));
-			chuyen.setTrangthai(Integer.parseInt(request.getParameter("trangthai")));
-			XeKhach xk = xekhachtheoid(chuyen.getXekhach().getBienXe());
-			BigDecimal gia = layGia(chuyen.getTuyen().getMaTuyen(), xk.getLx().getMaLX());
+			/* chuyen.setTrangthai(Integer.parseInt(request.getParameter("trangthai"))); */
+			/*
+			 * XeKhach xk = xekhachtheoid(chuyen.getXekhach().getBienXe()); BigDecimal gia =
+			 * layGia(chuyen.getTuyen().getMaTuyen(), xk.getLx().getMaLX());
+			 */
 			session.merge(chuyen);
 			transaction.commit();
 			redirectAttributes.addFlashAttribute("message", new Message("success", "Cập nhật chuyến thành công!"));
@@ -500,7 +613,7 @@ public class QuanLyController {
 
 		if (list.size() != 0) {
 			ChuyenXe cx = list.get(0);
-System.out.println("chuyenx " +cx.getMaChuyen());
+			System.out.println("chuyenx " + cx.getMaChuyen());
 			return cx;
 
 		}
@@ -519,67 +632,74 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 		if (request.getParameter("thoigian") == "") {
 			errors.rejectValue("tgKh", "chuyen", "Thời gian không được để trống");
 		}
-
-		if (chuyen.getNgKH() != null && chuyen.getNgKH().before(new Date())) {
-			errors.rejectValue("ngKH", "chuyen", "Ngày Tháng Không Được Để Nhỏ Hơn Ngày Hiện Tại");
+		 Date daten = new Date();
+	        Calendar cf = Calendar.getInstance();
+	        cf.setTime(daten);
+	         cf.add(Calendar.DATE, 1);
+	        Date dateso = cf.getTime();
+		
+		if (chuyen.getNgKH() != null && chuyen.getNgKH().before(dateso)) {
+			errors.rejectValue("ngKH", "chuyen", "Ngày khởi hành phải sau ngày hiện tại 2 ngày");
 
 		} else {
 			ChuyenXe cxc = getchuyenxecuoi(chuyen.getXekhach().getBienXe(), request.getParameter("ngKH"), chuyen);
 			if (cxc != null) {
 				TuyenXe tx = tuyentheoid(chuyen.getTuyen().getMaTuyen());
-				
-				if(tx.getDiemDi().getMaDD().equals(cxc.getTuyen().getDiemDen().getMaDD()) == false) {
-					errors.rejectValue("maChuyen", "chuyen", "Thời điểm này xe ở " + cxc.getTuyen().getDiemDen().getDiaDiem() + ". Vui lòng chọn tuyến xe phù hợp.");
-				}else {
+
+				if (tx.getDiemDi().getMaDD().equals(cxc.getTuyen().getDiemDen().getMaDD()) == false) {
+					errors.rejectValue("maChuyen", "chuyen", "Thời điểm này xe ở "
+							+ cxc.getTuyen().getDiemDen().getDiaDiem() + ". Vui lòng chọn tuyến xe phù hợp.");
+				} else {
 					try {
-					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-					Date parsed = format.parse(request.getParameter("ngKH"));
-					java.sql.Date sql = new java.sql.Date(parsed.getTime());
-					chuyen.setNgKH(sql);
-					SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
-					Date d1 = sdf.parse(request.getParameter("thoigian"));
-					chuyen.setTgKh(new Time(d1.getTime()));
-					
+						SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+						Date parsed = format.parse(request.getParameter("ngKH"));
+						java.sql.Date sql = new java.sql.Date(parsed.getTime());
+						chuyen.setNgKH(sql);
+						SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
+						Date d1 = sdf.parse(request.getParameter("thoigian"));
+						chuyen.setTgKh(new Time(d1.getTime()));
+
 //					test thử
-					SimpleDateFormat dateformat = new SimpleDateFormat("dd-MM-yyyy");
-					String dateString2 = dateformat.format(chuyen.getNgKH());
-					String dateString = dateformat.format(cxc.getNgKH());
-					
-					String s = cxc.getTgKh().toString().substring(0,5);
-					String s1 = chuyen.getTgKh().toString().substring(0, 5);
-					SimpleDateFormat formatter = new SimpleDateFormat("dd-M-yyyy hh:mm");
-					Date date = null;
-					Date datebf = null;
-					try {
-						date = formatter.parse(dateString2 + " " + s1);
-						datebf = formatter.parse(dateString+" " +s);
-						System.out.println("ngay1 "+date);
-						System.out.println("ngaytrc"+date);
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} 
-					 Calendar c = Calendar.getInstance();
-				        c.setTime(datebf);
-				        c.add(Calendar.MINUTE, cxc.getTuyen().getTgchay());
-				        Date datecp = c.getTime();
-				        
-					long getDiff = date.getTime() - datecp.getTime();
-					long getDaysDiff = TimeUnit.MILLISECONDS.toMinutes(getDiff);
-					int minute = (int) getDaysDiff;
-					System.out.println("thoi gian2 " +minute);
-					if(minute < 4*60) {
-						errors.rejectValue("tgKh", "chuyen", "Thời gian khởi hành cần cách thời gian đến của xe 4 tiếng!");
+						SimpleDateFormat dateformat = new SimpleDateFormat("dd-MM-yyyy");
+						String dateString2 = dateformat.format(chuyen.getNgKH());
+						String dateString = dateformat.format(cxc.getNgKH());
+
+						String s = cxc.getTgKh().toString().substring(0, 5);
+						String s1 = chuyen.getTgKh().toString().substring(0, 5);
+						SimpleDateFormat formatter = new SimpleDateFormat("dd-M-yyyy hh:mm");
+						Date date = null;
+						Date datebf = null;
+						try {
+							date = formatter.parse(dateString2 + " " + s1);
+							datebf = formatter.parse(dateString + " " + s);
+							System.out.println("ngay1 " + date);
+							System.out.println("ngaytrc" + date);
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						Calendar c = Calendar.getInstance();
+						c.setTime(datebf);
+						c.add(Calendar.MINUTE, cxc.getTuyen().getTgchay());
+						Date datecp = c.getTime();
+
+						long getDiff = date.getTime() - datecp.getTime();
+						long getDaysDiff = TimeUnit.MILLISECONDS.toMinutes(getDiff);
+						int minute = (int) getDaysDiff;
+						System.out.println("thoi gian2 " + minute);
+						if (minute < 4 * 60) {
+							errors.rejectValue("tgKh", "chuyen",
+									"Thời gian khởi hành cần cách thời gian đến của xe 4 tiếng!");
+						}
+					} catch (Exception e) {
+
 					}
-					}catch(Exception e) {
-						
-					}
-					
+
 //					kết thúc test
 				}
-			}}
-		
-		
+			}
+		}
+
 		if (errors.hasErrors()) {
 			System.out.println("l3333oi");
 			model.addAttribute("idModal", "modalCreate");
@@ -601,6 +721,7 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 			model.addAttribute("chuyenxe", chuyen);
 			return "QuanLy/chuyenxe";
 		} else {
+			Session session2 = factory.getCurrentSession();
 			Session session = factory.openSession();
 			Transaction transaction = session.beginTransaction();
 			System.out.println("lo123i");
@@ -630,7 +751,8 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 				Date d1 = sdf.parse(request.getParameter("thoigian"));
 				chuyen.setTgKh(new Time(d1.getTime()));
 				chuyen.setGia(gia);
-				chuyen.setSochotrong(36);
+				XeKhach xkk =(XeKhach)session2.get(XeKhach.class, chuyen.getXekhach().getBienXe());
+				chuyen.setSochotrong(xkk.getLx().getSeat());
 //				test thử
 				SimpleDateFormat dateformat = new SimpleDateFormat("dd-MM-yyyy");
 				String dateString2 = dateformat.format(chuyen.getNgKH());
@@ -640,18 +762,18 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 				Date datebf = null;
 				try {
 					date = formatter.parse(dateString2 + " " + s1);
-				
-					System.out.println("ngay "+date);
+
+					System.out.println("ngay " + date);
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				} 
+				}
 				Date now = new Date();
 				long getDiff = date.getTime() - now.getTime();
 				long getDaysDiff = TimeUnit.MILLISECONDS.toMinutes(getDiff);
 				int minute = (int) getDaysDiff;
-				System.out.println("thoi gian " +minute);
-				
+				System.out.println("thoi gian " + minute);
+
 //				kết thúc test
 				session.save(chuyen);
 				transaction.commit();
@@ -744,35 +866,37 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 	public String TuyenXeInsert(ModelMap model, HttpServletRequest request, @ModelAttribute("tuyen") TuyenXe tuyen,
 			BindingResult errors, RedirectAttributes redirectAttributes) {
 		int count = 0;
-		/*if (tuyen.getMaTuyen().trim().length() == 0) {
-			errors.rejectValue("maTuyen", "tuyen", "Mã tuyến không được để trống");
-			count = 1;
-		} else if (checkmatuyentrung(tuyen.getMaTuyen()) == 0) {
-			errors.rejectValue("maTuyen", "tuyen", "Mã tuyến đã tồn tại");
-			count = 1;
-		}*/
+		/*
+		 * if (tuyen.getMaTuyen().trim().length() == 0) { errors.rejectValue("maTuyen",
+		 * "tuyen", "Mã tuyến không được để trống"); count = 1; } else if
+		 * (checkmatuyentrung(tuyen.getMaTuyen()) == 0) { errors.rejectValue("maTuyen",
+		 * "tuyen", "Mã tuyến đã tồn tại"); count = 1; }
+		 */
 		if (tuyen.getDiemDen().getMaDD().equals(tuyen.getDiemDi().getMaDD())) {
 			errors.rejectValue("diemDen", "tuyen", "Điểm đi và đến không được trùng nhau");
 			count = 1;
 		} else if (checkddtuyentrung(tuyen.getDiemDi().getMaDD(), tuyen.getDiemDen().getMaDD()) == 0) {
 			errors.rejectValue("diemDen", "tuyen", "Tuyến đã tồn tại");
+			count = 1;
 		}
 		if (tuyen.getGiatuyen() == null) {
 			errors.rejectValue("giatuyen", "tuyen", "Giá tuyến không được để trống");
 			count = 1;
-		}else if(tuyen.getGiatuyen().compareTo(new BigDecimal("0.00")) <= 0) {
+		} else if (tuyen.getGiatuyen().compareTo(new BigDecimal("0.00")) <= 0) {
 			errors.rejectValue("giatuyen", "tuyen", "Giá tuyến không được nhỏ hơn 0");
 			count = 1;
 		} else if (Pattern.matches("[a-zA-Z]+", tuyen.getGiatuyen().toString()) == true) {
 			errors.rejectValue("giatuyen", "tuyen", "Sai định dạng");
 			count = 1;
 		}
+		if (String.valueOf(tuyen.getTgchay()).trim().length() == 0) {
+			errors.rejectValue("tgchay", "tuyen", "Sai định dạng");
+			count = 1;
+		}
 		if (tuyen.getTgchay() <= 0) {
 			errors.rejectValue("tgchay", "tuyen", "Thời gian di chuyển không hợp lệ");
 			count = 1;
 		}
-		
-		
 
 		if (count == 1) {
 			List<TuyenXe> list = dstx();
@@ -785,7 +909,7 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 		} else {
 			Session session = factory.openSession();
 			Transaction transaction = session.beginTransaction();
-			String matuyen = tuyen.getDiemDi().getMaDD()+"-"+tuyen.getDiemDen().getMaDD();
+			String matuyen = tuyen.getDiemDi().getMaDD() + "-" + tuyen.getDiemDen().getMaDD();
 			System.out.println(tuyen.getMaTuyen());
 			try {
 //					tuyen = new TuyenXe();
@@ -840,23 +964,23 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 		TuyenXe tuyen = tuyentheoid(ma);
 		int count = 0;
 		if (request.getParameter("tgchay").trim().length() == 0) {
-			model.addAttribute("messagegia", "thời gian chạy tuyến không được nhỏ hơn 0");
+			model.addAttribute("messagetgchay", "thời gian chạy tuyến không được nhỏ hơn 0");
 			count = 1;
 		} else if (Integer.parseInt(request.getParameter("tgchay")) <= 0) {
-			model.addAttribute("messagegia", "thời gian chạy tuyến không được nhỏ hơn 0");
+			model.addAttribute("messagetgchay", "thời gian chạy tuyến không được nhỏ hơn 0");
 			count = 1;
 		} else if (Pattern.matches("[a-zA-Z]+", request.getParameter("tgchay")) == true) {
-			model.addAttribute("messagegia", "Sai Định Dạng");
+			model.addAttribute("messagetgchay", "Sai Định Dạng");
 			count = 1;
 		}
 		if (request.getParameter("giatuyen").trim().length() == 0) {
-			model.addAttribute("messagetgchay", "thời gian chạy tuyến không được để trống");
+			model.addAttribute("messagegia", "thời gian chạy tuyến không được để trống");
 			count = 1;
-		} else if(!request.getParameter("giatuyen").trim().matches("^[0-9]*$")) {
-			model.addAttribute("messagetgchay", "Sai định dạng");
+		} else if (!request.getParameter("giatuyen").trim().matches("^[.0-9]*$")) {
+			model.addAttribute("messagegia", "Sai định dạng");
 			count = 1;
-		}else if (Double.parseDouble(request.getParameter("giatuyen")) <= 0) {
-			model.addAttribute("messagetgchay", "Giá trị không được nhỏ hơn 0");
+		} else if (Double.parseDouble(request.getParameter("giatuyen")) <= 0) {
+			model.addAttribute("messagegia", "Giá trị không được nhỏ hơn 0");
 			count = 1;
 		}
 
@@ -870,15 +994,17 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 			Session session = factory.openSession();
 			Transaction transaction = session.beginTransaction();
 			try {
-				tuyen = tuyentheoid(ma);
+
 				// tuyen.setTrangThai(Boolean.parseBoolean(request.getParameter("trangthai")));
+
 				tuyen.setTgchay(Integer.parseInt(request.getParameter("tgchay")));
-				session.save(tuyen);
+				tuyen.setGiatuyen(new BigDecimal(request.getParameter("giatuyen")));
+				session.merge(tuyen);
 				transaction.commit();
-				redirectAttributes.addFlashAttribute("message", new Message("success", "Thêm tuyến thành công!"));
+				redirectAttributes.addFlashAttribute("message", new Message("success", "Chỉnh sửa tuyến thành công!"));
 			} catch (Exception e) {
 				System.out.println(e.toString());
-				redirectAttributes.addFlashAttribute("message", new Message("error", "Thêm tuyến thất bại!"));
+				redirectAttributes.addFlashAttribute("message", new Message("error", "Chỉnh sửa tuyến thất bại!"));
 				transaction.rollback();
 			} finally {
 				session.close();
@@ -1006,9 +1132,9 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 		} else if (checksdt(nv.getSdt(), ma) == 0) {
 			errors.rejectValue("sdt", "nv", "sdt bị trùng");
 		}
-		if(nv.getCccd().trim().length() == 0) {
+		if (nv.getCccd().trim().length() == 0) {
 			errors.rejectValue("cccd", "nv", "Không được để trống");
-		}else if (!nv.getCccd().trim().matches("^[0-9]*$") || request.getParameter("cccd").length() != 10) {
+		} else if (!nv.getCccd().trim().matches("^[0-9]*$") || request.getParameter("cccd").length() != 10) {
 			errors.rejectValue("cccd", "nv", "Vui lòng nhập đúng định dạng cccd");
 		} else if (checktrungcccd(nv.getCccd(), ma) == 0) {
 			errors.rejectValue("cccd", "nv", "CCCD Đã Tồn Tại");
@@ -1088,9 +1214,9 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 		} else if (checksdt(nv.getSdt(), nv.getMaNV()) == 0) {
 			errors.rejectValue("sdt", "nv", "sdt bị trùng");
 		}
-		if(nv.getCccd().trim().length() == 0) {
+		if (nv.getCccd().trim().length() == 0) {
 			errors.rejectValue("cccd", "nv", "Không được để trống");
-		}else if (!nv.getCccd().trim().matches("^[0-9]*$") || nv.getCccd().length() != 10) {
+		} else if (!nv.getCccd().trim().matches("^[0-9]*$") || nv.getCccd().length() != 10) {
 			errors.rejectValue("cccd", "nv", "Vui lòng nhập đúng định dạng cccd");
 		} else if (checktrungcccd(nv.getCccd(), nv.getMaNV()) == 0) {
 			errors.rejectValue("cccd", "nv", "CCCD Đã Tồn Tại");
@@ -1127,7 +1253,8 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 				tk.setEmail(request.getParameter("email"));
 				String[] words = request.getParameter("ngaysinh").split("-");
 				String pw = words[0] + words[1] + words[2];
-				tk.setMatKhau(pw);
+				
+				tk.setMatKhau(hashPass(pw));
 				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 				Date parsed = format.parse(request.getParameter("ngaysinh"));
 				java.sql.Date sql = new java.sql.Date(parsed.getTime());
@@ -1477,7 +1604,7 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 		} else if (Double.parseDouble(lx.getGiaLX().toString()) <= 0) {
 			errors.rejectValue("giaLX", "lx", "Giá phải lớn hơn 0");
 			count = 1;
-		} else if (!lx.getGiaLX().toString().trim().matches("^[0-9]*$")) {
+		} else if (!lx.getGiaLX().toString().trim().matches("^[.0-9]*$")) {
 			errors.rejectValue("giaLX", "lx", "Sai định dạng");
 			count = 1;
 		}
@@ -1486,6 +1613,10 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 			count = 1;
 		} else if (checktenlxtrung(lx.getTenLX(), lx.getMaLX()) == 0) {
 			errors.rejectValue("tenLX", "lx", "Tên Loại Xe Đã Tồn Tại");
+			count = 1;
+		}
+		if (lx.getSeat() <= 0) {
+			errors.rejectValue("seat", "lx", "Số chỗ phải lớn hơn 0");
 			count = 1;
 		}
 
@@ -1499,7 +1630,6 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 			Session session = factory.openSession();
 			Transaction transaction = session.beginTransaction();
 			try {
-				lx.setSeat(36);
 				session.update(lx);
 				transaction.commit();
 				redirectAttributes.addFlashAttribute("message", new Message("success", "Cập nhật thành công!"));
@@ -1557,16 +1687,19 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 			count = 1;
 		}
 		if (lx.getGiaLX() == null) {
-			errors.rejectValue("seat", "lx", "Không được để trống");
+			errors.rejectValue("giaLX", "lx", "Không được để trống");
 			count = 1;
 		} else if (Double.parseDouble(lx.getGiaLX().toString()) <= 0) {
-			errors.rejectValue("seat", "lx", "Giá Loại Xe > 0");
+			errors.rejectValue("giaLX", "lx", "Giá Loại Xe > 0");
 			count = 1;
 		} else if (Pattern.matches("[a-zA-Z]+", lx.getGiaLX().toString()) == true) {
-			errors.rejectValue("seat", "lx", "Sai định dạng");
+			errors.rejectValue("giaLX", "lx", "Sai định dạng");
 			count = 1;
 		}
-
+		if (lx.getSeat() <= 0) {
+			errors.rejectValue("seat", "lx", "Số chỗ phải lớn hơn 0");
+			count = 1;
+		}
 		if (count == 1) {
 			model.addAttribute("idModal", "modalCreate");
 			List<LoaiXe> dslx = dslx();
@@ -1576,7 +1709,7 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 			Session session = factory.openSession();
 			Transaction transaction = session.beginTransaction();
 			try {
-				lx.setSeat(36);
+
 				session.save(lx);
 				transaction.commit();
 				redirectAttributes.addFlashAttribute("message", new Message("success", "Thêm mới thành công!"));
@@ -1593,9 +1726,8 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 		}
 
 	}
-	
 
-	public List<PhieuDat> dspds(String macx,int trangthai){
+	public List<PhieuDat> dspds(String macx, int trangthai) {
 		Session session = factory.getCurrentSession();
 		String hql = "from PhieuDat pd where pd.chuyen.maChuyen = :macx and pd.trangThai = :TT";
 		Query query = session.createQuery(hql);
@@ -1604,8 +1736,8 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 		List<PhieuDat> list = query.list();
 		return list;
 	}
-	
-	public List<PhieuDat> dspdcx(String macx){
+
+	public List<PhieuDat> dspdcx(String macx) {
 		Session session = factory.getCurrentSession();
 		String hql = "from PhieuDat pd where pd.chuyen.maChuyen = :macx";
 		Query query = session.createQuery(hql);
@@ -1613,8 +1745,8 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 		List<PhieuDat> list = query.list();
 		return list;
 	}
-	
-	public List<PhieuDat> dspdtt(int trangthai){
+
+	public List<PhieuDat> dspdtt(int trangthai) {
 		Session session = factory.getCurrentSession();
 		String hql = "from PhieuDat pd where pd.trangThai = :TT";
 		Query query = session.createQuery(hql);
@@ -1622,7 +1754,7 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 		List<PhieuDat> list = query.list();
 		return list;
 	}
-	
+
 	@RequestMapping("/phieudat")
 	public String PhieuDat(ModelMap model) {
 		List<PhieuDat> ds = dspd();
@@ -1632,45 +1764,49 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 		model.addAttribute("xe", dsc);
 		return "QuanLy/phieudat";
 	}
+
 	String xekhach = "all", trangthai = "3";
-	@RequestMapping(value = "/phieudat/search",method = RequestMethod.POST)
-	public String PhieuDatSearch(ModelMap model, HttpServletRequest request,RedirectAttributes redirectAttributes) {
+
+	@RequestMapping(value = "/phieudat/search", method = RequestMethod.POST)
+	public String PhieuDatSearch(ModelMap model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
 		model.addAttribute("pd", new PhieuDat());
-		if(request.getParameter("xekhach").equals("all") && request.getParameter("trangthai").equals("3")) {
+		if (request.getParameter("xekhach").equals("all") && request.getParameter("trangthai").equals("3")) {
 			List<PhieuDat> ds = dspd();
 			model.addAttribute("dspd", ds);
-		}else if(request.getParameter("xekhach").equals("all")) {
+		} else if (request.getParameter("xekhach").equals("all")) {
 			List<PhieuDat> ds = dspdtt(Integer.parseInt(request.getParameter("trangthai")));
 			model.addAttribute("dspd", ds);
-		}else if(request.getParameter("trangthai").equals("3")) {
+		} else if (request.getParameter("trangthai").equals("3")) {
 			List<PhieuDat> ds = dspdcx(request.getParameter("xekhach"));
 			model.addAttribute("dspd", ds);
-		}else {
-			List<PhieuDat> ds = dspds(request.getParameter("xekhach"),Integer.parseInt(request.getParameter("trangthai")));
+		} else {
+			List<PhieuDat> ds = dspds(request.getParameter("xekhach"),
+					Integer.parseInt(request.getParameter("trangthai")));
 			model.addAttribute("dspd", ds);
 		}
-		xekhach = request.getParameter("xekhach"); trangthai = request.getParameter("trangthai");
+		xekhach = request.getParameter("xekhach");
+		trangthai = request.getParameter("trangthai");
 		List<ChuyenXe> dsc = dscx();
 		model.addAttribute("xe", dsc);
 		System.out.println(request.getParameter("xekhach"));
-		
+
 		return "QuanLy/phieudat";
 	}
 
 	@RequestMapping(value = "/phieudat/{mapd}", params = "info")
 	public String PhieuDatInfo(ModelMap model, @PathVariable("mapd") String ma, @ModelAttribute("pd") PhieuDat pd) {
 		model.addAttribute("idModal", "modalShow");
-		if(xekhach.equals("all") && trangthai.equals("3")) {
+		if (xekhach.equals("all") && trangthai.equals("3")) {
 			List<PhieuDat> ds = dspd();
 			model.addAttribute("dspd", ds);
-		}else if(xekhach.equals("all")) {
+		} else if (xekhach.equals("all")) {
 			List<PhieuDat> ds = dspdtt(Integer.parseInt(trangthai));
 			model.addAttribute("dspd", ds);
-		}else if(trangthai.equals("3")) {
+		} else if (trangthai.equals("3")) {
 			List<PhieuDat> ds = dspdcx(xekhach);
 			model.addAttribute("dspd", ds);
-		}else {
-			List<PhieuDat> ds = dspds(xekhach,Integer.parseInt(trangthai));
+		} else {
+			List<PhieuDat> ds = dspds(xekhach, Integer.parseInt(trangthai));
 			model.addAttribute("dspd", ds);
 		}
 		pd = phieudattheoma(ma);
@@ -1691,17 +1827,17 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 	public String PhieuDatupdate(ModelMap model, @PathVariable("mapd") String ma) {
 		System.out.println("vitester");
 		model.addAttribute("idModal", "modalUpdate");
-		if(xekhach.equals("all") && trangthai.equals("3")) {
+		if (xekhach.equals("all") && trangthai.equals("3")) {
 			List<PhieuDat> ds = dspd();
 			model.addAttribute("dspd", ds);
-		}else if(xekhach.equals("all")) {
+		} else if (xekhach.equals("all")) {
 			List<PhieuDat> ds = dspdtt(Integer.parseInt(trangthai));
 			model.addAttribute("dspd", ds);
-		}else if(trangthai.equals("3")) {
+		} else if (trangthai.equals("3")) {
 			List<PhieuDat> ds = dspdcx(xekhach);
 			model.addAttribute("dspd", ds);
-		}else {
-			List<PhieuDat> ds = dspds(xekhach,Integer.parseInt(trangthai));
+		} else {
+			List<PhieuDat> ds = dspds(xekhach, Integer.parseInt(trangthai));
 			model.addAttribute("dspd", ds);
 		}
 		PhieuDat pd = phieudattheoma(ma);
@@ -1735,7 +1871,54 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 					helper.setFrom("no-reply-email");
 					helper.setTo(/* email */"n19dccn223@student.ptithcm.edu.vn");
 					helper.setSubject("Xác nhận thanh toán");
-					helper.setText("Quý khách đã thanh toán thành công cho mã vé " + ma);
+					helper.setText(
+							
+" <div style=\"padding-bottom: 10rem;background-color: #f1f1f1; font-family: 'Roboto', sans-serif;\r\n"
++ "    box-sizing: border-box;\">\r\n"
++ "        <div style=\" width: 100%;\r\n"
++ "        padding: 1rem 0;\">\r\n"
++ "            <div style=\"margin: 0 auto;\r\n"
++ "            width: 200px;\r\n"
++ "            height: 100px;\r\n"
++ "            background-image: url('https://futabus.vn/_nuxt/img/logo-img.c178602.png');\r\n"
++ "            background-position: center center;\r\n"
++ "            background-size: contain;\r\n"
++ "            background-repeat: no-repeat;\"></div>\r\n"
++ "        </div>\r\n"
++ "        <div style=\"  margin: 0 auto;\r\n"
++ "        border-radius: 0.2rem;\r\n"
++ "        border: 2px solid rgba(175, 168, 168, 0.473);\r\n"
++ "        max-width: 40rem;\r\n"
++ "        background-color: #fff;\r\n"
++ "        padding: 4rem;\">\r\n"
++ "            <p style=\"margin: 1rem 0;\">Xin chào,</p>\r\n"
++ "            <p style=\"margin: 1rem 0 0.3rem 0;\">Vé xe "+pdat.getMaPD()+" của chuyến xe <span style=\"color: red;\">"+pdat.getChuyen().getMaChuyen()+"</span>\r\n"
++ "                đã được thanh toán thành công\r\n"
++ "            </p>\r\n"
++ "            <p> Nếu có bất kì sự bất tiện nào, vui lòng liên hệ bộ phận hỗ trợ của chúng tôi qua email hotro@gmail.com\r\n"
++ "                hoặc\r\n"
++ "                012344343\r\n"
++ "            </p>\r\n"
++ "            <p>Click vào nút bên dưới để quay lại trang web</p>\r\n"
++ "            <div style=\"margin-top: 30px; width: 100%;\r\n"
++ "            margin-bottom: 3rem;\r\n"
++ "            text-align: center;\"><a href=\"http://localhost:8080/CNPM/dangnhap.html\" style=\" display: inline-block;\r\n"
++ "            padding: 18px 20px;\r\n"
++ "            background-color: #1890ff;\r\n"
++ "            border-radius: 3px;\r\n"
++ "            text-decoration: none;\r\n"
++ "            color: #fff;\r\n"
++ "            font-weight: 600;\r\n"
++ "            font-size: 16px;\" target=\"_blank\">Trang\r\n"
++ "                    chủ</a></div>\r\n"
++ "\r\n"
++ "            <p style=\"font-size: 14px;margin: 1rem 0;\"> Chúc bạn một ngày tốt lành!</p>\r\n"
++ "\r\n"
++ "        </div>\r\n"
++ "    </div>",
+					true);
+							
+					/* ); */
 				} catch (MessagingException e) {
 					e.printStackTrace();
 				}
@@ -1746,7 +1929,48 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 					helper.setFrom("no-reply-email");
 					helper.setTo(/* email */"n19dccn223@student.ptithcm.edu.vn");
 					helper.setSubject("Hủy vé");
-					helper.setText("Mã vé " + ma + " của quý khách đã bị hủy");
+					helper.setText("<div style=\"padding-bottom: 10rem;background-color: #f1f1f1; font-family: 'Roboto', sans-serif;\r\n"
+							+ "    box-sizing: border-box;\">\r\n"
+							+ "        <div style=\" width: 100%;\r\n"
+							+ "        padding: 1rem 0;\">\r\n"
+							+ "            <div style=\"margin: 0 auto;\r\n"
+							+ "            width: 200px;\r\n"
+							+ "            height: 100px;\r\n"
+							+ "            background-image: url('https://futabus.vn/_nuxt/img/logo-img.c178602.png');\r\n"
+							+ "            background-position: center center;\r\n"
+							+ "            background-size: contain;\r\n"
+							+ "            background-repeat: no-repeat;\"></div>\r\n"
+							+ "        </div>\r\n"
+							+ "        <div style=\"  margin: 0 auto;\r\n"
+							+ "        border-radius: 0.2rem;\r\n"
+							+ "        border: 2px solid rgba(175, 168, 168, 0.473);\r\n"
+							+ "        max-width: 40rem;\r\n"
+							+ "        background-color: #fff;\r\n"
+							+ "        padding: 4rem;\">\r\n"
+							+ "            <p style=\"margin: 1rem 0;\">Xin chào,</p>\r\n"
+							+ "            <p style=\"margin: 1rem 0 0.3rem 0;\">Vé xe "+ma+" của bạn đã bị hủy</span>\r\n"
+							+ "                mà bạn đặt đã bị chúng tôi hủy vé\r\n"
+							+ "            </p>\r\n"
+							+ "            <p> Nếu đây là một sự nhầm lẫn, vui lòng liên hệ bộ phận hỗ trợ của chúng tôi qua email hotro@gmail.com hoặc\r\n"
+							+ "                012344343\r\n"
+							+ "            </p>\r\n"
+							+ "            <p>Click vào nút bên dưới để quay lại trang web</p>\r\n"
+							+ "            <div style=\"margin-top: 30px; width: 100%;\r\n"
+							+ "            margin-bottom: 3rem;\r\n"
+							+ "            text-align: center;\"><a href=\"http://localhost:8080/CNPM/dangnhap.html\" style=\" display: inline-block;\r\n"
+							+ "            padding: 18px 20px;\r\n"
+							+ "            background-color: #1890ff;\r\n"
+							+ "            border-radius: 3px;\r\n"
+							+ "            text-decoration: none;\r\n"
+							+ "            color: #fff;\r\n"
+							+ "            font-weight: 600;\r\n"
+							+ "            font-size: 16px;\" target=\"_blank\">Trang\r\n"
+							+ "                    chủ</a></div>\r\n"
+							+ "\r\n"
+							+ "            <p style=\"font-size: 14px;margin: 1rem 0;\"> Chúc bạn một ngày tốt lành!</p>\r\n"
+							+ "\r\n"
+							+ "        </div>\r\n"
+							+ "    </div>",true);
 				} catch (MessagingException e) {
 					e.printStackTrace();
 				}
@@ -1808,7 +2032,7 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 
 	@RequestMapping(value = "/trangcanhan", params = "doithongtin", method = RequestMethod.POST)
 	public String ProfileUpdate(ModelMap model, @ModelAttribute("nv") NhanVien nv, HttpSession ss,
-			HttpServletRequest request, BindingResult errors) {
+			HttpServletRequest request, BindingResult errors, RedirectAttributes redirectAttributes) {
 		if (nv.getCccd().trim().length() == 0) {
 			errors.rejectValue("sdt", "nv", "SDT không để trống");
 		} else if (!nv.getSdt().trim().matches("^[0-9]*$") || nv.getSdt().length() != 10) {
@@ -1840,9 +2064,12 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 		}
 		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
 		Date parsed1 = null;
+		System.out.println(request.getParameter("ngsinh"));
+
 		try {
-			parsed1 = format1.parse(request.getParameter("ngaysinh"));
+			parsed1 = format1.parse(request.getParameter("ngsinh"));
 		} catch (ParseException e1) {
+			System.out.println("vo day");
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
@@ -1863,7 +2090,7 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 			Transaction transaction = session.beginTransaction();
 			try {
 				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-				Date parsed = format.parse(request.getParameter("ngaysinh"));
+				Date parsed = format.parse(request.getParameter("ngsinh"));
 				java.sql.Date sql = new java.sql.Date(parsed.getTime());
 				nv.setNgaySinh(sql);
 				session.update(nv);
@@ -1871,8 +2098,10 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 				transaction.commit();
 				System.out.println("vô đya 1");
 				System.out.println(nv.getCccd());
+				redirectAttributes.addFlashAttribute("message", new Message("success", "Cập nhật thành công!"));
 			} catch (Exception e) {
 				System.out.println(e.toString());
+				redirectAttributes.addFlashAttribute("message", new Message("error", "Cập nhật thất bại!"));
 				transaction.rollback();
 			} finally {
 				session.close();
@@ -1980,5 +2209,187 @@ System.out.println("chuyenx " +cx.getMaChuyen());
 	public String hashPass(String matKhau) {
 		String hashpw = DigestUtils.md5Hex(matKhau).toUpperCase();
 		return hashpw;
+	}
+	@RequestMapping(value = "/xekhach")
+	public String xekhach(ModelMap model) {
+		List<XeKhach> dsxekhach = dsxk();
+		model.addAttribute("ds", dsxekhach);
+		model.addAttribute("xk", new XeKhach());
+		return "QuanLy/xekhach";
+	}
+	
+	public XeKhach xktheoid(String ma) {
+		Session session = factory.getCurrentSession();
+		XeKhach vt = (XeKhach) session.load(XeKhach.class, ma);
+		return vt;
+
+	}
+	
+	@RequestMapping(value = "/xekhach/{bienxe}", params = "update", method = RequestMethod.GET)
+	public String XKupdate(ModelMap model, @PathVariable("bienxe") String ma) {
+		model.addAttribute("idModal", "modalUpdate");
+		List<XeKhach> dsxekhach = dsxk();
+		model.addAttribute("ds", dsxekhach);
+		XeKhach xk = xktheoid(ma);
+		model.addAttribute("xk", xk);
+		List<LoaiXe> dslx = dslx();
+		for (int i = 0; i < dslx.size(); i++) {
+			if (dslx.get(i).getMaLX().equals(xk.getLx().getMaLX())) {
+				dslx.remove(i);
+				break;
+			}
+		}
+		model.addAttribute("dslx", dslx);
+		return "QuanLy/xekhach";
+	}
+	public int checkbienxevslxtrung(String bienxxe, String malx) {
+		Session session = factory.getCurrentSession();
+		String hql1 = "from XeKhach where bienXe = :id and lx.maLX = :lx";
+		Query query1 = session.createQuery(hql1);
+		query1.setParameter("id", bienxxe);
+		query1.setParameter("lx", malx);
+		List<XeKhach> list1 = query1.list();
+		if (list1.size() == 0 || list1.get(0).getBienXe().equals(bienxxe) && list1.size() != 0) {
+			return 1;
+		}
+		return 0;
+	}
+	
+	public int checkbienxetrung(String ma) {
+		Session session = factory.getCurrentSession();
+		String hql1 = "from XeKhach where bienXe = :id";
+		Query query1 = session.createQuery(hql1);
+		query1.setParameter("id", ma);
+		List<XeKhach> list1 = query1.list();
+		if (list1.size() == 0) {
+			return 1;
+		}
+		return 0;
+	}
+
+	// update Loáº¡i xe post
+	@RequestMapping(value = "/xekhach/{bienxe}", params = "update", method = RequestMethod.POST)
+	public String LXupdate(ModelMap model, @PathVariable("bienxe") String ma, @ModelAttribute("xk") XeKhach xk,
+			HttpServletRequest request, BindingResult errors, RedirectAttributes redirectAttributes) {
+		int count = 0;
+		xk = xktheoid(ma);
+//		if(checkbienxevslxtrung(xk.getBienXe(),request.getParameter("malx"))==0) {
+//			errors.rejectValue("bienXe", "xk", "");
+//			count = 1;
+//		}
+		if (count == 1) {
+			model.addAttribute("idModal", "modalUpdate");
+			List<XeKhach> dsxekhach = dsxk();
+			model.addAttribute("ds", dsxekhach);
+			List<LoaiXe> dslx = dslx();
+			model.addAttribute("dslx", dslx);
+			return "QuanLy/xekhach";
+		} else {
+			Session session = factory.openSession();
+			Transaction transaction = session.beginTransaction();
+			try {
+				xk.setTrangThai(Boolean.parseBoolean(request.getParameter("trangthai")));
+				xk.setLx(lxtheoid(request.getParameter("malx")));
+				session.merge(xk);
+				transaction.commit();
+				redirectAttributes.addFlashAttribute("message", new Message("success", "Cập nhật thành công!"));
+			} catch (Exception e) {
+				System.out.println(e.toString());
+				transaction.rollback();
+				redirectAttributes.addFlashAttribute("message", new Message("error", "Cập nhật thất bại!"));
+			} finally {
+				session.close();
+			}
+			return "redirect:/quanly/xekhach.html";
+
+		}
+	}
+	@RequestMapping(value = "/xekhach/insert", method = RequestMethod.GET)
+	public String xkInsert(ModelMap model) {
+		model.addAttribute("idModal", "modalCreate");
+		List<LoaiXe> dslx = dslx();
+		model.addAttribute("dslx", dslx);
+		List<XeKhach> ds = dsxk();
+		model.addAttribute("ds", ds);
+		XeKhach xk = new XeKhach();
+		model.addAttribute("xk", xk);
+		return "QuanLy/xekhach";
+	}
+	
+	@RequestMapping(value = "/xekhach/insert", method = RequestMethod.POST)
+	public String xlInsert(ModelMap model, @ModelAttribute("xk") XeKhach xk, HttpServletRequest request,
+			BindingResult errors, RedirectAttributes redirectAttributes) {
+		int count = 0;
+		if(xk.getBienXe().trim().length()==0) {
+			errors.rejectValue("bienXe", "xk", "Không được để trống");
+			count = 1;
+		}else if(checkbienxetrung(xk.getBienXe())==0) {
+			errors.rejectValue("bienXe", "xk", "Biển xe đã tồn tại");
+			count = 1;
+		}
+		if (count == 1) {
+			model.addAttribute("idModal", "modalCreate");
+			List<LoaiXe> dslx = dslx();
+			model.addAttribute("dslx", dslx);
+			List<XeKhach> ds = dsxk();
+			model.addAttribute("ds", ds);
+			return "QuanLy/loaixe";
+		} else {
+			Session session = factory.openSession();
+			Transaction transaction = session.beginTransaction();
+			try {
+				xk.setTrangThai(true);
+				session.save(xk);
+				transaction.commit();
+				redirectAttributes.addFlashAttribute("message", new Message("success", "Thêm mới thành công!"));
+			} catch (Exception e) {
+				System.out.println(e.toString());
+				transaction.rollback();
+				redirectAttributes.addFlashAttribute("message", new Message("error", "Thêm mới thất bại!"));
+			} finally {
+				session.close();
+			}
+
+			return "redirect:/quanly/xekhach.html";
+
+		}
+
+	}
+	@RequestMapping(value = "xekhach/{bienxe}.html", params = "btnDoitrangthai", method = RequestMethod.GET)
+	public String XeKhachTrangThai(ModelMap model, @PathVariable("bienxe") String ma) {
+		System.out.println("kvi29");
+		model.addAttribute("idModal", "modalTT");
+		List<XeKhach> dsxekhach = dsxk();
+		model.addAttribute("ds", dsxekhach);
+		XeKhach xk = xekhachtheoid(ma);
+		model.addAttribute("xk", xk);
+		return "QuanLy/xekhach";
+	}
+
+	@RequestMapping(value = "xekhach/{bienxe}.html", params = "btnDoitrangthai", method = RequestMethod.POST)
+	public String XeKhachTrangThai(@PathVariable("bienxe") String ma, @ModelAttribute("xk") XeKhach xk,
+			HttpServletRequest request, RedirectAttributes redirectAttributes) {
+
+		Session session = factory.openSession();
+		Transaction t = session.beginTransaction();
+		System.out.println("kvi4");
+		XeKhach xk1 = xekhachtheoid(ma);
+		xk1.setTrangThai(xk.isTrangThai());
+
+		try {
+			session.merge(xk1);
+			t.commit();
+			redirectAttributes.addFlashAttribute("message", new Message("success", "Thay đổi trạng thái thành công!"));
+
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			t.rollback();
+			redirectAttributes.addFlashAttribute("message", new Message("error", "Thay đổi trạng thái thất bại!"));
+
+		} finally {
+			session.close();
+		}
+		return "redirect:/quanly/xekhach.html";
+
 	}
 }

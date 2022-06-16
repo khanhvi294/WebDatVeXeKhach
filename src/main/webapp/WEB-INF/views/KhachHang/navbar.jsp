@@ -82,15 +82,15 @@
 					<nav id="dl-menu">
 						<ul class="main-menu dl-menu">
 							<li
-								class="menu-item   current-menu-parent menu-item-has-children   active-color ">
+								class="menu-item   current-menu-parent menu-item-has-children  " id="trangchu">
 								<a href="trangchu.html">Trang chủ</a>
 							</li>
-							<li class="menu-item   "><a href="timchuyen.html">Đặt vé</a>
-							<li class="menu-item   "><a href="danhsachtuyen.html">Danh sách tuyến</a>
+							<li class="menu-item    " id="timchuyen"><a href="timchuyen.html">Đặt vé</a>
+							<li class="menu-item   "><a href="danhsachtuyen.html" id="danhsachtuyen">Danh sách tuyến</a>
 							</li>
-							<li class="menu-item menu-item-has-children  "><a
-								href="contact.html">Liên hệ</a></li>
-							<li class="menu-item menu-item-has-children  "><a
+							<!-- <li class="menu-item menu-item-has-children  "><a
+								href="contact.html">Liên hệ</a></li> -->
+							<li class="menu-item menu-item-has-children  " id="about.html"><a
 								href="about.html">Giới Thiệu</a></li>
 							<!-- <li class="menu-item menu-item-has-children  "><a
 								href="news.html">Tin tức</a></li> -->

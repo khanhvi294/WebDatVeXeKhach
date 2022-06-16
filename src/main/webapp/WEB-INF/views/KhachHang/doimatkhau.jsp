@@ -22,36 +22,36 @@
 			<div class="row">
 			
 			 <div class="col-md-6 " style="margin-left: 300px">
-                        <div class="wheel-register-log marg-lg-t150 marg-lg-b150 marg-sm-t100 marg-sm-b100">
+                        <div class="wheel-register-log marg-lg-t50 marg-lg-b150 marg-sm-t100 marg-sm-b100">
                             <div class="wheel-header">
-                                <h5>Đổi Mật Khẩu</h5>
+                                <h5 style="margin-bottom: 20px;">Đổi Mật Khẩu</h5>
                          
                             </div>
                            <form id="form-doimk" class="row g-3" method="post">
 								<div class="col-md-12">
 									<label for="inputName5" class="form-label">Mật khẩu cũ</label>
 									<input name="cpassword" id="cpassword" type="password" 
-										> <span class="text-er">${message1 }</span>
+										style="margin-bottom: 0px;"> <span class="text-er">${message1 }</span>
 									 <p id="cmk-error" class="text-er"> </p>
 								</div>
 
 								<div class="col-md-12">
 									<label for="inputName5" class="form-label">Mật khẩu mới</label>
 									<input name="npassword" id="password" type="password" 
-										> <span class="text-er">${message2 }</span>
+										style="margin-bottom: 0px;"> <span class="text-er">${message2 }</span>
 										<p id="mk-error" class="text-er"> </p>
 								</div>
 
 								<div class="col-md-12">
 									<label for="inputName5" class="form-label">Xác nhận mật
 										khẩu</label> <input id="confirmPassword" name="rnpassword" type="password"
-										 > <span
+										 style="margin-bottom: 0px;"> <span
 										class="text-er">${message3 }</span>
 										<p id="remk-error" class="text-er"> </p>
 								</div>
 
 								<div class="text-center ">
-									<button type="submit" id="btn-doimk" class="btn btn-primary marg-lg-t20">Lưu</button>
+									<button style="width: 95%;" type="submit" id="btn-doimk" class="btn btn-primary marg-lg-t20">Lưu</button>
 									
 								</div>
 							</form>

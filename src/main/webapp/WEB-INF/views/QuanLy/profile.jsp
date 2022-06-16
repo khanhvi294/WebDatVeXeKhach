@@ -39,7 +39,7 @@
 								id="profile-edit">
 
 								<!-- Profile Edit Form -->
-								<form:form action="quanly/trangcanhan.html" method="post"
+								<form:form id="form-doithongtin" action="quanly/trangcanhan.html" method="post"
 									modelAttribute="nv">
 									<div class="row mb-3">
 										<label for="fullName"
@@ -56,15 +56,17 @@
                                             <label for="company" class="col-md-3 col-form-label v-label">Họ</label>
                                             <div class="col-md-3">
                                                 <form:input path="hoNV" type="text" class="form-control v-form-control"
-                                                    id="company" value="${nv.hoNV }"/>
+                                                    id="lastName" value="${nv.hoNV }"/>
                                                     <form:errors style = "color:red" path="hoNV"/>
+                                                    <p id="ho-error" class="text-danger"></p>
                                             </div>
 
                                             <label for="Job" class="col-md-1 col-form-label v-label">Tên</label>
                                             <div class="col-md-5">
                                                 <form:input path="tenNV" type="text" class="form-control  v-form-control"
-                                                    id="Job" value="${nv.tenNV }"/>
+                                                    id="firstName" value="${nv.tenNV }"/>
                                                     <form:errors style = "color:red" path="tenNV"/>
+                                                     <p id="ten-error" class="text-danger"></p>
                                             </div>
                                         </div>
 
@@ -85,8 +87,9 @@
 										<div class="col-md-8 col-lg-9">
 											<form:input path="tknv.email" type="text"
 												class="form-control v-form-control"
-												value="${nv.tknv.email }" />
+												value="${nv.tknv.email }" id="semail"/>
 											<form:errors style="color:red" path="maNV" />
+											 <p id="error-email" class="text-danger"></p>
 										</div>
 									</div>
 
@@ -106,9 +109,10 @@
 											class="col-md-4 col-lg-3 col-form-label v-label">SĐT</label>
 										<div class="col-md-8 col-lg-9">
 											<form:input path="sdt" type="text"
-												class="form-control v-form-control" id="Address"
+												class="form-control v-form-control" id="sdt"
 												value="${nv.sdt }" />
 											<form:errors style="color:red" path="sdt" />
+											 <p id="sdt-error" class="text-danger"></p>
 										</div>
 									</div>
 
@@ -116,9 +120,10 @@
                                             <label for="Phone" class="col-md-4 col-lg-3 col-form-label v-label">Ngày
                                                 sinh</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="ngaysinh" type="date" class="form-control v-form-control"
+                                                <input name="ngsinh" type="date" class="form-control v-form-control"
                                                     id="Phone" value="${ngaysinh }"/>
                                                    <form:errors style = "color:red" path="ngaySinh"/> 
+                                                    <p id="ngsinh-error" class="text-danger"></p>
                                             </div>
                                         </div>
 
@@ -166,15 +171,16 @@
 											<div class="form-check form-check-inline ">
 												<form:radiobutton
 													class="form-check-input v-check-input shadow-none"
-													value="1" path="phai" />
+													value="1" path="phai" name="phai" />
 												<label class="form-check-label"> Nam </label>
 											</div>
 											<div class="form-check form-check-inline ">
 												<form:radiobutton
 													class="form-check-input v-check-input shadow-none"
-													value="0" path="phai" />
+													value="0" path="phai" name="phai" />
 												<label class="form-check-label"> Nữ </label>
 											</div>
+											 <p id="phai-error" class="text-danger"></p>
 
 										</div>
 									</div>
@@ -276,6 +282,9 @@
 <script
 	src="<c:url value='/resources/KhachHang/assets/js/alertify.min.js'/>"></script>
 	<script src="<c:url value='/resources/assets/js/my-main.js'/>"></script>
+	
+  
+	
 <script>
 
 function isChooseTab(){

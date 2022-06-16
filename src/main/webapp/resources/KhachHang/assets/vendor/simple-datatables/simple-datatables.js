@@ -11,6 +11,6 @@
 },{"./date-170bba30.js":1}]},{},[2])(2)
 });
 
-$scope.change = function(url){
-    window.open('url');
-  }
+//$scope.change = function(url){
+//    window.open('url');
+//  }
