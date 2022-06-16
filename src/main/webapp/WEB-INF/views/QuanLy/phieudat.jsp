@@ -26,20 +26,21 @@
 					<option value="1">Đã thanh toán</option>
 					<option value="2">Hủy</option>
 				</select>
-				<button>submit</button>
+				<button class="btn btn-info ms-3" style="color: #fff;">Lọc</button>
 			</form>
 		
         </div>
 	<section class="section">
 		<div class="row">
-			<div class="col-lg-12">
+			<div class="col-lg-12 card">
 				<div class="card-body">
 					<!-- Table with stripped rows -->
-					<table class="table datatable table-striped table-bordered">
+					<table id="bangphieudat" class="table table-striped table-bordered">
 						<thead>
 							<tr class="v-table-tr-color">
 								<th scope="col">Mã phiếu đặt</th>
 								<th scope="col">Khách hàng</th>
+								<th scope="col">Chuyến xe</th>
 								<th scope="col">Tuyến</th>
 								<th scope="col">Thời gian đi</th>
 								<th scope="col">Trạng Thái</th>
@@ -51,6 +52,7 @@
 								<tr>
 									<th scope="row">${u.maPD }</th>
 									<th scope="row">${u.KH.maKH }</th>
+									<td>${u.chuyen.maChuyen }</td>
 									<td>${u.chuyen.tuyen.diemDi.diaDiem}-
 										${u.chuyen.tuyen.diemDen.diaDiem}</td>
 									<td>${u.chuyen.ngKH}-${u.chuyen.tgKh}</td>
@@ -233,7 +235,7 @@
 		<div class="modal-content border-0">
 		<form:form method="post" modelAttribute="pd">
 			<div class="modal-header v-modal-header">
-				<h5 class="modal-title v-modal-title">Thay đổi trạng thái cho phiếu đặt mã&nbsp;${pd.maPD }</h5>
+				<h5 class="modal-title v-modal-title">Thay đổi trạng thái cho phiếu đặt</h5>
 				<button type="button" class="btn shadow-none"
 					data-bs-dismiss="modal" aria-label="Close" style="font-weight: 700">
 					<i class="bi bi-x v-icon-close"></i>
@@ -246,6 +248,7 @@
 					
 
 						<div class="row mb-3">
+							<h6 class="mb-3">Mã phiếu đặt:&nbsp;${pd.maPD } </h6>
 							<label for="Email"
 								class="col-md-4 col-lg-3 col-form-label v-label">Trạng
 								thái</label>
@@ -334,6 +337,13 @@
 <script>
 	$(document).ready(
 			function() {
+				const datatbl = new simpleDatatables.DataTable("#bangphieudat", {
+					labels: {
+					    placeholder: "Tìm kiếm...",
+					    perPage: "{select} dòng mỗi trang",
+					    noRows: "Không tìm thấy dữ liệu",
+					    info: "{page} / {pages}",
+					}})
 
 				showModalConfirm("#btn-change-state",
 						"Bạn có chắc chắn muốn thực hiện?", "Xác nhận", "Hủy");

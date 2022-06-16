@@ -6,7 +6,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <%@include file="head.jsp"%>
-
+<style>
+	.steps .title {
+		font-size: 15px;
+	}
+	
+	.steps .title span{
+		font-size: 20px;
+	}
+	
+	.step-wrap {
+		padding: 45px 0 65px;
+	}
+</style>
 <body class="wheel-bg2">
 	<!-- MAIN -->
 	<%@include file="navbar.jsp"%>
@@ -75,8 +87,8 @@
 									style="border-radius: 10px; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
 									<div class="product-table3" style="width: 70%;">
 										<div class="text-wrap text-wrap2 product-cell">
-											<div class="title" style="margin-bottom: 15px;">${cx.tgKh }
-												<i class="fa fa-long-arrow-right"></i> 08:00
+											<div class="title" style="margin-bottom: 15px;">Thời gian khởi hành:&nbsp; ${cx.tgKh }
+											
 											</div>
 											<div class="price-wrap step-progress product-cell "
 												style="display: flex; gap: 0 10px;">
@@ -105,7 +117,7 @@
 
 
 												<div style="margin-left: 32px; color: green;">
-													Xe tuyến: 305km -
+													Thời gian hành trình: 
 													<fmt:formatNumber type="number"
 														value="${(cx.tuyen.tgchay/60) }" maxFractionDigits="0" />
 													giờ <fmt:formatNumber type="number" value="${(cx.tuyen.tgchay % 60) }" maxFractionDigits="0"/> phút

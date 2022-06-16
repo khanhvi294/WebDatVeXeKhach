@@ -15,21 +15,21 @@
 	<section class="section">
 		<div class="row">
 
-			<div class="col-lg-12">
+			<div class="col-lg-12 card">
 
 				<div class="card-body">
 
 					<!-- Table with stripped rows -->
-					<table class="table datatable table-striped table-bordered">
+					<table id="bangkhachhang" class="table table-striped table-bordered">
 						<thead>
 							<tr class="v-table-tr-color">
 								<th scope="col">Mã KH</th>
-								<th scope="col">HọKH</th>
-								<th scope="col">TênkH</th>
+								<th scope="col">Họ</th>
+								<th scope="col">Tên</th>
 								<th scope="col">Username</th>
-								<th scope="col">Phai</th>
+								<th scope="col">Phái</th>
 								<th scope="col">SĐT</th>
-								<th scope="col">Ngaysinh</th>
+								<th scope="col">Ngày sinh</th>
 								<th scope="col">Trạng Thái</th>
 								<th scope="col">Thao Tác</th>
 							</tr>
@@ -43,10 +43,10 @@
 									<td>${u.tkkh.userName}</td>
 									<td><c:choose>
 											<c:when test="${u.phai eq true}">
-												<span class="badge rounded-pill bg-danger v-bg-tt">Nam</span>
+												<span class="">Nam</span>
 											</c:when>
 											<c:when test="${u.phai eq false}">
-												<span class="badge rounded-pill bg-success v-bg-tt">Nữ</span>
+												<span class="">Nữ</span>
 											</c:when>
 										</c:choose></td>
 									<td>${u.sdt}</td>
@@ -62,7 +62,7 @@
 										</c:choose></td>
 									<td><span>
 											<a href="/CNPM/quanly/khachhang/${u.maKH}.html?trangthai"><i
-													class="bi bi-pencil-square v-icon-modal"
+													class="bi bi-arrow-repeat v-icon-modal"
 													data-bs-toggle="modal" data-bs-target="#Edittrangthai"></i></a>
 									</span></td>
 								</tr>
@@ -86,7 +86,7 @@
 				<form:form method="post" modelAttribute="kh">
 			
 				<div class="modal-header v-modal-header">
-					<h5 class="modal-title v-modal-title">Thay đổi trạng thái cho khách hàng mã&nbsp;${kh.maKH }</h5>
+					<h5 class="modal-title v-modal-title">Thay đổi trạng thái cho khách hàng </h5>
 					<button type="button" class="btn shadow-none"
 						data-bs-dismiss="modal" aria-label="Close"
 						style="font-weight: 700">
@@ -99,6 +99,7 @@
 					<div class="col-12 v-edit-form">
 					
 							<div class="row mb-3">
+							<h6 class="mb-3">Mã khách hàng:&nbsp; ${kh.maKH }</h6>
 								<label for="Email"
 									class="col-md-4 col-lg-3 col-form-label v-label">Trạng
 									thái</label>
@@ -413,6 +414,15 @@
 <script>
 	$(document).ready(
 			function() {
+				
+				const datatbl = new simpleDatatables.DataTable("#bangkhachhang", {
+					labels: {
+					    placeholder: "Tìm kiếm...",
+					    perPage: "{select} dòng mỗi trang",
+					    noRows: "Không tìm thấy dữ liệu",
+					    info: "{page} / {pages}",
+					}})
+				
 				showModalConfirm("#btn-change-state",
 						"Bạn có chắc chắn muốn thực hiện?", "Xác nhận", "Hủy");
 				console.log($(".modal_flag").attr("idModal"));

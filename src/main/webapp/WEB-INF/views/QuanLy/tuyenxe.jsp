@@ -26,16 +26,16 @@
 			</button></a>
 		<section class="section">
 			<div class="row">
-				<div class="col-lg-12">
+				<div class="col-lg-12 card">
 					<div class="card-body">
 						<!-- Table with stripped rows -->
-						<table class="table datatable table-striped table-bordered">
+						<table id="bangtuyenxe" class="table  table-striped table-bordered">
 							<thead>
 								<tr class="v-table-tr-color">
 									<th scope="col">Mã Tuyến</th>
 									<th scope="col">Điểm Đi</th>
 									<th scope="col">Điểm Đến</th>
-									<th scope="col">Thời Gian Di Chuyển</th>
+									<th scope="col">Thời Gian Di Chuyển (Phút)</th>
 									<th scope="col">Trạng Thái</th>
 									<th scope="col" class="text-center">Thao Tác</th>
 								</tr>
@@ -62,7 +62,7 @@
 													class="bi bi-pencil-square v-icon-modal"
 													data-bs-toggle="modal" data-bs-target="#ProfileEditModal"></i></a>
 												<a href="/CNPM/quanly/tuyenxe/${u.maTuyen}.html?trangthai"><i
-													class="bi bi-pencil-square v-icon-modal"
+													class="bi bi-arrow-repeat v-icon-modal"
 													data-bs-toggle="modal" data-bs-target="#Edittrangthai"></i></a>
 										</span></td>
 									</tr>
@@ -122,11 +122,11 @@
 						<div class="row mb-3">
 							<label for="machuyen"
 								class="col-md-4 col-lg-3 col-form-label v-label">Thời
-								gian di chuyển</label>
+								gian di chuyển(phút)</label>
 							<div class="col-md-8 col-lg-9">
 								<input name="tgchay" type="text"
 									class="form-control v-form-control" id="matuyen"
-									value="${tuyen.tgchay }" />
+									value="${tuyen.tgchay }" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');" />
 								<span style="color:red">${messagetgchay }</span>
 							</div>
 						</div>
@@ -135,7 +135,7 @@
 								class="col-md-4 col-lg-3 col-form-label v-label">Giá tuyến</label>
 							<div class="col-md-8 col-lg-9">
 								<input type="text" class="form-control v-form-control"
-									name="giatuyen" value = "${tuyen.giatuyen }"/>
+									name="giatuyen" value = "${tuyen.giatuyen }" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
 								<span style="color:red">${messagegia }</span>
 							</div>
 						</div>
@@ -178,7 +178,7 @@
 				</div>
 				<div class="modal-body modal-add">
 					<!-- Profile Edit Form -->
-					<form:form method="post" modelAttribute="tuyen">
+					<form:form  id="formthemtuyen" method="post" modelAttribute="tuyen">
 						<%-- <div class="row mb-3">
 							<label for="machuyen"
 								class="col-md-4 col-lg-3 col-form-label v-label">Mã
@@ -216,18 +216,19 @@
 						<div class="row mb-3">
 							<label for="machuyen"
 								class="col-md-4 col-lg-3 col-form-label v-label">Thời
-								gian di chuyển</label>
+								gian di chuyển(phút)</label>
 							<div class="col-md-8 col-lg-9">
-								<form:input type="text" class="form-control v-form-control"
-									path="tgchay" />
+								<form:input type="number" class="form-control v-form-control"
+									path="tgchay" id="tgdichuyen" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
 								<form:errors style="color:red" path="tgchay" />
+								  <p id="tgdichuyen-error" class="text-danger"> </p>
 							</div>
 						</div>
 						<div class="row mb-3">
 							<label for="machuyen"
 								class="col-md-4 col-lg-3 col-form-label v-label">Giá tuyến</label>
 							<div class="col-md-8 col-lg-9">
-								<form:input type="text" class="form-control v-form-control"
+								<form:input class="form-control v-form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
 									path="giatuyen" />
 								<form:errors style="color:red" path="giatuyen" />
 							</div>
@@ -245,7 +246,7 @@
 						</div> --%>
 						<div class="text-center">
 							<button type="submit"
-								class="btn btn-primary btn-main-color border-0 mt-3">Lưu</button>
+								class="btn btn-primary btn-main-color border-0  mt-3" name="btn-themtuyen">Lưu</button>
 						</div>
 					</form:form>
 					<!-- End Profile Edit Form -->
@@ -259,7 +260,7 @@
 			<div class="modal-content border-0">
 			<form:form method="post" modelAttribute="tuyen">
 				<div class="modal-header v-modal-header">
-					<h5 class="modal-title v-modal-title">Thay đổi trạng thái cho tuyến xe ${tuyen.maTuyen }</h5>
+					<h5 class="modal-title v-modal-title">Thay đổi trạng thái cho tuyến xe</h5>
 					<button type="button" class="btn shadow-none"
 						data-bs-dismiss="modal" aria-label="Close"
 						style="font-weight: 700">
@@ -273,6 +274,7 @@
 						
 
 							<div class="row mb-3">
+							<h6 class="mb-3">Mã tuyến xe:&nbsp; ${tuyen.maTuyen }</h6>
 								<label for="Email"
 									class="col-md-4 col-lg-3 col-form-label v-label">Trạng
 									thái</label>
@@ -340,9 +342,44 @@
 	<script src="<c:url value='/resources/assets/js/main.js'/>"></script>
 	<script src="<c:url value='/resources/assets/js/my-main.js'/>"></script>
 	<script>
+	function checkIndex() {
+		let check = true;
+		$("button[name=btn-themtuyen]").click(function (e){
+			check = true;
+			e.preventDefault();
+			
+			
+			
+			let socho = $("#tgdichuyen").val()
+			if(!socho){
+				$("#tgdichuyen-error").text("Thời gian di chuyển không được trống");
+				check = false;
+				
+			}else{
+				$("#tgdichuyen-error").text("")
+				
+			}
+			
+			if(check){
+				$("#formthemtuyen").submit();
+			}
+		})
+	}
+
+	
 		$(document)
 				.ready(
+						
 						function() {
+							const datatbl = new simpleDatatables.DataTable("#bangtuyenxe", {
+								labels: {
+								    placeholder: "Tìm kiếm...",
+								    perPage: "{select} dòng mỗi trang",
+								    noRows: "Không tìm thấy dữ liệu",
+								    info: "{page} / {pages}",
+								}})
+							
+							checkIndex();
 							showModalConfirm("#btn-change-state",
 									"Bạn có chắc chắn muốn thực hiện?",
 									"Xác nhận", "Hủy");

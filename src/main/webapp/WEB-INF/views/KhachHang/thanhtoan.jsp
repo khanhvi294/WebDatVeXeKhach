@@ -5,6 +5,22 @@
 <html lang="en">
 
 <%@include file="head.jsp"%>
+<style>
+	.steps .title {
+		font-size: 15px;
+	}
+	
+	.steps .title span{
+		font-size: 20px;
+	}
+	
+	.step-wrap {
+		padding: 45px 0 65px;
+	}
+	
+	h4 {
+	line-height: 25px;}
+</style>
 <body class="">
 	<!-- MAIN -->
 	<%@include file="navbar.jsp"%>
@@ -51,16 +67,37 @@
 	<div class="reservation">
 		<div class="container">
 			<div class="py-5 text-center ">
-				<h2>Vui lòng chọn hình thức thanh toán</h2>
+				<h2>Thông tin vé xe</h2>
 			</div>
 
-			<div class="row">
+			<div class="row" style="background-color: #fff;">
+			
 				<div
-					class="col-md-8 order-md-2 mb-4  marg-lg-t140 marg-lg-b50 marg-sm-t100">
-					<h3 class="d-flex justify-content-between align-items-center mb-3">
+					class="col-md-12 order-md-2 mb-4  marg-lg-t50 marg-lg-b15 marg-sm-t100">
+					<h3 class="d-flex justify-content-between align-items-center mb-3" style="line-height: 50px; background: #f1f1f1;padding-left: 15px;">
+						<span class="text-muted">Thông tin Khách hàng</span>
+					</h3>
+					<ul class="list-group mb-3">
+						<li
+							class="list-group-item d-flex justify-content-between lh-condensed ">
+							<div>
+								<h4 class="my-0">
+									Họ và Tên: <strong>${PhieuDat.KH.hoKH } ${PhieuDat.KH.tenKH }<strong>
+								</h4>
+								<h4 class="my-0">
+									Điện thoại: <strong> ${PhieuDat.getSdt() }</strong>
+								</h4>
+								<h4 class="my-0">
+									Email: <strong>${PhieuDat.getEmail() }</strong>
+								</h4>
+							</div>
+						</li>
+					</ul>
+					
+					<h3 class="d-flex justify-content-between align-items-center mb-3"  style="line-height: 50px; background: #f1f1f1;padding-left: 15px;">
 						<span class="text-muted">Thông tin chuyến xe</span>
 					</h3>
-					<ul class="list-group mb-3 marg-lg-t20">
+					<ul class="list-group mb-3">
 						<li
 							class="list-group-item d-flex justify-content-between lh-condensed">
 							<div>
@@ -92,35 +129,17 @@
 					</ul>
 
 
-					<h3 class="d-flex justify-content-between align-items-center mb-3">
-						<span class="text-muted">Thông tin Khách hàng</span>
-					</h3>
-					<ul class="list-group mb-3 marg-lg-t20">
-						<li
-							class="list-group-item d-flex justify-content-between lh-condensed ">
-							<div>
-								<h4 class="my-0">
-									Họ và Tên: <strong>${PhieuDat.KH.hoKH } ${PhieuDat.KH.tenKH }<strong>
-								</h4>
-								<h4 class="my-0">
-									Điện thoại: <strong> ${PhieuDat.getSdt() }</strong>
-								</h4>
-								<h4 class="my-0">
-									Email: <strong>${PhieuDat.getEmail() }</strong>
-								</h4>
-							</div>
-						</li>
-					</ul>
+					
 				</div>
 
 				<div
-					class="col-md-4 order-md-1  marg-lg-t140 marg-lg-b50 marg-sm-t100">
+					class="col-md-12 order-md-1  marg-lg-t15 marg-lg-b50 marg-sm-t100">
 					<form action="trangchu.html" method="post" style="width: 100%">
-						<h3 class="d-flex justify-content-between align-items-center mb-3">
+						<h3 class="d-flex justify-content-between align-items-center mb-3" style="line-height: 50px; background: #f1f1f1;padding-left: 15px;">
 
 							<span class="text-muted">Hình thức thanh toán</span>
 						</h3>
-						<ul class="list-group mb-3 marg-lg-t20">
+						<ul class="list-group mb-3">
 							<li
 								class="list-group-item d-flex justify-content-between lh-condensed ">
 								<div class="form__radio">
@@ -130,7 +149,7 @@
 											viewBox="0 0 16 16">
                                         <path
 												d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718H4zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73l.348.086z" />
-                                    </svg>Tiền mặt
+                                    </svg>&nbsp;Chuyển khoản
 									</label> <input id="httt-1" name="pttt" type="radio" value="false" checked />
 								</div>
 								<div class="form__radio">
@@ -142,8 +161,8 @@
 												d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z" />
                                         <path
 												d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1z" />
-                                    </svg>Chuyển khoản
-									</label> <input id="httt-2" name="pttt" type="radio" value="true" />
+                                    </svg>&nbsp;App Futa
+									</label> <input id="httt-2" checked name="pttt" type="radio" value="true" />
 								</div>
 								<hr class="mb-4"> <label for="input-val27"
 								class="promo promo2">

@@ -106,8 +106,15 @@ public class KhachHangController {
 
 //tìm chuyến
 	@RequestMapping("timchuyen")
-	public String timchuyen(ModelMap model) {
-
+	public String timchuyen(ModelMap model, HttpSession ss) {
+		TaiKhoan tk = (TaiKhoan) ss.getAttribute("tkdn");
+		if(tk != null) {
+			if(!tk.getVaiTro().getMaVT().equals("KH")) {
+				return "redirect:/quanly/trangchu.html";
+			}
+			
+		}
+		
 		return "KhachHang/timchuyen";
 	}
 
@@ -454,8 +461,14 @@ public class KhachHangController {
 	}
 	//cactuyen
 	@RequestMapping("danhsachtuyen")
-	public String cactuyen(ModelMap model) {
-		
+	public String cactuyen(ModelMap model, HttpSession ss) {
+		TaiKhoan tk = (TaiKhoan) ss.getAttribute("tkdn");
+		if(tk != null) {
+			if(!tk.getVaiTro().getMaVT().equals("KH")) {
+				return "redirect:/quanly/trangchu.html";
+			}
+			
+		}
 		List<DiaDiem> dsdd = getdsmadiadiem();
 		model.addAttribute("diadiem",dsdd);
 		
@@ -467,7 +480,7 @@ public class KhachHangController {
 	/// account
 	@RequestMapping("thongtincanhan")
 	public String canhan(ModelMap model, HttpSession ss) {
-		KhachHang kh = (KhachHang) ss.getAttribute("user");
+		KhachHang kh = (KhachHang) ss.getAttribute("user");	
 		model.addAttribute("khachhang", kh);
 		return "KhachHang/thongtincanhan";
 	}
@@ -613,11 +626,12 @@ public class KhachHangController {
 	}
 
 	@RequestMapping(value = "phieudat/huy/{id}.html")
-	public String huypd(ModelMap model, HttpSession ss) {
+	public String huypd(ModelMap model, HttpSession ss, @PathVariable("id") String id) {
 		KhachHang kh = (KhachHang) ss.getAttribute("user");
 		model.addAttribute("dsphieudat", this.getds_pdkh(kh.getMaKH()));
 		model.addAttribute("idModal", "modalHuy");
-
+		model.addAttribute("idhuy",id );
+		
 		return "KhachHang/phieudat";
 	}
 

@@ -65,6 +65,10 @@
     font-weight: 600 !important;
     font-size: small;
 }
+.v-icon-modal{
+	color: #333;
+}
+
 .v-icon-modal:hover,
 .v-icon-close:hover {
     opacity: 0.5;

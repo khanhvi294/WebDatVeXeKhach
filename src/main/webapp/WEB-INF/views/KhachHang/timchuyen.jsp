@@ -8,6 +8,19 @@
 
 <%@include file="head.jsp"%>
 
+<style>
+	.steps .title {
+		font-size: 15px;
+	}
+	
+	.steps .title span{
+		font-size: 20px;
+	}
+	
+	.step-wrap {
+		padding: 45px 0 65px;
+	}
+</style>
 <body class="">
 <div class="alert-flag" aType='${message.type}'
 		aMessage="${message.message }"></div>
